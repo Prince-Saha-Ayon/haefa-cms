@@ -1,0 +1,13 @@
+{
+    "name": "Instruction",
+    "alias": "instruction",
+    "description": "",
+    "keywords": [],
+    "priority": 0,
+    "providers": [
+        "Modules\\Instruction\\Providers\\InstructionServiceProvider"
+    ],
+    "aliases": {},
+    "files": [],
+    "requires": []
+}

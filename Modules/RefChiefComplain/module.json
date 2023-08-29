@@ -1,0 +1,13 @@
+{
+    "name": "RefChiefComplain",
+    "alias": "refchiefcomplain",
+    "description": "",
+    "keywords": [],
+    "priority": 0,
+    "providers": [
+        "Modules\\RefChiefComplain\\Providers\\RefChiefComplainServiceProvider"
+    ],
+    "aliases": {},
+    "files": [],
+    "requires": []
+}

@@ -1,0 +1,13 @@
+{
+    "name": "Upazila",
+    "alias": "upazila",
+    "description": "",
+    "keywords": [],
+    "priority": 0,
+    "providers": [
+        "Modules\\Upazila\\Providers\\UpazilaServiceProvider"
+    ],
+    "aliases": {},
+    "files": [],
+    "requires": []
+}

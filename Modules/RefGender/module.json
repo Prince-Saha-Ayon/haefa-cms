@@ -1,0 +1,13 @@
+{
+    "name": "RefGender",
+    "alias": "refgender",
+    "description": "",
+    "keywords": [],
+    "priority": 0,
+    "providers": [
+        "Modules\\RefGender\\Providers\\RefGenderServiceProvider"
+    ],
+    "aliases": {},
+    "files": [],
+    "requires": []
+}

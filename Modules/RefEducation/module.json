@@ -1,0 +1,13 @@
+{
+    "name": "RefEducation",
+    "alias": "refeducation",
+    "description": "",
+    "keywords": [],
+    "priority": 0,
+    "providers": [
+        "Modules\\RefEducation\\Providers\\RefEducationServiceProvider"
+    ],
+    "aliases": {},
+    "files": [],
+    "requires": []
+}

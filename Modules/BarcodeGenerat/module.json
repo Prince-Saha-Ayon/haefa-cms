@@ -1,0 +1,13 @@
+{
+    "name": "BarcodeGenerat",
+    "alias": "barcodegenerat",
+    "description": "",
+    "keywords": [],
+    "priority": 0,
+    "providers": [
+        "Modules\\BarcodeGenerat\\Providers\\BarcodeGeneratServiceProvider"
+    ],
+    "aliases": {},
+    "files": [],
+    "requires": []
+}

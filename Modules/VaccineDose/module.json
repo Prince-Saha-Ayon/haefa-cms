@@ -1,0 +1,13 @@
+{
+    "name": "VaccineDose",
+    "alias": "vaccinedose",
+    "description": "",
+    "keywords": [],
+    "priority": 0,
+    "providers": [
+        "Modules\\VaccineDose\\Providers\\VaccineDoseServiceProvider"
+    ],
+    "aliases": {},
+    "files": [],
+    "requires": []
+}

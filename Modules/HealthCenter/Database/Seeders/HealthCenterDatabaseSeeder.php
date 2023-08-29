@@ -1,0 +1,21 @@
+<?php
+
+namespace Modules\HealthCenter\Database\Seeders;
+
+use Illuminate\Database\Seeder;
+use Illuminate\Database\Eloquent\Model;
+
+class HealthCenterDatabaseSeeder extends Seeder
+{
+    /**
+     * Run the database seeds.
+     *
+     * @return void
+     */
+    public function run()
+    {
+        Model::unguard();
+
+        // $this->call("OthersTableSeeder");
+    }
+}

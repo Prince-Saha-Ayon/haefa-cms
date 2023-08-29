@@ -1,0 +1,13 @@
+{
+    "name": "HealthCenter",
+    "alias": "healthcenter",
+    "description": "",
+    "keywords": [],
+    "priority": 0,
+    "providers": [
+        "Modules\\HealthCenter\\Providers\\HealthCenterServiceProvider"
+    ],
+    "aliases": {},
+    "files": [],
+    "requires": []
+}

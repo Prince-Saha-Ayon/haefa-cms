@@ -1,0 +1,13 @@
+{
+    "name": "RefSocialBehavior",
+    "alias": "refsocialbehavior",
+    "description": "",
+    "keywords": [],
+    "priority": 0,
+    "providers": [
+        "Modules\\RefSocialBehavior\\Providers\\RefSocialBehaviorServiceProvider"
+    ],
+    "aliases": {},
+    "files": [],
+    "requires": []
+}

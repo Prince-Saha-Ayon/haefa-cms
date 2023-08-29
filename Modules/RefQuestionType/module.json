@@ -1,0 +1,13 @@
+{
+    "name": "RefQuestionType",
+    "alias": "refquestiontype",
+    "description": "",
+    "keywords": [],
+    "priority": 0,
+    "providers": [
+        "Modules\\RefQuestionType\\Providers\\RefQuestionTypeServiceProvider"
+    ],
+    "aliases": {},
+    "files": [],
+    "requires": []
+}

@@ -1,0 +1,13 @@
+{
+    "name": "RefQuestion",
+    "alias": "refquestion",
+    "description": "",
+    "keywords": [],
+    "priority": 0,
+    "providers": [
+        "Modules\\RefQuestion\\Providers\\RefQuestionServiceProvider"
+    ],
+    "aliases": {},
+    "files": [],
+    "requires": []
+}

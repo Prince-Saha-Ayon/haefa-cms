@@ -1,0 +1,211 @@
+https://codepen.io/TamerKhraisha/pen/YvxpZR
+composer install
+composer dump-autoload
+composer update
+php artisan migrate:refresh --seed
+php artisan migrate
+php artisan storage:link
+php artisan db:seed
+
+php artisan serve
+
+php artisan migrate:refresh --path=Modules/Deviceregistration/database/migrations/2020_12_06_170829_create_deviceregistrations_table.php
+
+
+open localhost:8000
+
+admin@mail.com
+Admin@100%
+
+php artisan module:make Deviceregistration
+
+php artisan module:make Patient
+
+php artisan module:use Subcategory
+php artisan module:make-migration create_subcategorys_table 
+
+php artisan module:make-controller SubcategoryController Subcategory
+
+
+php artisan module:migrate Category
+
+php artisan cache:clear
+php artisan config:clear
+php artisan config:cache
+php artisan optimize:clear
+
+php artisan optimize:clear
+composer dump-autoload
+composer clear-cache
+
+
+
+
+
+echo "# vvv" >> README.md
+git init
+git add README.md
+git commit -m "first commit"
+git branch -M main
+git remote add origin https://github.com/sobuz80/vvv.git
+git push -u origin main
+
+
+		
+
+
+Deviceregistration Access
+Deviceregistration Add	
+Deviceregistration Edit	
+Deviceregistration Delete
+Deviceregistration Bulk Delete	
+Deviceregistration Report
+
+create Modules Employee
+php artisan module:make Employee
+Gender Access
+Gender Add	
+Employee Edit	
+Employee Delete
+Employee Bulk Delete	
+Employee Report	
+
+php artisan module:make Illness
+Illness Access
+Illness Add	
+Illness Edit	
+Illness Delete
+Illness Bulk Delete	
+Illness Report	
+
+
+
+php artisan module:make Gender
+
+#haefa
+App User
+Patient
+Health Center
+HC Analysis
+Station
+Referral Patients
+Referral Data
+File Upload
+Schedule
+Data sync
+Db Backup
+Analysis
+Reports
+Charts
+
+
+#005866
+#036;
+#bdbbcc8c
+
+https://github.com/Blair2004/NexoPOS
+
+
+
+ftpgitsimple
+ftpgitsimple##
+
+git>>Secrets>>dependabot
+#FTP_SERVER
+server.phedx.com
+
+#FTP_PASSWORD
+ftpgitsimple##
+
+#FTP_USERNAME
+ftpgitsimple@demo.api.net.bd
+
+Action>>>deploycPanel.yml
+name: Publish Website to CPanel
+on:
+  push:
+    branches:
+      - main
+jobs:
+  FTP-Deploy-Action:
+    name: FTP-Deploy-Action
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2.1.0
+      with:
+        fetch-depth: 2
+    - name: FTP-Deploy-Action
+      uses: SamKirkland/FTP-Deploy-Action@3.1.1
+      with:
+        ftp-server: ${{ secrets.FTP_SERVER }}
+        ftp-username: ${{ secrets.FTP_USERNAME }}
+        ftp-password: ${{ secrets.FTP_PASSWORD }}
+
+
+
+demo.api.net.bd/ftpgitsimple
+
+https://ridbay.medium.com/how-to-deploy-private-github-repositories-to-cpanel-ef5493df8d9f
+
+
+
+name: Publish Website to CPanel
+on:
+  push:
+    branches:
+      - main
+jobs:
+  FTP-Deploy-Action:
+    name: Deploy
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@2
+      with:
+        fetch-depth: 2
+    - name: FTP-Deploy-Action
+      uses: SamKirkland/FTP-Deploy-Action@4.3.0
+      with:
+        server:www.demo.api.net.bd
+        username: ${{ secrets.ftp_username}}
+        password: ${{ secrets.ftp_password}}
+        server-dir: /demo.api.net.bd/ftpgitsimple/
+
+
+
+
+
+ftpgitsimple
+
+
+git>>Secrets>>dependabot
+#FTP_SERVER
+server.phedx.com
+
+#ftp_password
+ftpgitsimple##
+
+#ftp_username
+ftpgitsimple
+
+https://ridbay.medium.com/how-to-deploy-private-github-repositories-to-cpanel-ef5493df8d9f
+
+
+
+
+
+
+
+- name: FTP Deployer
+  uses: sand4rt/ftp-deployer@v1.5
+  with:
+    sftp: false # optional
+    host: ${{ secrets.FTP_HOST }} # e.g. ftp.host.com or sftp.host.com (without ftp:// or ftps://)
+    port: 21 # optional, default is: 21
+    username: ${{ secrets.FTP_USERNAME }} # FTP username
+    password: ${{ secrets.FTP_PASSWORD }} # FTP password
+    remote_folder: ${{ secrets.FTP_REMOTE_FOLDER }} # optional, remote path of your FTP server
+    local_folder: dist # optional, local path, default is: dist
+    cleanup: false # optional, remove existing files inside FTP remote folder
+    include: '[]' # optional, e.g. '['dist']'
+    exclude: '[]' # optional, e.g. '['node_modules/**', '.git/**', '*.env']'
+    passive: true # optional

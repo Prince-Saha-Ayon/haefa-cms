@@ -1,0 +1,13 @@
+{
+    "name": "BarcodePrint",
+    "alias": "barcodeprint",
+    "description": "",
+    "keywords": [],
+    "priority": 0,
+    "providers": [
+        "Modules\\BarcodePrint\\Providers\\BarcodePrintServiceProvider"
+    ],
+    "aliases": {},
+    "files": [],
+    "requires": []
+}

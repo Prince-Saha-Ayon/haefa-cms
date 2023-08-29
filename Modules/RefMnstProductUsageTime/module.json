@@ -1,0 +1,13 @@
+{
+    "name": "RefMnstProductUsageTime",
+    "alias": "refmnstproductusagetime",
+    "description": "",
+    "keywords": [],
+    "priority": 0,
+    "providers": [
+        "Modules\\RefMnstProductUsageTime\\Providers\\RefMnstProductUsageTimeServiceProvider"
+    ],
+    "aliases": {},
+    "files": [],
+    "requires": []
+}

@@ -1,0 +1,13 @@
+{
+    "name": "RefInstruction",
+    "alias": "refinstruction",
+    "description": "",
+    "keywords": [],
+    "priority": 0,
+    "providers": [
+        "Modules\\RefInstruction\\Providers\\RefInstructionServiceProvider"
+    ],
+    "aliases": {},
+    "files": [],
+    "requires": []
+}

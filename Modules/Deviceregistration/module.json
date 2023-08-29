@@ -1,0 +1,13 @@
+{
+    "name": "Deviceregistration",
+    "alias": "deviceregistration",
+    "description": "",
+    "keywords": [],
+    "priority": 0,
+    "providers": [
+        "Modules\\Deviceregistration\\Providers\\DeviceregistrationServiceProvider"
+    ],
+    "aliases": {},
+    "files": [],
+    "requires": []
+}

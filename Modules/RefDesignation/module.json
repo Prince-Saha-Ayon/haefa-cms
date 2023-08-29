@@ -1,0 +1,13 @@
+{
+    "name": "RefDesignation",
+    "alias": "refdesignation",
+    "description": "",
+    "keywords": [],
+    "priority": 0,
+    "providers": [
+        "Modules\\RefDesignation\\Providers\\RefDesignationServiceProvider"
+    ],
+    "aliases": {},
+    "files": [],
+    "requires": []
+}

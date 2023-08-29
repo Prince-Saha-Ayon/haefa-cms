@@ -1,0 +1,13 @@
+{
+    "name": "RefAddressType",
+    "alias": "refaddresstype",
+    "description": "",
+    "keywords": [],
+    "priority": 0,
+    "providers": [
+        "Modules\\RefAddressType\\Providers\\RefAddressTypeServiceProvider"
+    ],
+    "aliases": {},
+    "files": [],
+    "requires": []
+}

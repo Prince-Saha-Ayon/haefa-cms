@@ -1,0 +1,13 @@
+{
+    "name": "BarcodeFormat",
+    "alias": "barcodeformat",
+    "description": "",
+    "keywords": [],
+    "priority": 0,
+    "providers": [
+        "Modules\\BarcodeFormat\\Providers\\BarcodeFormatServiceProvider"
+    ],
+    "aliases": {},
+    "files": [],
+    "requires": []
+}

@@ -1,0 +1,13 @@
+{
+    "name": "RefDepartment",
+    "alias": "refdepartment",
+    "description": "",
+    "keywords": [],
+    "priority": 0,
+    "providers": [
+        "Modules\\RefDepartment\\Providers\\RefDepartmentServiceProvider"
+    ],
+    "aliases": {},
+    "files": [],
+    "requires": []
+}

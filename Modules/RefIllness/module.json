@@ -1,0 +1,13 @@
+{
+    "name": "RefIllness",
+    "alias": "refillness",
+    "description": "",
+    "keywords": [],
+    "priority": 0,
+    "providers": [
+        "Modules\\RefIllness\\Providers\\RefIllnessServiceProvider"
+    ],
+    "aliases": {},
+    "files": [],
+    "requires": []
+}

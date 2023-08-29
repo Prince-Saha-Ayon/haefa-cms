@@ -1,0 +1,13 @@
+{
+    "name": "BloodGroup",
+    "alias": "bloodgroup",
+    "description": "",
+    "keywords": [],
+    "priority": 0,
+    "providers": [
+        "Modules\\BloodGroup\\Providers\\BloodGroupServiceProvider"
+    ],
+    "aliases": {},
+    "files": [],
+    "requires": []
+}
