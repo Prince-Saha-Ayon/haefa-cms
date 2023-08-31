@@ -5,10 +5,15 @@ namespace Modules\Report\Http\Controllers;
 use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Modules\BarcodeFormat\Entities\BarcodeFormat;
 use Modules\Patient\Entities\Patient;
+use Modules\RefDiseaseGroups\Entities\RefDiseaseGroups;
+use Modules\HealthCenter\Entities\HealthCenter;
+use Modules\RefReferral\Entities\RefReferral;
 use Modules\Report\Entities\Report;
 use Illuminate\Routing\Controller;
 use Modules\Base\Http\Controllers\BaseController;
+use Illuminate\Support\Str;
 
 class ReportController extends BaseController
 {
@@ -26,7 +31,7 @@ class ReportController extends BaseController
         $this->setPageData('Datewise Provisional DX','Datewise Provisional DX','fas fa-th-list');
         return view('report::datewisedx');
     }
-    public function diseaseindex()
+public function diseaseindex()
     {
         $this->setPageData('Patient Age Count Report','Patient Age Count Report','fas fa-th-list');
         return view('report::diseasechart');
@@ -37,6 +42,32 @@ class ReportController extends BaseController
         return view('report::glucosegraph',compact('registrationId'));
 
     }
+     public function DiseaseWisePatient(){
+        $healthcenters=HealthCenter::get(['HealthCenterId','HealthCenterName']);
+        $refcases=RefReferral::get(['RId','Description']);
+        $this->setPageData('Number of Patient By Disease','Number of Patient By Disease','fas fa-th-list');
+        return view('report::diseasewisepatient',compact('healthcenters','refcases'));
+
+    }
+      public function HCWiseReferral(){
+        $healthcenters=HealthCenter::get(['HealthCenterId','HealthCenterName']);
+        $refcases=RefReferral::get(['RId','Description']);
+        $this->setPageData('Referrad Cases','Referrad Cases','fas fa-th-list');
+        return view('report::hcwisereferral',compact('healthcenters','refcases'));
+
+    }
+     public function TopTenDiseases(){
+        $healthcenters=BarcodeFormat::with('healthCenter')->get();
+        $refcases=RefReferral::get(['RId','Description']);
+        $registrationId=Patient::select('RegistrationId')->get();
+        $this->setPageData('Chart of Diseases by Branch','Chart of Diseases by Branch','fas fa-th-list');
+
+        return view('report::toptendiseases',compact('healthcenters'));
+
+    }
+    
+    
+    
 
     public function SearchByDate(Request $request){
         $starting_date = $request->starting_date;
@@ -54,6 +85,124 @@ class ReportController extends BaseController
         return view('report::datewisedx',compact('results'));
 
     }
+     
+      public function SearchByHC(Request $request){
+         $healthcenters=HealthCenter::get(['HealthCenterId','HealthCenterName']);
+         $refcases=RefReferral::get(['RId','Description']);
+      
+        $daterange = $request->daterange;
+        $dates = explode(' - ', $daterange);
+// Assign the start and end dates to separate variables
+        $starting_date = $dates[0]??'';
+        $ending_date = $dates[1]??'';
+        $hc = $request->hc_id;
+        $rc = $request->rc_id;
+      
+        //  $results=[];
+        //  $results['hcname']=HealthCenter::where('HealthCenterId',$hc)->get('HealthCenterName');	
+       
+      
+$results = DB::table("MDataPatientReferral")
+    ->select(
+        'MDataPatientReferral.RId',
+        DB::raw('COUNT(MDataPatientReferral.PatientId) as TotalPatient'),
+        DB::raw("MIN(CAST(MDataPatientReferral.CreateDate AS DATE)) as PRCreateDate"),
+        DB::raw("MIN(RefReferral.Description) as Description"),
+        DB::raw("MIN(HealthCenter.HealthCenterName) as HealthCenterName")
+    )
+    ->whereDate('MDataPatientReferral.CreateDate', '>=', $starting_date)
+    ->whereDate('MDataPatientReferral.CreateDate', '<=', $ending_date)
+    ->where(function($query) use ($hc, $rc) {
+        if ($hc) {
+            $query->where(DB::raw("CONVERT(VARCHAR(36), MDataPatientReferral.HealthCenterId)"), '=', $hc);
+        }
+        if ($rc) {
+            $query->where(DB::raw("CONVERT(VARCHAR(36), MDataPatientReferral.RId)"), '=', $rc);
+        }
+    })
+    ->join('RefReferral', 'MDataPatientReferral.RId', '=', 'RefReferral.RId')
+    ->join('HealthCenter', 'MDataPatientReferral.HealthCenterId', '=', 'HealthCenter.HealthCenterId')
+    ->groupBy('MDataPatientReferral.RId','MDataPatientReferral.HealthCenterId')
+    ->get();
+  
+
+        $this->setPageData('Referrad Cases','Referrad Cases','fas fa-th-list');
+        return view('report::hcwisereferral',compact('results','healthcenters','refcases'));
+
+    }
+    public function SearchByDisease(Request $request){
+        $healthcenters=HealthCenter::get(['HealthCenterId','HealthCenterName']);
+         $refcases=RefReferral::get(['RId','Description']);
+      
+        $daterange = $request->daterange;
+        $dates = explode(' - ', $daterange);
+// Assign the start and end dates to separate variables
+        $starting_date = $dates[0]??'';
+        $ending_date = $dates[1]??'';
+        $hc = $request->hc_id;
+        $rc = $request->rc_id;
+        //  $results=[];
+        //  $results['hcname']=HealthCenter::where('HealthCenterId',$hc)->get('HealthCenterName');	
+       
+      
+$results = DB::table("MDataPatientReferral")
+    ->select(
+        'MDataPatientReferral.RId',
+        DB::raw('COUNT(MDataPatientReferral.PatientId) as TotalPatient'),
+        DB::raw("MIN(CAST(MDataPatientReferral.CreateDate AS DATE)) as PRCreateDate"),
+        DB::raw("MIN(RefReferral.Description) as Description"),
+        DB::raw("MIN(HealthCenter.HealthCenterName) as HealthCenterName")
+    )
+    ->whereDate('MDataPatientReferral.CreateDate', '>=', $starting_date)
+    ->whereDate('MDataPatientReferral.CreateDate', '<=', $ending_date)
+    ->where(function($query) use ($hc, $rc) {
+        if ($hc) {
+            $query->where(DB::raw("CONVERT(VARCHAR(36), MDataPatientReferral.HealthCenterId)"), '=', $hc);
+        }
+        if ($rc) {
+            $query->where(DB::raw("CONVERT(VARCHAR(36), MDataPatientReferral.RId)"), '=', $rc);
+        }
+    })
+    ->join('RefReferral', 'MDataPatientReferral.RId', '=', 'RefReferral.RId')
+    ->join('HealthCenter', 'MDataPatientReferral.HealthCenterId', '=', 'HealthCenter.HealthCenterId')
+    ->groupBy('MDataPatientReferral.RId','MDataPatientReferral.HealthCenterId')
+    ->get();
+
+        
+
+
+       $this->setPageData('Number of Patient By Disease','Number of Patient By Disease','fas fa-th-list');
+        return view('report::diseasewisepatient',compact('results','healthcenters','refcases'));
+
+    }
+    
+    public function AjaxTopTenDiseases(Request $request){
+        $startDate = $request->starting_date;
+        $endDate = $request->ending_date;
+        $hcId = $request->hc_id;
+        $illnesses=[];
+
+
+        $illnesses['branch']=HealthCenter::where('HealthCenterCode',$hcId)->get('HealthCenterName');
+       
+        $illnesses['diseases'] = DB::table('MDataPatientIllnessHistory')
+            ->join('RefIllness', 'MDataPatientIllnessHistory.IllnessId', '=', 'RefIllness.IllnessId')
+            ->join('Patient', 'MDataPatientIllnessHistory.PatientId', '=', 'Patient.PatientId')
+            ->where('Patient.RegistrationId', 'LIKE', $hcId . '%')
+            ->whereBetween('MDataPatientIllnessHistory.CreateDate', [$startDate, $endDate])
+            ->groupBy('RefIllness.IllnessId', 'RefIllness.IllnessCode')
+            ->orderByRaw('COUNT(*) DESC')
+            ->select('RefIllness.IllnessId', 'RefIllness.IllnessCode', DB::raw('COUNT(*) as Patients'))
+            ->take(10)
+            ->get();
+
+            // dd( $illnesses['diseases']);
+        
+         return view('report::toptendiseases_ajax',compact('illnesses'));
+    }
+   
+
+    
     public function SearchByAge(Request $request){
         $starting_age = $request->starting_age;
         $ending_age = $request->ending_age;
@@ -507,7 +656,7 @@ class ReportController extends BaseController
     {
         //
     }
-    public function generateReport(Request $request)
+public function generateReport(Request $request)
     {
         $areaId = $request->input('area_id');
 

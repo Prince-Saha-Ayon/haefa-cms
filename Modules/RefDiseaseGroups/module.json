@@ -1,0 +1,13 @@
+{
+    "name": "RefDiseaseGroups",
+    "alias": "refdiseasegroups",
+    "description": "",
+    "keywords": [],
+    "priority": 0,
+    "providers": [
+        "Modules\\RefDiseaseGroups\\Providers\\RefDiseaseGroupsServiceProvider"
+    ],
+    "aliases": {},
+    "files": [],
+    "requires": []
+}
