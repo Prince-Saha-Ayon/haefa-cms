@@ -19,17 +19,19 @@ class HomeController extends Controller
 
     public function index()
     {
+        ini_set('max_execution_time', 3000);
         if (permission('dashboard-access')) {
             $this->setPageData('Dashboard','Dashboard','fas fa-tachometer-alt');
             
-            $patient_count = Patient::all()->count();
+            // $patient_count = Patient::all()->count();
             $doctor_count = User::where('role_id','=',3)->get()->count();
             $patient_today_count = Patient::whereDate('CreateDate', Carbon::today())->get()->count();
-            $prescription_total_count = Prescription::all()->count();
+            // $prescription_total_count = Prescription::all()->count();
             $prescription_today_count = Prescription::whereDate('CreateDate', Carbon::today())->get()->count();
             $registrationId=Patient::select('RegistrationId')->get();
 
-            return view('home',compact('patient_count','doctor_count','patient_today_count','prescription_total_count','prescription_today_count','registrationId'));
+            // return view('home');
+            return view('home',compact('patient_today_count','prescription_today_count','registrationId'));
         }else{
             return $this->unauthorized_access_blocked();
         }
