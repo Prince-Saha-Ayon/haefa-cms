@@ -18,6 +18,9 @@ var branchName = branch && branch.length > 0 ? branch[0].HealthCenterName : 'Unk
         },
        
         xAxis: {
+             title: {
+                text: 'Diseases'
+            },
             categories: chartData.map(function(item) {
                 return item.IllnessCode;
             }),
