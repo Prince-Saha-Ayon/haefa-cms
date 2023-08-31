@@ -188,7 +188,7 @@
                 <!-- Card Body -->
                 <div class="dt-card__body">
 
-                    <form id="form-filter" method="POST" action="{{route('branch-wise-patients')}}" >
+                    <form id="form-filter" method="POST" action="" >
                         @csrf
                         <div class="row">
                             <div class="form-group col-md-3">
@@ -272,7 +272,8 @@ $('#search_disease').click(function() {
 
     $.ajax({
         type: "GET",
-        url: "/ajax-disease-rate-date-range?hc_id=" + hc_id + '&fdate=' + fdate + '&ldate=' + ldate,
+        url: "{{ url('ajax-disease-rate-date-range') }}",
+        data: { hc_id: hc_id, fdate: fdate, ldate: ldate },
         success: function (response) {
             console.log(response.data);
 
@@ -310,7 +311,7 @@ $('#search_disease').click(function() {
                 xAxis: {
                     title: {
                         text: 'Disease',
-                        
+
                     },
                     type: 'category',
                     labels: {
