@@ -232,8 +232,8 @@
                                     placeholder="Date To">
                             </div>
 
-                            <div class="form-group col-md-3">
-                                <label for="name">Registration Id</label>
+                            <div class="form-group col-md-2">
+                                <label for="name">Patient</label>
 
                                 <select class="selectpicker" data-live-search="true" name="registration_id" id="registration_id">
                                     <option value="">Select Registration ID</option> <!-- Empty option added -->
