@@ -261,33 +261,54 @@
 $('#search_disease').click(function() {
     var daterange = $('#daterange').val();
     var hc_id = $('#hc_id').val();
-    console.log(daterange);
     const parts = daterange.split(" - ");
 // Get the first date.
     const fdate = parts[0];
-
 // Get the second date.
     const ldate = parts[1];
-    console.log(fdate,ldate,hc_id)
 
     $.ajax({
         type: "GET",
-        url: "/ajax-disease-rate-date-range?hc_id="+hc_id+'&fdate='+fdate+'&ldate='+ldate,
+        url: "/ajax-disease-rate-date-range?hc_id=" + hc_id + '&fdate=' + fdate + '&ldate=' + ldate,
         success: function (response) {
             console.log(response.data);
 
+            // Extract the data array from the response
+            var data = response.data.data;
+
+            // Define an array to store colors for each data point
+            var colors = [];
+
+            // Define custom colors based on the count (y-value)
+            for (var i = 0; i < data.length; i++) {
+                var count = data[i][1];
+                var color;
+
+                if (count >= 9 && count <= 10) {
+                    color = 'blue';
+                } else if (count >= 11 && count <= 12) {
+                    color = 'yellow';
+                } else if (count >= 13 && count <= 14) {
+                    color = 'red';
+                } else {
+                    color = 'black';
+                }
+
+                colors.push(color); // Add the color to the array
+            }
+
             var chart = Highcharts.chart('date_wise', {
                 title: {
-                    text: response.healthcenter+' Disease',
+                    text: response.healthcenter + ' Disease',
                 },
                 credits: {
                     enabled: false
                 },
                 xAxis: {
-                    type: 'category', // Use category type for x-axis
+                    type: 'category',
                     labels: {
                         style: {
-                            fontSize: '10px' // Adjust label font size if needed
+                            fontSize: '10px'
                         }
                     }
                 },
@@ -299,28 +320,30 @@ $('#search_disease').click(function() {
                 }],
                 plotOptions: {
                     column: {
-                        colorByPoint: true,
                         dataLabels: {
-                            enabled: true, // Display data labels on top of bars
-                            format: '{y}', // Display the y-value (patient count)
+                            enabled: true,
+                            format: '{y}',
                             style: {
                                 fontSize: '12px',
                                 fontWeight: 'bold'
                             }
-                        } // Let Highcharts choose colors
+                        },
+                        colorByPoint: true, // Use colorByPoint to specify colors for each data point
                     },
-
                 },
                 series: [{
                     type: 'column',
-                    colorByPoint: true,
-                    data:response.data.data,
-                    showInLegend: false
-                }],
-
-            })
+                    data: data,
+                    showInLegend: false,
+                    colors: colors, // Use the custom colors array
+                }]
+            });
         }
-    })
+    });
+
+
+
+
 });
 
 
