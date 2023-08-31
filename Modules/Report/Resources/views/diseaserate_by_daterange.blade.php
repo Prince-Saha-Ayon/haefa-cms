@@ -284,11 +284,11 @@ $('#search_disease').click(function() {
                 var count = data[i][1];
                 var color;
 
-                if (count >= 9 && count <= 10) {
+                if (count >= 0 && count <= 5) {
                     color = 'blue';
-                } else if (count >= 11 && count <= 12) {
+                } else if (count >= 6 && count <= 10) {
                     color = 'yellow';
-                } else if (count >= 13 && count <= 14) {
+                } else if (count >= 11 && count <= 15) {
                     color = 'red';
                 } else {
                     color = 'black';
