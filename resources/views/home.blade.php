@@ -14,13 +14,13 @@
 <div class="dt-content">
     
     <div class="row pt-5">
-      <div class="col-xl-2 col-sm-4">
+      {{-- <div class="col-xl-2 col-sm-4">
         <div class="dt-card dt-chart dt-card__full-height bg-warning align-items-center pt-5">
         <img src="images/patient.png" alt="Customer" width="30px;">
           <h4 class="text-white mt-3 mb-0">{{ $patient_count }}</h4>
           <h2 class="text-white mt-1">All Patient</h2>
         </div>
-      </div>
+      </div> --}}
       <div class="col-xl-3 col-sm-5">
         <div class="dt-card dt-chart dt-card__full-height bg-danger align-items-center pt-5">
         <img src="images/patient.png" alt="Customer" width="30px;">
@@ -28,13 +28,13 @@
           <h2 class="text-white mt-1">Today Registration Patient</h2>
         </div>
       </div>
-      <div class="col-xl-2 col-sm-4">
+      {{-- <div class="col-xl-2 col-sm-4">
         <div class="dt-card dt-chart dt-card__full-height bg-info align-items-center pt-5">
           <img src="images/customer.svg" alt="Customer" width="30px;">
           <h4 class="text-white mt-3 mb-0">{{$prescription_total_count}}</h4>
           <h2 class="text-white mt-1">Total Prescription</h2>
         </div>
-      </div>
+      </div> --}}
       <div class="col-xl-2 col-sm-4">
         <div class="dt-card dt-chart dt-card__full-height bg-info align-items-center pt-5">
           <img src="images/customer.svg" alt="Customer" width="30px;">
@@ -42,13 +42,13 @@
           <h2 class="text-white mt-1">Today Prescription</h2>
         </div>
       </div>
-      <div class="col-xl-2 col-sm-4">
+      {{-- <div class="col-xl-2 col-sm-4">
         <div class="dt-card dt-chart dt-card__full-height bg-success align-items-center pt-5">
         <img src="images/customer.svg" alt="Customer" width="30px;">
           <h4 class="text-white mt-3 mb-0">{{ $doctor_count }}</h4>
           <h2 class="text-white mt-1">All Doctor</h2>
         </div>
-      </div>
+      </div> --}}
     </div>
     <!-- Start :: Bar Chart-->
         <div class="row py-5">
