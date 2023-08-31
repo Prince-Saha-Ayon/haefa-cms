@@ -28,6 +28,10 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('temperature-graph','ReportController@TemperatureGraph')->name('temperaturegraph');
     Route::get('ajax-temperature-graph','ReportController@AjaxTemperatureGraph')->name('ajaxtemperaturegraph');
 
+    Route::any('branch-wise-patients','ReportController@branchWisePatients')->name('branch-wise-patients');
+    Route::any('disease-rate-date-range','ReportController@DiseaseRateDateRange')->name('diseaseRateDateRange');
+    Route::get('ajax-disease-rate-date-range','ReportController@AjaxDiseaseRateDateRange')->name('AjaxDiseaseRateDateRange');
+
     Route::group(['prefix' => 'patientage', 'as'=>'patientage.'], function () {
         Route::post('show', 'ReportController@show')->name('show');
     });
