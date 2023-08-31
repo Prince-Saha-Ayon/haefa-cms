@@ -308,6 +308,10 @@ $('#search_disease').click(function() {
                     enabled: false
                 },
                 xAxis: {
+                    title: {
+                        text: 'Disease',
+                        
+                    },
                     type: 'category',
                     labels: {
                         style: {
@@ -317,7 +321,7 @@ $('#search_disease').click(function() {
                 },
                 yAxis: [{
                     title: {
-                        text: 'Frequency',
+                        text: 'Patients',
                         enabled: true
                     }
                 }],
@@ -335,6 +339,7 @@ $('#search_disease').click(function() {
                     },
                 },
                 series: [{
+                    name: 'Patients',
                     type: 'column',
                     data: data,
                     showInLegend: false,

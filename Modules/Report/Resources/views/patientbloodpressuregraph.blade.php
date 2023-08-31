@@ -250,7 +250,7 @@
 
                                 </select>
                             </div>
-                            <div class="col-md-2 warning-searching invisible" id="warning-searching">
+                            <div class="col-md-4 warning-searching invisible" id="warning-searching">
                                 <span class="text-danger" id="warning-message">Searching...Please Wait</span>
                                 <span class="spinner-border text-danger"></span>
                             </div>

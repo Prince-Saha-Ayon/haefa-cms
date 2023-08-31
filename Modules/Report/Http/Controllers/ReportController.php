@@ -458,7 +458,7 @@ $results = DB::table("MDataPatientReferral")
 //            'reg_id'=>$rbg,
 //            'results'=>$DistinctDate,
 //        ]);
-        $this->setPageData('Glucose Graph Report','Glucose Graph Report','fas fa-th-list');
+        $this->setPageData('Diabetes Mellitus','Diabetes Mellitus','fas fa-th-list');
         return view('report::glucosegraph',compact('DistinctDate','registrationId','rbg','rbgNumeric','fbg','fbgNumeric','hemoglobin','hemoglobinNumeric'));
     }
 

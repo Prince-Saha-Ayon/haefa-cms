@@ -20,6 +20,9 @@ Highcharts.chart('container_bloodp', {
         text: 'Patient Blood Pressure'
     },
     xAxis: {
+         title: {
+            text: 'Date '
+        },
 
         categories: {!! json_encode($DistinctDate) !!},
 

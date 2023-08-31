@@ -211,7 +211,7 @@
                                     </select>
 
                                 </div>
-                                <div class="col-md-2 warning-searching invisible" id="warning-searching">
+                                <div class="col-md-4 warning-searching invisible" id="warning-searching">
                                     <span class="text-danger" id="warning-message">Searching...Please Wait</span>
                                     <span class="spinner-border text-danger"></span>
                                 </div>
@@ -326,9 +326,12 @@
                 enabled: false
             },
             title: {
-                text: 'Patient Glucose Graph'
+                text: 'Patient Diabetes Report'
             },
             xAxis: {
+                  title: {
+            text: 'Date '
+        },
 
                 categories: {!! json_encode($DistinctDate ?? '') !!},
 
@@ -346,19 +349,31 @@
                 }
             },
             yAxis: {
-                title: {
-                    text: 'RBG FBG '
-                },
-                labels: {
-                    style: {
-                        fontSize: '12px'
-                    }
-                }
-            },
+        title: {
+            text: 'RBG FBG '
+        },
+        labels: {
+            style: {
+                fontSize: '12px'
+            }
+        },
+        plotLines: [{
+            value: 6.9, // The FBG normal value
+            color: 'green', // Line color
+            dashStyle: 'Solid', // Line style (optional)
+            width: 2, // Line width (optional)
+            label: {
+                text: 'Normal FBG', // Label text
+                align: 'right',
+                x: -10 // Label position adjustment
+            }
+        }]
+    },
             tooltip: {
                 crosshairs: true,
                 shared: false
             },
+           
 
             plotOptions: {
                 spline: {
