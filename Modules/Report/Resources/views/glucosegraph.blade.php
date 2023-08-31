@@ -198,8 +198,8 @@
                                     <label for="name">Date To </label>
                                     <input type="date" class="form-control" name="ending_date" id="ending_date" placeholder="Date To">
                                 </div>
-                                <div class="form-group col-md-4">
-                                    <label for="name">Patient Registration ID </label>
+                                <div class="form-group col-md-2">
+                                    <label for="name">Patients</label>
                                     <select class="selectpicker" data-live-search="true" name="reg_id" id="reg_id">
                                         <option value="">Select Registration ID</option> <!-- Empty option added -->
 

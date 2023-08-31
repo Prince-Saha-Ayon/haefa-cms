@@ -38,7 +38,7 @@ public function diseaseindex()
     }
     public function glucosegraphindex(){
         $registrationId=Patient::select('RegistrationId')->get();
-        $this->setPageData('Glucose Graph Report','Glucose Graph Report','fas fa-th-list');
+        $this->setPageData('Diabetes Mellitus','Diabetes Mellitus','fas fa-th-list');
         return view('report::glucosegraph',compact('registrationId'));
 
     }

@@ -231,7 +231,7 @@
                             </div>
 
                             <div class="form-group col-md-3">
-                                <label for="name">Registration Id</label>
+                                <label for="name">Patient</label>
 
                                 <select class="selectpicker" data-live-search="true" name="registration_id_heart" id="registration_id_heart">
                                     <option value="">Select Registration ID</option> <!-- Empty option added -->
