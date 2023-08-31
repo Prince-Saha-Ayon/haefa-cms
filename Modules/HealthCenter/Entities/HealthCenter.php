@@ -7,7 +7,7 @@ use Modules\Base\Entities\BaseModel;
 class HealthCenter extends BaseModel
 {
     protected $table = 'HealthCenter';
-    protected $primaryKey = 'HealthCenterId';
+    //  protected $primaryKey = 'HealthCenterId';
     public $timestamps = false;
 
     protected $fillable = ['HealthCenterId','HealthCenterCode','HealthCenterName','HealthCenterContactNumber',

@@ -1,21 +1,21 @@
 <?php
 
-namespace Modules\RefReferral\Entities;
+namespace Modules\RefDiseaseGroups\Entities;
 
 use Modules\Base\Entities\BaseModel;
 
-class RefReferral extends BaseModel
+class RefDiseaseGroups extends BaseModel
 {
-    protected $table = 'RefReferral';
-    //  protected $primaryKey = 'RId';
+    protected $table = 'RefDiseaseGroups';
+   
     public $timestamps = false;
 
-    protected $fillable = ['RId','RCode','Description','SortOrder','Status',
+    protected $fillable = ['RefDiseaseGroupId','DiseaseGroupName','Status','SortOrder',
     'CreateDate','CreateUser','UpdateDate','UpdateUser','OrgId'];
 
     protected $order = ['CreateDate'=>'desc'];
     
-    protected $name;
+   
 
     public function setName($name)
     {
@@ -24,11 +24,11 @@ class RefReferral extends BaseModel
     
     private function get_datatable_query()
     {
-        if(permission('refeducation-bulk-delete')){
+        if(permission('patient-bulk-delete')){
             //datatable display data from the below fields
-            $this->column_order = [null,'RCode','Description','Status',null];
+            $this->column_order = [null,'RefDiseaseGroupId','DiseaseGroupName','Status',null];
         }else{
-            $this->column_order = ['RCode','Description','Status',null];
+            $this->column_order = ['RefDiseaseGroupId','DiseaseGroupName','Status',null];
         }
 
         $query = self::toBase();
@@ -38,7 +38,7 @@ class RefReferral extends BaseModel
             ******************/
         //    
         if (!empty($this->name)) {
-            $query->where('RCode','like', '%'.$this->name.'%');
+            $query->where('RefDiseaseGroupId','like', '%'.$this->name.'%');
         }
 
         if (isset($this->orderValue) && isset($this->dirValue)) {
