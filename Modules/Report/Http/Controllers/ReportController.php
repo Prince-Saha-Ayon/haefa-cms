@@ -255,7 +255,6 @@ class ReportController extends BaseController
             ->groupBy('RefIllness.IllnessId', 'RefIllness.IllnessCode')
             ->orderByRaw('COUNT(*) DESC')
             ->select('RefIllness.IllnessId', 'RefIllness.IllnessCode', DB::raw('COUNT(*) as Patients'))
-            ->take(10)
             ->get();
 
         $data = [
