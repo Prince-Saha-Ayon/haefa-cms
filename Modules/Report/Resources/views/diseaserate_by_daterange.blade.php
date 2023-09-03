@@ -213,7 +213,7 @@
                             </div>
                             <div class="form-group col-md-4 pt-24">
 
-                                <button type="button"  class="btn btn-primary btn-sm float-right mr-2" id="search_disease"
+                                <button type="button"  class="btn btn-primary btn-sm float-right mr-2" id="search"
                                         data-toggle="tooltip" data-placement="top" data-original-title="Filter Data">
                                     <i class="fas fa-search"></i>
                                 </button>
@@ -261,7 +261,7 @@
 
 // disease rate by date range start
 
-$('#search_disease').click(function() {
+$('#search').click(function() {
     var daterange = $('#daterange').val();
     var hc_id = $('#hc_id').val();
     const parts = daterange.split(" - ");
@@ -274,9 +274,14 @@ $('#search_disease').click(function() {
         type: "GET",
         url: "{{ url('ajax-disease-rate-date-range') }}",
         data: { hc_id: hc_id, fdate: fdate, ldate: ldate },
-        success: function (response) {
-            console.log(response.data);
-
+        beforeSend: function(){
+            $('#warning-searching').removeClass('invisible');
+        },
+        complete: function(){
+            $('#warning-searching').addClass('invisible');
+        },
+        success: function(response) {
+            //console.log(response.data);
             // Extract the data array from the response
             var data = response.data.data;
 
@@ -345,8 +350,14 @@ $('#search_disease').click(function() {
                     data: data,
                     showInLegend: false,
                     colors: colors, // Use the custom colors array
-                }]
+                }],
+                exporting: {
+                    filename: 'branch_wise_disease_report', // Specify your custom file name here
+                },
             });
+        },
+        error: function(xhr, ajaxOption, thrownError) {
+            console.log(thrownError + '\r\n' + xhr.statusText + '\r\n' + xhr.responseText);
         }
     });
 

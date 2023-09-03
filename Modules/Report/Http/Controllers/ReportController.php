@@ -65,9 +65,9 @@ public function diseaseindex()
         return view('report::toptendiseases',compact('healthcenters'));
 
     }
-    
-    
-    
+
+
+
 
     public function SearchByDate(Request $request){
         $starting_date = $request->starting_date;
@@ -85,11 +85,11 @@ public function diseaseindex()
         return view('report::datewisedx',compact('results'));
 
     }
-     
+
       public function SearchByHC(Request $request){
          $healthcenters=HealthCenter::get(['HealthCenterId','HealthCenterName']);
          $refcases=RefReferral::get(['RId','Description']);
-      
+
         $daterange = $request->daterange;
         $dates = explode(' - ', $daterange);
 // Assign the start and end dates to separate variables
@@ -97,11 +97,11 @@ public function diseaseindex()
         $ending_date = $dates[1]??'';
         $hc = $request->hc_id;
         $rc = $request->rc_id;
-      
+
         //  $results=[];
-        //  $results['hcname']=HealthCenter::where('HealthCenterId',$hc)->get('HealthCenterName');	
-       
-      
+        //  $results['hcname']=HealthCenter::where('HealthCenterId',$hc)->get('HealthCenterName');
+
+
 $results = DB::table("MDataPatientReferral")
     ->select(
         'MDataPatientReferral.RId',
@@ -124,7 +124,7 @@ $results = DB::table("MDataPatientReferral")
     ->join('HealthCenter', 'MDataPatientReferral.HealthCenterId', '=', 'HealthCenter.HealthCenterId')
     ->groupBy('MDataPatientReferral.RId','MDataPatientReferral.HealthCenterId')
     ->get();
-  
+
 
         $this->setPageData('Referrad Cases','Referrad Cases','fas fa-th-list');
         return view('report::hcwisereferral',compact('results','healthcenters','refcases'));
@@ -133,7 +133,7 @@ $results = DB::table("MDataPatientReferral")
     public function SearchByDisease(Request $request){
         $healthcenters=HealthCenter::get(['HealthCenterId','HealthCenterName']);
          $refcases=RefReferral::get(['RId','Description']);
-      
+
         $daterange = $request->daterange;
         $dates = explode(' - ', $daterange);
 // Assign the start and end dates to separate variables
@@ -142,9 +142,9 @@ $results = DB::table("MDataPatientReferral")
         $hc = $request->hc_id;
         $rc = $request->rc_id;
         //  $results=[];
-        //  $results['hcname']=HealthCenter::where('HealthCenterId',$hc)->get('HealthCenterName');	
-       
-      
+        //  $results['hcname']=HealthCenter::where('HealthCenterId',$hc)->get('HealthCenterName');
+
+
 $results = DB::table("MDataPatientReferral")
     ->select(
         'MDataPatientReferral.RId',
@@ -168,14 +168,14 @@ $results = DB::table("MDataPatientReferral")
     ->groupBy('MDataPatientReferral.RId','MDataPatientReferral.HealthCenterId')
     ->get();
 
-        
+
 
 
        $this->setPageData('Number of Patient By Disease','Number of Patient By Disease','fas fa-th-list');
         return view('report::diseasewisepatient',compact('results','healthcenters','refcases'));
 
     }
-    
+
     public function AjaxTopTenDiseases(Request $request){
         $startDate = $request->starting_date;
         $endDate = $request->ending_date;
@@ -184,7 +184,7 @@ $results = DB::table("MDataPatientReferral")
 
 
         $illnesses['branch']=HealthCenter::where('HealthCenterCode',$hcId)->get('HealthCenterName');
-       
+
         $illnesses['diseases'] = DB::table('MDataPatientIllnessHistory')
             ->join('RefIllness', 'MDataPatientIllnessHistory.IllnessId', '=', 'RefIllness.IllnessId')
             ->join('Patient', 'MDataPatientIllnessHistory.PatientId', '=', 'Patient.PatientId')
@@ -197,12 +197,12 @@ $results = DB::table("MDataPatientReferral")
             ->get();
 
             // dd( $illnesses['diseases']);
-        
+
          return view('report::toptendiseases_ajax',compact('illnesses'));
     }
-   
 
-    
+
+
     public function SearchByAge(Request $request){
         $starting_age = $request->starting_age;
         $ending_age = $request->ending_age;
@@ -262,7 +262,6 @@ $results = DB::table("MDataPatientReferral")
         $last_date = $dates[1]??'';
 
         $barcode_prefix = $request->patient_id??"";
-
         $male=$female=$Total=$femaleAboveFive=0;
 
         //branches
@@ -319,65 +318,17 @@ $results = DB::table("MDataPatientReferral")
     }
 
     public function diseaseRateDateRange(Request $request){
-        $daterange = $request->daterange;
-        $dates = explode(' - ', $daterange);
-        $first_date = $dates[0]??'';
-        $last_date = $dates[1]??'';
-
-        $barcode_prefix = $request->patient_id??"";
-        $male=$female=$Total=$femaleAboveFive=0;
-
         //branches
         $branches = DB::table('barcode_formats')
             ->join('HealthCenter', 'barcode_formats.barcode_community_clinic', '=', 'HealthCenter.HealthCenterId')
             ->select('barcode_formats.barcode_prefix', 'HealthCenter.HealthCenterName')
             ->get();
-
-        $results = DB::table('barcode_formats')
-            ->join('HealthCenter', 'barcode_formats.barcode_community_clinic', '=', 'HealthCenter.HealthCenterId')
-            ->join('Patient', function ($join) use ($first_date, $last_date, $barcode_prefix) {
-                // Cast uniqueidentifier to string and then extract the first nine characters
-                $join->on(DB::raw('SUBSTRING(CONVERT(VARCHAR(36), Patient.RegistrationId), 1, 9)'), '=', 'barcode_formats.barcode_prefix')
-                    ->whereBetween('Patient.CreateDate', [$first_date, $last_date]);
-                if ($barcode_prefix) {
-                    $join->Where('barcode_formats.barcode_prefix', $barcode_prefix);
-                }
-            })
-            ->join('RefGender','RefGender.GenderId','=','Patient.GenderId')
-            ->get();
-
-        if($barcode_prefix){
-            $barcode_tbl = DB::table('barcode_formats')
-                ->join('HealthCenter', 'barcode_formats.barcode_community_clinic', '=', 'HealthCenter.HealthCenterId')
-                ->where('barcode_formats.barcode_prefix',$barcode_prefix)
-                ->first();
-            $branchName = $barcode_tbl->HealthCenterName??'';
-        }else{
-            $branchName = '';
-        }
-
-        foreach ($results as $result){
-            if ($result->GenderCode == 'Male'){
-                $male++;
-            }
-            if ($result->GenderCode == 'Female'){
-                $female++;
-            }
-        }
-
-        $Total=$male+$female;
-
         $this->setPageData(
-            'Report-'. str_repeat(' ', 2).
-            'Total: '. $Total .','.  str_repeat(' ', 2).
-            'Male: '. $male .','.  str_repeat(' ', 2)  .
-            'Female: '.$female.','. str_repeat(' ', 2) .
-            'Branch Name: '. $branchName,
+            'Report-',
             'Branch Wise Disease Report',
             'fas fa-th-list'
         );
-
-        return view('report::diseaserate_by_daterange',compact('branches','branchName','results','male','Total','female'));
+        return view('report::diseaserate_by_daterange',compact('branches'));
     }
 
     public function AjaxDiseaseRateDateRange(Request $request){

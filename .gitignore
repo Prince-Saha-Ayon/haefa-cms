@@ -7,3 +7,5 @@ Homestead.yaml
 .history
 modules_statuses.json
 /modules_statuses.json
+.env
+/.env
