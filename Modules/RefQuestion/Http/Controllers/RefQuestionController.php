@@ -2,10 +2,12 @@
 
 namespace Modules\RefQuestion\Http\Controllers;
 
+use Carbon\Carbon;
 use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Http\Request;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Routing\Controller;
+use Modules\RefQuestion\Entities\RefAnswer;
 use Modules\RefQuestion\Entities\RefQuestion;
 use Modules\RefQuestion\Http\Requests\RefQuestionFormRequest;
 use Illuminate\Foundation\Validation\ValidatesRequests;
@@ -43,7 +45,7 @@ class RefQuestionController extends BaseController
     public function get_datatable_data(Request $request){
         if(permission('refquestion-access')){
             if($request->ajax()){
-                
+
                 if (!empty($request->name)) {
                     $this->model->setName($request->name);
                 }
@@ -66,13 +68,13 @@ class RefQuestionController extends BaseController
                     if(permission('refquestion-delete')){
                         $action .= ' <a class="dropdown-item delete_data"  data-id="' . $value->QuestionId . '" data-name="' . $value->QuestionId . '"><i class="fas fa-trash text-danger"></i> Delete</a>';
                     }
-                    
+
                     $row = [];
 
                     if(permission('refquestion-bulk-delete')){
                         $row[] = table_checkbox($value->QuestionId);
                     }
-                    
+
                     $row[] = $no;
                     $row[] = $value->QuestionModuleName;
                     $row[] = $value->QuestionTitle;
@@ -145,8 +147,36 @@ class RefQuestionController extends BaseController
                     $collection = collect($request->all());
                     //track_data from base controller to merge created_by and created_at merge with request data
                     $collection = $this->track_data_org($request->QuestionId,$collection);
+
                     $result = $this->model->where('QuestionId', $request->QuestionId)->update($collection->all());
+
                     $output = $this->store_message($result,$request->QuestionId);
+
+                    //answer update start
+                    if(isset($request->QuestionId) && $request->QuestionId !==''){
+                        //
+                        $QuestionModuleName = RefQuestion::where('QuestionId',$request->QuestionId)->first()->QuestionModuleName??'';
+                        $OrgId = RefQuestion::where('QuestionId',$request->QuestionId)->first()->OrgId??'';
+                        RefAnswer::where('AnswerModuleName',$QuestionModuleName)->delete();
+                        for($i=0;$i<count($request->AnswerTitle); $i++){
+                            if(isset($request->AnswerTitle[$i],$request->AnswerGroupId[$i]) && $request->AnswerTitle[$i] !==''){
+                                RefAnswer::create([
+                                    'AnswerId'=>Str::uuid(),
+                                    'AnswerModuleName'=>$QuestionModuleName,
+                                    'AnswerTitle'=>$request->AnswerTitle[$i],
+                                    'AnswerGroupId'=>$request->AnswerGroupId[$i],
+                                    'ButtonType'=>'RADIO',
+                                    'SortOrder'=>1,
+                                    'Status'=>'A',
+                                    'CreateDate'=>Carbon::now(),
+                                    'CreateUser'=>Auth()->user()->name??'',
+                                    'OrgId'=>$OrgId,
+                                ]);
+                            }
+                        }
+                    }
+
+                    //answer update end
                     return response()->json($output);
                 }
                 else{
@@ -156,7 +186,27 @@ class RefQuestionController extends BaseController
                     //update existing index value
                     $collection['QuestionId'] = Str::uuid();
                     $result = $this->model->create($collection->all());
+
                     $output = $this->store_message($result,$request->QuestionId);
+
+                    //answer entry start
+                    for($i=0;$i<count($request->AnswerTitle); $i++){
+                        if(isset($request->AnswerTitle[$i],$request->AnswerGroupId[$i]) && $request->AnswerTitle[$i] !=='') {
+                            RefAnswer::create([
+                                'AnswerId' => Str::uuid(),
+                                'AnswerModuleName' =>$result->QuestionModuleName??'',
+                                'AnswerTitle' => $request->AnswerTitle[$i],
+                                'AnswerGroupId' => $request->AnswerGroupId[$i],
+                                'ButtonType' => 'RADIO',
+                                'SortOrder' => 1,
+                                'Status' => 'A',
+                                'CreateDate'=>Carbon::now(),
+                                'CreateUser'=>Auth()->user()->name??'',
+                                'OrgId' => $result->OrgId??'',
+                            ]);
+                        }
+                    }
+                    //answer entry end
                     return response()->json($output);
                 }
 
@@ -164,12 +214,12 @@ class RefQuestionController extends BaseController
                     return response()->json(['status'=>'error','message'=>$e->getMessage()]);
                     // return response()->json(['status'=>'error','message'=>'Something went wrong !']);
                 }
-                
+
             }else{
                 $output = $this->access_blocked();
                 return response()->json($output);
             }
-            
+
         }else{
            return response()->json($this->access_blocked());
         }
@@ -184,6 +234,8 @@ class RefQuestionController extends BaseController
     {
         if($request->ajax()){
             if (permission('refquestion-delete')) {
+                $QuestionModuleName = RefQuestion::where('QuestionId',$request->QuestionId)->first()->QuestionModuleName??'';
+                RefAnswer::where('AnswerModuleName',$QuestionModuleName)->delete();
                 $result = $this->model->where('QuestionId',$request->id)->delete();
                 $output = $this->store_message($result,$request->QuestionId);
                 return response()->json($output);

@@ -55,5 +55,6 @@
     "Union": true,
     "Upazila": true,
     "HealthCenter": true,
-    "RefDiseaseGroups": true
+    "RefDiseaseGroups": true,
+    "RefAnswer": true
 }

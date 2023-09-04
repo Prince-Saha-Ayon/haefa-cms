@@ -5,7 +5,7 @@
 @endsection
 
 @push('stylesheet')
-<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
+<link rel="stylesheet" type="text/css" href="{{asset('css/daterangepicker.css')}}" />
 <style>
 .highcharts-figure,
 .highcharts-data-table table {
@@ -229,7 +229,7 @@
 
 <script src="js/dataTables.buttons.min.js"></script>
     <script src="js/buttons.html5.min.js"></script>
-   
+
 
 @section('content')
 <div class="dt-content">
@@ -277,7 +277,7 @@
                                 <input type="text" class="form-control" value="" name="daterange" id="daterange"
                                     placeholder="Select Date">
                             </div>
-                         
+
 
                             <div class="form-group col-md-3">
                                 <label for="name">Select Branch</label>
@@ -337,8 +337,8 @@
 @push('script')
  <script src="js/dataTables.buttons.min.js"></script>
  <script src="js/buttons.html5.min.js"></script>
-<script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
-<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
+ <script type="text/javascript" src="{{asset('js/moment.js')}}"></script>
+ <script type="text/javascript" src="{{asset('js/daterangepicker.js')}}"></script>
 <script src="js/highcharts.js"></script>
 <script src="js/series-label.js"></script>
 <script src="js/exporting.js"></script>
@@ -384,7 +384,7 @@
 
 $('#refresh').click(function(){
     $('#daterange').val('');
-   
+
 
     $('.selectpicker').selectpicker('val', '');
     $('#container_diseases').html('');

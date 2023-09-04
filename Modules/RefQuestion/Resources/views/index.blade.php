@@ -80,7 +80,7 @@
 
             <!-- Entry Header -->
             <div class="dt-entry__header">
-            
+
                 <!-- Entry Heading -->
                 <div class="dt-entry__heading">
                     <h2 class="dt-page__title mb-0 text-primary"><i class="{{ $page_icon }}"></i> {{ $sub_title }}</h2>
@@ -161,6 +161,7 @@
 @push('script')
 <script>
 var table;
+let rowCounter = 0;
 $(document).ready(function(){
     table = $('#dataTable').DataTable({
         "processing": true, //Feature control the processing indicator
@@ -170,7 +171,7 @@ $(document).ready(function(){
         "bInfo": true, //TO show the total number of data
         "bFilter": false, //For datatable default search box show/hide
         "pageLength": 10, //number of data show per page
-        "language": { 
+        "language": {
             processing: `<i class="fas fa-spinner fa-spin fa-3x fa-fw text-primary"></i> `,
             emptyTable: '<strong class="text-danger">No Data Found</strong>',
             infoEmpty: '',
@@ -187,7 +188,7 @@ $(document).ready(function(){
         "columnDefs": [{
                 @if (permission('refquestion-bulk-delete'))
                 "targets": [0,4],
-                @else 
+                @else
                 "targets": [3],
                 @endif
                 "orderable": false,
@@ -196,7 +197,7 @@ $(document).ready(function(){
             {
                 @if (permission('refquestion-bulk-delete'))
                 "targets": [1,3],
-                @else 
+                @else
                 "targets": [0,2],
                 @endif
                 "className": "text-center"
@@ -235,7 +236,7 @@ $(document).ready(function(){
                     columns: [1, 2, 3]
                 },
             },
-            @endif 
+            @endif
             @if (permission('refquestion-bulk-delete'))
             {
                 'className':'btn btn-danger btn-sm delete_btn d-none text-white',
@@ -257,12 +258,103 @@ $(document).ready(function(){
         table.ajax.reload();
     });
 
+    {{--$(document).on('click', '#save-btn', function () {--}}
+    {{--    let form = document.getElementById('store_or_update_form');--}}
+    {{--    let formData = new FormData(form);--}}
+    {{--    let url = "{{route('refquestion.store.or.update')}}";--}}
+    {{--    let method;--}}
+    {{--    store_or_update_data(table, method, url, formData);--}}
+    {{--});--}}
+
     $(document).on('click', '#save-btn', function () {
         let form = document.getElementById('store_or_update_form');
         let formData = new FormData(form);
         let url = "{{route('refquestion.store.or.update')}}";
+        let id = $('#update_id').val();
         let method;
-        store_or_update_data(table, method, url, formData);
+        if (id) {
+            method = 'update';
+        } else {
+            method = 'add';
+        }
+        $.ajax({
+            url: url,
+            type: "POST",
+            data: formData,
+            dataType: "JSON",
+            contentType: false,
+            processData: false,
+            cache: false,
+            beforeSend: function(){
+                $('#save-btn').addClass('kt-spinner kt-spinner--md kt-spinner--light');
+            },
+            complete: function(){
+                $('#save-btn').removeClass('kt-spinner kt-spinner--md kt-spinner--light');
+            },
+            success: function (data) {
+                console.log(data);
+                $('#store_or_update_form').find('.is-invalid').removeClass('is-invalid');
+                $('#store_or_update_form').find('.error').remove();
+                if (data.status == false) {
+
+                    $.each(data.errors, function (key, value) {
+                        // Split the string at the period (.)
+
+                        var parts = key.split('.');
+                        // Parse the integer and decimal parts
+                        var integerPart = isNaN(parts[0]) ? parts[0] : 0;
+                        var decimalPart = parseInt(parts[1]);
+
+                        if(integerPart=='AnswerTitle'||integerPart=='AnswerGroupId'){
+
+                            $('#store_or_update_form input#' + integerPart+'-'+decimalPart).addClass('is-invalid');
+                            $('#store_or_update_form textarea#' + integerPart+'-'+decimalPart).addClass('is-invalid');
+                            $('#store_or_update_form select#' + integerPart+'-'+decimalPart).parent().addClass('is-invalid');
+                            if(key == 'code'){
+                                $('#store_or_update_form #' + integerPart+'-'+decimalPart).parents('.form-group').append(
+                                    '<small class="error text-danger">' + value + '</small>');
+                            }else{
+                                $('#store_or_update_form #' + integerPart+'-'+decimalPart).parent().append(
+                                    '<small class="error text-danger">' + value + '</small>');
+                            }
+                        }
+
+
+                        $('#store_or_update_form input#' + key).addClass('is-invalid');
+                        $('#store_or_update_form textarea#' + key).addClass('is-invalid');
+                        $('#store_or_update_form select#' + key).parent().addClass('is-invalid');
+                        if(key == 'code'){
+                            $('#store_or_update_form #' + key).parents('.form-group').append(
+                                '<small class="error text-danger">' + value + '</small>');
+                        }else{
+                            $('#store_or_update_form #' + key).parent().append(
+                                '<small class="error text-danger">' + value + '</small>');
+                        }
+
+                    });
+
+                } else {
+                    notification(data.status, data.message);
+                    if (data.status == 'success') {
+                        if (method == 'update') {
+                            table.ajax.reload(null, false);
+                        } else {
+                            table.ajax.reload();
+                        }
+                        $('#store_or_update_modal').modal('hide');
+                        $(this).find('#store_or_update_modal').trigger('reset');
+                        document.getElementById('content').innerHTML = '';
+
+                    }
+
+                }
+
+            },
+            error: function (xhr, ajaxOption, thrownError) {
+                // console.log(thrownError + '\r\n' + xhr.statusText + '\r\n' + xhr.responseText);
+                console.log(xhr.responseText.errors);
+            }
+        });
     });
 
     $(document).on('click', '.delete_data', function () {
@@ -273,7 +365,7 @@ $(document).ready(function(){
         let row   = table.row($(this).parent('tr'));
         let url   = "{{ route('refquestion.delete') }}";
         let response = delete_data(id, url, table, row, name);
-        
+
     });
 
     function multi_delete(){
@@ -338,7 +430,7 @@ $(document).ready(function(){
 $(document).on('click', '.edit_data', function () {
     let id = $(this).data('id');
     $('#store_or_update_form')[0].reset();
-    
+
     if (id) {
         $.ajax({
             url: "{{route('refquestion.edit')}}",
@@ -376,6 +468,34 @@ $(document).on('click', '.edit_data', function () {
 
 function removeId(){
     $('#RefInstructionId').val('');
+}
+
+//javascript dynamic append remove
+
+function addRow() {
+    if(rowCounter==0){
+        rowCounter++;
+    }
+    const rowId = `row-${rowCounter}`;
+    const div = document.createElement('div');
+    div.classList.add('row');
+    div.innerHTML = `<div class="form-group col-md-4">
+                        <label for="AnswerTitle-${rowCounter}">Answer</label>
+                        <input type="text" name="AnswerTitle[]" id="AnswerTitle-${rowCounter}" class="form-control main-${rowCounter}" value="" placeholder="Enter Answer">
+                    </div>
+                    <div class="form-group col-md-4">
+                        <label for="AnswerGroupId-${rowCounter}">Answer Group Id</label>
+                        <input type="number" name="AnswerGroupId[]" id="AnswerGroupId-${rowCounter}" class="form-control ${rowCounter}" value="" placeholder="Enter AnswerGroupId">
+                    </div>
+                    <div class="form-group col-md-4">
+                      <input class="mt-5" type="button" value="Remove" onclick="removeRow(this)">
+                    </div>`; // Closing </div> added here
+    document.getElementById('content').appendChild(div);
+    rowCounter++;
+    console.log(rowCounter)
+}
+function removeRow(input) {
+    input.parentNode.parentNode.remove();
 }
 </script>
 @endpush
