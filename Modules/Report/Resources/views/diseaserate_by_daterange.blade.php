@@ -5,7 +5,7 @@
 @endsection
 
 @push('stylesheet')
-<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
+<link rel="stylesheet" type="text/css" href="{{asset('css/daterangepicker.css')}}" />
 <style>
     {{--        pagination style--}}
 
@@ -188,7 +188,7 @@
                 <!-- Card Body -->
                 <div class="dt-card__body">
 
-                    <form id="form-filter" method="POST" action="{{route('branch-wise-patients')}}" >
+                    <form id="form-filter" method="POST" action="" >
                         @csrf
                         <div class="row">
                             <div class="form-group col-md-3">
@@ -213,7 +213,7 @@
                             </div>
                             <div class="form-group col-md-4 pt-24">
 
-                                <button type="button"  class="btn btn-primary btn-sm float-right mr-2" id="search_disease"
+                                <button type="button"  class="btn btn-primary btn-sm float-right mr-2" id="search"
                                         data-toggle="tooltip" data-placement="top" data-original-title="Filter Data">
                                     <i class="fas fa-search"></i>
                                 </button>
@@ -248,12 +248,8 @@
 <script src="js/export-data.js"></script>
 <script src="js/accessibility.js"></script>
 
-<!--<script type="text/javascript" src="{{asset('js/jquery.js')}}"></script>-->
-{{-- <script type="text/javascript" src="{{asset('js/moment.js')}}"></script>
-<script type="text/javascript" src="{{asset('js/daterangepicker.js')}}"></script> --}}
-
-<script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
-<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
+<script type="text/javascript" src="{{asset('js/moment.js')}}"></script>
+<script type="text/javascript" src="{{asset('js/daterangepicker.js')}}"></script>
 
 <script src="js/dataTables.buttons.min.js"></script>
 <script src="js/buttons.html5.min.js"></script>
@@ -261,7 +257,7 @@
 
 // disease rate by date range start
 
-$('#search_disease').click(function() {
+$('#search').click(function() {
     var daterange = $('#daterange').val();
     var hc_id = $('#hc_id').val();
     const parts = daterange.split(" - ");
@@ -272,10 +268,16 @@ $('#search_disease').click(function() {
 
     $.ajax({
         type: "GET",
-        url: "/ajax-disease-rate-date-range?hc_id=" + hc_id + '&fdate=' + fdate + '&ldate=' + ldate,
-        success: function (response) {
-            console.log(response.data);
-
+        url: "{{ url('ajax-disease-rate-date-range') }}",
+        data: { hc_id: hc_id, fdate: fdate, ldate: ldate },
+        beforeSend: function(){
+            $('#warning-searching').removeClass('invisible');
+        },
+        complete: function(){
+            $('#warning-searching').addClass('invisible');
+        },
+        success: function(response) {
+            //console.log(response.data);
             // Extract the data array from the response
             var data = response.data.data;
 
@@ -310,7 +312,7 @@ $('#search_disease').click(function() {
                 xAxis: {
                     title: {
                         text: 'Disease',
-                        
+
                     },
                     type: 'category',
                     labels: {
@@ -344,8 +346,14 @@ $('#search_disease').click(function() {
                     data: data,
                     showInLegend: false,
                     colors: colors, // Use the custom colors array
-                }]
+                }],
+                exporting: {
+                    filename: 'branch_wise_disease_report', // Specify your custom file name here
+                },
             });
+        },
+        error: function(xhr, ajaxOption, thrownError) {
+            console.log(thrownError + '\r\n' + xhr.statusText + '\r\n' + xhr.responseText);
         }
     });
 

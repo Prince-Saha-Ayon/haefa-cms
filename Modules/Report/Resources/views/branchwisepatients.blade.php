@@ -337,7 +337,7 @@
                     {
                         extend: 'excel',
                         text: 'Export to Excel',
-
+                        filename: 'branch_wise_patient_report'
                     },
                 ],
             });

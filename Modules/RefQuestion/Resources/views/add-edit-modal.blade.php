@@ -1,6 +1,6 @@
 <div class="modal fade" id="store_or_update_modal" tabindex="-1" role="dialog" aria-labelledby="model-1"
     aria-hidden="true">
-    <div class="modal-dialog" role="document">
+    <div class="modal-dialog modal-lg" role="document">
 
         <!-- Modal Content -->
         <div class="modal-content">
@@ -18,46 +18,56 @@
                 <!-- Modal Body -->
                 <div class="modal-body">
                     <div class="row">
-                        <div class="col-md-12">
-                            <input type="hidden" name="QuestionId" value="" id="QuestionId" />
-                            <input type="hidden" name="SortOrder" value="8" />
-                            <x-form.textbox labelName="QuestionModuleName" name="QuestionModuleName" id="QuestionModuleName"
-                                required="required" col="col-md-12" placeholder="Enter Question Module Name" />
-                        </div>
+                        <input type="hidden" name="QuestionId" value="" id="QuestionId" />
+                        <input type="hidden" name="SortOrder" value="8" />
+                        <x-form.textbox labelName="QuestionModuleName" name="QuestionModuleName" id="QuestionModuleName"
+                            required="required" col="col-md-12" placeholder="Enter Question Module Name" />
                     </div>
 
                     <div class="row">
-                        <div class="col-md-12 required">
-                            <x-form.selectbox labelName="QuestionType" name="QuestionTypeId" id="QuestionType" col="col-md-12" class="selectpicker">
-                              @if (!$types->isEmpty())
-                              @foreach ($types as $type)
-                                  <option value="{{ $type->QuestionTypeId }}">{{ $type->QuestionTypeCode }}</option>
-                              @endforeach
-                              @endif
-                              </x-form.selectbox>  
-                        </div>
+                        <x-form.selectbox labelName="QuestionType" name="QuestionTypeId" id="QuestionType" col="col-md-12" class="selectpicker">
+                          @if (!$types->isEmpty())
+                          @foreach ($types as $type)
+                              <option value="{{ $type->QuestionTypeId }}">{{ $type->QuestionTypeCode }}</option>
+                          @endforeach
+                          @endif
+                          </x-form.selectbox>
                     </div>
 
                     <div class="row">
-                        <div class="col-md-12">
-                            <x-form.textbox labelName="QuestionGroup" name="QuestionGroupId" id="QuestionGroup"
+                        <x-form.textbox type="number" labelName="QuestionGroup" name="QuestionGroupId" id="QuestionGroup"
                                  col="col-md-12" placeholder="Enter QuestionGroup" />
-                        </div>
-                    </div>
-                    
-                    <div class="row">
-                        <div class="col-md-12">
-                            <x-form.textbox labelName="QuestionTitle" name="QuestionTitle" id="QuestionTitle"
-                                required="required" col="col-md-12" placeholder="Enter QuestionTitle" />
-                        </div>
                     </div>
 
                     <div class="row">
-                        <div class="col-md-12">
-                            <x-form.textbox labelName="Description" name="Description" id="Description" col="col-md-12"
-                                placeholder="Enter description" />
-                        </div>        
+                        <x-form.textbox labelName="QuestionTitle" name="QuestionTitle" id="QuestionTitle"
+                                required="required" col="col-md-12" placeholder="Enter QuestionTitle" />
                     </div>
+
+                    <div class="row">
+                        <x-form.textbox labelName="Description" name="Description" id="Description" col="col-md-12"
+                                placeholder="Enter description" />
+                    </div>
+
+                    <div class="row">
+                        <div class="form-group col-md-4">
+                            <label for="AnswerTitle-0">Answer</label>
+                            <input type="text" name="AnswerTitle[]" id="AnswerTitle-0" class="form-control row-0" value="" placeholder="Enter Answer">
+                        </div>
+
+                        <div class="form-group col-md-4">
+                            <label for="AnswerGroupId-0">Answer Group Id</label>
+                            <input type="number" name="AnswerGroupId[]" id="AnswerGroupId-0" class="form-control AnswerGroupId-0" value="" placeholder="Enter AnswerGroupId">
+                        </div>
+
+                        <div class="form-group col-md-4">
+                            <input class="mt-5" type="button" id="addnew" value="Add New" onclick="addRow()">
+                        </div>
+                    </div>
+
+                    <div id="content">
+                    </div>
+
 
                 </div>
                 <!-- /modal body -->
