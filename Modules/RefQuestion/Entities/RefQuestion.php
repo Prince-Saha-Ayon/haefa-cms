@@ -15,14 +15,14 @@ class RefQuestion extends BaseModel
     'UpdateDate','UpdateUser','OrgId'];
 
     protected $order = ['CreateDate'=>'desc'];
-    
+
     protected $name;
 
     public function setName($name)
     {
         $this->name = $name;
     }
-    
+
     private function get_datatable_query()
     {
         if(permission('refquestion-bulk-delete')){
@@ -38,7 +38,7 @@ class RefQuestion extends BaseModel
         /*****************
             * *Search Data **
             ******************/
-        //    
+        //
         if (!empty($this->name)) {
             $query->where('QuestionModuleName','like', '%'.$this->name.'%');
         }
@@ -69,5 +69,9 @@ class RefQuestion extends BaseModel
     public function count_all()
     {
         return self::toBase()->get()->count();
+    }
+
+    public function getAnswers(){
+        return $this->hasMany(RefAnswer::class,'AnswerModuleName','QuestionModuleName');
     }
 }

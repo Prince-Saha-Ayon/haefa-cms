@@ -1,0 +1,13 @@
+{
+    "name": "RefVaccineAdult",
+    "alias": "refvaccineadult",
+    "description": "",
+    "keywords": [],
+    "priority": 0,
+    "providers": [
+        "Modules\\RefVaccineAdult\\Providers\\RefVaccineAdultServiceProvider"
+    ],
+    "aliases": {},
+    "files": [],
+    "requires": []
+}

@@ -1,0 +1,13 @@
+{
+    "name": "RefVaccine",
+    "alias": "refvaccine",
+    "description": "",
+    "keywords": [],
+    "priority": 0,
+    "providers": [
+        "Modules\\RefVaccine\\Providers\\RefVaccineServiceProvider"
+    ],
+    "aliases": {},
+    "files": [],
+    "requires": []
+}

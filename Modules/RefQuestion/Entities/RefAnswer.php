@@ -10,7 +10,6 @@ class RefAnswer extends Model
     use HasFactory;
 
     protected $table = 'RefAnswer';
-    protected $primaryKey = 'AnswerId';
     public $timestamps = false;
 
     protected $fillable = ['AnswerId','AnswerGroupId','AnswerModuleName','AnswerTitle',

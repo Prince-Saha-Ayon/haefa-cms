@@ -128,7 +128,8 @@ class RefQuestionController extends BaseController
      */
     public function edit(Request $request)
     {
-        return $data = DB::table('RefQuestion')->where('QuestionId',$request->id)->first();
+       $data = RefQuestion::with('getAnswers')->where('QuestionId',$request->id)->first();
+       return $data;
     }
 
     /**

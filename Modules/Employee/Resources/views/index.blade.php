@@ -177,7 +177,7 @@
 
 @push('script')
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/Dropify/0.2.2/js/dropify.min.js"></script>
+<script src="{{asset('js/dropify.min.js')}}"></script>
 
 <script>
 $(document).ready(function() {
@@ -312,6 +312,7 @@ $(document).ready(function() {
         var ReligionId = $('#ReligionId').val();
         var Email = $('#Email').val();
         var Phone = $('#Phone').val();
+        var RoleId = $('#RoleId').val();
         var NationalIdNumber = $('#NationalIdNumber').val();
         var EmployeeImage = $('#EmployeeImage').prop('files')[0];
         var EmployeeSignature = $('#EmployeeSignature').prop('files')[0];
@@ -336,6 +337,9 @@ $(document).ready(function() {
         data.append('EmployeeImage', EmployeeImage);
         data.append('EmployeeSignature', EmployeeSignature);
         data.append('EmployeeId', EmployeeId);
+        data.append('RoleId', RoleId);
+
+        $('#save-btn').addClass('kt-spinner kt-spinner--md kt-spinner--light');
 
         $.ajaxSetup({
             headers: {
@@ -352,8 +356,8 @@ $(document).ready(function() {
             processData: false,
             cache: false,
             success: function(data) {
-
-                if(data.errors.EmployeeCode[0]){
+                console.log(data);
+                if(data.errors){
                     $('#EmployeeCode').addClass('is-invalid');
                     document.getElementsByClassName('dn').innerHTML="";
                 }
@@ -418,8 +422,6 @@ $(document).ready(function() {
             });
         }
     });
-
-
 
     $(document).on('click', '.delete_data', function() {
         let EmployeeId = $(this).data('id');
@@ -500,7 +502,7 @@ $(document).on('click', '.edit_data', function() {
     let id = $(this).data('id');
     $('#store_or_update_form')[0].reset();
     $('.dropify-clear').trigger('click');
-
+    $('#save-btn').removeClass('kt-spinner kt-spinner--md kt-spinner--light');
     if (id) {
         $.ajax({
             url: "{{route('employee.edit')}}",
@@ -512,25 +514,26 @@ $(document).on('click', '.edit_data', function() {
             dataType: "JSON",
             success: function(data) {
                 console.log(data);
-                $('#EmployeeId').val(data.employee[0].EmployeeId);
-                $('#EmployeeCode').val(data.employee[0].EmployeeCode);
-                $('#RegistrationNumber').val(data.employee[0].RegistrationNumber);
-                $('#FirstName').val(data.employee[0].FirstName);
-                $('#LastName').val(data.employee[0].LastName);
-                $('#BirthDate').val(data.employee[0].BirthDate);
-                $('#JoiningDate').val(data.employee[0].JoiningDate);
-                $('#GenderId').val(data.employee[0].GenderId);
-                $('#MaritalStatusId').val(data.employee[0].MaritalStatusId);
-                $('#Designation').val(data.employee[0].Designation);
-                $('#ReligionId').val(data.employee[0].ReligionId);
-                $('#EducationId').val(data.employee[0].EducationId);
-                $('#Email').val(data.employee[0].Email);
-                $('#Phone').val(data.employee[0].Phone);
-                $('#NationalIdNumber').val(data.employee[0].NationalIdNumber);
+                $('#EmployeeId').val(data.employee[0]?.EmployeeId);
+                $('#EmployeeCode').val(data.employee[0]?.EmployeeCode);
+                $('#RegistrationNumber').val(data.employee[0]?.RegistrationNumber);
+                $('#FirstName').val(data.employee[0]?.FirstName);
+                $('#LastName').val(data.employee[0]?.LastName);
+                $('#BirthDate').val(data.employee[0]?.BirthDate);
+                $('#JoiningDate').val(data.employee[0]?.JoiningDate);
+                $('#GenderId').val(data.employee[0]?.GenderId);
+                $('#MaritalStatusId').val(data.employee[0]?.MaritalStatusId);
+                $('#Designation').val(data.employee[0]?.Designation);
+                $('#ReligionId').val(data.employee[0]?.ReligionId);
+                $('#EducationId').val(data.employee[0]?.EducationId);
+                $('#Email').val(data.employee[0]?.Email);
+                $('#Phone').val(data.employee[0]?.Phone);
+                $('#NationalIdNumber').val(data.employee[0]?.NationalIdNumber);
 
-                document.getElementById('PrevEmployeeImage').innerHTML = '<img src="' + data.employee[0].EmployeeImage + '" alt="EmployeeImage" width="auto" height="70"/>';
-                document.getElementById('PrevEmployeeSignature').innerHTML = '<img src="' + data.employee[0].EmployeeSignature + '" alt="EmployeeSignature" width="auto" height="70"/>';
+                document.getElementById('PrevEmployeeImage').innerHTML = '<img src="' + data.employee[0]?.EmployeeImage + '" alt="EmployeeImage" width="auto" height="70"/>';
+                document.getElementById('PrevEmployeeSignature').innerHTML = '<img src="' + data.employee[0]?.EmployeeSignature + '" alt="EmployeeSignature" width="auto" height="70"/>';
 
+                $('#RoleId').val(data.employee[0]?.RoleId).trigger('change');
 
                 $('#store_or_update_form .selectpicker').selectpicker('refresh');
 
@@ -561,6 +564,9 @@ $('#EmployeeSignature').click(function(){
 
 function removeId(){
     $('#EmployeeId').val('');
+    $('#PrevEmployeeImage').empty();
+    $('#PrevEmployeeSignature').empty();
+    $('#save-btn').removeClass('kt-spinner kt-spinner--md kt-spinner--light');
 }
 </script>
 @endpush

@@ -30,11 +30,11 @@ class EmployeeController extends BaseController
     {
         if(permission('employee-access')){
             $this->setPageData('Employee','Employee','fas fa-th-list');
-            $data['genders'] = DB::select("SELECT * FROM RefGender");
+            $data['genders'] = DB::select("SELECT * FROM RefGender ORDER BY GenderCode ASC");
             $data['maritalStatus'] = DB::select("SELECT * FROM RefMaritalStatus");
             $data['educations'] = DB::select("SELECT * FROM RefEducation");
             $data['religions'] = DB::select("SELECT * FROM RefReligion");
-            $data['roles'] = DB::select("SELECT * FROM Role");
+            $data['roles'] = DB::select("SELECT * FROM roles");
             $data['workplaces'] = DB::select("SELECT * FROM WorkPlace");
             $data['departments'] = DB::select("SELECT * FROM RefDepartment");
             return view('employee::index',$data);
@@ -82,10 +82,10 @@ class EmployeeController extends BaseController
                     }
 
                     $row[] = $no;
-                    $row[] = $value->EmployeeCode;
-                    $row[] = $value->RegistrationNumber;
-                    $row[] = $value->FirstName;
-                    $row[] = $value->LastName;
+                    $row[] = $value->EmployeeCode??'';
+                    $row[] = $value->RegistrationNumber??'';
+                    $row[] = $value->FirstName??'';
+                    $row[] = $value->LastName??'';
                     $row[] = action_button($action);
                     $data[] = $row;
                 }
@@ -160,20 +160,20 @@ class EmployeeController extends BaseController
     {
          $data1 = DB::select("SELECT em.EmployeeId,em.OrgId,em.EmployeeCode,em.RegistrationNumber,em.FirstName,em.FirstName,em.LastName,em.LastName,em.GenderId,em.BirthDate,
          em.JoiningDate,em.MaritalStatusId,em.EducationId,em.Designation,em.ReligionId,em.RoleId,em.Email,em.Phone,em.NationalIdNumber,em.EmployeeImage,em.EmployeeSignature,
-         em.Status,gnd.GenderCode,mar.MaritalStatusCode,edu.EducationCode,reli.ReligionCode,rl.RoleCode
+         em.Status,gnd.GenderCode,mar.MaritalStatusCode,edu.EducationCode,reli.ReligionCode,rl.role_name
          FROM Employee AS em
          LEFT JOIN RefGender AS gnd ON em.GenderId = gnd.GenderId
          LEFT JOIN RefMaritalStatus AS mar ON mar.MaritalStatusId = em.MaritalStatusId
          LEFT JOIN RefEducation as edu ON edu.EducationId = em.EducationId
          LEFT JOIN RefReligion as reli ON reli.ReligionId = em.ReligionId
-         LEFT JOIN Role rl ON rl.RoleId = em.RoleId
-         WHERE em.EmployeeId='$request->id'");
+         LEFT JOIN roles rl ON rl.id = em.RoleId
+         WHERE em.EmployeeId='{$request->id}'");
 
-         $data2 = DB::select("SELECT * FROM RefGender");
+         $data2 = DB::select("SELECT * FROM RefGender ORDER BY GenderCode ASC");
          $data3 = DB::select("SELECT * FROM RefMaritalStatus");
          $data4 = DB::select("SELECT * FROM RefEducation");
          $data5 = DB::select("SELECT * FROM RefReligion");
-         $data6 = DB::select("SELECT * FROM Role");
+         $data6 = DB::select("SELECT * FROM roles");
 
          return response()->json(['employee'=>$data1,'genders'=>$data2,
          'maritalStatus'=> $data3,'educations'=>$data4,'religions'=>$data5,

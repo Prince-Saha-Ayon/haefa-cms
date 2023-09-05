@@ -35,7 +35,7 @@
                     </div>
 
                     <div class="row">
-                        <x-form.textbox type="number" labelName="QuestionGroup" name="QuestionGroupId" id="QuestionGroup"
+                        <x-form.textbox type="number" labelName="QuestionGroup" required name="QuestionGroupId" id="QuestionGroup"
                                  col="col-md-12" placeholder="Enter QuestionGroup" />
                     </div>
 
