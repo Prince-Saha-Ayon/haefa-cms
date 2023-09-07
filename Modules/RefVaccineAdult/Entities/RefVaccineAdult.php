@@ -26,7 +26,7 @@ class RefVaccineAdult extends BaseModel
 
     private function get_datatable_query()
     {
-        if(permission('refvaccine-bulk-delete')){
+        if(permission('refvaccineadult-bulk-delete')){
             //datatable display data from the below fields
             $this->column_order = [null,'VaccineCode','VaccineDoseNumber',null];
         }else{

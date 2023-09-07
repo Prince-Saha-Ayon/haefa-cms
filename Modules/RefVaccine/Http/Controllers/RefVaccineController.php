@@ -29,10 +29,7 @@ class RefVaccineController extends BaseController
     public function index()
     {
         if (permission('refvaccine-access')) {
-            $this->setPageData('RefVaccine', 'RefVaccine', 'fas fa-th-list');
-//            $data['workplaces'] = DB::select("SELECT * FROM WorkPlace");
-//            $data['departments'] = DB::select("SELECT * FROM RefDepartment");
-//            return view('refvaccine::index', $data);
+            $this->setPageData('RefVaccineChild', 'RefVaccineChild', 'fas fa-th-list');
             return view('refvaccine::index');
         } else {
             return $this->unauthorized_access_blocked();

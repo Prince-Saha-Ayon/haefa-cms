@@ -87,7 +87,7 @@
                 </div>
                 <!-- /entry heading -->
 
-                @if (permission('refvaccine-add'))
+                @if (permission('refvaccineadult-add'))
                 <button class="btn btn-primary btn-sm" onclick="showFormModal('Add Refvaccine Adult','Save'); removeId()">
                     <i class="fas fa-plus-square"></i> Add New
                  </button>
@@ -123,7 +123,7 @@
                     <table id="dataTable" class="table table-striped table-bordered table-hover">
                         <thead class="bg-primary">
                             <tr>
-                                @if (permission('refvaccine-bulk-delete'))
+                                @if (permission('refvaccineadult-bulk-delete'))
                                 <th>
                                     <div class="custom-control custom-checkbox">
                                         <input type="checkbox" class="custom-control-input" id="select_all" onchange="select_all()">
@@ -153,8 +153,8 @@
     <!-- /grid -->
 
 </div>
-@include('refvaccine::view-modal')
-@include('refvaccine::add-edit-modal')
+@include('refvaccineadult::view-modal')
+@include('refvaccineadult::add-edit-modal')
 @endsection
 
 @push('script')
@@ -177,7 +177,7 @@ $(document).ready(function(){
             zeroRecords: '<strong class="text-danger">No Data Found</strong>'
         },
         "ajax": {
-            "url": "{{route('refvaccine.datatable.data')}}",
+            "url": "{{route('refvaccineadult.datatable.data')}}",
             "type": "POST",
             "data": function (data) {
                 data.name = $("#form-filter #name").val();
@@ -185,7 +185,7 @@ $(document).ready(function(){
             }
         },
         "columnDefs": [{
-                @if (permission('refvaccine-bulk-delete'))
+                @if (permission('refvaccineadult-bulk-delete'))
                 "targets": [0,4],
                 @else
                 "targets": [3],
@@ -194,7 +194,7 @@ $(document).ready(function(){
                 "className": "text-center"
             },
             {
-                @if (permission('refvaccine-bulk-delete'))
+                @if (permission('refvaccineadult-bulk-delete'))
                 "targets": [1,3],
                 @else
                 "targets": [0,2],
@@ -207,7 +207,7 @@ $(document).ready(function(){
             "<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'<'float-right'p>>>",
 
         "buttons": [
-            @if (permission('refvaccine-report'))
+            @if (permission('refvaccineadult-report'))
             {
                 'extend':'colvis','className':'btn btn-secondary btn-sm text-white','text':'Column'
             },
@@ -216,7 +216,7 @@ $(document).ready(function(){
                 'text':'Excel',
                 'className':'btn btn-secondary btn-sm text-white',
                 "title": "Menu List",
-                "filename": "Refvaccine",
+                "filename": "Refvaccineadult",
                 "exportOptions": {
                     columns: function (index, data, node) {
                         return table.column(index).visible();
@@ -228,7 +228,7 @@ $(document).ready(function(){
                 'text':'PDF',
                 'className':'btn btn-secondary btn-sm text-white',
                 "title": "Menu List",
-                "filename": "Refvaccine",
+                "filename": "Refvaccineadult",
                 "orientation": "landscape", //portrait
                 "pageSize": "A4", //A3,A5,A6,legal,letter
                 "exportOptions": {
@@ -236,7 +236,7 @@ $(document).ready(function(){
                 },
             },
             @endif
-            @if (permission('refvaccine-bulk-delete'))
+            @if (permission('refvaccineadult-bulk-delete'))
             {
                 'className':'btn btn-danger btn-sm delete_btn d-none text-white',
                 'text':'Delete',
@@ -260,7 +260,7 @@ $(document).ready(function(){
     $(document).on('click', '#save-btn', function () {
         let form = document.getElementById('store_or_update_form');
         let formData = new FormData(form);
-        let url = "{{route('refvaccine.store.or.update')}}";
+        let url = "{{route('refvaccineadult.store.or.update')}}";
         let id = $('#VaccineId').val();
         let method;
         if (id) {
@@ -358,7 +358,7 @@ $(document).ready(function(){
        // let date = $(this).data('date');
         if (id) {
             $.ajax({
-                url: "{{route('refvaccine.show')}}",
+                url: "{{route('refvaccineadult.show')}}",
                 type: "POST",
                 data: { id: id,_token: _token},
                 success: function (data) {
@@ -385,10 +385,10 @@ $(document).ready(function(){
     $(document).on('click', '.delete_data', function () {
         let RefvaccineId    = $(this).data('id');
         // let name  = $(this).data('name');
-        let name  = "Refvaccine";
+        let name  = "Refvaccineadult";
         console.log(name);
         let row   = table.row($(this).parent('tr'));
-        let url   = "{{ route('refvaccine.delete') }}";
+        let url   = "{{ route('refvaccineadult.delete') }}";
         let response = delete_data(RefvaccineId, url, table, row, name);
 
     });
@@ -408,7 +408,7 @@ $(document).ready(function(){
                 icon: 'warning',
             });
         }else{
-            let url = "{{route('refvaccine.bulk.delete')}}";
+            let url = "{{route('refvaccineadult.bulk.delete')}}";
             bulk_delete(ids,url,table,rows);
         }
     }
@@ -418,7 +418,7 @@ $(document).ready(function(){
         let Status    = $(this).data('status');
         let name  = $(this).data('name');
         let row   = table.row($(this).parent('tr'));
-        let url   = "{{ route('refvaccine.change.status') }}";
+        let url   = "{{ route('refvaccineadult.change.status') }}";
         Swal.fire({
             title: 'Are you sure to change ' + name + ' status?',
             icon: 'warning',
@@ -460,7 +460,7 @@ $(document).on('click', '.edit_data', function () {
 
     if (id) {
         $.ajax({
-            url: "{{route('refvaccine.edit')}}",
+            url: "{{route('refvaccineadult.edit')}}",
             type: "POST",
             data: { id: id,_token: _token},
             dataType: "JSON",

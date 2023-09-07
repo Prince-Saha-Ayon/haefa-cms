@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class RefVaccine extends BaseModel
 {
-    protected $table = 'RefVaccineAdult';
+    protected $table = 'RefVaccine';
     public $timestamps = false;
 
     protected $fillable = ['VaccineId','VaccineCode','Description','Instruction','VaccineDoseGroupId',

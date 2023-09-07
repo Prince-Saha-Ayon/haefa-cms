@@ -1,6 +1,6 @@
 <?php
 
-namespace Modules\RefVaccine\Http\Controllers;
+namespace Modules\RefVaccineAdult\Http\Controllers;
 
 use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Http\Request;
@@ -28,8 +28,8 @@ class RefVaccineAdultController extends BaseController
      */
     public function index()
     {
-        if (permission('refvaccine-access')) {
-            $this->setPageData('RefVaccine', 'RefVaccine', 'fas fa-th-list');
+        if (permission('refvaccineadult-access')) {
+            $this->setPageData('RefVaccineAdult', 'RefVaccineAdult', 'fas fa-th-list');
             return view('refvaccineadult::index');
         } else {
             return $this->unauthorized_access_blocked();
@@ -42,7 +42,7 @@ class RefVaccineAdultController extends BaseController
      */
     public function get_datatable_data(Request $request)
     {
-        if (permission('refvaccine-access')) {
+        if (permission('refvaccineadult-access')) {
             if ($request->ajax()) {
 
                 if (!empty($request->name)) {
@@ -58,26 +58,26 @@ class RefVaccineAdultController extends BaseController
                     $no++;
                     $action = '';
 
-                    if (permission('refvaccine-edit')) {
+                    if (permission('refvaccineadult-edit')) {
                         $action .= ' <a class="dropdown-item edit_data" data-id="' . $value->VaccineId . '"><i class="fas fa-edit text-primary"></i> Edit</a>';
                     }
-                    if (permission('refvaccine-view')) {
+                    if (permission('refvaccineadult-view')) {
                         // $action .= ' <a class="dropdown-item view_data" data-id="' . $value->VaccineId . '"><i class="fas fa-eye text-success"></i> View</a>';
                     }
-                    if (permission('refvaccine-delete')) {
+                    if (permission('refvaccineadult-delete')) {
                         $action .= ' <a class="dropdown-item delete_data"  data-id="' . $value->VaccineId . '" data-name="' . $value->VaccineId . '"><i class="fas fa-trash text-danger"></i> Delete</a>';
                     }
 
                     $row = [];
 
-                    if (permission('refvaccine-bulk-delete')) {
+                    if (permission('refvaccineadult-bulk-delete')) {
                         $row[] = table_checkbox($value->VaccineId);
                     }
 
                     $row[] = $no;
                     $row[] = $value->VaccineCode ?? '';
                     $row[] = $value->VaccineDoseNumber ?? '';
-                    // $row[] = permission('refvaccine-edit') ? change_status($value->VaccineId,$value->Status,'refdepartment') : STATUS_LABEL[$value->Status];
+                    // $row[] = permission('refvaccineadult-edit') ? change_status($value->VaccineId,$value->Status,'refdepartment') : STATUS_LABEL[$value->Status];
                     $row[] = action_button($action);
                     $data[] = $row;
                 }
@@ -95,7 +95,7 @@ class RefVaccineAdultController extends BaseController
     {
         try {
             if ($request->ajax()) {
-                if (permission('refvaccine-edit')) {
+                if (permission('refvaccineadult-edit')) {
                     $result = $this->update_change_status($request);
                     if ($result) {
                         return response()->json(['status' => 'success', 'message' => 'Status Changed Successfully']);
@@ -126,12 +126,12 @@ class RefVaccineAdultController extends BaseController
      */
     public function show(Request $request)
     {
-        if (permission('refvaccine-view')) {
+        if (permission('refvaccineadult-view')) {
             if ($request->ajax()) {
-                if (permission('refvaccine-view')) {
+                if (permission('refvaccineadult-view')) {
                     $RefVaccine = DB::select("SELECT  rd.DesignationTitle,rd.Description,
                     wp.WorkPlaceName,rfd.DepartmentCode
-                    FROM RefVaccine AS rd
+                    FROM RefVaccineAdult AS rd
                     INNER JOIN WorkPlace AS wp ON rd.WorkPlaceId = wp.WorkPlaceId
                     INNER JOIN RefDepartment AS rfd ON rd.RefDepartmentId = rfd.RefDepartmentId
                     WHERE rd.VaccineId='$request->id'");
@@ -153,7 +153,7 @@ class RefVaccineAdultController extends BaseController
     {
         $data1 = DB::select("SELECT  rd.DesignationTitle,rd.Description,rd.RefDepartmentId,
                     wp.WorkPlaceName,rfd.DepartmentCode,rd.VaccineId,rd.WorkPlaceId
-                    FROM RefVaccine AS rd
+                    FROM RefVaccineAdult AS rd
                     INNER JOIN WorkPlace AS wp ON rd.WorkPlaceId = wp.WorkPlaceId
                     INNER JOIN RefDepartment AS rfd ON rd.RefDepartmentId = rfd.RefDepartmentId
                     WHERE rd.VaccineId='$request->id'");
@@ -174,7 +174,7 @@ class RefVaccineAdultController extends BaseController
     public function store_or_update_data(RefVaccineAdultRequest $request)
     {
         if ($request->ajax()) {
-            if (permission('refvaccine-add') || permission('refvaccine-edit')) {
+            if (permission('refvaccineadult-add') || permission('refvaccineadult-edit')) {
                 try {
                     $collection = collect($request->validated());
                     if (isset($request->VaccineId) && !empty($request->VaccineId)) {
@@ -218,7 +218,7 @@ class RefVaccineAdultController extends BaseController
     public function delete(Request $request)
     {
         if ($request->ajax()) {
-            if (permission('refvaccine-delete')) {
+            if (permission('refvaccineadult-delete')) {
                 $result = $this->model->where('VaccineId', $request->id)->delete();
                 $output = $this->store_message($result, $request->VaccineId);
                 return response()->json($output);
@@ -234,7 +234,7 @@ class RefVaccineAdultController extends BaseController
     {
         if ($request->ajax()) {
             try {
-                if (permission('refvaccine-bulk-delete')) {
+                if (permission('refvaccineadult-bulk-delete')) {
                     $result = $this->model->whereIn('RefDepartmentId', $request->ids)->delete();
                     $output = $this->bulk_delete_message($result);
                 } else {
