@@ -218,42 +218,32 @@ class EmployeeController extends BaseController
                         }else{
                             $EmployeeSignatureBase64Link = $employee->EmployeeSignature??'';
                         }
-                        $emp_id = "'".$request->EmployeeId."'";
 
-                        if (preg_match('/^[0-9A-Fa-f]{8}-[0-9A-Fa-f]{4}-[0-9A-Fa-f]{4}-[0-9A-Fa-f]{4}-[0-9A-Fa-f]{12}$/', $request->EmployeeId)) {
-                            // UUID is valid, proceed with the update query.
-                            $update = DB::table('Employee')->where('EmployeeId', $request->EmployeeId)->update([
-                                // Uncomment the following line if you intend to update 'OrgId'.
-                                // 'OrgId' => (string) auth()->user()->OrgId,
-                                'EmployeeCode' => $request->EmployeeCode,
-                                'RegistrationNumber' => $request->RegistrationNumber,
-                                'FirstName' => $request->FirstName,
-                                'LastName' => $request->LastName,
-                                'GenderId' => $request->GenderId,
-                                'BirthDate' => $request->BirthDate,
-                                'JoiningDate' => $request->JoiningDate,
-                                'MaritalStatusId' => $request->MaritalStatusId,
-                                'Designation' => $request->Designation,
-                                'ReligionId' => $request->ReligionId,
-                                'RoleId' => $request->RoleId,
-                                'Email' => $request->Email,
-                                'Phone' => $request->Phone,
-                                'NationalIdNumber' => $request->NationalIdNumber,
-                                'EmployeeImage' => $EmployeeImageBase64Link,
-                                'EmployeeSignature' => $EmployeeSignatureBase64Link,
-                                'Status' => 1,
-                                // Handle 'UpdateUser' value based on your application logic.
-                                // If 'Auth::user()->id' is null, set it to NULL or a default value.
-                                'UpdateUser' => Auth::user()->id ?? null, // You can use null or set a default value here.
-                                'UpdateDate' => Carbon::now(),
-                            ]);
-                        } else {
-                            // Handle the case where $emp_id is not a valid UUID.
-                            // You can log an error, return a response, or take appropriate action.
-                            return response()->json(['status'=>'error','message'=>'invalid uuid']);
-                        }
-
-
+                        $update = DB::table('Employee')->where('EmployeeId', $request->EmployeeId)->update([
+                            // Uncomment the following line if you intend to update 'OrgId'.
+                            // 'OrgId' => (string) auth()->user()->OrgId,
+                            'EmployeeCode' => $request->EmployeeCode,
+                            'RegistrationNumber' => $request->RegistrationNumber,
+                            'FirstName' => $request->FirstName,
+                            'LastName' => $request->LastName,
+                            'GenderId' => $request->GenderId,
+                            'BirthDate' => $request->BirthDate,
+                            'JoiningDate' => $request->JoiningDate,
+                            'MaritalStatusId' => $request->MaritalStatusId,
+                            'Designation' => $request->Designation,
+                            'ReligionId' => $request->ReligionId,
+                            'RoleId' => $request->RoleId,
+                            'Email' => $request->Email,
+                            'Phone' => $request->Phone,
+                            'NationalIdNumber' => $request->NationalIdNumber,
+                            'EmployeeImage' => $EmployeeImageBase64Link,
+                            'EmployeeSignature' => $EmployeeSignatureBase64Link,
+                            'Status' => 1,
+                            // Handle 'UpdateUser' value based on your application logic.
+                            // If 'Auth::user()->id' is null, set it to NULL or a default value.
+                            'UpdateUser' => Auth::user()->id ?? null, // You can use null or set a default value here.
+                            'UpdateDate' => Carbon::now(),
+                        ]);
 
                         $output = ['status'=>'success','message'=>'Data has been updated successfully!','update'=>$update];
                         return response()->json($output);
