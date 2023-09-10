@@ -71,7 +71,7 @@ class BaseController extends Controller
         return $update_id ? $collection->merge(compact('updated_by','updated_at'))
         : $collection->merge(compact('created_by','created_at'));
     }
-    
+
     protected function track_data_org($update_id=null,$collection){
         $collection->forget('_token'); // remove _token
         $CreateUser = $UpdateUser = auth()->user()->id;
@@ -80,6 +80,13 @@ class BaseController extends Controller
         $CreateDate = $UpdateDate = Carbon::now();
         return $update_id ? $collection->merge(compact('OrgId','UpdateDate','UpdateUser'))
         : $collection->merge(compact('OrgId','CreateDate','CreateUser','Status'));
+    }
+    // for plural table name and without orgid created_by
+    protected function track_data_tables($update_id=null,$collection){
+        $collection->forget('_token'); // remove _token
+        $collection->forget('id'); // remove _token
+        $CreateDate = $UpdateDate = Carbon::now();
+        return $update_id ? $collection:$collection;
     }
 
     protected function data_message($data)

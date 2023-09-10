@@ -132,7 +132,6 @@
                                 @endif
                                 <th>Sl</th>
                                 <th>Upazila Name</th>
-                                <th>Short Name</th>
                                 <!-- <th>Status</th> -->
                                 <th>Action</th>
                             </tr>
@@ -186,7 +185,7 @@ $(document).ready(function(){
         },
         "columnDefs": [{
                 @if (permission('upazila-bulk-delete'))
-                "targets": [0,4],
+                "targets": [0,3],
                 @else
                 "targets": [3],
                 @endif
@@ -385,10 +384,12 @@ $(document).on('click', '.edit_data', function () {
             success: function (data) {
                 console.log(data);
                 //$('#store_or_update_form #update_id').val(data.AddressTypeId);
-                $('#UpazilaName').val(data.UpazilaName);
-                $('#ShortName').val(data.ShortName);
-                $('#Id').val(data.Id);
-
+                $('#name').val(data.name);
+                $('#url').val(data.url);
+                $('#district_id').val(data.district_id);
+                $('#bn_name').val(data.bn_name);
+                $('#Id').val(data.id);
+                $('.selectpicker').selectpicker('refresh');
                 //$('#store_or_update_form #AddressTypeCode').val(data.AddressTypeCode);
 
                 $('#store_or_update_modal').modal({

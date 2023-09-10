@@ -18,14 +18,24 @@
             <div class="modal-body">
                 <div class="row">
                     <div class="col-md-12">
-                        <input type="hidden" name="Id" value="" id="Id"/>
-                        <x-form.textbox labelName="Union Name" name="UnionName" id="UnionName" required="required" col="col-md-12" placeholder="Enter union name"/>
+                        <div class="form-group col-md-12">
+                            <label for="upazilla_id">Upazilla</label>
+                            <select name="upazilla_id" id="upazilla_id" class="form-control selectpicker" data-live-search="true" >
+                                <option value=""> Select Please</option>
+                                @foreach ($upazilas as $upazila)
+                                    <option value="{{ $upazila->id }}">{{ $upazila->name }}</option>
+                                @endforeach
+                            </select>
+                        </div>
                     </div>
                 </div>
-                
+
                 <div class="row">
                     <div class="col-md-12">
-                        <x-form.textbox labelName="Short Name" name="ShortName" id="ShortName" col="col-md-12" placeholder="Enter short name"/>
+                        <input type="hidden" name="id" value="" id="Id"/>
+                        <input type="hidden" name="url" id="url" class="form-control " value="null" placeholder="Enter url">
+                        <input type="hidden" name="bn_name" id="bn_name" class="form-control " value="bn_name" placeholder="Enter bn_name">
+                        <x-form.textbox labelName="Union Name" name="name" id="name" required="required" col="col-md-12" placeholder="Enter union name"/>
                     </div>
                 </div>
 

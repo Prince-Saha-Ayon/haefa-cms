@@ -5,6 +5,7 @@ namespace Modules\Upazila\Http\Controllers;
 use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
+use Modules\Patient\Entities\District;
 use Modules\Upazila\Entities\Upazila;
 use Modules\Base\Http\Controllers\BaseController;
 use Modules\Upazila\Http\Requests\UpazilaFormRequest;
@@ -27,7 +28,8 @@ class UpazilaController extends BaseController
     {
         if(permission('upazila-access')){
             $this->setPageData('Upazila','Upazila','fas fa-th-list');
-            return view('upazila::index');
+            $districts = District::get();
+            return view('upazila::index',compact('districts'));
         }else{
             return $this->unauthorized_access_blocked();
         }
@@ -55,24 +57,24 @@ class UpazilaController extends BaseController
                     $action = '';
 
                     if(permission('upazila-edit')){
-                        $action .= ' <a class="dropdown-item edit_data" data-id="' . $value->Id . '"><i class="fas fa-edit text-primary"></i> Edit</a>';
+                        $action .= ' <a class="dropdown-item edit_data" data-id="' . $value->id . '"><i class="fas fa-edit text-primary"></i> Edit</a>';
                     }
                     if(permission('upazila-view')){
                        // $action .= ' <a class="dropdown-item view_data" data-id="' . $value->Id . '"><i class="fas fa-eye text-success"></i> View</a>';
                     }
                     if(permission('upazila-delete')){
-                        $action .= ' <a class="dropdown-item delete_data"  data-id="' . $value->Id . '" data-name="' . $value->Id . '"><i class="fas fa-trash text-danger"></i> Delete</a>';
+                        $action .= ' <a class="dropdown-item delete_data"  data-id="' . $value->id . '" data-name="' . $value->id . '"><i class="fas fa-trash text-danger"></i> Delete</a>';
                     }
 
                     $row = [];
 
                     if(permission('upazila-bulk-delete')){
-                        $row[] = table_checkbox($value->Id);
+                        $row[] = table_checkbox($value->id);
                     }
 
                     $row[] = $no;
-                    $row[] = $value->UpazilaName;
-                    $row[] = $value->ShortName;
+                    $row[] = $value->name;
+//                    $row[] = $value->bn_name;
                     // $row[] = permission('upazila-edit') ? change_status($value->Id,$value->Status,'refdepartment') : STATUS_LABEL[$value->Status];
                     $row[] = action_button($action);
                     $data[] = $row;
@@ -99,28 +101,31 @@ class UpazilaController extends BaseController
             if(permission('Upazila-add') || permission('upazila-edit')){
                 try{
                     $collection = collect($request->validated());
-                    if(isset($request->Id) && !empty($request->Id)){
+                    if(isset($request->id) && !empty($request->id)){
+
                     $collection = collect($request->all());
                     //track_data from base controller to merge created_by and created_at merge with request data
-                    $collection = $this->track_data_org($request->Id,$collection);
-                    $result = $this->model->where('Id', $request->Id)->update($collection->all());
-                    $output = $this->store_message($result,$request->Id);
+                    $collection = $this->track_data_tables($request->id,$collection);
+                    $result = $this->model->where('id', $request->id)->update($collection->all());
+
+                    $output = $this->store_message($result,$request->id);
                     return response()->json($output);
                 }
                 else{
+
                     $collection = collect($request->all());
+                    return $collection;
                     //track_data from base controller to merge created_by and created_at merge with request data
-                    $collection = $this->track_data_org($request->Id,$collection);
+                    $collection = $this->track_data_tables($request->id,$collection);
                     //update existing index value
-                    $collection['Id'] = Str::uuid();
                     $result = $this->model->create($collection->all());
-                    $output = $this->store_message($result,$request->Id);
+                    $output = $this->store_message($result,$request->id);
                     return response()->json($output);
                 }
 
                 }catch(\Exception $e){
-                    // return response()->json(['status'=>'error','message'=>$e->getMessage()]);
-                    return response()->json(['status'=>'error','message'=>'Something went wrong !']);
+                     return response()->json(['status'=>'error','message'=>$e->getMessage()]);
+//                    return response()->json(['status'=>'error','message'=>'Something went wrong !']);
                 }
 
             }else{
@@ -142,7 +147,7 @@ class UpazilaController extends BaseController
     {
         if($request->ajax()){
             if (permission('upazila-delete')) {
-                $result = $this->model->where('Id',$request->id)->delete();
+                $result = $this->model->where('id',$request->id)->delete();
                 $output = $this->store_message($result,$request->Id);
                 return response()->json($output);
             }else{
@@ -184,7 +189,7 @@ class UpazilaController extends BaseController
 
     public function update_change_status(Request $request)
     {
-        return $this->model->where('Id',$request->Id)->update(['Status'=>$request->Status]);
+        return $this->model->where('id',$request->Id)->update(['Status'=>$request->Status]);
     }
 
     /**
@@ -197,7 +202,7 @@ class UpazilaController extends BaseController
         if(permission('upazila-view')){
             if($request->ajax()){
                 if (permission('upazila-view')) {
-                    $Upazilas= DB::table('Upazila')->where('Id','=',$request->id)->first();
+                    $Upazilas= DB::table('Upazila')->where('id','=',$request->id)->first();
                 }
             }
             return view('upazila::details',compact('Upazilas'))->render();
@@ -214,7 +219,7 @@ class UpazilaController extends BaseController
      */
     public function edit(Request $request)
     {
-        return $data = DB::table('Upazila')->where('Id',$request->id)->first();
+        return $data = $this->model->find($request->id);
     }
 
     public function bulk_delete(Request $request)
@@ -222,7 +227,7 @@ class UpazilaController extends BaseController
         if($request->ajax()){
             try{
                 if(permission('upazila-bulk-delete')){
-                    $result = $this->model->whereIn('Id',$request->ids)->delete();
+                    $result = $this->model->whereIn('id',$request->ids)->delete();
                     $output = $this->bulk_delete_message($result);
                 }else{
                     $output = $this->access_blocked();

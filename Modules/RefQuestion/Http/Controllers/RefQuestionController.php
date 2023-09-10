@@ -155,7 +155,7 @@ class RefQuestionController extends BaseController
 
                     //answer update start
                     if(isset($request->QuestionId) && $request->QuestionId !==''){
-                        //
+                        return response()->json(['data'=>1]);
                         $QuestionModuleName = RefQuestion::where('QuestionId',$request->QuestionId)->first()->QuestionModuleName??'';
                         $OrgId = RefQuestion::where('QuestionId',$request->QuestionId)->first()->OrgId??'';
                         RefAnswer::where('AnswerModuleName',$QuestionModuleName)->delete();
@@ -181,6 +181,7 @@ class RefQuestionController extends BaseController
                     return response()->json($output);
                 }
                 else{
+                    return response()->json(['data'=>1]);
                     $collection = collect($request->all());
                     //track_data from base controller to merge created_by and created_at merge with request data
                     $collection = $this->track_data_org($request->QuestionId,$collection);

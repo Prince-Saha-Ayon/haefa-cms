@@ -18,16 +18,35 @@
             <div class="modal-body">
                 <div class="row">
                     <div class="col-md-12">
-                        <input type="hidden" name="Id" value="" id="Id"/>
-                        <x-form.textbox labelName="Upazila Name" name="UpazilaName" id="UpazilaName" required="required" col="col-md-12" placeholder="Enter upazila name"/>
+                        <div class="form-group col-md-12">
+                            <label for="district_id">District</label>
+                            <select name="district_id" id="district_id" class="form-control selectpicker" data-live-search="true" >
+                                <option value=""> Select Please</option>
+                                @foreach ($districts as $district)
+                                    <option value="{{ $district->id }}">{{ $district->name }}</option>
+                                @endforeach
+                            </select>
+                        </div>
                     </div>
                 </div>
 
                 <div class="row">
                     <div class="col-md-12">
-                        <x-form.textbox labelName="Short Name" name="ShortName" id="ShortName" col="col-md-12" placeholder="Enter short name"/>
+                        <input type="hidden" name="id" value="" id="Id"/>
+                        <input type="hidden" name="url" id="url" class="form-control " value="null" placeholder="Enter url">
+                        <input type="hidden" name="bn_name" id="bn_name" class="form-control " value="bn_name" placeholder="Enter bn_name">
+                        <div class="form-group col-md-12 required">
+                            <label for="name">Upazila Name</label>
+                            <input type="text" name="name" id="name" class="form-control " value="" placeholder="Enter upazila name">
+                        </div>
                     </div>
                 </div>
+
+{{--                <div class="row">--}}
+{{--                    <div class="col-md-12">--}}
+{{--                        <x-form.textbox labelName="Short Name" name="ShortName" id="ShortName" col="col-md-12" placeholder="Enter short name"/>--}}
+{{--                    </div>--}}
+{{--                </div>--}}
 
             </div>
             <!-- /modal body -->
