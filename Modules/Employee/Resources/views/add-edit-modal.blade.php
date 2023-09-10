@@ -125,10 +125,10 @@
 
                         <div class="col-md-6">
                             <x-form.selectbox labelName="Role" name="RoleId" id="RoleId" col="col-md-12"
-                                class="selectpicker">
+                                              class="selectpicker">
                                 @foreach($roles as $role)
-                                <option value="{{$role->RoleId??''}}">{{$role->RoleCode??""}}
-                                </option>
+                                    <option value="{{$role->id??''}}">{{$role->role_name??""}}
+                                    </option>
                                 @endforeach
                             </x-form.selectbox>
                         </div>

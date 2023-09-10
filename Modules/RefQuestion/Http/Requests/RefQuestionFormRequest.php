@@ -16,6 +16,7 @@ class RefQuestionFormRequest extends FormRequest
         $rules = [];
         $rules['QuestionModuleName'] = ['required','unique:RefQuestion,QuestionModuleName'];
         $rules['QuestionTypeId'] = ['required'];
+        $rules['QuestionGroupId'] = ['required'];
         $rules['AnswerTitle'] = ['required'];
 
         $numAns = count($this->AnswerTitle);

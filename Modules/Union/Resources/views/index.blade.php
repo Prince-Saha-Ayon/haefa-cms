@@ -132,7 +132,6 @@
                                 @endif
                                 <th>Sl</th>
                                 <th>Union Name</th>
-                                <th>Short Name</th>
                                 <!-- <th>Status</th> -->
                                 <th>Action</th>
                             </tr>
@@ -186,7 +185,7 @@ $(document).ready(function(){
         },
         "columnDefs": [{
                 @if (permission('union-bulk-delete'))
-                "targets": [0,4],
+                "targets": [0,3],
                 @else
                 "targets": [3],
                 @endif

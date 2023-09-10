@@ -3,17 +3,18 @@
 namespace Modules\Upazila\Entities;
 
 use Modules\Base\Entities\BaseModel;
+use Modules\Patient\Entities\District;
 
 class Upazila extends BaseModel
 {
-    protected $table = 'Upazila';
-    protected $primaryKey = 'Id';
+    protected $table = 'upazilas';
+    protected $primaryKey = 'id';
     public $timestamps = false;
 
-    protected $fillable = ['Id','UpazilaName','ShortName','Status',
-    'CreateDate','CreateUser','UpdateDate','UpdateUser','OrgId'];
+    protected $fillable = ['id','district_id','name','bn_name',
+    'url'];
 
-    protected $order = ['CreateDate'=>'desc'];
+    protected $order = ['name'=>'desc'];
 
     protected $name;
 
@@ -26,9 +27,9 @@ class Upazila extends BaseModel
     {
         if(permission('union-bulk-delete')){
             //datatable display data from the below fields
-            $this->column_order = [null,'UpazilaName','ShortName','Status',null];
+            $this->column_order = [null,'name',null];
         }else{
-            $this->column_order = ['UpazilaName','ShortName','Status',null];
+            $this->column_order = ['name',null];
         }
 
         $query = self::toBase();
@@ -38,7 +39,7 @@ class Upazila extends BaseModel
             ******************/
         //
         if (!empty($this->name)) {
-            $query->where('UpazilaName','like', '%'.$this->name.'%');
+            $query->where('name','like', '%'.$this->name.'%');
         }
 
         if (isset($this->orderValue) && isset($this->dirValue)) {
@@ -68,4 +69,9 @@ class Upazila extends BaseModel
     {
         return self::toBase()->get()->count();
     }
+
+    public function get_district(){
+        return $this->belongsTo(District::class,'district_id','id');
+    }
+
 }

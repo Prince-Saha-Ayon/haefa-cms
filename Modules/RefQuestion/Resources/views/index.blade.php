@@ -87,7 +87,7 @@
                 </div>
                 <!-- /entry heading -->
                 @if (permission('refquestion-add'))
-                <button class="btn btn-primary btn-sm" onclick="showFormModal('Add RefQuestion','Save');removeId()">
+                <button class="btn btn-primary btn-sm" onclick="showFormModal('Add RefQuestion','Save');clearOld();removeId()">
                     <i class="fas fa-plus-square"></i> Add New
                  </button>
                 @endif
@@ -439,6 +439,7 @@ $(document).on('click', '.edit_data', function () {
             dataType: "JSON",
             success: function (data) {
                 console.log(data);
+                rowCounter==0;
                 //$('#store_or_update_form #update_id').val(data.AddressTypeId);
                 $('#QuestionModuleName').val(data.QuestionModuleName);
                 $('#QuestionGroupId').val(data.QuestionGroupId);
@@ -450,6 +451,40 @@ $(document).on('click', '.edit_data', function () {
                 $('#store_or_update_form .selectpicker').selectpicker('refresh');
                 //$('#store_or_update_form #AddressTypeCode').val(data.AddressTypeCode);
 
+                //edit question answer start
+
+                // data.get_answers.map(function(value,key){
+                //     if (rowCounter ==0) {
+                //         // Handle the first row differently
+                //         $('.row-0').val(value.AnswerTitle);
+                //         $('.AnswerGroupId-0').val(value.AnswerGroupId);
+                //         // $('.' + rowId).val(val.variant_option_id);
+                //         rowCounter++;
+                //     } else {
+                //         // Create new row with variant and variant_option selects
+                //         const div = document.createElement('div');
+                //         div.classList.add('row');
+                //
+                //         div.innerHTML = `<div class="form-group col-md-4">
+                //                         <label for="AnswerTitle-${rowCounter}">Answer</label>
+                //                         <input type="text" name="AnswerTitle[]" id="AnswerTitle-${rowCounter}" class="form-control main-${rowCounter}" value="${value.AnswerTitle}" placeholder="Enter Answer">
+                //                     </div>
+                //                     <div class="form-group col-md-4">
+                //                         <label for="AnswerGroupId-${rowCounter}">Answer Group Id</label>
+                //                         <input type="number" name="AnswerGroupId[]" id="AnswerGroupId-${rowCounter}" class="form-control ${rowCounter}" value="${value.AnswerGroupId}" placeholder="Enter AnswerGroupId">
+                //                     </div>
+                //
+                //                       <div class="form-group col-md-4">
+                //                         <input class="mt-5" type="button" value="Remove" onclick="removeRow(this)">
+                //                       </div>`;
+                //
+                //         // Append the new row to the 'content' element
+                //         document.getElementById('content').appendChild(div);
+                //         rowCounter++;
+                //     }
+                // })
+
+                //edit question answer end
                 $('#store_or_update_modal').modal({
                     keyboard: false,
                     backdrop: 'static',
@@ -496,6 +531,10 @@ function addRow() {
 }
 function removeRow(input) {
     input.parentNode.parentNode.remove();
+}
+
+function clearOld(){
+    $('#content').html('');
 }
 </script>
 @endpush

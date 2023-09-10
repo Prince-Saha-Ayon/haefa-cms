@@ -6,29 +6,28 @@ use Modules\Base\Entities\BaseModel;
 
 class Union extends BaseModel
 {
-    protected $table = 'Union';
-    protected $primaryKey = 'Id';
+    protected $table = 'unions';
+    protected $primaryKey = 'id';
     public $timestamps = false;
 
-    protected $fillable = ['Id','UnionName','ShortName','Status',
-    'CreateDate','CreateUser','UpdateDate','UpdateUser','OrgId'];
+    protected $fillable = ['id','upazilla_id','name','bn_name','url'];
 
-    protected $order = ['CreateDate'=>'desc'];
-    
+    protected $order = ['name'=>'desc'];
+
     protected $name;
 
     public function setName($name)
     {
         $this->name = $name;
     }
-    
+
     private function get_datatable_query()
     {
         if(permission('union-bulk-delete')){
             //datatable display data from the below fields
-            $this->column_order = [null,'UnionName','ShortName','Status',null];
+            $this->column_order = [null,'name',null];
         }else{
-            $this->column_order = ['UnionName','ShortName','Status',null];
+            $this->column_order = ['name',null];
         }
 
         $query = self::toBase();
@@ -36,9 +35,9 @@ class Union extends BaseModel
         /*****************
             * *Search Data **
             ******************/
-        //    
+        //
         if (!empty($this->name)) {
-            $query->where('UnionName','like', '%'.$this->name.'%');
+            $query->where('name','like', '%'.$this->name.'%');
         }
 
         if (isset($this->orderValue) && isset($this->dirValue)) {

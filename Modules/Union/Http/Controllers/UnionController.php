@@ -10,6 +10,7 @@ use Modules\Base\Http\Controllers\BaseController;
 use Modules\Union\Http\Requests\UnionFormRequest;
 use Illuminate\Support\Str;
 use DB;
+use Modules\Upazila\Entities\Upazila;
 
 class UnionController extends BaseController
 {
@@ -26,8 +27,9 @@ class UnionController extends BaseController
     public function index()
     {
         if(permission('union-access')){
+            $upazilas = Upazila::get();
             $this->setPageData('Union','Union','fas fa-th-list');
-            return view('union::index');
+            return view('union::index',compact('upazilas'));
         }else{
             return $this->unauthorized_access_blocked();
         }
@@ -40,7 +42,7 @@ class UnionController extends BaseController
     public function get_datatable_data(Request $request){
         if(permission('union-access')){
             if($request->ajax()){
-                
+
                 if (!empty($request->name)) {
                     $this->model->setName($request->name);
                 }
@@ -55,24 +57,23 @@ class UnionController extends BaseController
                     $action = '';
 
                     if(permission('union-edit')){
-                        $action .= ' <a class="dropdown-item edit_data" data-id="' . $value->Id . '"><i class="fas fa-edit text-primary"></i> Edit</a>';
+                        $action .= ' <a class="dropdown-item edit_data" data-id="' . $value->id . '"><i class="fas fa-edit text-primary"></i> Edit</a>';
                     }
                     if(permission('union-view')){
                        // $action .= ' <a class="dropdown-item view_data" data-id="' . $value->Id . '"><i class="fas fa-eye text-success"></i> View</a>';
                     }
                     if(permission('union-delete')){
-                        $action .= ' <a class="dropdown-item delete_data"  data-id="' . $value->Id . '" data-name="' . $value->Id . '"><i class="fas fa-trash text-danger"></i> Delete</a>';
+                        $action .= ' <a class="dropdown-item delete_data"  data-id="' . $value->id . '" data-name="' . $value->id . '"><i class="fas fa-trash text-danger"></i> Delete</a>';
                     }
-                    
+
                     $row = [];
 
                     if(permission('union-bulk-delete')){
-                        $row[] = table_checkbox($value->Id);
+                        $row[] = table_checkbox($value->id);
                     }
-                    
+
                     $row[] = $no;
-                    $row[] = $value->UnionName;
-                    $row[] = $value->ShortName;
+                    $row[] = $value->name;
                     // $row[] = permission('union-edit') ? change_status($value->Id,$value->Status,'refdepartment') : STATUS_LABEL[$value->Status];
                     $row[] = action_button($action);
                     $data[] = $row;
@@ -99,22 +100,21 @@ class UnionController extends BaseController
             if(permission('Union-add') || permission('union-edit')){
                 try{
                     $collection = collect($request->validated());
-                    if(isset($request->Id) && !empty($request->Id)){
+                    if(isset($request->id) && !empty($request->id)){
                     $collection = collect($request->all());
                     //track_data from base controller to merge created_by and created_at merge with request data
-                    $collection = $this->track_data_org($request->Id,$collection);
-                    $result = $this->model->where('Id', $request->Id)->update($collection->all());
-                    $output = $this->store_message($result,$request->Id);
+                    $collection = $this->track_data_tables($request->id,$collection);
+                    $result = $this->model->where('id', $request->id)->update($collection->all());
+                    $output = $this->store_message($result,$request->id);
                     return response()->json($output);
                 }
                 else{
                     $collection = collect($request->all());
                     //track_data from base controller to merge created_by and created_at merge with request data
-                    $collection = $this->track_data_org($request->Id,$collection);
+                    $collection = $this->track_data_tables($request->id,$collection);
                     //update existing index value
-                    $collection['Id'] = Str::uuid();
                     $result = $this->model->create($collection->all());
-                    $output = $this->store_message($result,$request->Id);
+                    $output = $this->store_message($result,$request->id);
                     return response()->json($output);
                 }
 
@@ -122,12 +122,12 @@ class UnionController extends BaseController
                     // return response()->json(['status'=>'error','message'=>$e->getMessage()]);
                     return response()->json(['status'=>'error','message'=>'Something went wrong !']);
                 }
-                
+
             }else{
                 $output = $this->access_blocked();
                 return response()->json($output);
             }
-            
+
         }else{
            return response()->json($this->access_blocked());
         }
@@ -197,11 +197,11 @@ class UnionController extends BaseController
         if(permission('union-view')){
             if($request->ajax()){
                 if (permission('union-view')) {
-                    $Unions= union::where('Id','=',$request->id)->first(); 
+                    $Unions= union::where('Id','=',$request->id)->first();
                 }
             }
             return view('union::details',compact('Unions'))->render();
-        
+
         }else{
             return $this->unauthorized_access_blocked();
         }
@@ -214,7 +214,7 @@ class UnionController extends BaseController
      */
     public function edit(Request $request)
     {
-        return $data = DB::table('Union')->where('Id',$request->id)->first();
+        return $data = Union::find($request->id)->get();
     }
 
     public function bulk_delete(Request $request)
