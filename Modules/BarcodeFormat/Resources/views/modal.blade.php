@@ -18,27 +18,33 @@
             <div class="modal-body">
                 <div class="row">
                     <input type="hidden" name="update_id" id="update_id"/>
-                    <x-form.selectbox labelName="Barcode District Name" name="barcode_district" required="required" col="col-md-12" class="selectpicker">
-                        @if (!$districts->isEmpty())
-                            @foreach ($districts as $district)
-                                <option value="{{ $district->Id }}">{{ $district->districtName }}</option>
-                            @endforeach
-                        @endif
-                    </x-form.selectbox>
-                    <x-form.selectbox labelName="Barcode Upazila Name" name="barcode_upazila" required="required" col="col-md-12" class="selectpicker">
-                        @if (!$upazilas->isEmpty())
-                            @foreach ($upazilas as $upazila)
-                                <option value="{{ $upazila->Id }}">{{ $upazila->UpazilaName }}</option>
-                            @endforeach
-                        @endif
-                    </x-form.selectbox>
-                    <x-form.selectbox labelName="Barcode Union Name" name="barcode_union" required="required" col="col-md-12" class="selectpicker">
-                        @if (!$unions->isEmpty())
-                            @foreach ($unions as $union)
-                                <option value="{{ $union->Id }}">{{ $union->UnionName }}</option>
-                            @endforeach
-                        @endif
-                    </x-form.selectbox>
+
+                    <div class="form-group col-md-12 required">
+                        <label for="barcode_district">Barcode District Name</label>
+                        <select name="barcode_district" id="dc_id" class="form-control selectpicker" data-live-search="true" data-live-search-placeholder="Search" title="Choose one of the following" tabindex="null"><option class="bs-title-option" value=""></option>
+                            <option value="">Select Please</option>
+                            @if (!$districts->isEmpty())
+                                @foreach ($districts as $district)
+                                    <option value="{{ $district->id }}">{{ $district->name }}</option>
+                                @endforeach
+                            @endif
+                        </select>
+                    </div>
+
+                    <div class="form-group col-md-12 required">
+                        <label for="barcode_district">Barcode Upazila Name</label>
+                        <select name="barcode_upazila" id="up_id" class="form-control selectpicker" data-live-search="true" data-live-search-placeholder="Search" title="Choose one of the following" tabindex="null"><option class="bs-title-option" value=""></option>
+                            <option value="">Select Please</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group col-md-12 required">
+                        <label for="barcode_district">Barcode Union Name</label>
+                        <select name="barcode_union" id="un_id" class="form-control selectpicker" data-live-search="true" data-live-search-placeholder="Search" title="Choose one of the following" tabindex="null"><option class="bs-title-option" value=""></option>
+                            <option value="">Select Please</option>
+                        </select>
+                    </div>
+
                     <x-form.selectbox labelName="Barcode Community Clinic Name" name="barcode_community_clinic" required="required" col="col-md-12" class="selectpicker">
                         @if (!$HealthCenters->isEmpty())
                             @foreach ($HealthCenters as $HealthCenter)

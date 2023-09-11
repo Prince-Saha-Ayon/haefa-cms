@@ -106,7 +106,7 @@
 <script>
 var table;
 $(document).ready(function(){
-    
+
     table = $('#dataTable').DataTable({
         "processing": true, //Feature control the processing indicator
         "serverSide": true, //Feature control DataTable server side processing mode
@@ -304,9 +304,6 @@ $(document).ready(function(){
             });
         });
 
-    
-
-
     $(document).on('click', '.delete_data', function () {
         let id    = $(this).data('id');
         let name  = $(this).data('name');
@@ -418,10 +415,6 @@ function getVariantOptionList(mdata_barcode_prefix,mdata_barcode_number=''){
 
     });
 }
-
-
-
-
 
 function showStoreFormModal(modal_title, btn_text)
 {

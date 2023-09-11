@@ -65,9 +65,9 @@ class BarcodeFormatController extends BaseController
                     }
                     $row[] = $no;
                     $row[] = $value->barcode_prefix.''.$value->barcode_number;
-                    $row[] = $value->district->districtName;
-                    $row[] = $value->upazila->UpazilaName;
-                    $row[] = $value->union->UnionName;
+                    $row[] = $value->district->name??'';
+                    $row[] = $value->upazila->name??'';
+                    $row[] = $value->union->name??'';
                     $row[] = $value->healthCenter->HealthCenterName;
                     $row[] = permission('bformat-edit') ? change_status($value->id,$value->status,$value->barcode_prefix) : STATUS_LABEL[$value->status];
                     $row[] = action_button($action);
@@ -105,6 +105,7 @@ class BarcodeFormatController extends BaseController
         if($request->ajax()){
             if(permission('bformat-edit')){
                 $data = $this->model->findOrFail($request->id);
+                $data->load('district','upazila','union');
                 $output = $this->data_message($data);
             }else{
                 $output = $this->access_blocked();
@@ -113,6 +114,21 @@ class BarcodeFormatController extends BaseController
         }else{
             return response()->json($this->access_blocked());
         }
+    }
+
+    public function GetUpazillas($district_id){
+
+        $dc_id=(int)$district_id;
+        $upazillas= Upazila::where('district_id', $dc_id)->get();
+        return response()->json($upazillas);
+
+    }
+    public function GetUnions($upazilla_id){
+
+        $up_id=(int)$upazilla_id;
+        $unions=Union::where('upazilla_id', $up_id)->get();
+        return response()->json($unions);
+
     }
 
     public function delete(Request $request)

@@ -21,7 +21,7 @@
                     <x-form.selectbox labelName="Community Clinic Name" name="address" col="col-md-12" class="selectpicker">
                         @if (!$addresses->isEmpty())
                             @foreach ($addresses as $address)
-                                <option value="{{ $address->healthCenter->HealthCenterName }},{{ $address->union->UnionName }},{{ $address->upazila->UpazilaName }},{{ $address->district->districtName }}">{{ $address->healthCenter->HealthCenterName }},{{ $address->union->UnionName }},{{ $address->upazila->UpazilaName }},{{ $address->district->districtName }}</option>
+                                <option value="{{ $address->healthCenter->HealthCenterName }},{{ $address->union->name??'' }},{{ $address->upazila->name??'' }},{{ $address->district->name??'' }}">{{ $address->healthCenter->HealthCenterName }},{{ $address->union->name??'' }},{{ $address->upazila->name??'' }},{{ $address->district->name??"" }}</option>
                             @endforeach
                         @endif
                     </x-form.selectbox>

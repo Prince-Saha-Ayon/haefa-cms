@@ -5,7 +5,7 @@
 @endsection
 
 @push('stylesheet')
-    
+
 @endpush
 
 @section('content')
@@ -31,11 +31,11 @@
                 </div>
                 <!-- /entry heading -->
                 @if (permission('bformat-add'))
-                <button class="btn btn-primary btn-sm" onclick="showFormModal('Add New Barcode Format','Save')">
+                <button class="btn btn-primary btn-sm" onclick="showFormModal('Add New Barcode Format','Save');remove();">
                     <i class="fas fa-plus-square"></i> Add New
                  </button>
                 @endif
-                
+
 
             </div>
             <!-- /entry header -->
@@ -121,7 +121,7 @@ $(document).ready(function(){
             [5, 10, 15, 25, 50, 100, 1000, 10000, "All"]
         ],
         "pageLength": 25, //number of data show per page
-        "language": { 
+        "language": {
             processing: `<i class="fas fa-spinner fa-spin fa-3x fa-fw text-primary"></i> `,
             emptyTable: '<strong class="text-danger">No Data Found</strong>',
             infoEmpty: '',
@@ -138,7 +138,7 @@ $(document).ready(function(){
         "columnDefs": [{
                 @if (permission('bformat-bulk-delete'))
                 "targets": [0,4],
-                @else 
+                @else
                 "targets": [3],
                 @endif
                 "orderable": false,
@@ -147,7 +147,7 @@ $(document).ready(function(){
             {
                 @if (permission('bformat-bulk-delete'))
                 "targets": [1,3],
-                @else 
+                @else
                 "targets": [0,2],
                 @endif
                 "className": "text-center"
@@ -214,7 +214,7 @@ $(document).ready(function(){
                     columns: [1, 2, 3]
                 },
             },
-            @endif 
+            @endif
             @if (permission('bformat-bulk-delete'))
             {
                 'className':'btn btn-danger btn-sm delete_btn d-none text-white',
@@ -255,6 +255,8 @@ $(document).ready(function(){
         $('#store_or_update_form')[0].reset();
         $('#store_or_update_form').find('.is-invalid').removeClass('is-invalid');
         $('#store_or_update_form').find('.error').remove();
+        $('#store_or_update_form #up_id').html('');
+        $('#store_or_update_form #un_id').html('');
         if (id) {
             $.ajax({
                 url: "{{route('bformat.edit')}}",
@@ -262,22 +264,31 @@ $(document).ready(function(){
                 data: { id: id,_token: _token},
                 dataType: "JSON",
                 success: function (data) {
-                    $('#store_or_update_form #update_id').val(data.id);
-                    $('#store_or_update_form #barcode_district').val(data.barcode_district);
-                    $('#store_or_update_form #barcode_upazila').val(data.barcode_upazila);
-                    $('#store_or_update_form #barcode_union').val(data.barcode_union);
-                    $('#store_or_update_form #barcode_community_clinic').val(data.barcode_community_clinic);
-                    $('#store_or_update_form #barcode_prefix').val(data.barcode_prefix);
-                    $('#store_or_update_form #barcode_number').val(data.barcode_number);
-                    $('#store_or_update_form .selectpicker').selectpicker('refresh');
+                    if(data) {
+                        $('#labS').empty();
+                        console.log(data);
+                        $('#store_or_update_form #update_id').val(data.id);
+                        $('#store_or_update_form #dc_id').val(data.barcode_district);
 
-                    $('#store_or_update_modal').modal({
-                        keyboard: false,
-                        backdrop: 'static',
-                    });
-                    $('#store_or_update_modal .modal-title').html(
-                        '<i class="fas fa-edit"></i> <span>Edit ' + data.barcode_prefix + '</span>');
-                    $('#store_or_update_modal #save-btn').text('Update');
+                        // Add the selected options
+                        $('#store_or_update_form #up_id').append(`<option selected value="${data.barcode_upazila}">${data.upazila?.name}</option>`);
+                        $('#store_or_update_form #un_id').append(`<option selected value="${data.barcode_union}">${data.union?.name}</option>`);
+
+                        $('#store_or_update_form #barcode_community_clinic').val(data.barcode_community_clinic);
+                        $('#store_or_update_form #barcode_prefix').val(data.barcode_prefix);
+                        $('#store_or_update_form #barcode_number').val(data.barcode_number);
+                        $('#store_or_update_form .selectpicker').selectpicker('refresh');
+
+                        $('#store_or_update_modal').modal({
+                            keyboard: false,
+                            backdrop: 'static',
+                        });
+                        $('#store_or_update_modal .modal-title').html(
+                            '<i class="fas fa-edit"></i> <span>Edit ' + data.barcode_prefix + '</span>');
+                        $('#store_or_update_modal #save-btn').text('Update');
+                    }else{
+                        $('select[name="barcode_upazila"]').empty();
+                    }
 
                 },
                 error: function (xhr, ajaxOption, thrownError) {
@@ -352,7 +363,86 @@ $(document).ready(function(){
 
     });
 
+//district upazilla union filter
+
+$('#dc_id').change(function () {
+    var dcId = $(this).val();
+    console.log(dcId);
+
+    if (dcId) {
+
+        $.ajax({
+            type: 'GET',
+            url: '{{ route("bformat.get-upazillas", "dcId") }}'.replace('dcId', dcId),
+            success: function (data) {
+                console.log(data)
+
+                // Add the default empty option
+                $('#up_id').html('<option value="">Select State</option>');
+                $.each(data, function (key, value) {
+                    console.log('gg')
+                    $("#up_id").append('<option value="'+ value.id+'">' + value.name + value.id +'</option>');
+                    // $("#up_id").append('<option value="' + value.id + '" class="selectpicker">' + value.name + '</option>');
+                });
+                $("#up_id").addClass("selectpicker");
+                $("#up_id").selectpicker('refresh');
+            }
+        });
+    } else {
+        $('#up_id').empty();
+        $('#up_id').append($('<option>', {
+            value: '',
+            text: 'Select Upazilla'
+        }));
+    }
 
 });
+
+$('#up_id').change(function () {
+    var upId = $(this).val();
+    console.log(upId);
+
+    if (upId) {
+        $.ajax({
+            type: 'GET',
+            url: '{{ route("bformat.get-unions", "upId") }}'.replace('upId', upId),
+            success: function (data) {
+                console.log(data)
+                $('#un_id').empty();
+
+
+                // Add the default empty option
+                $('#un_id').html('<option value="">Select State</option>');
+                $.each(data, function (key, value) {
+                    console.log('gg')
+                    $("#un_id").append('<option value="'+ value.id+'">' + value.name +value.id+ '</option>');
+                    // $("#up_id").append('<option value="' + value.id + '" class="selectpicker">' + value.name + '</option>');
+                });
+                //   $("#up_id").addClass("selectpicker");
+                $("#un_id").addClass("selectpicker");
+                $("#un_id").selectpicker('refresh');
+
+
+            }
+        });
+    } else {
+        $('#un_id').empty();
+        $('#un_id').append($('<option>', {
+            value: '',
+            text: 'Select Upazilla'
+        }));
+    }
+
+});
+
+});
+
+function remove(){
+    // $('#store_or_update_form #up_id').append('');
+    $('#store_or_update_form #un_id').html('');
+    $('select[name="barcode_upazila"]').empty();
+    $('#up_id').empty();
+}
+
 </script>
 @endpush

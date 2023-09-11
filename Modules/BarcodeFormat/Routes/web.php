@@ -20,5 +20,9 @@ Route::group(['middleware' => ['auth']], function () {
         Route::post('delete', 'BarcodeFormatController@delete')->name('delete');
         Route::post('bulk-delete', 'BarcodeFormatController@bulk_delete')->name('bulk.delete');
         Route::post('change-status', 'BarcodeFormatController@change_status')->name('change.status');
+
+        Route::get('get-upazillas/{id}', 'BarcodeFormatController@GetUpazillas')->name('get-upazillas');
+        Route::get('get-unions/{id}', 'BarcodeFormatController@GetUnions')->name('get-unions');
+        Route::post('change-status', 'BarcodeFormatController@change_status')->name('change.status');
     });
 });

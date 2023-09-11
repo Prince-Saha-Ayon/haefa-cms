@@ -5,6 +5,8 @@ use Modules\Base\Entities\BaseModel;
 
 class District extends BaseModel
 {
-    protected $table = 'District';
+    protected $table = 'districts';
     public $timestamps = false;
+    protected $fillable = ['id','division_id','name','bn_name','lat','lon',
+        'url'];
 }

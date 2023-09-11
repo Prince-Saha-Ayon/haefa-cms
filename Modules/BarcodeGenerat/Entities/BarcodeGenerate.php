@@ -17,21 +17,21 @@ class BarcodeGenerate extends BaseModel
 
     public function district()
     {
-        return $this->belongsTo(District::class,'barcode_district','Id');
+        return $this->belongsTo(District::class,'barcode_district','id');
     }
     public function upazila()
     {
-        return $this->belongsTo(Upazila::class,'barcode_upazila','Id');
+        return $this->belongsTo(Upazila::class,'barcode_upazila','id');
     }
     public function union()
     {
-        return $this->belongsTo(Union::class,'barcode_union','Id');
+        return $this->belongsTo(Union::class,'barcode_union','id');
     }
     public function healthCenter()
     {
         return $this->belongsTo(HealthCenter::class,'barcode_community_clinic','HealthCenterId');
     }
-    
+
     protected $name;
 
     public $timestamps = true;
