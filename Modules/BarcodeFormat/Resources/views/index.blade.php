@@ -381,7 +381,7 @@ $('#dc_id').change(function () {
                 $('#up_id').html('<option value="">Select State</option>');
                 $.each(data, function (key, value) {
                     console.log('gg')
-                    $("#up_id").append('<option value="'+ value.id+'">' + value.name + value.id +'</option>');
+                    $("#up_id").append('<option value="'+ value.id+'">' + value.name +'</option>');
                     // $("#up_id").append('<option value="' + value.id + '" class="selectpicker">' + value.name + '</option>');
                 });
                 $("#up_id").addClass("selectpicker");
@@ -410,12 +410,11 @@ $('#up_id').change(function () {
                 console.log(data)
                 $('#un_id').empty();
 
-
                 // Add the default empty option
                 $('#un_id').html('<option value="">Select State</option>');
                 $.each(data, function (key, value) {
                     console.log('gg')
-                    $("#un_id").append('<option value="'+ value.id+'">' + value.name +value.id+ '</option>');
+                    $("#un_id").append('<option value="'+ value.id+'">' + value.name + '</option>');
                     // $("#up_id").append('<option value="' + value.id + '" class="selectpicker">' + value.name + '</option>');
                 });
                 //   $("#up_id").addClass("selectpicker");
