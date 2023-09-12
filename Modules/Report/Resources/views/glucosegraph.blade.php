@@ -5,6 +5,8 @@
 @endsection
 
 @push('stylesheet')
+ <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
+
     <style>
         {{--        pagination style--}}
 
@@ -190,14 +192,11 @@
                         <form id="form-filter" method="POST" action="{{route('glucose-graph')}}" >
                             @csrf
                             <div class="row">
-                                <div class="form-group col-md-2">
-                                    <label for="name">Date From</label>
-                                    <input type="date" class="form-control" name="starting_date" id="starting_date" placeholder="Date From">
+                                <div class="form-group col-md-4">
+                                    <label for="name">Date Range</label>
+                                    <input type="text" class="form-control" name="daterange" id="daterange" placeholder="Enter Date Range" required>
                                 </div>
-                                <div class="form-group col-md-2">
-                                    <label for="name">Date To </label>
-                                    <input type="date" class="form-control" name="ending_date" id="ending_date" placeholder="Date To">
-                                </div>
+                              
                                 <div class="form-group col-md-2">
                                     <label for="name">Patients</label>
                                     <select class="selectpicker" data-live-search="true" name="reg_id" id="reg_id">
@@ -212,7 +211,7 @@
 
                                 </div>
                                 <div class="col-md-4 warning-searching invisible" id="warning-searching">
-                                    <span class="text-danger" id="warning-message">Searching...Please Wait</span>
+                                    <span class="text-danger" id="warning-message"></span>
                                     <span class="spinner-border text-danger"></span>
                                 </div>
                                 <div class="form-group col-md-2 pt-24">
@@ -252,6 +251,7 @@
 @endsection
 
 @push('script')
+  
     <script src="js/dataTables.buttons.min.js"></script>
     <script src="js/buttons.html5.min.js"></script>
     <script src="js/highcharts.js"></script>
@@ -259,6 +259,9 @@
     <script src="js/exporting.js"></script>
     <script src="js/export-data.js"></script>
     <script src="js/accessibility.js"></script>
+     <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
+
     <script>
         var table;
 
@@ -276,27 +279,37 @@
 
                     },
                 ],
-                // initComplete: function () {
-                //     var api = this.api();
-                //     $('.filterhead', api.table().header()).each(function (i) {
-                //         var column = api.column(i);
-                //         var select = $('<select><option value=""></option></select>')
-                //             .appendTo($(this).empty())
-                //             .on('change', function () {
-                //                 var val = $.fn.dataTable.util.escapeRegex($(this).val());
-                //                 column.search(val ? '^' + val + '$' : '', true, false).draw();
-                //             });
-                //
-                //         column.data().unique().sort().each(function (d, j) {
-                //             select.append('<option value="' + d + '">' + d + '</option>');
-                //         });
-                //     });
-                // },
+        
             });
 
+    var start = moment().subtract(29, 'days');
+    var end = moment();
 
+     $('input[name="daterange"]').daterangepicker({
+        startDate: start,
+        endDate: end,
+        showDropdowns: true,
+        linkedCalendars: false,
+        ranges: {
+        'Today': [moment(), moment()],
+        'Yesterday': [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
+        'Last 7 Days': [moment().subtract(6, 'days'), moment()],
+        'Last 30 Days': [moment().subtract(29, 'days'), moment()],
+        'This Month': [moment().startOf('month'), moment().endOf('month')],
+        'Last Month': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')],
+        'This Quarter': [moment().startOf('quarter'), moment().endOf('quarter')],
+        'This Year': [moment().startOf('year'), moment().endOf('year')]
+        }
+    });
 
-        });
+     $('.daterangepicker').mouseleave(function() {
+        $(this).hide();
+    });
+      $('input[name="daterange"]').click(function() {
+        $('.daterangepicker').show();
+    });
+
+});
         $('#btn-filter').on('click', function (event) {
             $('#warning-searching').removeClass('invisible');
         });
@@ -354,7 +367,7 @@
         },
         labels: {
             style: {
-                fontSize: '12px'
+                fontSize: '14px'
             }
         },
         plotLines: [{
@@ -371,7 +384,10 @@
     },
             tooltip: {
                 crosshairs: true,
-                shared: false
+                shared: false,
+                style: {
+            fontSize: '12px', // Adjust the font size here
+        },
             },
            
 

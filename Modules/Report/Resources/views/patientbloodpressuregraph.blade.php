@@ -5,6 +5,10 @@
 @endsection
 
 @push('stylesheet')
+ <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
+
+
+
 <style>
 {
         {
@@ -226,21 +230,17 @@
                     <form id="form-filter" method="GET" action="{{url('patient-blood-pressure-graph')}}">
 
                         <div class="row">
-                            <div class="form-group col-md-2">
-                                <label for="name">Date From</label>
-                                <input type="date" class="form-control" value="<?php echo $_GET['starting_date']??'' ?>" name="starting_date" id="starting_date"
-                                    placeholder="Date From">
+                            <div class="form-group col-md-4">
+                                <label for="name">Date Range</label>
+                                 <input type="text" class="form-control" value="" name="daterange" id="daterange"
+                                    placeholder="Select Date" required>
                             </div>
-                            <div class="form-group col-md-2">
-                                <label for="name">Date To </label>
-                                <input type="date" class="form-control" value="<?php echo $_GET['ending_date']??'' ?>" name="ending_date" id="ending_date"
-                                    placeholder="Date To">
-                            </div>
+                          
 
                             <div class="form-group col-md-2">
                                 <label for="name">Patient</label>
 
-                                <select class="selectpicker" data-live-search="true" name="registration_id" id="registration_id">
+                                <select class="selectpicker" data-live-search="true" name="registration_id" id="registration_id" required>
                                     <option value="">Select Registration ID</option> <!-- Empty option added -->
 
                                     @foreach($registrationId as $registration_id)
@@ -251,7 +251,7 @@
                                 </select>
                             </div>
                             <div class="col-md-4 warning-searching invisible" id="warning-searching">
-                                <span class="text-danger" id="warning-message">Searching...Please Wait</span>
+                                <span class="text-danger" id="warning-message"></span>
                                 <span class="spinner-border text-danger"></span>
                             </div>
 
@@ -293,25 +293,70 @@
 @endsection
 
 @push('script')
+<script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
+
 
 <script>
+
+     $(document).ready(function(){
+    var start = moment().subtract(29, 'days');
+    var end = moment();
+
+     $('input[name="daterange"]').daterangepicker({
+        startDate: start,
+        endDate: end,
+        showDropdowns: true,
+        linkedCalendars: false,
+        ranges: {
+        'Today': [moment(), moment()],
+        'Yesterday': [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
+        'Last 7 Days': [moment().subtract(6, 'days'), moment()],
+        'Last 30 Days': [moment().subtract(29, 'days'), moment()],
+        'This Month': [moment().startOf('month'), moment().endOf('month')],
+        'Last Month': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')],
+        'This Quarter': [moment().startOf('quarter'), moment().endOf('quarter')],
+        'This Year': [moment().startOf('year'), moment().endOf('year')]
+        }
+    });
+
+     $('.daterangepicker').mouseleave(function() {
+        $(this).hide();
+    });
+      $('input[name="daterange"]').click(function() {
+        $('.daterangepicker').show();
+    });
+
+
+
+ });
 $('#refresh').click(function(){
-    $('#starting_date').val('');
-    $('#ending_date').val('');
+    $('#daterange').val('');
+  
 
     $('.selectpicker').selectpicker('val', '');
     $('#container_bloodp').html('');
 });
 
 $('#search').click(function() {
-    var starting_date = $('#starting_date').val();
-    var ending_date = $('#ending_date').val();
+    var daterange = $('#daterange').val();
+   
+    console.log(daterange);
+    const parts = daterange.split(" - ");
+
+// Get the first date.
+    const fdate = parts[0];
+
+// Get the second date.
+    const ldate = parts[1];
+   
+
     var registration_id = $('#registration_id').val();
 
     $.ajax({
         url: "{{ url('ajax-patient-blood-pressure') }}",
         type: "get",
-        data: { starting_date: starting_date, ending_date: ending_date, registration_id: registration_id },
+        data: { starting_date: fdate, ending_date: ldate, registration_id: registration_id },
         dataType: "html",
         beforeSend: function(){
             $('#warning-searching').removeClass('invisible');
