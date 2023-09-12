@@ -3,6 +3,9 @@
 namespace Modules\Patient\Entities;
 use Modules\Patient\Entities\Patient;
 use Modules\Base\Entities\BaseModel;
+use Modules\Report\Entities\District;
+use Modules\Report\Entities\Union;
+use Modules\Report\Entities\Upazilla;
 
 class Address extends BaseModel
 {

@@ -11,11 +11,11 @@ use Modules\RefDiseaseGroups\Entities\RefDiseaseGroups;
 use Modules\HealthCenter\Entities\HealthCenter;
 use Modules\RefReferral\Entities\RefReferral;
 use Modules\Report\Entities\Report;
+use Modules\Report\Entities\District;
 use Illuminate\Routing\Controller;
 use Modules\Base\Http\Controllers\BaseController;
 use Illuminate\Support\Str;
 use Modules\Patient\Entities\Address;
-use Modules\Report\Entities\District;
 use Modules\Report\Entities\Union;
 use Modules\Report\Entities\Upazilla;
 
