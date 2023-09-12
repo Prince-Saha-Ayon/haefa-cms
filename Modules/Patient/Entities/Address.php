@@ -13,4 +13,18 @@ class Address extends BaseModel
     {
       return $this->belongsTo(Patient::class,'PatientId', 'PatientId');
     }
+    public function districtAddress()
+    {
+        return $this->belongsTo(District::class, 'District', 'id');
+    }
+
+  public function upazillaAddress()
+  {
+      return $this->belongsTo(Upazilla::class, 'Thana', 'id');
+  }
+
+  public function unionAddress()
+  {
+      return $this->belongsTo(Union::class, 'UnionId', 'id');
+  }
 }
