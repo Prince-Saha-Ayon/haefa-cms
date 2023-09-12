@@ -114,7 +114,6 @@ class UpazilaController extends BaseController
                 else{
 
                     $collection = collect($request->all());
-                    return $collection;
                     //track_data from base controller to merge created_by and created_at merge with request data
                     $collection = $this->track_data_tables($request->id,$collection);
                     //update existing index value
