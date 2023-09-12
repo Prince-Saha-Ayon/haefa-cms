@@ -32,8 +32,9 @@ class ReportController extends BaseController
         return view('report::index');
     }
     public function datewisedxindex(){
+        $healthcenters=BarcodeFormat::with('healthCenter')->get();
         $this->setPageData('Datewise Provisional DX','Datewise Provisional DX','fas fa-th-list');
-        return view('report::datewisedx');
+        return view('report::datewisedx',compact('healthcenters'));
     }
 public function diseaseindex()
     {
@@ -136,8 +137,12 @@ $results = Address::with('districtAddress','upazillaAddress','unionAddress')->se
 
 
     public function SearchByDate(Request $request){
-        $starting_date = $request->starting_date;
-        $ending_date = $request->ending_date;
+        $healthcenters=BarcodeFormat::with('healthCenter')->get();
+        $daterange = $request->daterange;
+        $dates = explode(' - ', $daterange);
+        $starting_date = $dates[0]??'';
+        $ending_date = $dates[1]??'';
+        $hc = $request->hc_id;
 
         $results = DB::table("MDataProvisionalDiagnosis")
             ->select(DB::raw("CAST(CreateDate AS DATE) as CreateDate"), 'ProvisionalDiagnosis', DB::raw('COUNT(*) as Total'))
@@ -147,11 +152,11 @@ $results = Address::with('districtAddress','upazillaAddress','unionAddress')->se
             ->get();
 
 
+
         $this->setPageData('Datewise Provisional DX','Datewise Provisional DX','fas fa-th-list');
-        return view('report::datewisedx',compact('results'));
+        return view('report::datewisedx',compact('results','healthcenters'));
 
     }
-
       public function SearchByHC(Request $request){
          $healthcenters=HealthCenter::get(['HealthCenterId','HealthCenterName']);
          $refcases=RefReferral::get(['RId','Description']);
@@ -438,9 +443,11 @@ $results = DB::table("MDataPatientReferral")
     }
 
     public function GlucoseGraph(Request $request){
+        $daterange = $request->daterange;
+        $dates = explode(' - ', $daterange);
+        $starting_date = $dates[0]??'';
+        $ending_date = $dates[1]??'';
         $registrationId=Patient::select('RegistrationId')->get();
-        $starting_date = $request->starting_date;
-        $ending_date = $request->ending_date;
         $RegistrationId = $request->reg_id;
 
         $results = DB::select("
