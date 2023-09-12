@@ -216,7 +216,7 @@
                                 </div>
                                 <div class="form-group col-md-4 pt-24">
 
-                                    <button type="submit"  class="btn btn-primary d-none btn-sm float-right mr-2" id="btn-filter"
+                                    <button type="submit"  class="btn btn-primary  btn-sm float-right mr-2" id="btn-filter"
                                             data-toggle="tooltip" data-placement="top" data-original-title="Filter Data">
                                         <i class="fas fa-search"></i>
                                     </button>
