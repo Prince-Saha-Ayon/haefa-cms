@@ -40,6 +40,11 @@ Route::group(['middleware' => ['auth']], function () {
     Route::any('disease-rate-date-range','ReportController@DiseaseRateDateRange')->name('diseaseRateDateRange');
     Route::get('ajax-disease-rate-date-range','ReportController@AjaxDiseaseRateDateRange')->name('AjaxDiseaseRateDateRange');
 
+    Route::get('districtwise-patients','ReportController@DistrictwisePatientIndex')->name('districtwise-patients');
+    Route::any('get-districtwise-patients','ReportController@GetDistrictwisePatient')->name('get-districtwise-patients');
+    Route::get('get-upazillas/{dcId}','ReportController@GetUpazillas')->name('get-upazillas');
+    Route::get('get-unions/{upId}','ReportController@GetUnions')->name('get-unions');
+
 
     Route::group(['prefix' => 'patientage', 'as'=>'patientage.'], function () {
         Route::post('show', 'ReportController@show')->name('show');

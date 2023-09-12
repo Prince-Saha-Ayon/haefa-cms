@@ -14,6 +14,10 @@ use Modules\Report\Entities\Report;
 use Illuminate\Routing\Controller;
 use Modules\Base\Http\Controllers\BaseController;
 use Illuminate\Support\Str;
+use Modules\Patient\Entities\Address;
+use Modules\Report\Entities\District;
+use Modules\Report\Entities\Union;
+use Modules\Report\Entities\Upazilla;
 
 class ReportController extends BaseController
 {
@@ -65,6 +69,68 @@ public function diseaseindex()
         return view('report::toptendiseases',compact('healthcenters'));
 
     }
+      public function DistrictwisePatientIndex(Request $request){
+        $districts=District::get(['id','name']);
+       
+        
+        $this->setPageData('Districtwise Patients','Districtwise Patients','fas fa-th-list');
+        return view('report::districtwisepatients',compact('districts'));
+
+    }
+
+     public function GetDistrictwisePatient(Request $request){
+        $districts=District::get(['id','name']);
+        $daterange = $request->daterange;
+        $dates = explode(' - ', $daterange);
+        $starting_date = $dates[0]??'';
+        $ending_date = $dates[1]??'';
+        $dc_id=$request->dc_id;
+        $up_id=$request->up_id;
+        $un_id=$request->un_id;
+       
+$results = Address::with('districtAddress','upazillaAddress','unionAddress')->selectRaw('CAST(Address.CreateDate AS DATE) as CreateDate, Patient.GivenName, Patient.FamilyName, Patient.Age,Address.PatientId, Address.District,Address.Thana, Address.UnionId')
+    ->whereDate('Address.CreateDate', '>=', $starting_date)
+    ->whereDate('Address.CreateDate', '<=', $ending_date)
+    ->where(function ($query) use ($dc_id, $up_id, $un_id) {
+        if ($dc_id) {
+            $query->where('Address.District', '=', $dc_id);
+        }
+        if ($up_id) {
+            $query->where('Address.Thana', '=', $up_id);
+        }
+        if ($un_id) {
+            $query->where('Address.UnionId', '=', $un_id);
+        }
+    })
+    ->join('Patient', 'Address.PatientId', '=', 'Patient.PatientId')
+    ->get();
+
+   
+
+
+             
+        
+        $this->setPageData('Districtwise Patients','Districtwise Patients','fas fa-th-list');
+        return view('report::districtwisepatients',compact('districts','results'));
+
+    }
+
+    
+        public function GetUpazillas($district_id){
+       
+        $dc_id=(int)$district_id;
+        $upazillas=Upazilla::where('district_id', $dc_id)->get();
+        return response()->json($upazillas);
+
+    }
+       public function GetUnions($upazilla_id){
+       
+        $up_id=(int)$upazilla_id;
+        $unions=Union::where('upazilla_id', $up_id)->get();
+        return response()->json($unions);
+
+    }
+    
 
 
 
