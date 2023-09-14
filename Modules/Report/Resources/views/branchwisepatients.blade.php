@@ -5,7 +5,8 @@
 @endsection
 
 @push('stylesheet')
-    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
+   
+    
     <style>
         {{--        pagination style--}}
 
@@ -283,11 +284,11 @@
 
 @push('script')
 {{--    <script type="text/javascript" src="{{asset('js/jquery.js')}}"></script>--}}
-    {{-- <script type="text/javascript" src="{{asset('js/moment.js')}}"></script>
-    <script type="text/javascript" src="{{asset('js/daterangepicker.js')}}"></script> --}}
- <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
-<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
+<script src="js/daterangepicker.min.js"></script>
+<script src="js/moment.min.js"></script>
 
+
+   
     <script src="js/dataTables.buttons.min.js"></script>
     <script src="js/buttons.html5.min.js"></script>
     <script>
@@ -337,7 +338,7 @@
                     {
                         extend: 'excel',
                         text: 'Export to Excel',
-                        filename: 'branch_wise_patient_report'
+
                     },
                 ],
             });

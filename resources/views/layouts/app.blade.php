@@ -17,6 +17,7 @@
   <!-- /site favicon -->
 
   <link rel="stylesheet" href="css/app.css">
+  <link rel="stylesheet" href="css/daterangepicker.css">
   <link rel="stylesheet" href="css/datatables.bundle.css">
     <script src="js/webcam.min.js"></script>
   @stack('stylesheet')
@@ -66,6 +67,8 @@
 
 <!-- Optional JavaScript -->
 <script src="js/app.js"></script>
+<script src="js/moment.min.js"></script>
+<script src="js/daterangepicker.min.js"></script>
 <script src="js/perfect-scrollbar.min.js"></script>
 <script src="js/datatables.bundle.js"></script>
 <!-- /perfect scrollbar jQuery -->
