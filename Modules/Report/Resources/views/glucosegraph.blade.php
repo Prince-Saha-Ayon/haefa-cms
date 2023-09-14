@@ -5,7 +5,7 @@
 @endsection
 
 @push('stylesheet')
- <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
+
 
     <style>
         {{--        pagination style--}}
@@ -259,8 +259,7 @@
     <script src="js/exporting.js"></script>
     <script src="js/export-data.js"></script>
     <script src="js/accessibility.js"></script>
-     <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
-<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
+
 
     <script>
         var table;
