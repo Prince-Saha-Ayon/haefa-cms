@@ -1,7 +1,8 @@
 <div class="col-md-12">
    <!-- slider start here -->
-   <section id="prescription">
-      <div class="container px-4">
+   <section id="prescription" class="print-section" >
+      <div class="container px-4"  id="prescription-print">
+
         <header class="header">
           <p class="mb-0 pt-2 fs-"><b>Location :</b> Ukhia Upazila</p>
           @foreach($prescriptionCreation as $pc)
@@ -21,87 +22,68 @@
           
         </div>
 
-        <div class="d-flex">
-          <aside class="aside">
+        <div class="d-flex"style="height:9in; width:100%;">
+          <aside class="aside pe-2" style="font-size: 12px !important;">
             <div class="item pt-3">
-              <b class="d-block mb-0 py-2 border-bottom">Complaints</b>
+              <b class="d-block mb-0 py-0 border-bottom">Complaints</b>
               @foreach($Complaints as $Complaint)
-              <p class="mb-0 mt-2 pe-2">{{ date('d-m-Y', strtotime($Complaint->CreateDate)) }}: {{ $Complaint->ChiefComplain }}[{{$Complaint->OtherCC}}] for {{ $Complaint->CCDurationValue }} {{ $Complaint->DurationInEnglish }}</p>
+              <p class="mb-0 mt-0 pe-1">{{ date('d-m-Y', strtotime($Complaint->CreateDate)) }}: {{ $Complaint->ChiefComplain }}{!! !empty($Complaint->OtherCC) ? '[' . $Complaint->OtherCC . ']' : '' !!} for {{ $Complaint->CCDurationValue }} {{ $Complaint->DurationInEnglish }}</p>
               @endforeach
             </div>
-            <div class="item pt-3">
-              <b class="d-block mb-0 py-2 border-bottom">O/E</b>
+            <div class="item pt-1">
+              <b class="d-block mb-0 py-1 border-bottom">O / E</b>
               @foreach($HeightWeight as $hw)
-              <p class="mb-0 mt-2 pe-2">Height: {{ $hw->Height }} cm</p>
-              <p class="mb-0 mt-2 pe-2">Weight: {{ $hw->Weight }} kg</p>
-              <p class="mb-0 mt-2 pe-2">BMI: {{ $hw->BMI }}</p>
+              <p class="mb-0 mt-0 pe-1">Height: {{ $hw->Height }} cm</p>
+              <p class="mb-0 mt-0 pe-1">Weight: {{ $hw->Weight }} kg</p>
+              <p class="mb-0 mt-0 pe-1">BMI: {{ $hw->BMI }}</p>
               @endforeach
               @foreach($BP as $bps)
-              <p class="mb-0 mt-2 pe-2">Pulse: {{$bps->HeartRate}}</p>
-              <p class="mb-0 mt-2 pe-2">Blood Pressure: {{$bps->BPSystolic1}}/{{$bps->BPDiastolic1}} mmHg</p>
+              <p class="mb-0 mt-0 pe-1">Pulse: {{$bps->HeartRate}}</p>
+              <p class="mb-0 mt-0 pe-1">Blood Pressure: {{$bps->BPSystolic1}}/{{$bps->BPDiastolic1}} mmHg</p>
               @endforeach
               @foreach($GlucoseHb as $GHB)
-              <p class="mb-0 mt-2 pe-2">RBG: {{$GHB->RBG}} mMol</p>
-              <p class="mb-0 mt-2 pe-2">FBG: {{$GHB->FBG}} mMol</p>
-              <p class="mb-0 mt-2 pe-2">Hemoglobin: {{$GHB->Hemoglobin}} g/dL</p>
+              <p class="mb-0 mt-0 pe-1">RBG: {{$GHB->RBG}} mMol</p>
+              <p class="mb-0 mt-0 pe-1">FBG: {{$GHB->FBG}} mMol</p>
+              <p class="mb-0 mt-0 pe-1">Hemoglobin: {{$GHB->Hemoglobin}} g/dL</p>
               @endforeach
             </div>
-            <div class="item pt-3">
-              <b class="d-block mb-0 py-2 border-bottom">Provisional Dx</b>
+            <div class="item pt-1">
+              <b class="d-block mb-0 py-0 border-bottom">Provisional Dx</b>
               @foreach($ProvisionalDx as $key => $PDX)
               
 
-              <p class="mb-0 mt-2  pe-2">Date:</p>
-              <p class="mb-0 mt-2  pe-2">{{ ++$key }}.{{ $PDX->ProvisionalDiagnosis !="" ? $PDX->ProvisionalDiagnosis : $PDX->OtherProvisionalDiagnosis }} [ {{ $PDX->OtherProvisionalDiagnosis }} ] [
-                <?php if($PDX->DiagnosisStatus == "N" || $PDX->DiagnosisStatus == "n"){?>
-                  Presumptive
-                  <?php }elseif($PDX->DiagnosisStatus == "Y" || $PDX->DiagnosisStatus == "y"){?>
-                    Confirmed
-                  <?php }else{?>
-                    Unspecified
-                  <?php } ?>
-                ]</p>
+              <p class="mb-0 mt-0  pe-1">Date:{{ date('d-m-Y', strtotime($PDX->CreateDate)) }}</p>
+              <p class="mb-0 mt-0  pe-1">{{ ++$key }}.{{ $PDX->ProvisionalDiagnosis !="" ? $PDX->ProvisionalDiagnosis : $PDX->OtherProvisionalDiagnosis }} {!! !empty($PDX->OtherProvisionalDiagnosis) ? '[' . $PDX->OtherProvisionalDiagnosis . ']' : '' !!} [<?php if($PDX->DiagnosisStatus == "N" || $PDX->DiagnosisStatus == "n"){?>Presumptive<?php }elseif($PDX->DiagnosisStatus == "Y" || $PDX->DiagnosisStatus == "y"){?>Confirmed<?php }else{?>Unspecified<?php } ?>]</p>
               @endforeach
             </div>
             
-            <div class="item pt-3">
-              <b class="d-block mb-0 py-2 border-bottom">Lab Investigations</b>
+            <div class="item pt-1">
+              <b class="d-block mb-0 py-0 border-bottom">Lab Investigations</b>
               @foreach($Investigation as $key => $IGS)
-              <p class="mb-0 mt-2 pe-2">{{ ++$key }}. {{ $IGS->Investigation}}[{{ $IGS->OtherInvestigation }}]</p>
+              <p class="mb-0 mt-0 pe-1">{{ ++$key }}. {{ $IGS->Investigation}} {!! !empty($IGS->OtherInvestigation) ? '[' . $IGS->OtherInvestigation . ']' : '' !!}</p>
               @endforeach
             </div>
           </aside>
-          <div class="rightSide position-relative w-100 py-3 px-4">
-            <h2 class="mb-4">℞</h2>
-            <div class="medicine mb-4">
+          <div class="rightSide position-relative w-100 py-3 px-4" style="font-size: 12px !important;">
+            <h2 class="mb-2">℞</h2>
+            <div class="medicine mb-1">
               @foreach($Treatment as $key => $TMS)
-              <p class="mb-0"><b>{{ ++$key }} .</b> {{ $TMS->DrugCode }}({{ $TMS->DrugDose }})</p>
-              <i>{{ $TMS->Frequency }} - {{ $TMS->InstructionInBangla }}
-
-
-              <?php 
-
-                $durationValue = $TMS->DrugDurationValue;
-                  if (stripos($durationValue, 'd') !== false || stripos($durationValue, 'D') !== false) {
-                      $durationValue = str_ireplace('d', ' দিন', $durationValue);
+              <p class="mb-0"><b>{{ ++$key }} .</b> {{ $TMS->DrugCode }}({{ $TMS->DrugDose }}){{ $TMS->Frequency }} -{{ $TMS->InstructionInBangla.','}}<?php $durationValue = $TMS->DrugDurationValue;if (stripos($durationValue, 'Day') !== false || stripos($durationValue, 'Day') !== false) {$durationValue = str_ireplace('Day', ' দিন', $durationValue);echo $durationValue;
+                  } elseif (stripos($durationValue, 'Month') !== false || stripos($durationValue, 'Month') !== false) {$durationValue = str_ireplace('Month', ' মাস', $durationValue);echo $durationValue;
+                  } elseif (stripos($durationValue, 'Year') !== false || stripos($durationValue, 'Year') !== false) {
+                      $durationValue = str_ireplace('Year', ' বছর', $durationValue);
                       echo $durationValue;
-                  } elseif (stripos($durationValue, 'm') !== false || stripos($durationValue, 'M') !== false) {
-                      $durationValue = str_ireplace('m', ' মাস', $durationValue);
-                  } elseif (stripos($durationValue, 'y') !== false || stripos($durationValue, 'Y') !== false) {
-                      $durationValue = str_ireplace('y', ' বছর', $durationValue);
-                  } elseif (stripos($durationValue, 'c') !== false || stripos($durationValue, 'C') !== false) {
-                      $durationValue = str_ireplace('c', ' চলবে', $durationValue);
+                  } elseif (stripos($durationValue, 'Week') !== false || stripos($durationValue, 'Week') !== false) {
+                      $durationValue = str_ireplace('Week', ' সপ্তাহ', $durationValue);
+                      echo $durationValue;
                   }
-
-
               ?>
-
-              </i>
+             </p>
               @endforeach
             </div>
 
             <div class="nextinfo">
-              <div class="medicine mb-4">
+              <div class="medicine mb-1">
                 <p class="mb-0"><b>Follow-up / পরবর্তী সাক্ষাৎ</b></p>
                 @foreach($FollowUpDate as $key =>$FD)
                 @php 
@@ -110,14 +92,14 @@
                 <p class="mb-0">{{  $followDate == "01-01-1900" ? "" : $followDate.':'.$FD->Comment }}</p>
                 @endforeach
               </div>
-              <div class="medicine mb-4">
+              <div class="medicine mb-1 mt-2">
                 <p class="mb-0"><b>Advice / পরামর্শ</b></p>
                 @foreach($Advice as $key =>$AS)
                 <p class="mb-0"><b>{{ ++$key }} . </b>{{$AS->AdviceInBangla}}</p>
                 @endforeach
                
               </div>
-              <div class="medicine mb-4">
+              <div class="medicine mb-1 mt-2">
                 <p class="mb-0"><b>Referral / রেফারেল</b></p>
                 @foreach($PatientReferral as $key =>$PRF)
                 <p class="mb-0"><b>{{ ++$key }} . </b>{{ date('d-m-Y', strtotime($PRF->CreateDate)) }}:{{ $PRF->Description }}, {{ $PRF->HealthCenterName }}</p>
@@ -125,7 +107,7 @@
               </div>
             </div>
 
-            <div class="signatureBox text-center">
+          <div class="signatureBox text-center mt-4 my-4">
             @foreach($prescriptionCreation as $pc)
               @if($pc->EmployeeSignature != null)
               <img
@@ -142,7 +124,7 @@
           </div>
         </div>
 
-        <footer class="footer d-flex justify-content-between">
+        <footer class="footer d-flex justify-content-between" >
           <address class="mb-0">
             <p class="mb-0">Haefa USA</p>
             <p class="mb-0">311 Bedford St, Lexington MA 07420, USA</p>
@@ -161,6 +143,6 @@
           <img src="{{ asset('storage/logo/apilogo.png') }}" alt="img" class="apiLogo" />
         </p>
       </div>
-    </section>
+  </section>
     <!-- slider end here -->
 </div>
