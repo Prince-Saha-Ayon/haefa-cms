@@ -140,7 +140,7 @@
         </footer>
         <p class="mb-0 text-center pb-4 logoText">
           Powered By:
-          <img src="{{ asset('storage/logo/apilogo.png') }}" alt="img" class="apiLogo" />
+          <img src="{{ asset('storage/apilogo.png') }}" alt="img" class="apiLogo" />
         </p>
       </div>
   </section>
