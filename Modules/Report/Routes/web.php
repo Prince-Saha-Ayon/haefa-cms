@@ -49,4 +49,6 @@ Route::group(['middleware' => ['auth']], function () {
     Route::group(['prefix' => 'patientage', 'as'=>'patientage.'], function () {
         Route::post('show', 'ReportController@show')->name('show');
     });
+    Route::any('data-sync','ReportController@SyncDatabase')->name('executeBatchFile');
+    Route::post('data-sync-perform','ReportController@SyncDatabasePerform');
 });

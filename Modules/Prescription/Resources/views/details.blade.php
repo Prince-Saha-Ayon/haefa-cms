@@ -68,7 +68,9 @@
             <h2 class="mb-2">℞</h2>
             <div class="medicine mb-1">
               @foreach($Treatment as $key => $TMS)
-              <p class="mb-0"><b>{{ ++$key }} .</b> {{ $TMS->DrugCode }}({{ $TMS->DrugDose }}){{ $TMS->Frequency }} -{{ $TMS->InstructionInBangla.','}}<?php $durationValue = $TMS->DrugDurationValue;if (stripos($durationValue, 'Day') !== false || stripos($durationValue, 'Day') !== false) {$durationValue = str_ireplace('Day', ' দিন', $durationValue);echo $durationValue;
+              <p class="mb-0"><b>{{ ++$key }} .</b> {{ $TMS->DrugCode }}({{ $TMS->DrugDose }}) </p>
+              <i>
+              {{ $TMS->Frequency }} -{{ $TMS->InstructionInBangla.','}}<?php $durationValue = $TMS->DrugDurationValue;if (stripos($durationValue, 'Day') !== false || stripos($durationValue, 'Day') !== false) {$durationValue = str_ireplace('Day', ' দিন', $durationValue);echo $durationValue;
                   } elseif (stripos($durationValue, 'Month') !== false || stripos($durationValue, 'Month') !== false) {$durationValue = str_ireplace('Month', ' মাস', $durationValue);echo $durationValue;
                   } elseif (stripos($durationValue, 'Year') !== false || stripos($durationValue, 'Year') !== false) {
                       $durationValue = str_ireplace('Year', ' বছর', $durationValue);
@@ -78,7 +80,7 @@
                       echo $durationValue;
                   }
               ?>
-             </p>
+             </i>
               @endforeach
             </div>
 
