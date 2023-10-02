@@ -50,9 +50,15 @@
         </div>
       </div> --}}
     </div>
+
+    {{-- Database Sync Button --}}
+  
+
+    {{--  --}}
     <!-- Start :: Bar Chart-->
         <div class="row py-5">
-            <div class="col-md-12">
+         
+          <div class="col-md-12">
             <div class="card bar-chart">
                 <div class="card-header d-flex align-items-center">
                 <h4>Patient wise Blood Pressure Graph </h4>
@@ -105,7 +111,7 @@
                                 <button type="button" id="refresh" class="btn btn-primary btn-sm float-right mr-2 refresh">
                                 <i class="fas fa-sync-alt"></i></button>
                             </div>
-                        </div>
+              </div>
 
                         <div class="row">
                             <div class="col-md-12">

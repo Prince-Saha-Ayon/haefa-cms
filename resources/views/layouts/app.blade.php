@@ -74,6 +74,7 @@
 <!-- /perfect scrollbar jQuery -->
 
 <script src="js/script.js"></script>
+
 <script src="js/custom.js"></script>
 {{-- <script src="js/custom/charts/dashboard-crypto.js"></script> --}}
 <script>

@@ -132,7 +132,7 @@ class PatientController extends BaseController
                         'IdNumber' => $request->IdNumber,
                         'IdOwner' => $request->IdOwner,
                         'MaritalStatusId' => $request->MaritalStatusId,
-                        'UpdateUser' => auth()->user()->id,
+                        'UpdateUser' => auth()->user()->name,
                         'UpdateDate' => $date,
                 ]);
                 Address::where('AddressId','=' ,$request->address_update_id)
@@ -147,14 +147,13 @@ class PatientController extends BaseController
                         'AddressLine1Parmanent' => $request->AddressLine1Parmanent,
                         'VillageParmanent' => $request->VillageParmanent,
                         'ThanaParmanent' => $request->ThanaParmanent,
-                        'District' => $request->District,
                         'CountryParmanent' => $request->CountryParmanent,
                         'Camp' => $request->Camp,
                         'BlockNumber' => $request->BlockNumber,
                         'Majhi' => $request->Majhi,
                         'TentNumber' => $request->TentNumber,
                         'FCN' => $request->FCN,
-                        'UpdateUser' => auth()->user()->id,
+                        'UpdateUser' => auth()->user()->name,
                         'UpdateDate' => $date,
                 ]);
                 $output = $this->store_message('ok',$request->update_id);

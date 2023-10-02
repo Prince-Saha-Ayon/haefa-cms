@@ -620,6 +620,46 @@ $results = DB::table("MDataPatientReferral")
         return view('report::temperaturegraph_ajax',compact('CurrentTemparature1Numeric','DistinctDate','CurrentTemparature1'));
     }
 
+        public function SyncDatabase(Request $request)
+    {
+       
+
+        // You can use $output to capture the output of the batch file if needed
+        
+        // Redirect back to the dashboard or any other page
+         $this->setPageData('Synchronize Data','Synchronize Data','Synchronize Data');
+         return view('report::syncpage');
+    }
+
+     public function SyncDatabasePerform(Request $request)
+    {
+        set_time_limit(3600);
+       
+        
+        $batchFilePath1 = 'C:\\Users\\\ADMiN\\Desktop\\Server-Local-Exclude.bat';
+        $batchFilePath2 = 'C:\\Users\\\ADMiN\\Desktop\\Local-Server-Exclude.bat';
+        $batchFilePath3 = 'C:\\Users\\\ADMiN\\Desktop\\Server-Local-Include.bat';
+        $batchFilePath4 = 'C:\\Users\\\ADMiN\\Desktop\\custom.bat';
+        $batchFilePath5 = 'C:\\Users\\\ADMiN\\Desktop\\Local-Server-Include.bat';
+        $batchFilePath6 = 'C:\\Users\\\ADMiN\\Desktop\\Server-Local-Users.bat';
+        
+
+        // Execute the batch file
+        $output1 = shell_exec("cmd /c $batchFilePath1");
+        $output2 = shell_exec("cmd /c $batchFilePath2");
+        $output3 = shell_exec("cmd /c $batchFilePath3");
+        $output4 = shell_exec("cmd /c $batchFilePath4");
+        $output5 = shell_exec("cmd /c $batchFilePath5");
+        $output6 = shell_exec("cmd /c $batchFilePath6");
+
+        // You can use $output to capture the output of the batch file if needed
+        
+        // Redirect back to the dashboard or any other page
+         $this->setPageData('Synchronize Data','Synchronize Data','Synchronize Data');
+         return view('report::syncsuccess');
+    }
+
+
     /**
      * Show the form for creating a new resource.
      * @return Renderable
