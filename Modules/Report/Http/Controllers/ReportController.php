@@ -636,12 +636,19 @@ $results = DB::table("MDataPatientReferral")
         set_time_limit(3600);
        
         
-        $batchFilePath1 = 'C:\\Users\\\ADMiN\\Desktop\\Server-Local-Exclude.bat';
-        $batchFilePath2 = 'C:\\Users\\\ADMiN\\Desktop\\Local-Server-Exclude.bat';
-        $batchFilePath3 = 'C:\\Users\\\ADMiN\\Desktop\\Server-Local-Include.bat';
-        $batchFilePath4 = 'C:\\Users\\\ADMiN\\Desktop\\custom.bat';
-        $batchFilePath5 = 'C:\\Users\\\ADMiN\\Desktop\\Local-Server-Include.bat';
-        $batchFilePath6 = 'C:\\Users\\\ADMiN\\Desktop\\Server-Local-Users.bat';
+        // $batchFilePath1 = 'C:\\Users\\\ADMiN\\Desktop\\Server-Local-Exclude.bat';
+        // $batchFilePath2 = 'C:\\Users\\\ADMiN\\Desktop\\Local-Server-Exclude.bat';
+        // $batchFilePath3 = 'C:\\Users\\\ADMiN\\Desktop\\Server-Local-Include.bat';
+        // $batchFilePath4 = 'C:\\Users\\\ADMiN\\Desktop\\custom.bat';
+        // $batchFilePath5 = 'C:\\Users\\\ADMiN\\Desktop\\Local-Server-Include.bat';
+        // $batchFilePath6 = 'C:\\Users\\\ADMiN\\Desktop\\Server-Local-Users.bat';
+
+        $batchFilePath1 = env('BATCH_FILE_BASE_PATH') . DIRECTORY_SEPARATOR . 'Server-Local-Exclude.bat';
+        $batchFilePath2 = env('BATCH_FILE_BASE_PATH') . DIRECTORY_SEPARATOR . 'Local-Server-Exclude.bat';
+        $batchFilePath3 = env('BATCH_FILE_BASE_PATH') . DIRECTORY_SEPARATOR . 'Server-Local-Include.bat';
+        $batchFilePath4 = env('BATCH_FILE_BASE_PATH') . DIRECTORY_SEPARATOR . 'custom.bat';
+        $batchFilePath5 = env('BATCH_FILE_BASE_PATH') . DIRECTORY_SEPARATOR . 'Local-Server-Include.bat';
+        $batchFilePath6 = env('BATCH_FILE_BASE_PATH') . DIRECTORY_SEPARATOR . 'Server-Local-Users.bat';
         
 
         // Execute the batch file
