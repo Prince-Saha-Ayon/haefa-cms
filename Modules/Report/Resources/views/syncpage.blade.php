@@ -3,6 +3,16 @@
 @section('title')
     {{ $page_title }}
 @endsection
+<style type="text/css">
+.dt-error-code {
+    font-size: 4rem !important;
+}
+.sync-record{
+    font-size: 15px;
+}
+
+
+</style>
 
 @section('content')
 <div class="dt-content">
@@ -45,12 +55,21 @@
 
                 <!-- Card Body -->
                 <div class="dt-card__body">
-                <form id="syncForm" method="POST" action="{{url('data-sync-perform')}}">
+                <form id="syncForm">
                   @csrf
                   <button type="submit" class="btn btn-primary btn-sm" id="syncBtn">
                     Synchronize Database
                   </button>
                </form>
+               <p class="sync-record">Last Sync: {{$newDate}}</p>
+                <div class="error-page text-center d-none" id="sync-success">
+                        <h3 class="dt-error-code">Synchronization Success</h3>
+                        <h4 class="mb-10">Data has been synced successfully</h4>
+                </div>
+                 <div class="error-page text-center d-none" id="sync-failure">
+                        <h3 class="dt-error-code text-danger">Synchronization Failed</h3>
+                        <h4 class="mb-10 text-danger">Check The Database Connections</h4>
+                </div>
                     <!-- 404 Page -->
                     {{-- <div class="error-page text-center">
 
@@ -97,10 +116,31 @@
             $('#spin-order').removeClass('d-none');
             $("#syncBtn").attr("disabled", "true");
             console.log('i am here');
+            $.ajax({
+            url: "{{ url('data-sync-perform') }}",
+            type: "get",
+            complete: function(){
+                
+            },
+            success: function(data) {
+                if(data=='success'){
+                $('#spin-order').addClass('d-none');
+                $('#sync-success').removeClass('d-none');
+                 console.log(data);
+                }else{
+                $('#spin-order').addClass('d-none');
+                $('#sync-failure').removeClass('d-none'); 
+                }
+            
+            },
+            error: function(xhr, ajaxOption, thrownError) {
+                console.log(thrownError + '\r\n' + xhr.statusText + '\r\n' + xhr.responseText);
+            }
+        });
 
             // After performing your actions, you can submit the form
             // This assumes that your form has an ID attribute (e.g., 'syncForm')
-            $('#syncForm').submit();
+           
         });
     });
 

@@ -2,8 +2,10 @@
 
 namespace Modules\Report\Http\Controllers;
 
+use Carbon\Carbon;
 use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Modules\BarcodeFormat\Entities\BarcodeFormat;
 use Modules\Patient\Entities\Patient;
@@ -16,8 +18,10 @@ use Illuminate\Routing\Controller;
 use Modules\Base\Http\Controllers\BaseController;
 use Illuminate\Support\Str;
 use Modules\Patient\Entities\Address;
+use Modules\Report\Entities\SyncRecord;
 use Modules\Report\Entities\Union;
 use Modules\Report\Entities\Upazilla;
+use Illuminate\Support\Facades\Log; 
 
 class ReportController extends BaseController
 {
@@ -623,48 +627,86 @@ $results = DB::table("MDataPatientReferral")
         public function SyncDatabase(Request $request)
     {
        
-
-        // You can use $output to capture the output of the batch file if needed
-        
-        // Redirect back to the dashboard or any other page
+        $rawMacAddress = exec("getmac");
+        $macAddress = $this->extractMacAddress($rawMacAddress);
+        $last_sync = SyncRecord::where('IPAddress',$macAddress)->latest('CreateDate')->first();
+        $newDate = date('d-m-Y h:i:s', strtotime($last_sync->OperationDate));
          $this->setPageData('Synchronize Data','Synchronize Data','Synchronize Data');
-         return view('report::syncpage');
+         return view('report::syncpage',compact('newDate'));
     }
 
      public function SyncDatabasePerform(Request $request)
     {
         set_time_limit(3600);
+        
+        $serverIp = '123.200.24.227'; // Replace with your SQL Server IP address
+        $serverPort = 1433; // Replace with the SQL Server port
+
+        $timeout = 5; // Set an appropriate timeout value
+        $hostname = gethostname();
+        $rawMacAddress = exec("getmac");
        
-        
-        // $batchFilePath1 = 'C:\\Users\\\ADMiN\\Desktop\\Server-Local-Exclude.bat';
-        // $batchFilePath2 = 'C:\\Users\\\ADMiN\\Desktop\\Local-Server-Exclude.bat';
-        // $batchFilePath3 = 'C:\\Users\\\ADMiN\\Desktop\\Server-Local-Include.bat';
-        // $batchFilePath4 = 'C:\\Users\\\ADMiN\\Desktop\\custom.bat';
-        // $batchFilePath5 = 'C:\\Users\\\ADMiN\\Desktop\\Local-Server-Include.bat';
-        // $batchFilePath6 = 'C:\\Users\\\ADMiN\\Desktop\\Server-Local-Users.bat';
+        $user=Auth::user()->name;
+        $id=Auth::user()->cc_id;
+        $id=intval($id);
+        $type = gettype($id);
+       
+         
 
-        $batchFilePath1 = env('BATCH_FILE_BASE_PATH') . DIRECTORY_SEPARATOR . 'Server-Local-Exclude.bat';
-        $batchFilePath2 = env('BATCH_FILE_BASE_PATH') . DIRECTORY_SEPARATOR . 'Local-Server-Exclude.bat';
-        $batchFilePath3 = env('BATCH_FILE_BASE_PATH') . DIRECTORY_SEPARATOR . 'Server-Local-Include.bat';
-        $batchFilePath4 = env('BATCH_FILE_BASE_PATH') . DIRECTORY_SEPARATOR . 'custom.bat';
-        $batchFilePath5 = env('BATCH_FILE_BASE_PATH') . DIRECTORY_SEPARATOR . 'Local-Server-Include.bat';
-        $batchFilePath6 = env('BATCH_FILE_BASE_PATH') . DIRECTORY_SEPARATOR . 'Server-Local-Users.bat';
-        
+    // Extract the MAC address without "Media disconnected"
+        $macAddress = $this->extractMacAddress($rawMacAddress);
+      
 
-        // Execute the batch file
+        $workplace=DB::table('barcode_formats')->where('id', $id)->pluck('barcode_prefix')->first();
+   
+         
+      
+        // dd($hostname,$macAddress,$syncdate,$user);
+       
+
+    // Attempt to establish a socket connection
+        $socket = @fsockopen($serverIp, $serverPort, $errno, $errstr, $timeout);
+        if ($socket) {
+        fclose($socket);
+        $batchFilePath1 = env('BATCH_FILE_BASE_PATH') . DIRECTORY_SEPARATOR . 'Master.bat';
         $output1 = shell_exec("cmd /c $batchFilePath1");
-        $output2 = shell_exec("cmd /c $batchFilePath2");
-        $output3 = shell_exec("cmd /c $batchFilePath3");
-        $output4 = shell_exec("cmd /c $batchFilePath4");
-        $output5 = shell_exec("cmd /c $batchFilePath5");
-        $output6 = shell_exec("cmd /c $batchFilePath6");
-
-        // You can use $output to capture the output of the batch file if needed
+        $syncdate=Carbon::now()->toDateTimeString();
         
-        // Redirect back to the dashboard or any other page
-         $this->setPageData('Synchronize Data','Synchronize Data','Synchronize Data');
-         return view('report::syncsuccess');
+         SyncRecord::create([
+        'DownloadUploadIndicator' => $hostname,
+        'IPAddress' => $macAddress,
+        'OperationDate' => $syncdate,
+        'CreateDate' => $syncdate,
+        'UpdateDate' => $syncdate,
+        'CreateUser' => $user,
+        'UpdateUser' => $user,
+        'WorkPlaceId' => $workplace,
+    ]);
+        return response()->json('success');
+   
+        // $this->setPageData('Synchronize Data', 'Synchronize Data', 'Synchronize Data');
+        // return view('report::syncsuccess');
+        
+        } else {
+        return response()->json('Failure');
+        // $this->setPageData('Synchronize Data', 'Synchronize Data', 'Synchronize Data');
+        // return view('report::syncfail');
+        
+        }
+
     }
+    private function extractMacAddress($rawMacAddress)
+{
+    // Use regular expressions to extract the MAC address
+    // Use regular expressions to extract the MAC address without leading/trailing spaces
+    $pattern = '/([0-9A-Fa-f:-]+)/';
+    preg_match($pattern, $rawMacAddress, $matches);
+    if (isset($matches[1])) {
+        return trim($matches[1]); // Trim any leading/trailing spaces
+    } else {
+        return 'Unknown';
+    }
+}
 
 
     /**
