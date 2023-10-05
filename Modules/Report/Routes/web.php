@@ -50,5 +50,5 @@ Route::group(['middleware' => ['auth']], function () {
         Route::post('show', 'ReportController@show')->name('show');
     });
     Route::any('data-sync','ReportController@SyncDatabase')->name('executeBatchFile');
-    Route::post('data-sync-perform','ReportController@SyncDatabasePerform');
+    Route::any('data-sync-perform','ReportController@SyncDatabasePerform');
 });
