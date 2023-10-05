@@ -630,7 +630,12 @@ $results = DB::table("MDataPatientReferral")
         $rawMacAddress = exec("getmac");
         $macAddress = $this->extractMacAddress($rawMacAddress);
         $last_sync = SyncRecord::where('IPAddress',$macAddress)->latest('CreateDate')->first();
-        $newDate = date('d-m-Y h:i:s', strtotime($last_sync->OperationDate));
+        if(!empty($last_sync))
+        {
+            $newDate = date('d-m-Y h:i:s', strtotime($last_sync->OperationDate));
+        }else{
+            $newDate='';
+        }
          $this->setPageData('Synchronize Data','Synchronize Data','Synchronize Data');
          return view('report::syncpage',compact('newDate'));
     }
@@ -681,6 +686,7 @@ $results = DB::table("MDataPatientReferral")
         'CreateUser' => $user,
         'UpdateUser' => $user,
         'WorkPlaceId' => $workplace,
+
     ]);
         return response()->json('success');
    
