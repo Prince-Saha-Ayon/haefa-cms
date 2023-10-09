@@ -58,5 +58,8 @@
     "RefDiseaseGroups": true,
     "RefAnswer": true,
     "RefVaccine": true,
-    "RefVaccineAdult": true
+    "RefVaccineAdult": true,
+    "RefBloodGroup": true,
+    "RefDrugGroup": true,
+    "RefDuration": true
 }

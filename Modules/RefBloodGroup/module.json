@@ -1,0 +1,13 @@
+{
+    "name": "RefBloodGroup",
+    "alias": "refbloodgroup",
+    "description": "",
+    "keywords": [],
+    "priority": 0,
+    "providers": [
+        "Modules\\RefBloodGroup\\Providers\\RefBloodGroupServiceProvider"
+    ],
+    "aliases": {},
+    "files": [],
+    "requires": []
+}
