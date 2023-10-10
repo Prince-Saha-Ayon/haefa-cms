@@ -61,5 +61,7 @@
     "RefVaccineAdult": true,
     "RefBloodGroup": true,
     "RefDrugGroup": true,
-    "RefDuration": true
+    "RefDuration": true,
+    "RefFrequency": true,
+    "RefLabInvestigationGroup": true
 }

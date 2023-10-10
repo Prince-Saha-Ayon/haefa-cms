@@ -1,0 +1,13 @@
+{
+    "name": "RefFrequency",
+    "alias": "reffrequency",
+    "description": "",
+    "keywords": [],
+    "priority": 0,
+    "providers": [
+        "Modules\\RefFrequency\\Providers\\RefFrequencyServiceProvider"
+    ],
+    "aliases": {},
+    "files": [],
+    "requires": []
+}

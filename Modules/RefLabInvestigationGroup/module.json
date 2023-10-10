@@ -1,0 +1,13 @@
+{
+    "name": "RefLabInvestigationGroup",
+    "alias": "reflabinvestigationgroup",
+    "description": "",
+    "keywords": [],
+    "priority": 0,
+    "providers": [
+        "Modules\\RefLabInvestigationGroup\\Providers\\RefLabInvestigationGroupServiceProvider"
+    ],
+    "aliases": {},
+    "files": [],
+    "requires": []
+}
