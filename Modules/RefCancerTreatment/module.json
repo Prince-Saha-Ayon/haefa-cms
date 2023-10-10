@@ -1,0 +1,13 @@
+{
+    "name": "RefCancerTreatment",
+    "alias": "refcancertreatment",
+    "description": "",
+    "keywords": [],
+    "priority": 0,
+    "providers": [
+        "Modules\\RefCancerTreatment\\Providers\\RefCancerTreatmentServiceProvider"
+    ],
+    "aliases": {},
+    "files": [],
+    "requires": []
+}

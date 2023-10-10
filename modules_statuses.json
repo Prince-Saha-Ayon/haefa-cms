@@ -63,5 +63,9 @@
     "RefDrugGroup": true,
     "RefDuration": true,
     "RefFrequency": true,
-    "RefLabInvestigationGroup": true
+    "RefLabInvestigationGroup": true,
+    "RefMaritalStatus": true,
+    "RefProvisionalDiagnosisGroup": true,
+    "RefCancerTreatment": true,
+    "RefContraceptionMethod": true
 }

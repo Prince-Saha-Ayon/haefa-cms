@@ -416,6 +416,8 @@ $(document).on('click', '.edit_data', function () {
     }
 });
 
-
+function removeId(){
+    $('#RefLabInvestigationGroupId').val('');
+}
 </script>
 @endpush

@@ -414,7 +414,7 @@ $(document).on('click', '.edit_data', function () {
 });
 
 function removeId(){
-    $('#GenderId').val('');
+    $('#DrugGroupId').val('');
 }
 
 </script>

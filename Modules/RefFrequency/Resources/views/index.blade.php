@@ -418,9 +418,9 @@ $(document).on('click', '.edit_data', function () {
     }
 });
 
-// function removeId(){
-//     $('#GenderId').val('');
-// }
+function removeId(){
+    $('#FrequencyId').val('');
+}
 
 </script>
 @endpush

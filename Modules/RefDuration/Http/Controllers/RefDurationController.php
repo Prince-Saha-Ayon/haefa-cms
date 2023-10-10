@@ -26,7 +26,7 @@ class RefDurationController extends BaseController
     public function index()
     {
         if(permission('refduration-access')){
-            $this->setPageData('RefDrugGroup','RefDrugGroup','fas fa-th-list');
+            $this->setPageData('RefDuration','RefDuration','fas fa-th-list');
             return view('refduration::index');
         }else{
             return $this->unauthorized_access_blocked();

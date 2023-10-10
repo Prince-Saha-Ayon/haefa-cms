@@ -1,0 +1,13 @@
+{
+    "name": "RefMaritalStatus",
+    "alias": "refmaritalstatus",
+    "description": "",
+    "keywords": [],
+    "priority": 0,
+    "providers": [
+        "Modules\\RefMaritalStatus\\Providers\\RefMaritalStatusServiceProvider"
+    ],
+    "aliases": {},
+    "files": [],
+    "requires": []
+}
