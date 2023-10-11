@@ -67,5 +67,7 @@
     "RefMaritalStatus": true,
     "RefProvisionalDiagnosisGroup": true,
     "RefCancerTreatment": true,
-    "RefContraceptionMethod": true
+    "RefContraceptionMethod": true,
+    "RefIllFamilyMember": true,
+    "RefReligion": true
 }
