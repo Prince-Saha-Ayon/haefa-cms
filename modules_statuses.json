@@ -73,5 +73,9 @@
     "RefBiopsyResult": true,
     "RefAutoSuggestionGroup": true,
     "RefDrugForm": true,
-    "RefDrug": true
+    "RefDrug": true,
+    "RefVaccineDose": true,
+    "RefProvisionalDiagnosis": true,
+    "RefLabInvestigation": true,
+    "RefAutoSuggestion": true
 }

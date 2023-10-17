@@ -24,17 +24,25 @@ class RefDrug extends BaseModel
     {
         $this->name = $name;
     }
+    public function druggroup(){
+        return $this->BelongsTo(RefDrugGroup::class,'DrugGroupId','DrugGroupId');
+    }
+    public function drugform(){
+        return $this->BelongsTo(RefDrugForm::class,'DrugFormId','DrugFormId');
+    }
+
     
     private function get_datatable_query()
     {
         if(permission('patient-bulk-delete')){
             //datatable display data from the below fields
-            $this->column_order = [null,'DrugGroupId','DrugCode','Description','Status',null];
+            $this->column_order = [null,'DrugGroupId','DrugCode','DrugFormId','DrugDose','Description','Status',null];
         }else{
-            $this->column_order = ['DrugGroupId','DrugCode','Description','Status',null];
+            $this->column_order = ['DrugGroupId','DrugCode','DrugFormId','DrugDose','Description','Status',null];
         }
 
-        $query = self::toBase();
+        // $query = self::toBase();
+        $query = self::with(['druggroup','drugform']);
 
         /*****************
             * *Search Data **
@@ -72,12 +80,6 @@ class RefDrug extends BaseModel
         return self::toBase()->get()->count();
     }
 
-    public function druggroup(){
-        return $this->BelongsTo(RefDrugGroup::class,'DrugGroupId','id');
-    }
-    public function drugform(){
-        return $this->BelongsTo(RefDrugForm::class,'DrugFormId','id');
-    }
-
+ 
 
 }
