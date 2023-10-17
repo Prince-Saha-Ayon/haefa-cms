@@ -93,8 +93,13 @@
                     <div class="row">
 
                         <div class="col-md-6">
-                            <x-form.textbox labelName="Designation" name="Designation" id="Designation" col="col-md-12"
-                                placeholder="Enter Designation" />
+                            <x-form.selectbox labelName="Designation" name="Designation" id="Designation" col="col-md-12"
+                                              class="selectpicker">
+                                @foreach($designations as $designation)
+                                    <option value="{{$designation->DesignationTitle??''}}">{{$designation->DesignationTitle??""}}
+                                    </option>
+                                @endforeach
+                            </x-form.selectbox>
                         </div>
 
                         <div class="col-md-6">

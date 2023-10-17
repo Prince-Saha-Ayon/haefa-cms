@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use Modules\Employee\Entities\Employee;
 use Modules\RefDepartment\Entities\RefDepartment;
+use Modules\RefDesignation\Entities\RefDesignation;
 use Modules\Base\Http\Controllers\BaseController;
 use Modules\Employee\Http\Requests\EmployeeFormRequest;
 use Illuminate\Support\Facades\Auth;
@@ -37,6 +38,7 @@ class EmployeeController extends BaseController
             $data['roles'] = DB::select("SELECT * FROM roles");
             $data['workplaces'] = DB::select("SELECT * FROM WorkPlace");
             $data['departments'] = DB::select("SELECT * FROM RefDepartment");
+            $data['designations'] = RefDesignation::get();
             return view('employee::index',$data);
         }else{
             return $this->unauthorized_access_blocked();
