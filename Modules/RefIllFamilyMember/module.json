@@ -1,0 +1,13 @@
+{
+    "name": "RefIllFamilyMember",
+    "alias": "refillfamilymember",
+    "description": "",
+    "keywords": [],
+    "priority": 0,
+    "providers": [
+        "Modules\\RefIllFamilyMember\\Providers\\RefIllFamilyMemberServiceProvider"
+    ],
+    "aliases": {},
+    "files": [],
+    "requires": []
+}

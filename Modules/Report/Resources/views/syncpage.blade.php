@@ -57,10 +57,12 @@
                 <div class="dt-card__body">
                 <form id="syncForm">
                   @csrf
-                  <button type="submit" class="btn btn-primary btn-sm" id="syncBtn">
+                  
+                  <button type="submit"  class="btn btn-primary btn-sm" id="syncBtn">
                     Synchronize Database
                   </button>
                </form>
+               {{-- <a href="file://E:/HaefaDB/Local-Server-Include.bat">test</a> --}}
                <p class="sync-record">Last Sync: {{$newDate}}</p>
                 <div class="error-page text-center d-none" id="sync-success">
                         <h3 class="dt-error-code">Synchronization Success</h3>
@@ -116,6 +118,7 @@
             $('#spin-order').removeClass('d-none');
             $("#syncBtn").attr("disabled", "true");
             console.log('i am here');
+            
             $.ajax({
             url: "{{ url('data-sync-perform') }}",
             type: "get",

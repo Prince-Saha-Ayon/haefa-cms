@@ -1,0 +1,13 @@
+{
+    "name": "RefDrugGroup",
+    "alias": "refdruggroup",
+    "description": "",
+    "keywords": [],
+    "priority": 0,
+    "providers": [
+        "Modules\\RefDrugGroup\\Providers\\RefDrugGroupServiceProvider"
+    ],
+    "aliases": {},
+    "files": [],
+    "requires": []
+}

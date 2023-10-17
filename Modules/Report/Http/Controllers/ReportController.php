@@ -5,6 +5,7 @@ namespace Modules\Report\Http\Controllers;
 use Carbon\Carbon;
 use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Modules\BarcodeFormat\Entities\BarcodeFormat;
@@ -22,6 +23,9 @@ use Modules\Report\Entities\SyncRecord;
 use Modules\Report\Entities\Union;
 use Modules\Report\Entities\Upazilla;
 use Illuminate\Support\Facades\Log; 
+use Symfony\Component\Process\Process;
+use App\Jobs\SyncJob; // Import the job class
+use Illuminate\Support\Facades\Queue; // Import Queue facade
 
 class ReportController extends BaseController
 {
@@ -512,15 +516,15 @@ $results = DB::table("MDataPatientReferral")
         $endDate = $request->ending_date;
         $RegistrationId = $request->registration_id;
 
-        $datas = DB::select("
+      
+
+            $datas = DB::select("
             SELECT TOP 7 CONVERT(date, MDataBP.CreateDate) AS DistinctDate, BPSystolic1, BPDiastolic1, BPSystolic2, BPDiastolic2
             FROM MDataBP
             INNER JOIN Patient ON Patient.PatientId=MDataBP.PatientId AND Patient.RegistrationId='{$RegistrationId}'
-            WHERE CONVERT(date, MDataBP.CreateDate) BETWEEN ? AND ? AND BPSystolic1 !='' AND BPSystolic2 !=''
-            AND BPSystolic2 !='' AND BPDiastolic2 !=''
+            WHERE CONVERT(date, MDataBP.CreateDate) BETWEEN ? AND ?
             GROUP BY CONVERT(date, MDataBP.CreateDate), BPSystolic1, BPDiastolic1, BPSystolic2, BPDiastolic2
-            ORDER BY DistinctDate DESC
-        ", [$startDate, $endDate]);
+            ORDER BY DistinctDate DESC",[$startDate, $endDate]);
 
         $BPSystolic1 = array();
         $BPDiastolic1 = array();
@@ -644,7 +648,7 @@ $results = DB::table("MDataPatientReferral")
     {
         set_time_limit(3600);
         
-        $serverIp = '123.200.24.227'; // Replace with your SQL Server IP address
+        $serverIp = '192.168.10.10'; // Replace with your SQL Server IP address
         $serverPort = 1433; // Replace with the SQL Server port
 
         $timeout = 5; // Set an appropriate timeout value
@@ -673,8 +677,38 @@ $results = DB::table("MDataPatientReferral")
         $socket = @fsockopen($serverIp, $serverPort, $errno, $errstr, $timeout);
         if ($socket) {
         fclose($socket);
-        $batchFilePath1 = env('BATCH_FILE_BASE_PATH') . DIRECTORY_SEPARATOR . 'Master.bat';
-        $output1 = shell_exec("cmd /c $batchFilePath1");
+        
+        $batchFilePath = 'E:\HaefaDB\Local-Server-Include.bat'; // Replace with the actual path to your batch file
+        $output = shell_exec("E:\HaefaDB\Local-Server-Include.bat");
+        //  Artisan::call('serve');
+         exec("start /B $batchFilePath", $output, $returnCode);
+        // dd($output);
+        // $batchFilePath1 = env('BATCH_FILE_BASE_PATH') . DIRECTORY_SEPARATOR . 'Master.bat';
+        
+        // $here=Artisan::call('execute:master-batch');
+        // dd($here);
+        // $output = Artisan::output();
+        //  Artisan::call('serve');
+
+    // You can access the output and exit code if needed
+        //  $output = Artisan::output();
+        //  dd($output);
+
+        // $batchFilePath = 'E:\HaefaDB\Local-Server-Include.bat'; // Update with the actual path
+        
+        // Create a new Process instance and run the batch file
+        // $process = new Process(['cmd', '/c', $batchFilePath]);
+      
+        // $output=$process->run();
+        // SyncJob::dispatch();
+        //   dd($output);
+    //      Artisan::call('queue:work', [
+    //     '--queue' => 'default', // Specify the queue name if needed
+    //     '--tries' => 3,         // Specify the number of job attempts
+    // ]);
+      
+        
+      
         $syncdate=Carbon::now()->toDateTimeString();
         
          SyncRecord::create([

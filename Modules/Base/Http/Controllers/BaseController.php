@@ -74,7 +74,7 @@ class BaseController extends Controller
 
     protected function track_data_org($update_id=null,$collection){
         $collection->forget('_token'); // remove _token
-        $CreateUser = $UpdateUser = auth()->user()->id;
+        $CreateUser = $UpdateUser = auth()->user()->name;
         $Status = 1;
         $OrgId = auth()->user()->OrgId;
         $CreateDate = $UpdateDate = Carbon::now();

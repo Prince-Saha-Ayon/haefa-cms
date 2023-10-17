@@ -1,0 +1,13 @@
+{
+    "name": "RefContraceptionMethod",
+    "alias": "refcontraceptionmethod",
+    "description": "",
+    "keywords": [],
+    "priority": 0,
+    "providers": [
+        "Modules\\RefContraceptionMethod\\Providers\\RefContraceptionMethodServiceProvider"
+    ],
+    "aliases": {},
+    "files": [],
+    "requires": []
+}

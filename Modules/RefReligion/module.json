@@ -1,0 +1,13 @@
+{
+    "name": "RefReligion",
+    "alias": "refreligion",
+    "description": "",
+    "keywords": [],
+    "priority": 0,
+    "providers": [
+        "Modules\\RefReligion\\Providers\\RefReligionServiceProvider"
+    ],
+    "aliases": {},
+    "files": [],
+    "requires": []
+}

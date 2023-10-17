@@ -26,9 +26,9 @@ class RefDiseaseGroups extends BaseModel
     {
         if(permission('patient-bulk-delete')){
             //datatable display data from the below fields
-            $this->column_order = [null,'RefDiseaseGroupId','DiseaseGroupName','Status',null];
+            $this->column_order = [null,'DiseaseGroupName','Status',null];
         }else{
-            $this->column_order = ['RefDiseaseGroupId','DiseaseGroupName','Status',null];
+            $this->column_order = ['DiseaseGroupName','Status',null];
         }
 
         $query = self::toBase();
@@ -38,7 +38,7 @@ class RefDiseaseGroups extends BaseModel
             ******************/
         //    
         if (!empty($this->name)) {
-            $query->where('RefDiseaseGroupId','like', '%'.$this->name.'%');
+            $query->where('DiseaseGroupName','like', '%'.$this->name.'%');
         }
 
         if (isset($this->orderValue) && isset($this->dirValue)) {

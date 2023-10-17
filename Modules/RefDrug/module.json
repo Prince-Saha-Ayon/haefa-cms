@@ -1,0 +1,13 @@
+{
+    "name": "RefDrug",
+    "alias": "refdrug",
+    "description": "",
+    "keywords": [],
+    "priority": 0,
+    "providers": [
+        "Modules\\RefDrug\\Providers\\RefDrugServiceProvider"
+    ],
+    "aliases": {},
+    "files": [],
+    "requires": []
+}

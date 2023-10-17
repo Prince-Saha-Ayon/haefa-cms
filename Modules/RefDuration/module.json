@@ -1,0 +1,13 @@
+{
+    "name": "RefDuration",
+    "alias": "refduration",
+    "description": "",
+    "keywords": [],
+    "priority": 0,
+    "providers": [
+        "Modules\\RefDuration\\Providers\\RefDurationServiceProvider"
+    ],
+    "aliases": {},
+    "files": [],
+    "requires": []
+}

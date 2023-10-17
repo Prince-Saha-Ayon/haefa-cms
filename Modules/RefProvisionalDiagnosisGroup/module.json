@@ -1,0 +1,13 @@
+{
+    "name": "RefProvisionalDiagnosisGroup",
+    "alias": "refprovisionaldiagnosisgroup",
+    "description": "",
+    "keywords": [],
+    "priority": 0,
+    "providers": [
+        "Modules\\RefProvisionalDiagnosisGroup\\Providers\\RefProvisionalDiagnosisGroupServiceProvider"
+    ],
+    "aliases": {},
+    "files": [],
+    "requires": []
+}

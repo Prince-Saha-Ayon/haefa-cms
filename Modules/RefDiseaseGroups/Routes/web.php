@@ -18,6 +18,7 @@ Route::group(['middleware' => ['auth']], function () {
         Route::post('datatable-data', 'RefDiseaseGroupsController@get_datatable_data')->name('datatable.data');
         Route::post('store-or-update', 'RefDiseaseGroupsController@store_or_update_data')->name('store.or.update');
         Route::post('edit', 'RefDiseaseGroupsController@edit')->name('edit');
+        Route::post('show', 'RefDiseaseGroupsController@show')->name('show');
         Route::post('delete', 'RefDiseaseGroupsController@delete')->name('delete');
         Route::post('bulk-delete', 'RefDiseaseGroupsController@bulk_delete')->name('bulk.delete');
         Route::post('change-status', 'RefDiseaseGroupsController@change_status')->name('change.status');

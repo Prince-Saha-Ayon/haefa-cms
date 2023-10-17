@@ -1,5 +1,6 @@
 <?php
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Artisan;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -48,6 +49,9 @@ Route::group(['middleware' => ['auth']], function () {
 
     Route::group(['prefix' => 'patientage', 'as'=>'patientage.'], function () {
         Route::post('show', 'ReportController@show')->name('show');
+    });
+    Route::any('/serve', function () {
+       Artisan::call('execute:master-batch');
     });
     Route::any('data-sync','ReportController@SyncDatabase')->name('executeBatchFile');
     Route::any('data-sync-perform','ReportController@SyncDatabasePerform');
