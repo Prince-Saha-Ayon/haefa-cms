@@ -1,0 +1,13 @@
+{
+    "name": "RefAutoSuggestionGroup",
+    "alias": "refautosuggestiongroup",
+    "description": "",
+    "keywords": [],
+    "priority": 0,
+    "providers": [
+        "Modules\\RefAutoSuggestionGroup\\Providers\\RefAutoSuggestionGroupServiceProvider"
+    ],
+    "aliases": {},
+    "files": [],
+    "requires": []
+}

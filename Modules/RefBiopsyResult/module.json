@@ -1,0 +1,13 @@
+{
+    "name": "RefBiopsyResult",
+    "alias": "refbiopsyresult",
+    "description": "",
+    "keywords": [],
+    "priority": 0,
+    "providers": [
+        "Modules\\RefBiopsyResult\\Providers\\RefBiopsyResultServiceProvider"
+    ],
+    "aliases": {},
+    "files": [],
+    "requires": []
+}

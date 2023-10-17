@@ -69,5 +69,9 @@
     "RefCancerTreatment": true,
     "RefContraceptionMethod": true,
     "RefIllFamilyMember": true,
-    "RefReligion": true
+    "RefReligion": true,
+    "RefBiopsyResult": true,
+    "RefAutoSuggestionGroup": true,
+    "RefDrugForm": true,
+    "RefDrug": true
 }

@@ -516,15 +516,15 @@ $results = DB::table("MDataPatientReferral")
         $endDate = $request->ending_date;
         $RegistrationId = $request->registration_id;
 
-        $datas = DB::select("
+      
+
+            $datas = DB::select("
             SELECT TOP 7 CONVERT(date, MDataBP.CreateDate) AS DistinctDate, BPSystolic1, BPDiastolic1, BPSystolic2, BPDiastolic2
             FROM MDataBP
             INNER JOIN Patient ON Patient.PatientId=MDataBP.PatientId AND Patient.RegistrationId='{$RegistrationId}'
-            WHERE CONVERT(date, MDataBP.CreateDate) BETWEEN ? AND ? AND BPSystolic1 !='' AND BPSystolic2 !=''
-            AND BPSystolic2 !='' AND BPDiastolic2 !=''
+            WHERE CONVERT(date, MDataBP.CreateDate) BETWEEN ? AND ?
             GROUP BY CONVERT(date, MDataBP.CreateDate), BPSystolic1, BPDiastolic1, BPSystolic2, BPDiastolic2
-            ORDER BY DistinctDate DESC
-        ", [$startDate, $endDate]);
+            ORDER BY DistinctDate DESC",[$startDate, $endDate]);
 
         $BPSystolic1 = array();
         $BPDiastolic1 = array();
