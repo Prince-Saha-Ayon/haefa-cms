@@ -13,9 +13,15 @@ class Patient extends BaseModel
 {
     protected $table = 'Patient';
     public $timestamps = false;
-    protected $fillable = ['PatientId', 'WorkPlaceId', 'WorkPlaceBranchId','PatientCode','RegistrationId','GivenName','FamilyName','GenderId','BirthDate','Age','AgeYear','AgeMonth','AgeDay','JoiningDate','ReligionId','RefDepartmentId','RefDesignationId','MaritalStatusId','EducationId','FatherName','MotherName','SpouseName','HeadOfFamilyId','IdNumber','CellNumber','FamilyMembers','ChildrenNumber','ChildAge0To1','ChildAge1To5','ChildAgeOver5','EmailAddress','PatientImage','Status','CreateDate', 'CreateUser', 'UpdateDate', 'UpdateUser', 'OrgId'];
+    protected $fillable = ['PatientId', 'WorkPlaceId', 'WorkPlaceBranchId','PatientCode',
+        'RegistrationId','GivenName','FamilyName','GenderId','BirthDate','Age','AgeYear',
+        'AgeMonth','AgeDay','JoiningDate','ReligionId','RefDepartmentId','RefDesignationId',
+        'MaritalStatusId','EducationId','FatherName','MotherName','SpouseName','HeadOfFamilyId',
+        'IdNumber','CellNumber','FamilyMembers','ChildrenNumber','ChildAge0To1','ChildAge1To5',
+        'ChildAgeOver5','EmailAddress','PatientImage','Status','CreateDate', 'CreateUser',
+        'UpdateDate', 'UpdateUser', 'OrgId'];
     protected $order = ['CreateDate'=>'desc'];
-    
+
     protected $name;
     public $incrementing = false;
 
@@ -26,7 +32,7 @@ class Patient extends BaseModel
 
     public function Gender()
     {
-        return $this->hasOne(Gender::class, 'GenderId', 'GenderId')->select('GenderId','GenderCode'); 
+        return $this->hasOne(Gender::class, 'GenderId', 'GenderId')->select('GenderId','GenderCode');
     }
     public function MaritalStatus()
     {
@@ -45,8 +51,8 @@ class Patient extends BaseModel
     {
       return $this->belongsTo(Prescription::class, 'PatientId', 'PatientId');
     }
-    
-    
+
+
     private function get_datatable_query()
     {
         if(permission('patient-bulk-delete')){

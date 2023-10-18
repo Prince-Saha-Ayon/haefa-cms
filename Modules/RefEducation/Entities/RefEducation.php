@@ -7,21 +7,20 @@ use Modules\Base\Entities\BaseModel;
 class RefEducation extends BaseModel
 {
     protected $table = 'RefEducation';
-    protected $primaryKey = 'EducationId';
     public $timestamps = false;
 
     protected $fillable = ['EducationId','EducationCode','Description','SortOrder','Status',
     'CreateDate','CreateUser','UpdateDate','UpdateUser','OrgId'];
 
     protected $order = ['CreateDate'=>'desc'];
-    
+
     protected $name;
 
     public function setName($name)
     {
         $this->name = $name;
     }
-    
+
     private function get_datatable_query()
     {
         if(permission('refeducation-bulk-delete')){
@@ -36,7 +35,7 @@ class RefEducation extends BaseModel
         /*****************
             * *Search Data **
             ******************/
-        //    
+        //
         if (!empty($this->name)) {
             $query->where('EducationCode','like', '%'.$this->name.'%');
         }

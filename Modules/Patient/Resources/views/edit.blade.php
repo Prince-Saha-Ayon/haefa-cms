@@ -102,8 +102,54 @@
                                     <div id="captured-image"></div>
                                 </div>
 
+                                <x-form.textbox type="text" labelName="Spouse Name" name="SpouseName" col="col-md-6" value="{{ $patient->SpouseName }}" placeholder="Enter Spouse Name"/>
 
+                                <x-form.selectbox labelName="Religion" name="ReligionId" required="required" col="col-md-6" class="selectpicker">
+                                    @if (!$religions->isEmpty())
+                                        @foreach ($religions as $religion)
+                                            <option value="{{ $religion->ReligionId }}"  {{ $patient->ReligionId == $religion->ReligionId ? 'selected' : '' }}>{{ $religion->ReligionCode }}</option>
+                                        @endforeach
+                                    @endif
+                                </x-form.selectbox>
 
+                                <x-form.textbox type="number" labelName="Family Members" name="FamilyMembers" col="col-md-6" value="{{ $patient->FamilyMembers }}" placeholder="Enter Family Member"/>
+                                <x-form.textbox type="text" labelName="Father Name" name="FatherName" col="col-md-6" value="{{ $patient->FatherName }}" placeholder="Enter Father Name"/>
+                                <x-form.textbox type="text" labelName="Mother Name" name="MotherName" col="col-md-6" value="{{ $patient->MotherName }}" placeholder="Enter Mother Name"/>
+
+                                <x-form.selectbox labelName="Education" name="EducationId" required="required" col="col-md-6" class="selectpicker">
+                                    @if (!$educations->isEmpty())
+                                        @foreach ($educations as $education)
+                                            <option value="{{ $education->EducationId }}"  {{ $education->EducationId == $patient->EducationId ? 'selected' : '' }}>{{ $education->EducationCode }}</option>
+                                        @endforeach
+                                    @endif
+                                </x-form.selectbox>
+
+                                <x-form.selectbox labelName="Head of Family" name="HeadOfFamilyId" required="required" col="col-md-6" class="selectpicker">
+                                    @if (!$RefHeadOfFamilies->isEmpty())
+                                        @foreach ($RefHeadOfFamilies as $RefHeadOfFamilie)
+                                            <option value="{{ $RefHeadOfFamilie->HeadOfFamilyId }}"  {{ $RefHeadOfFamilie->HeadOfFamilyId == $patient->HeadOfFamilyId ? 'selected' : '' }}>{{ $RefHeadOfFamilie->HeadOfFamilyCode }}</option>
+                                        @endforeach
+                                    @endif
+                                </x-form.selectbox>
+
+                                <div class="form-group col-md-6">
+                                    <label for="">Children</label><br>
+                                    <div class="custom-control custom-checkbox custom-control-inline">
+                                        <input type="checkbox" id="ChildAge0To1" name="ChildAge0To1" value="1" class="custom-control-input"
+                                            {{ $patient->ChildAge0To1 == 1 ? 'checked' : '' }}>
+                                        <label class="custom-control-label" for="ChildAge0To1">ChildAge0To1</label>
+                                    </div>
+                                    <div class="custom-control custom-checkbox custom-control-inline">
+                                        <input type="checkbox" id="ChildAge1To5" name="ChildAge1To5" value="5" class="custom-control-input"
+                                            {{ $patient->ChildAge1To5 == 5 ? 'checked' : '' }}>
+                                        <label class="custom-control-label" for="ChildAge1To5">ChildAge1To5</label>
+                                    </div>
+                                    <div class="custom-control custom-checkbox custom-control-inline">
+                                        <input type="checkbox" id="ChildAgeOver5" name="ChildAgeOver5" value="6" class="custom-control-input"
+                                            {{ $patient->ChildAgeOver5 == 6 ? 'checked' : '' }}>
+                                        <label class="custom-control-label" for="ChildAgeOver5">ChildAgeOver5</label>
+                                    </div>
+                                </div>
 
                             </div>
                         </div>
