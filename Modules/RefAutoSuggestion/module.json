@@ -1,0 +1,13 @@
+{
+    "name": "RefAutoSuggestion",
+    "alias": "refautosuggestion",
+    "description": "",
+    "keywords": [],
+    "priority": 0,
+    "providers": [
+        "Modules\\RefAutoSuggestion\\Providers\\RefAutoSuggestionServiceProvider"
+    ],
+    "aliases": {},
+    "files": [],
+    "requires": []
+}
