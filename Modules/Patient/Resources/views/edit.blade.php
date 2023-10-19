@@ -133,23 +133,36 @@
                                 </x-form.selectbox>
 
                                 <div class="form-group col-md-6">
-                                    <label for="">Children</label><br>
-                                    <div class="custom-control custom-checkbox custom-control-inline">
-                                        <input type="checkbox" id="ChildAge0To1" name="ChildAge0To1" value="1" class="custom-control-input"
-                                            {{ $patient->ChildAge0To1 == 1 ? 'checked' : '' }}>
-                                        <label class="custom-control-label" for="ChildAge0To1">ChildAge0To1</label>
-                                    </div>
-                                    <div class="custom-control custom-checkbox custom-control-inline">
-                                        <input type="checkbox" id="ChildAge1To5" name="ChildAge1To5" value="5" class="custom-control-input"
-                                            {{ $patient->ChildAge1To5 == 5 ? 'checked' : '' }}>
-                                        <label class="custom-control-label" for="ChildAge1To5">ChildAge1To5</label>
-                                    </div>
-                                    <div class="custom-control custom-checkbox custom-control-inline">
-                                        <input type="checkbox" id="ChildAgeOver5" name="ChildAgeOver5" value="6" class="custom-control-input"
-                                            {{ $patient->ChildAgeOver5 == 6 ? 'checked' : '' }}>
-                                        <label class="custom-control-label" for="ChildAgeOver5">ChildAgeOver5</label>
-                                    </div>
+                                    <label for="ChildAge0To1">Child Age 0To1</label>
+                                    <input type="number" name="ChildAge0To1" id="ChildAge0To1" class="form-control " value="{{ $patient->ChildAge0To1 }}" placeholder="Enter Child Age 0To1">
                                 </div>
+
+                                <div class="form-group col-md-6">
+                                    <label for="ChildAge1To5">Child Age 1To5</label>
+                                    <input type="number" name="ChildAge1To5" id="ChildAge1To5" class="form-control " value="{{ $patient->ChildAge1To5 }}" placeholder="Enter Child Age 1To5">
+                                </div>
+
+                                <div class="form-group col-md-6" >
+                                    <label for="ChildAgeOver5">Child Age Over5</label>
+                                    <input type="number" name="ChildAgeOver5" id="ChildAgeOver5" class="form-control " value="{{ $patient->ChildAgeOver5 }}" placeholder="Enter Child Age Over5">
+                                </div>
+
+{{--                                <div class="form-group col-md-6">--}}
+{{--                                    <label for="">Children</label><br>--}}
+{{--                                    <div class="custom-control custom-control-inline">--}}
+{{--                                        <label class="custom-control-label" for="ChildAge0To1">ChildAge0To1</label>--}}
+{{--                                        <input type="number" id="ChildAge0To1" name="ChildAge0To1" value="{{ $patient->ChildAge0To1?? '' }}" class="custom-control-input">--}}
+
+{{--                                    </div>--}}
+{{--                                    <div class="custom-control custom-control-inline">--}}
+{{--                                        <label class="custom-control-label" for="ChildAge1To5">ChildAge1To5</label>--}}
+{{--                                        <input type="number" id="ChildAge1To5" name="ChildAge1To5" value=" {{ $patient->ChildAge1To5 ?? '' }}" class="custom-control-input">--}}
+{{--                                    </div>--}}
+{{--                                    <div class="custom-control custom-control-inline">--}}
+{{--                                        <label class="custom-control-label" for="ChildAgeOver5">ChildAgeOver5</label>--}}
+{{--                                        <input type="number" id="ChildAgeOver5" name="ChildAgeOver5" value="{{ $patient->ChildAgeOver5 ?? '' }}" class="custom-control-input">--}}
+{{--                                    </div>--}}
+{{--                                </div>--}}
 
                             </div>
                         </div>
@@ -393,8 +406,6 @@ Webcam.set({
     image_format: 'jpeg',
     jpeg_quality: 90
 });
-
-
 
 </script>
 @endpush
