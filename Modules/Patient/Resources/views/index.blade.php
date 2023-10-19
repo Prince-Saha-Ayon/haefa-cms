@@ -130,7 +130,7 @@
 
             <!-- Entry Header -->
             <div class="dt-entry__header">
-            
+
                 <!-- Entry Heading -->
                 <div class="dt-entry__heading">
                     <h2 class="dt-page__title mb-0 text-primary"><i class="{{ $page_icon }}"></i> {{ $sub_title }}</h2>
@@ -141,7 +141,7 @@
                     <i class="fas fa-plus-square"></i> Add New
                  </button>
                 @endif
-                
+
 
             </div>
             <!-- /entry header -->
@@ -224,7 +224,7 @@ $(document).ready(function(){
         "bInfo": true, //TO show the total number of data
         "bFilter": false, //For datatable default search box show/hide
         "pageLength": 10, //number of data show per page
-        "language": { 
+        "language": {
             processing: `<i class="fas fa-spinner fa-spin fa-3x fa-fw text-primary"></i> `,
             emptyTable: '<strong class="text-danger">No Data Found</strong>',
             infoEmpty: '',
@@ -241,7 +241,7 @@ $(document).ready(function(){
         "columnDefs": [{
                 @if (permission('patient-bulk-delete'))
                 "targets": [0,4],
-                @else 
+                @else
                 "targets": [3],
                 @endif
                 "orderable": false,
@@ -250,7 +250,7 @@ $(document).ready(function(){
             {
                 @if (permission('patient-bulk-delete'))
                 "targets": [1,3],
-                @else 
+                @else
                 "targets": [0,2],
                 @endif
                 "className": "text-center"
@@ -317,7 +317,7 @@ $(document).ready(function(){
                     columns: [1, 2, 3]
                 },
             },
-            @endif 
+            @endif
             @if (permission('patient-bulk-delete'))
             {
                 'className':'btn btn-danger btn-sm delete_btn d-none text-white',

@@ -7,6 +7,7 @@ use Modules\Patient\Entities\Patient;
 use Modules\Patient\Entities\Gender;
 use Modules\Patient\Entities\MaritalStatus;
 use Modules\Patient\Entities\Address;
+use Modules\Patient\Entities\RefHeadOfFamily;
 use Modules\Patient\Entities\SelfType;
 use Modules\Patient\Entities\District;
 use Modules\Base\Http\Controllers\BaseController;
@@ -15,6 +16,8 @@ use Illuminate\Http\RedirectResponse;
 use DB;
 use Carbon\Carbon;
 use Auth;
+use Modules\RefEducation\Entities\RefEducation;
+use Modules\RefReligion\Entities\RefReligion;
 
 class PatientController extends BaseController
 {
@@ -132,6 +135,18 @@ class PatientController extends BaseController
                         'IdNumber' => $request->IdNumber,
                         'IdOwner' => $request->IdOwner,
                         'MaritalStatusId' => $request->MaritalStatusId,
+
+                        'SpouseName' => $request->SpouseName,
+                        'ReligionId' => $request->ReligionId,
+                        'FamilyMembers' => $request->FamilyMembers,
+                        'FatherName' => $request->FatherName,
+                        'MotherName' => $request->MotherName,
+                        'EducationId' => $request->EducationId,
+                        'HeadOfFamilyId' => $request->HeadOfFamilyId,
+                        'ChildAge0To1' => $request->ChildAge0To1,
+                        'ChildAge1To5' => $request->ChildAge1To5,
+                        'ChildAgeOver5' => $request->ChildAgeOver5,
+
                         'UpdateUser' => auth()->user()->name,
                         'UpdateDate' => $date,
                 ]);
@@ -183,9 +198,10 @@ class PatientController extends BaseController
                     'selfTypes' => SelfType::all(),
                     'address' => Address::where('PatientId','=',$request->id)->first(),
                     'districts' => District::all(),
+                    'educations' => RefEducation::all(),
+                    'religions' => RefReligion::all(),
+                    'RefHeadOfFamilies' => RefHeadOfFamily::all(),
                 ];
-
-
                 return view('patient::edit',$data);
             }else{
                 return $this->access_blocked();
