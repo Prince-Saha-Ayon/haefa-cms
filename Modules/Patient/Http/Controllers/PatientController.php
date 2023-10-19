@@ -29,8 +29,9 @@ class PatientController extends BaseController
     public function index()
     {
         if(permission('patient-access')){
+            $patients=Patient::get();
             $this->setPageData('Patient','patient','fas fa-th-list');
-            return view('patient::index');
+            return view('patient::index',compact('patients'));
         }else{
             return $this->unauthorized_access_blocked();
         }

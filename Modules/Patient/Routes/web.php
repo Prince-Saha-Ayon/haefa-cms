@@ -22,7 +22,7 @@ Route::group(['middleware' => ['auth']], function () {
         Route::post('bulk-delete', 'PatientController@bulk_delete')->name('bulk.delete');
         Route::post('change-status', 'PatientController@change_status')->name('change.status');
         Route::post('show', 'PatientController@show')->name('show');
-        Route::post('showid', 'PatientController@showid')->name('showid');
+        Route::any('showid', 'PatientController@showid')->name('showid');
         Route::get('edit/{id}', 'PatientController@edit')->name('edit');
     });
 });
