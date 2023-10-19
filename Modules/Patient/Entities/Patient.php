@@ -1,6 +1,8 @@
 <?php
 
 namespace Modules\Patient\Entities;
+use Carbon\Carbon;
+use Illuminate\Support\Facades\DB;
 use Modules\Patient\Entities\Gender;
 use Modules\Patient\Entities\MaritalStatus;
 use Modules\Patient\Entities\Address;
@@ -96,5 +98,22 @@ class Patient extends BaseModel
     public function count_all()
     {
         return self::toBase()->get()->count();
+    }
+
+    //top ten disease based on patient
+    public static function top_ten_disease(){
+        $today = Carbon::today();
+        $startDate = $today->format('m/d/Y');
+
+        $illnesses = DB::table('MDataPatientIllnessHistory')
+            ->join('RefIllness', 'MDataPatientIllnessHistory.IllnessId', '=', 'RefIllness.IllnessId')
+            ->join('Patient', 'MDataPatientIllnessHistory.PatientId', '=', 'Patient.PatientId')
+//                ->where('MDataPatientIllnessHistory.CreateDate', $startDate)
+            ->groupBy('RefIllness.IllnessId', 'RefIllness.IllnessCode')
+            ->orderByRaw('COUNT(*) DESC')
+            ->select('RefIllness.IllnessId', 'RefIllness.IllnessCode', DB::raw('COUNT(*) as Patients'))
+            ->take(10)
+            ->get();
+        return $illnesses;
     }
 }

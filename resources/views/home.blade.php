@@ -12,7 +12,7 @@
 
 @section('content')
 <div class="dt-content">
-    
+
     <div class="row pt-5">
       {{-- <div class="col-xl-2 col-sm-4">
         <div class="dt-card dt-chart dt-card__full-height bg-warning align-items-center pt-5">
@@ -52,16 +52,17 @@
     </div>
 
     {{-- Database Sync Button --}}
-  
 
-    {{--  --}}
+
     <!-- Start :: Bar Chart-->
         <div class="row py-5">
-         
+
           <div class="col-md-12">
+
+            <!-- Patient wise today's top 10 disease Start -->
             <div class="card bar-chart">
                 <div class="card-header d-flex align-items-center">
-                <h4>Patient wise Blood Pressure Graph </h4>
+                <h4 style="margin:0px;">Patient wise today's top 10 disease </h4>
                 </div>
             </div>
 
@@ -70,66 +71,20 @@
                 <!-- Card Body -->
                 <div class="dt-card__body">
 
-                    <form id="form-filter" method="GET" action="{{url('patient-blood-pressure-graph')}}">
-
-                        <div class="row">
-                            <div class="form-group col-md-2">
-                                <label for="name">Date From</label>
-                                <input type="date" class="form-control" value="<?php echo $_GET['starting_date']??'' ?>" name="starting_date" id="starting_date"
-                                    placeholder="Date From">
-                            </div>
-                            <div class="form-group col-md-2">
-                                <label for="name">Date To </label>
-                                <input type="date" class="form-control" value="<?php echo $_GET['ending_date']??'' ?>" name="ending_date" id="ending_date"
-                                    placeholder="Date To">
-                            </div>
-
-                            <div class="form-group col-md-3">
-                                <label for="name">Registration Id</label>
-
-                                <select class="selectpicker" data-live-search="true" name="registration_id" id="registration_id">
-                                    <option value="">Select Registration ID</option> <!-- Empty option added -->
-
-                                    @foreach($registrationId as $registration_id)
-                                        <option value="{{$registration_id->RegistrationId}}">{{$registration_id->RegistrationId}}</option>
-
-                                    @endforeach
-
-                                </select>
-                            </div>
-                            <div class="col-md-2 warning-searching invisible" id="warning-searching">
-                                <span class="text-danger" id="warning-message">Searching...Please Wait</span>
-                                <span class="spinner-border text-danger"></span>
-                            </div>
-
-                            <div class="form-group col-md-2 pt-24">
-
-                                <button type="button" id="search" class="btn btn-primary btn-sm float-right mr-2">
-                                    <i class="fas fa-search"></i>
-                                </button>
-
-                                <button type="button" id="refresh" class="btn btn-primary btn-sm float-right mr-2 refresh">
-                                <i class="fas fa-sync-alt"></i></button>
-                            </div>
-              </div>
-
-                        <div class="row">
-                            <div class="col-md-12">
-                                <figure class="highcharts-figure">
-                                    <div id="container_bloodp"></div>
-                                </figure>
-                            </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <figure class="highcharts-figure">
+                                <div id="container_diseases"></div>
+                            </figure>
                         </div>
-                    </form>
+                    </div>
 
                 </div>
                 <!-- /card body -->
 
-                </div>
-                <!-- /card -->
-
-
-
+            </div>
+            <!-- /card -->
+            <!-- Patient wise today's top 10 disease End -->
 
             <!-- heart rate graph -->
 
@@ -145,48 +100,7 @@
                 <!-- Card Body -->
                 <div class="dt-card__body">
 
-                    <form id="form-filter" method="GET" action="{{url('patient-blood-pressure-graph')}}">
-
-                        <div class="row">
-                            <div class="form-group col-md-2">
-                                <label for="name">Date From</label>
-                                <input type="date" class="form-control" value="<?php echo $_GET['starting_date']??'' ?>" name="starting_date_heart" id="starting_date_heart"
-                                    placeholder="Date From">
-                            </div>
-                            <div class="form-group col-md-2">
-                                <label for="name">Date To </label>
-                                <input type="date" class="form-control" value="<?php echo $_GET['ending_date']??'' ?>" name="ending_date_heart" id="ending_date_heart"
-                                    placeholder="Date To">
-                            </div>
-
-                            <div class="form-group col-md-3">
-                                <label for="name">Registration Id</label>
-
-                                <select class="selectpicker" data-live-search="true" name="registration_id_heart" id="registration_id_heart">
-                                    <option value="">Select Registration ID</option> <!-- Empty option added -->
-
-                                    @foreach($registrationId as $registration_id)
-                                        <option value="{{$registration_id->RegistrationId}}">{{$registration_id->RegistrationId}}</option>
-
-                                    @endforeach
-
-                                </select>
-                            </div>
-                            <div class="col-md-2 warning-searching invisible" id="warning-searching_heart">
-                                <span class="text-danger" id="warning-message">Searching...Please Wait</span>
-                                <span class="spinner-border text-danger"></span>
-                            </div>
-
-                            <div class="form-group col-md-2 pt-24">
-
-                                <button type="button" id="search_heart" class="btn btn-primary btn-sm float-right mr-2">
-                                    <i class="fas fa-search"></i>
-                                </button>
-
-                                <button type="button" id="refresh_heart" class="btn btn-primary btn-sm float-right mr-2 refresh">
-                                <i class="fas fa-sync-alt"></i></button>
-                            </div>
-                        </div>
+{{--                    <form id="form-filter" method="GET" action="{{url('patient-blood-pressure-graph')}}">--}}
 
                         <div class="row">
                             <div class="col-md-12">
@@ -195,9 +109,6 @@
                                 </figure>
                             </div>
                         </div>
-                    </form>
-
-
 
                 </div>
                 <!-- /card body -->
@@ -219,57 +130,14 @@
           <!-- Card Body -->
           <div class="dt-card__body">
 
-              <form id="form-filter" method="GET" action="{{url('patient-blood-pressure-graph')}}">
-
-                  <div class="row">
-                      <div class="form-group col-md-2">
-                          <label for="name">Date From</label>
-                          <input type="date" class="form-control" value="<?php echo $_GET['starting_date']??'' ?>" name="starting_date_temperature" id="starting_date_temperature"
-                              placeholder="Date From">
-                      </div>
-                      <div class="form-group col-md-2">
-                          <label for="name">Date To </label>
-                          <input type="date" class="form-control" value="<?php echo $_GET['ending_date']??'' ?>" name="ending_date_temperature" id="ending_date_temperature"
-                              placeholder="Date To">
-                      </div>
-
-                      <div class="form-group col-md-3">
-                          <label for="name">Registration Id</label>
-
-                          <select class="selectpicker" data-live-search="true" name="registration_id_temperature" id="registration_id_temperature">
-                              <option value="">Select Registration ID</option> <!-- Empty option added -->
-
-                              @foreach($registrationId as $registration_id)
-                                  <option value="{{$registration_id->RegistrationId}}">{{$registration_id->RegistrationId}}</option>
-
-                              @endforeach
-
-                          </select>
-                      </div>
-                      <div class="col-md-2 warning-searching invisible" id="warning-searching_temperature">
-                          <span class="text-danger" id="warning-message">Searching...Please Wait</span>
-                          <span class="spinner-border text-danger"></span>
-                      </div>
-
-                      <div class="form-group col-md-2 pt-24">
-
-                          <button type="button" id="search_temperature" class="btn btn-primary btn-sm float-right mr-2">
-                              <i class="fas fa-search"></i>
-                          </button>
-
-                          <button type="button" id="refresh_temperature" class="btn btn-primary btn-sm float-right mr-2 refresh_temperature">
-                          <i class="fas fa-sync-alt"></i></button>
-                      </div>
+{{--              <form id="form-filter" method="GET" action="{{url('patient-blood-pressure-graph')}}">--}}
+              <div class="row">
+                  <div class="col-md-12">
+                      <figure class="highcharts-figure">
+                          <div id="container_temperature"></div>
+                      </figure>
                   </div>
-
-                  <div class="row">
-                      <div class="col-md-12">
-                          <figure class="highcharts-figure">
-                              <div id="container_temperature"></div>
-                          </figure>
-                      </div>
-                  </div>
-              </form>
+              </div>
 
           </div>
           <!-- /card body -->
@@ -281,14 +149,14 @@
             </div>
         </div>
         <!-- End :: Bar Chart-->
-    
+
   </div>
 @endsection
 
 
 @push('script')
 <script src="js/chart.min.js"></script>
-
+<script src="js/highcharts.js"></script>
 <script>
 $(document).ready(function(){
 
@@ -307,7 +175,6 @@ $(document).ready(function(){
       $('#supplier').text(data.supplier);
     });
   });
-
 
   var brandPrimary;
   var brandPrimaryRgba;
@@ -552,7 +419,7 @@ $('#search').click(function() {
     });
 });
 
-//hear rate graph 
+//hear rate graph
 $('#refresh_heart').click(function(){
     $('#starting_date_heart').val('');
     $('#ending_date_heart').val('');
@@ -620,6 +487,71 @@ $('#search_temperature').click(function() {
         }
     });
 });
+
+//Top ten disease
+
+    {{--var chartData = {!! json_encode($illnesses['diseases']) !!};--}}
+    var chartData = {!! $illnesses['diseases'] !!};
+    // var branchName = branch && branch.length > 0 ? branch[0].HealthCenterName : 'Unknown Branch';
+
+    Highcharts.chart('container_diseases', {
+    chart: {
+    type: 'column'
+},
+    title: {
+    text: `Today's Top 10 Disease`
+},
+    credits: {
+    enabled: false
+},
+
+    xAxis: {
+    title: {
+    text: 'Diseases'
+},
+    categories: chartData.map(function(item) {
+    return item.IllnessCode;
+}),
+    labels: {
+    style: {
+    fontSize: '9px',
+    fontWeight: 'bold'
+}
+},
+},
+    yAxis: {
+    title: {
+    text: 'Patients'
+},
+    labels: {
+    style: {
+    fontSize: '12px'
+}
+},
+},
+    plotOptions: {
+    column: {
+    colorByPoint: true,
+    dataLabels: {
+    enabled: true, // Display data labels on top of bars
+    format: '{y}', // Display the y-value (patient count)
+    style: {
+    fontSize: '12px',
+    fontWeight: 'bold'
+}
+} // Let Highcharts choose colors
+},
+
+},
+    series: [{
+    name: 'Patients',
+    data: chartData.map(function(item) {
+    return parseFloat(item.Patients);
+})
+}]
+});
+
+
 
 </script>
 @endpush

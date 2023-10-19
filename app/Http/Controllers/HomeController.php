@@ -22,16 +22,18 @@ class HomeController extends Controller
         ini_set('max_execution_time', 3000);
         if (permission('dashboard-access')) {
             $this->setPageData('Dashboard','Dashboard','fas fa-tachometer-alt');
-            
-            // $patient_count = Patient::all()->count();
+
             $doctor_count = User::where('role_id','=',3)->get()->count();
             $patient_today_count = Patient::whereDate('CreateDate', Carbon::today())->get()->count();
             // $prescription_total_count = Prescription::all()->count();
             $prescription_today_count = Prescription::whereDate('CreateDate', Carbon::today())->get()->count();
             $registrationId=Patient::select('RegistrationId')->get();
 
-            // return view('home');
-            return view('home',compact('patient_today_count','prescription_today_count','registrationId'));
+            //top ten disease graph of todays date start
+            $illnesses['diseases'] = Patient::top_ten_disease();
+            //top ten disease graph of todays date end
+
+            return view('home',compact('patient_today_count','prescription_today_count','registrationId','illnesses'));
         }else{
             return $this->unauthorized_access_blocked();
         }

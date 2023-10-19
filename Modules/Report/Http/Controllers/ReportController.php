@@ -22,7 +22,7 @@ use Modules\Patient\Entities\Address;
 use Modules\Report\Entities\SyncRecord;
 use Modules\Report\Entities\Union;
 use Modules\Report\Entities\Upazilla;
-use Illuminate\Support\Facades\Log; 
+use Illuminate\Support\Facades\Log;
 use Symfony\Component\Process\Process;
 use App\Jobs\SyncJob; // Import the job class
 use Illuminate\Support\Facades\Queue; // Import Queue facade
@@ -80,8 +80,8 @@ public function diseaseindex()
     }
       public function DistrictwisePatientIndex(Request $request){
         $districts=District::get(['id','name']);
-       
-        
+
+
         $this->setPageData('Districtwise Patients','Districtwise Patients','fas fa-th-list');
         return view('report::districtwisepatients',compact('districts'));
 
@@ -96,7 +96,7 @@ public function diseaseindex()
         $dc_id=$request->dc_id;
         $up_id=$request->up_id;
         $un_id=$request->un_id;
-       
+
 $results = Address::with('districtAddress','upazillaAddress','unionAddress')->selectRaw('CAST(Address.CreateDate AS DATE) as CreateDate, Patient.GivenName, Patient.FamilyName, Patient.Age,Address.PatientId, Address.District,Address.Thana, Address.UnionId')
     ->whereDate('Address.CreateDate', '>=', $starting_date)
     ->whereDate('Address.CreateDate', '<=', $ending_date)
@@ -114,32 +114,32 @@ $results = Address::with('districtAddress','upazillaAddress','unionAddress')->se
     ->join('Patient', 'Address.PatientId', '=', 'Patient.PatientId')
     ->get();
 
-   
 
 
-             
-        
+
+
+
         $this->setPageData('Districtwise Patients','Districtwise Patients','fas fa-th-list');
         return view('report::districtwisepatients',compact('districts','results'));
 
     }
 
-    
+
         public function GetUpazillas($district_id){
-       
+
         $dc_id=(int)$district_id;
         $upazillas=Upazilla::where('district_id', $dc_id)->get();
         return response()->json($upazillas);
 
     }
        public function GetUnions($upazilla_id){
-       
+
         $up_id=(int)$upazilla_id;
         $unions=Union::where('upazilla_id', $up_id)->get();
         return response()->json($unions);
 
     }
-    
+
 
 
 
@@ -275,7 +275,7 @@ $results = DB::table("MDataPatientReferral")
             ->take(10)
             ->get();
 
-            // dd( $illnesses['diseases']);
+             return $illnesses;
 
          return view('report::toptendiseases_ajax',compact('illnesses'));
     }
@@ -516,7 +516,7 @@ $results = DB::table("MDataPatientReferral")
         $endDate = $request->ending_date;
         $RegistrationId = $request->registration_id;
 
-      
+
 
             $datas = DB::select("
             SELECT TOP 7 CONVERT(date, MDataBP.CreateDate) AS DistinctDate, BPSystolic1, BPDiastolic1, BPSystolic2, BPDiastolic2
@@ -630,7 +630,7 @@ $results = DB::table("MDataPatientReferral")
 
         public function SyncDatabase(Request $request)
     {
-       
+
         $rawMacAddress = exec("getmac");
         $macAddress = $this->extractMacAddress($rawMacAddress);
         $last_sync = SyncRecord::where('IPAddress',$macAddress)->latest('CreateDate')->first();
@@ -647,44 +647,44 @@ $results = DB::table("MDataPatientReferral")
      public function SyncDatabasePerform(Request $request)
     {
         set_time_limit(3600);
-        
+
         $serverIp = '192.168.10.10'; // Replace with your SQL Server IP address
         $serverPort = 1433; // Replace with the SQL Server port
 
         $timeout = 5; // Set an appropriate timeout value
         $hostname = gethostname();
         $rawMacAddress = exec("getmac");
-       
+
         $user=Auth::user()->name;
         $id=Auth::user()->cc_id;
         $id=intval($id);
         $type = gettype($id);
-       
-         
+
+
 
     // Extract the MAC address without "Media disconnected"
         $macAddress = $this->extractMacAddress($rawMacAddress);
-      
+
 
         $workplace=DB::table('barcode_formats')->where('id', $id)->pluck('barcode_prefix')->first();
-   
-         
-      
+
+
+
         // dd($hostname,$macAddress,$syncdate,$user);
-       
+
 
     // Attempt to establish a socket connection
         $socket = @fsockopen($serverIp, $serverPort, $errno, $errstr, $timeout);
         if ($socket) {
         fclose($socket);
-        
+
         $batchFilePath = 'E:\HaefaDB\Local-Server-Include.bat'; // Replace with the actual path to your batch file
         $output = shell_exec("E:\HaefaDB\Local-Server-Include.bat");
         //  Artisan::call('serve');
          exec("start /B $batchFilePath", $output, $returnCode);
         // dd($output);
         // $batchFilePath1 = env('BATCH_FILE_BASE_PATH') . DIRECTORY_SEPARATOR . 'Master.bat';
-        
+
         // $here=Artisan::call('execute:master-batch');
         // dd($here);
         // $output = Artisan::output();
@@ -695,10 +695,10 @@ $results = DB::table("MDataPatientReferral")
         //  dd($output);
 
         // $batchFilePath = 'E:\HaefaDB\Local-Server-Include.bat'; // Update with the actual path
-        
+
         // Create a new Process instance and run the batch file
         // $process = new Process(['cmd', '/c', $batchFilePath]);
-      
+
         // $output=$process->run();
         // SyncJob::dispatch();
         //   dd($output);
@@ -706,11 +706,11 @@ $results = DB::table("MDataPatientReferral")
     //     '--queue' => 'default', // Specify the queue name if needed
     //     '--tries' => 3,         // Specify the number of job attempts
     // ]);
-      
-        
-      
+
+
+
         $syncdate=Carbon::now()->toDateTimeString();
-        
+
          SyncRecord::create([
         'DownloadUploadIndicator' => $hostname,
         'IPAddress' => $macAddress,
@@ -723,15 +723,15 @@ $results = DB::table("MDataPatientReferral")
 
     ]);
         return response()->json('success');
-   
+
         // $this->setPageData('Synchronize Data', 'Synchronize Data', 'Synchronize Data');
         // return view('report::syncsuccess');
-        
+
         } else {
         return response()->json('Failure');
         // $this->setPageData('Synchronize Data', 'Synchronize Data', 'Synchronize Data');
         // return view('report::syncfail');
-        
+
         }
 
     }
