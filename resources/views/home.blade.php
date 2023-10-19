@@ -62,7 +62,7 @@
             <!-- Patient wise today's top 10 disease Start -->
             <div class="card bar-chart">
                 <div class="card-header d-flex align-items-center">
-                <h4 style="margin:0px;">Patient wise today's top 10 disease </h4>
+                <h4 style="margin:0px;">Today's top 10 disease </h4>
                 </div>
             </div>
 
@@ -90,7 +90,7 @@
 
             <div class="card bar-chart">
                 <div class="card-header d-flex align-items-center">
-                <h4>Hear Rate Graph </h4>
+                <h4>Today's All disease </h4>
                 </div>
             </div>
 
@@ -105,7 +105,7 @@
                         <div class="row">
                             <div class="col-md-12">
                                 <figure class="highcharts-figure">
-                                    <div id="container_heart"></div>
+                                    <div id="container_alldiseases"></div>
                                 </figure>
                             </div>
                         </div>
@@ -383,174 +383,121 @@ $(document).ready(function(){
   }
 });
 
+// Top ten disease
+var chartData = {!! $illnesses['diseases'] !!};
 
-// Report patient blood pressure
-
-$('#refresh').click(function(){
-    $('#starting_date').val('');
-    $('#ending_date').val('');
-
-    $('.selectpicker').selectpicker('val', '');
-    $('#container_bloodp').html('');
-});
-
-$('#search').click(function() {
-    var starting_date = $('#starting_date').val();
-    var ending_date = $('#ending_date').val();
-    var registration_id = $('#registration_id').val();
-
-    $.ajax({
-        url: "{{ url('ajax-patient-blood-pressure') }}",
-        type: "get",
-        data: { starting_date: starting_date, ending_date: ending_date, registration_id: registration_id },
-        dataType: "html",
-        beforeSend: function(){
-            $('#warning-searching').removeClass('invisible');
-        },
-        complete: function(){
-            $('#warning-searching').addClass('invisible');
-        },
-        success: function(data) {
-            $('#container_bloodp').html(data);
-        },
-        error: function(xhr, ajaxOption, thrownError) {
-            console.log(thrownError + '\r\n' + xhr.statusText + '\r\n' + xhr.responseText);
-        }
-    });
-});
-
-//hear rate graph
-$('#refresh_heart').click(function(){
-    $('#starting_date_heart').val('');
-    $('#ending_date_heart').val('');
-    $('.selectpicker').selectpicker('val', '');
-    $('#container_heart').html('');
-});
-
-$('#search_heart').click(function() {
-    var starting_date_heart = $('#starting_date_heart').val();
-    var ending_date_heart = $('#ending_date_heart').val();
-    var registration_id_heart = $('#registration_id_heart').val();
-    console.log(starting_date_heart);
-    console.log(starting_date_heart);
-
-    $.ajax({
-        url: "{{ url('ajax-heart-rate-graph') }}",
-        type: "get",
-        data: { starting_date: starting_date_heart, ending_date: ending_date_heart, registration_id: registration_id_heart },
-        dataType: "html",
-        beforeSend: function(){
-            $('#warning-searching_heart').removeClass('invisible');
-        },
-        complete: function(){
-            $('#warning-searching_heart').addClass('invisible');
-        },
-        success: function(data) {
-            $('#container_heart').html(data);
-        },
-        error: function(xhr, ajaxOption, thrownError) {
-            console.log(thrownError + '\r\n' + xhr.statusText + '\r\n' + xhr.responseText);
-        }
-    });
-});
-
-// temperature graph
-$('#refresh_temperature').click(function(){
-    $('#starting_date_temperature').val('');
-    $('#ending_date_temperature').val('');
-    $('.selectpicker').selectpicker('val', '');
-    $('#container_temperature').html('');
-});
-
-$('#search_temperature').click(function() {
-    var starting_date_temperature = $('#starting_date_temperature').val();
-    var ending_date_temperature = $('#ending_date_temperature').val();
-    var registration_id_temperature = $('#registration_id_temperature').val();
-
-    $.ajax({
-        url: "{{ url('ajax-temperature-graph') }}",
-        type: "get",
-        data: { starting_date: starting_date_temperature, ending_date: ending_date_temperature, registration_id: registration_id_temperature },
-        dataType: "html",
-        beforeSend: function(){
-            $('#warning-searching_temperature').removeClass('invisible');
-        },
-        complete: function(){
-            $('#warning-searching_temperature').addClass('invisible');
-        },
-        success: function(data) {
-          console.log(data)
-            $('#container_temperature').html(data);
-        },
-        error: function(xhr, ajaxOption, thrownError) {
-            console.log(thrownError + '\r\n' + xhr.statusText + '\r\n' + xhr.responseText);
-        }
-    });
-});
-
-//Top ten disease
-
-    {{--var chartData = {!! json_encode($illnesses['diseases']) !!};--}}
-    var chartData = {!! $illnesses['diseases'] !!};
-    // var branchName = branch && branch.length > 0 ? branch[0].HealthCenterName : 'Unknown Branch';
-
-    Highcharts.chart('container_diseases', {
+Highcharts.chart('container_diseases', {
     chart: {
-    type: 'column'
-},
+        type: 'column'
+    },
     title: {
-    text: `Today's Top 10 Disease`
-},
+        text: `Today's Top 10 Disease`
+    },
     credits: {
-    enabled: false
-},
-
+        enabled: false
+    },
     xAxis: {
-    title: {
-    text: 'Diseases'
-},
-    categories: chartData.map(function(item) {
-    return item.IllnessCode;
-}),
-    labels: {
-    style: {
-    fontSize: '9px',
-    fontWeight: 'bold'
-}
-},
-},
+        title: {
+            text: 'Diseases'
+        },
+        categories: chartData.map(function(item) {
+            return item.IllnessCode;
+        }),
+        labels: {
+            style: {
+                fontSize: '9px',
+                fontWeight: 'bold'
+            }
+        },
+    },
     yAxis: {
-    title: {
-    text: 'Patients'
-},
-    labels: {
-    style: {
-    fontSize: '12px'
-}
-},
-},
+        title: {
+            text: 'Patients'
+        },
+        labels: {
+            style: {
+                fontSize: '12px'
+            }
+        },
+    },
     plotOptions: {
-    column: {
-    colorByPoint: true,
-    dataLabels: {
-    enabled: true, // Display data labels on top of bars
-    format: '{y}', // Display the y-value (patient count)
-    style: {
-    fontSize: '12px',
-    fontWeight: 'bold'
-}
-} // Let Highcharts choose colors
-},
-
-},
+        column: {
+            colorByPoint: true,
+            dataLabels: {
+                enabled: true, // Display data labels on top of bars
+                format: '{y}', // Display the y-value (patient count)
+                style: {
+                    fontSize: '12px',
+                    fontWeight: 'bold'
+                }
+            }
+        }
+    },
     series: [{
-    name: 'Patients',
-    data: chartData.map(function(item) {
-    return parseFloat(item.Patients);
-})
-}]
+        name: 'Patients',
+        data: chartData.map(function(item) {
+            return parseFloat(item.Patients);
+        })
+    }]
 });
 
+// All disease
+var chartDataAll = {!! $all_illnesses !!};
+
+Highcharts.chart('container_alldiseases', {
+    chart: {
+        type: 'column'
+    },
+    title: {
+        text: `Today's All Disease`
+    },
+    credits: {
+        enabled: false
+    },
+    xAxis: {
+        title: {
+            text: 'Diseases'
+        },
+        categories: chartDataAll.map(function(allitem) {
+            return allitem.IllnessCode;
+        }),
+        labels: {
+            style: {
+                fontSize: '9px',
+                fontWeight: 'bold'
+            }
+        },
+    },
+    yAxis: {
+        title: {
+            text: 'Patients'
+        },
+        labels: {
+            style: {
+                fontSize: '12px'
+            }
+        },
+    },
+    plotOptions: {
+        column: {
+            colorByPoint: true,
+            dataLabels: {
+                enabled: true, // Display data labels on top of bars
+                format: '{y}', // Display the y-value (patient count)
+                style: {
+                    fontSize: '12px',
+                    fontWeight: 'bold'
+                }
+            }
+        }
+    },
+    series: [{
+        name: 'Patients',
+        data: chartDataAll.map(function(allitem) {
+            return parseFloat(allitem.Patients);
+        })
+    }]
+});
 
 
 </script>

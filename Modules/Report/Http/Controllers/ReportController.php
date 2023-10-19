@@ -275,7 +275,7 @@ $results = DB::table("MDataPatientReferral")
             ->take(10)
             ->get();
 
-             return $illnesses;
+            // dd( $illnesses['diseases']);
 
          return view('report::toptendiseases_ajax',compact('illnesses'));
     }

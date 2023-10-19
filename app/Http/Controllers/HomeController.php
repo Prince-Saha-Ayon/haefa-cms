@@ -31,9 +31,14 @@ class HomeController extends Controller
 
             //top ten disease graph of todays date start
             $illnesses['diseases'] = Patient::top_ten_disease();
+
             //top ten disease graph of todays date end
 
-            return view('home',compact('patient_today_count','prescription_today_count','registrationId','illnesses'));
+            //all disease graph of todays date start
+            $all_illnesses = Patient::all_disease();
+            //all disease graph of todays date end
+
+            return view('home',compact('patient_today_count','prescription_today_count','registrationId','illnesses','all_illnesses'));
         }else{
             return $this->unauthorized_access_blocked();
         }

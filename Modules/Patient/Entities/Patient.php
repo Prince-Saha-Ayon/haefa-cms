@@ -116,4 +116,21 @@ class Patient extends BaseModel
             ->get();
         return $illnesses;
     }
+
+    //all disease based on patient start
+    public static function all_disease(){
+        $today = Carbon::today();
+        $startDate = $today->format('m/d/Y');
+
+        $illnesses = DB::table('MDataPatientIllnessHistory')
+            ->join('RefIllness', 'MDataPatientIllnessHistory.IllnessId', '=', 'RefIllness.IllnessId')
+            ->join('Patient', 'MDataPatientIllnessHistory.PatientId', '=', 'Patient.PatientId')
+//                ->where('MDataPatientIllnessHistory.CreateDate', $startDate)
+            ->groupBy('RefIllness.IllnessId', 'RefIllness.IllnessCode')
+            ->orderByRaw('COUNT(*) DESC')
+            ->select('RefIllness.IllnessId', 'RefIllness.IllnessCode', DB::raw('COUNT(*) as Patients'))
+            ->get();
+        return $illnesses;
+    }
+    //all disease based on patient end
 }
