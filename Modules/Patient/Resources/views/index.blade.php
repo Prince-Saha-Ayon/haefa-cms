@@ -130,7 +130,7 @@
 
             <!-- Entry Header -->
             <div class="dt-entry__header">
-
+            
                 <!-- Entry Heading -->
                 <div class="dt-entry__heading">
                     <h2 class="dt-page__title mb-0 text-primary"><i class="{{ $page_icon }}"></i> {{ $sub_title }}</h2>
@@ -141,7 +141,7 @@
                     <i class="fas fa-plus-square"></i> Add New
                  </button>
                 @endif
-
+                
 
             </div>
             <!-- /entry header -->
@@ -170,7 +170,53 @@
                             </div>
                         </div>
                     </form>
-                    <table id="dataTable" class="table table-striped table-bordered table-hover">
+                    
+                        <table id="dataTable" class="table table-striped table-bordered table-hover">
+                            <thead class="bg-primary">
+                            <tr>
+
+                                <th>Sl</th>
+                                <th>Registration Id</th>
+                                <th>Patient Name</th>
+                                <th>Patient Age</th>
+                                <th>NID Number</th>
+                                <th>Mobile Number</th>
+                                <th>Gender</th>
+                                <th>BirthDate</th>
+                                <th>Marital Status</th>
+                                <th>Action</th>
+                               
+
+                            </tr>
+
+                            </thead>
+                            @if($patients ?? '')
+                                <tbody>
+                                @foreach($patients as $result)
+                                    <tr>
+
+                                        <td>{{$loop->iteration}}</td>
+                                        <td>{{$result->RegistrationId}}</td>
+                                        <td>{{$result->GivenName}} {{$result->FamilyName}}</td>
+                                        <td>{{$result->Age}}</td>
+                                        <td>{{optional($result)->IdNumber}}</td>
+                                        <td>{{optional($result)->CellNumber}}</td>
+                                        <td>{{optional($result->Gender)->GenderCode}}</td>
+                                        <td>{{optional($result)->BirthDate}}</td>
+                                        <td>{{optional($result->MaritalStatus)->MaritalStatusCode}}</td>
+                                     <td> 
+                                        <?php if(permission('patient-viewid')){?><a  class="viewid_data"  style="cursor: pointer;" data-id="{{$result->PatientId}}"><i class="fas fa-eye text-success"></i></a> <a class="" href="{{route('patient.edit', $result->PatientId)}}"><i class="fas fa-edit text-success"></i></a>
+                                    <?php } ?>
+                                    </td>
+                                       
+
+                                    </tr>
+                                @endforeach
+                                </tbody>
+                            @endif
+                        </table>
+
+                    {{-- <table id="dataTable" class="table table-striped table-bordered table-hover">
                         <thead class="bg-primary">
                             <tr>
                                 @if (permission('patient-bulk-delete'))
@@ -190,7 +236,7 @@
                             </tr>
                         </thead>
                         <tbody></tbody>
-                    </table>
+                    </table> --}}
 
                 </div>
                 <!-- /card body -->
@@ -216,119 +262,115 @@
 var table;
 $(document).ready(function(){
 
-    table = $('#dataTable').DataTable({
-        "processing": true, //Feature control the processing indicator
-        "serverSide": true, //Feature control DataTable server side processing mode
-        "order": [], //Initial no order
-        "responsive": true, //Make table responsive in mobile device
-        "bInfo": true, //TO show the total number of data
-        "bFilter": false, //For datatable default search box show/hide
-        "pageLength": 10, //number of data show per page
-        "language": {
-            processing: `<i class="fas fa-spinner fa-spin fa-3x fa-fw text-primary"></i> `,
-            emptyTable: '<strong class="text-danger">No Data Found</strong>',
-            infoEmpty: '',
-            zeroRecords: '<strong class="text-danger">No Data Found</strong>'
-        },
-        "ajax": {
-            "url": "{{route('patient.datatable.data')}}",
-            "type": "POST",
-            "data": function (data) {
-                data.name = $("#form-filter #name").val();
-                data._token    = _token;
-            }
-        },
-        "columnDefs": [{
-                @if (permission('patient-bulk-delete'))
-                "targets": [0,4],
-                @else
-                "targets": [3],
-                @endif
-                "orderable": false,
-                "className": "text-center"
+$('#dataTable').DataTable({
+    pagingType: 'full_numbers',
+    dom: 'Bfrtip',
+    orderCellsTop: true,
+    columnDefs: [
+        { targets: [5,6,7], visible: false }, // Hide the columns
+    ],
+  
+    buttons: [
+        {
+            extend: 'excel',
+            text: 'Export to Excel',
+            filename: 'ALL Patients List',
+            exportOptions: {
+                columns: [1,2,3,4,5,6,7], // Include specific columns in the export
             },
-            {
-                @if (permission('patient-bulk-delete'))
-                "targets": [1,3],
-                @else
-                "targets": [0,2],
-                @endif
-                "className": "text-center"
-            }
-        ],
-        "dom": "<'row'<'col-sm-12 col-md-6'l><'col-sm-12 col-md-6' <'float-right'B>>>" +
-            "<'row'<'col-sm-12'tr>>" +
-            "<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'<'float-right'p>>>",
+            title: '',
+    customize: function(xlsx) {
+            var sheet = xlsx.xl.worksheets['sheet1.xml'];
+            var downrows = 5; // Number of rows to add
+            var clRow = $('row', sheet);
 
-        "buttons": [
-            @if (permission('patient-report'))
-            {
-                'extend':'colvis','className':'btn btn-secondary btn-sm text-white','text':'Column'
-            },
-            {
-                "extend": 'print',
-                'text':'Print',
-                'className':'btn btn-secondary btn-sm text-white',
-                "title": "Menu List",
-                "orientation": "landscape", //portrait
-                "pageSize": "A4", //A3,A5,A6,legal,letter
-                "exportOptions": {
-                    columns: function (index, data, node) {
-                        return table.column(index).visible();
-                    }
-                },
-                customize: function (win) {
-                    $(win.document.body).addClass('bg-white');
-                },
-            },
-            {
-                "extend": 'csv',
-                'text':'CSV',
-                'className':'btn btn-secondary btn-sm text-white',
-                "title": "Menu List",
-                "filename": "patient-list",
-                "exportOptions": {
-                    columns: function (index, data, node) {
-                        return table.column(index).visible();
-                    }
+            // Update Row
+            clRow.each(function() {
+                var attr = $(this).attr('r');
+                var ind = parseInt(attr);
+                ind = ind + downrows;
+                $(this).attr("r", ind);
+            });
+
+            // Update row > c
+            $('row c', sheet).each(function() {
+                var attr = $(this).attr('r');
+                var pre = attr.substring(0, 1);
+                var ind = parseInt(attr.substring(1, attr.length));
+                ind = ind + downrows;
+                $(this).attr("r", pre + ind);
+            });
+         
+
+            function Addrow(index, data) {
+                var msg = '<row r="' + index + '">';
+                for (var i = 0; i < data.length; i++) {
+                    var key = data[i].k;
+                    var value = data[i].v;
+                    msg += '<c t="inlineStr" r="' + key + index + '">';
+                    msg += '<is>';
+                    msg += '<t>' + value + '</t>';
+                    msg += '</is>';
+                    msg += '</c>';
                 }
-            },
-            {
-                "extend": 'excel',
-                'text':'Excel',
-                'className':'btn btn-secondary btn-sm text-white',
-                "title": "Menu List",
-                "filename": "patient-list",
-                "exportOptions": {
-                    columns: function (index, data, node) {
-                        return table.column(index).visible();
-                    }
-                }
-            },
-            {
-                "extend": 'pdf',
-                'text':'PDF',
-                'className':'btn btn-secondary btn-sm text-white',
-                "title": "Menu List",
-                "filename": "patient-list",
-                "orientation": "landscape", //portrait
-                "pageSize": "A4", //A3,A5,A6,legal,letter
-                "exportOptions": {
-                    columns: [1, 2, 3]
-                },
-            },
-            @endif
-            @if (permission('patient-bulk-delete'))
-            {
-                'className':'btn btn-danger btn-sm delete_btn d-none text-white',
-                'text':'Delete',
-                action:function(e,dt,node,config){
-                    multi_delete();
-                }
+                msg += '</row>';
+                return msg;
             }
-            @endif
-        ],
-    });
+
+            var r1 = Addrow(1, [{
+                k: 'A',
+                v: 'Total Patients:'
+            }, {
+                k: 'B',
+                v: 580
+            }]);
+
+            var r2 = Addrow(2, [{
+                k: 'A',
+                v: 'Male Patients:'
+            }, {
+                k: 'B',
+                v: 6 // Replace '6' with actual count
+            }]);
+
+            var r3 = Addrow(3, [{
+                k: 'A',
+                v: 'Female Patients:'
+            }, {
+                k: 'B',
+                v: 4 // Replace '4' with actual count
+            }]);
+
+            var r4 = Addrow(4, [{
+                k: 'A',
+                v: 'Today Date:'
+            }, {
+                k: 'B',
+                v: new Date().toLocaleDateString()
+            }]);
+             var r5 = Addrow(4, [{
+                k: 'A',
+                v: ''
+            }, {
+                k: 'B',
+                v: ''
+            }]);
+
+            sheet.childNodes[0].childNodes[1].innerHTML = r1 + r2 + r3 + r4 + sheet.childNodes[0].childNodes[1].innerHTML;
+    },
+
+        },
+    ],
+
+});
+
+
+
+
+
+
+
+
 
     $('#btn-filter').click(function () {
         table.ajax.reload();
@@ -404,6 +446,9 @@ $(document).ready(function(){
             });
         }
     });
+   
+    
+
 
     $(document).on('click', '.delete_data', function () {
         let id    = $(this).data('id');
