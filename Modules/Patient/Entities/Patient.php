@@ -101,6 +101,18 @@ class Patient extends BaseModel
         return self::toBase()->get()->count();
     }
 
+    public static function get_branch_name(){
+        $login_user = Auth::user()->cc_id ?? '';
+        $branch_query = DB::select("SELECT TOP 1 hc.HealthCenterName
+FROM users u
+INNER JOIN barcode_formats bf ON u.cc_id = bf.id
+INNER JOIN HealthCenter hc ON bf.barcode_community_clinic = hc.HealthCenterId
+WHERE u.cc_id = '$login_user'");
+        $branch_name = $branch_query[0]->HealthCenterName??'';
+        return $branch_name;
+
+    }
+
     public static function registration_ids(){
         $login_user = Auth::user()->cc_id ?? '';
         // Get RegistrationIds

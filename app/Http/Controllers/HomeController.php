@@ -24,7 +24,7 @@ class HomeController extends Controller
             $this->setPageData('Dashboard','Dashboard','fas fa-tachometer-alt');
 
             $patient_today_count = Patient::whereDate('CreateDate', Carbon::today())->get()->count();
-            // $prescription_total_count = Prescription::all()->count();
+            $branch_name = Patient::get_branch_name();
             $prescription_today_count = Prescription::whereDate('CreateDate', Carbon::today())->get()->count();
             $registrationId=Patient::select('RegistrationId')->get();
 
@@ -37,7 +37,7 @@ class HomeController extends Controller
             $all_illnesses = Patient::all_disease();
             //all disease graph of todays date end
 
-            return view('home',compact('patient_today_count','prescription_today_count','registrationId','illnesses','all_illnesses'));
+            return view('home',compact('patient_today_count','prescription_today_count','registrationId','illnesses','all_illnesses','branch_name'));
         }else{
             return $this->unauthorized_access_blocked();
         }

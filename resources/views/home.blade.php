@@ -12,7 +12,6 @@
 
 @section('content')
 <div class="dt-content">
-
     <div class="row pt-5">
       {{-- <div class="col-xl-2 col-sm-4">
         <div class="dt-card dt-chart dt-card__full-height bg-warning align-items-center pt-5">
@@ -58,7 +57,7 @@
         <div class="row py-5">
 
           <div class="col-md-12">
-
+              <h2 class="p-3 border  bg-info text-white font-weight-bold rounded" style="font-size: 14px;">Branch Name: {{$branch_name}}</h2>
             <!-- Patient wise today's top 10 disease Start -->
             <div class="card bar-chart">
                 <div class="card-header d-flex align-items-center">
