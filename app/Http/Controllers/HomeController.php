@@ -23,21 +23,19 @@ class HomeController extends Controller
         if (permission('dashboard-access')) {
             $this->setPageData('Dashboard','Dashboard','fas fa-tachometer-alt');
 
-            $patient_today_count = Patient::whereDate('CreateDate', Carbon::today())->get()->count();
+            $branch_wise_disease_count = Patient::get_branch_wise_disease_count();
+            $referred_case_count_heltcenter = Patient::branch_wise_referred_case_with_referrel_center_count();
+            return $referred_case_count_heltcenter;
             $branch_name = Patient::get_branch_name();
-            $prescription_today_count = Prescription::whereDate('CreateDate', Carbon::today())->get()->count();
             $registrationId=Patient::select('RegistrationId')->get();
-
             //top ten disease graph of todays date start
             $illnesses['diseases'] = Patient::top_ten_disease();
-
             //top ten disease graph of todays date end
 
             //all disease graph of todays date start
             $all_illnesses = Patient::all_disease();
             //all disease graph of todays date end
-
-            return view('home',compact('patient_today_count','prescription_today_count','registrationId','illnesses','all_illnesses','branch_name'));
+            return view('home',compact('registrationId','illnesses','all_illnesses','branch_name'));
         }else{
             return $this->unauthorized_access_blocked();
         }
