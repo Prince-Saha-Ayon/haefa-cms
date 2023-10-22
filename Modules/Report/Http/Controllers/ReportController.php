@@ -22,6 +22,7 @@ use Modules\Patient\Entities\Address;
 use Modules\Report\Entities\SyncRecord;
 use Modules\Report\Entities\Union;
 use Modules\Report\Entities\Upazilla;
+use Modules\Report\Entities\FollowUpDate;
 use Illuminate\Support\Facades\Log; 
 use Symfony\Component\Process\Process;
 use App\Jobs\SyncJob; // Import the job class
@@ -40,10 +41,26 @@ class ReportController extends BaseController
         return view('report::index');
     }
     public function datewisedxindex(){
-        $healthcenters=BarcodeFormat::with('healthCenter')->get();
+        // $healthcenters=BarcodeFormat::with('healthCenter')->get();
+        
+        $branches = DB::table('barcode_formats')
+        ->join('HealthCenter', 'barcode_formats.barcode_community_clinic', '=', 'HealthCenter.HealthCenterId')
+        ->select('barcode_formats.barcode_prefix', 'HealthCenter.HealthCenterName')
+        ->get();
         $this->setPageData('Datewise Provisional DX','Datewise Provisional DX','fas fa-th-list');
-        return view('report::datewisedx',compact('healthcenters'));
+        return view('report::datewisedx',compact('branches'));
     }
+    public function patientwisedxindex(){
+        // $healthcenters=BarcodeFormat::with('healthCenter')->get();
+        
+        $branches = DB::table('barcode_formats')
+        ->join('HealthCenter', 'barcode_formats.barcode_community_clinic', '=', 'HealthCenter.HealthCenterId')
+        ->select('barcode_formats.barcode_prefix', 'HealthCenter.HealthCenterName')
+        ->get();
+        $this->setPageData('Patient Provisional DX','Patient Provisional DX','fas fa-th-list');
+        return view('report::provisionaldx',compact('branches'));
+    }
+    
 public function diseaseindex()
     {
         $this->setPageData('Patient Age Count Report','Patient Age Count Report','fas fa-th-list');
@@ -84,6 +101,107 @@ public function diseaseindex()
         
         $this->setPageData('Districtwise Patients','Districtwise Patients','fas fa-th-list');
         return view('report::districtwisepatients',compact('districts'));
+
+    }
+     public function FollowUpDate(Request $request){
+     
+        $branches = DB::table('barcode_formats')
+        ->join('HealthCenter', 'barcode_formats.barcode_community_clinic', '=', 'HealthCenter.HealthCenterId')
+        ->select('barcode_formats.barcode_prefix', 'HealthCenter.HealthCenterName')
+        ->get();
+
+        
+        $this->setPageData('Follow Up Date','Follow Up Date','fa fa-medical');
+        return view('report::followupdate_index',compact('branches'));
+
+    }
+    public function FollowUpDateReport(Request $request)
+    {
+         $branches = DB::table('barcode_formats')
+        ->join('HealthCenter', 'barcode_formats.barcode_community_clinic', '=', 'HealthCenter.HealthCenterId')
+        ->select('barcode_formats.barcode_prefix', 'HealthCenter.HealthCenterName')
+        ->get();
+        $daterange = $request->daterange;
+        $dates = explode(' - ', $daterange);
+// Assign the start and end dates to separate variables
+        $first_date = $dates[0]??'';
+        $last_date = $dates[1]??'';
+        $hc=$request->hc_id;
+        $fupdates = DB::table('MDataFollowUpDate')
+        ->select(
+            'MDataFollowUpDate.MDFollowUpDateId',
+            'MDataFollowUpDate.PatientId',
+            'Patient.RegistrationId',
+            'Patient.GivenName',
+            'Patient.FamilyName',
+            'Patient.BirthDate',
+            'Patient.Age',
+            'Patient.CellNumber',
+            'RefGender.GenderCode',
+            'MDataFollowUpDate.FollowUpDate',
+            'MDataFollowUpDate.CreateDate',
+           
+        )
+        ->whereDate('MDataFollowUpDate.CreateDate', '>=', $first_date)
+        ->whereDate('MDataFollowUpDate.CreateDate', '<=', $last_date)
+        ->where(function($query) use ($hc) {
+            if ($hc) {
+                $query->where('Patient.RegistrationId', 'LIKE', $hc . '%');
+            }
+        })
+        ->join('Patient', 'MDataFollowUpDate.PatientId', '=', 'Patient.PatientId')
+        ->join('RefGender', 'RefGender.GenderId', '=', 'Patient.GenderId')
+        ->get();
+       
+        $resultCount = $fupdates->count();
+        $hcname=DB::table('HealthCenter')->where('HealthCenterCode',$hc )->first('HealthCenterName');
+     
+
+        $this->setPageData('Follow Up Date','Follow Up Date','fa fa-medical');
+        return view('report::followupdate_index',compact('branches','fupdates','resultCount','daterange','hcname'));	
+
+    }
+    
+
+    public function AjaxFupDate(Request $request){
+    //branches
+    $branches = DB::table('barcode_formats')
+        ->join('HealthCenter', 'barcode_formats.barcode_community_clinic', '=', 'HealthCenter.HealthCenterId')
+        ->select('barcode_formats.barcode_prefix', 'HealthCenter.HealthCenterName')
+        ->get();
+    $this->setPageData(
+        'FollowUp Date',
+        'FollowUp Date',
+        'fas fa-th-list'
+    );
+    return view('report::ajaxfollowupdateIndex',compact('branches'));
+}
+     public function Ajaxfupdatereport(Request $request)
+    {
+      
+        $barcode_prefix = $request->hc_id;
+        $first_date = $request->fdate;
+        $last_date = $request->ldate;
+        $fupdates=FollowUpDate::whereBetween('CreateDate', [ $first_date,  $last_date])
+         ->where(function($query) use ($barcode_prefix) {
+            if ($barcode_prefix) {
+                $query->where('Patient.RegistrationId', 'LIKE', $barcode_prefix . '%');
+            }
+        })
+        ->get();
+    
+       
+        $resultCount = $fupdates->count();
+        $hcname=DB::table('HealthCenter')->where('HealthCenterCode',$barcode_prefix )->first('HealthCenterName');
+         $response = [
+            'healthcenter' => $hcname->HealthCenterName ?? 'All',	
+            'fupdates' => $fupdates,
+            'resultCount' => $resultCount,
+            'first_date' => $first_date,
+            'last_date' => $last_date,
+        ];
+        // return response()->json(compact('fupdates', 'resultCount', 'first_date', 'last_date'));
+        return response()->json($response);
 
     }
 
@@ -145,26 +263,127 @@ $results = Address::with('districtAddress','upazillaAddress','unionAddress')->se
 
 
     public function SearchByDate(Request $request){
-        $healthcenters=BarcodeFormat::with('healthCenter')->get();
-        $daterange = $request->daterange;
-        $dates = explode(' - ', $daterange);
-        $starting_date = $dates[0]??'';
-        $ending_date = $dates[1]??'';
-        $hc = $request->hc_id;
+       
+       
+    
+        $first_date = $request->fdate;
+        $last_date = $request->ldate;
+        $barcode_prefix = $request->hc_id;
 
         $results = DB::table("MDataProvisionalDiagnosis")
-            ->select(DB::raw("CAST(CreateDate AS DATE) as CreateDate"), 'ProvisionalDiagnosis', DB::raw('COUNT(*) as Total'))
-            ->whereDate('CreateDate', '>=', $starting_date)
-            ->whereDate('CreateDate', '<=', $ending_date)
-            ->groupBy(DB::raw("CAST(CreateDate AS DATE)"), 'ProvisionalDiagnosis')
+            ->select(
+                DB::raw("FORMAT(MDataProvisionalDiagnosis.CreateDate, 'dd/MM/yyyy') as CreateDate"),
+                'ProvisionalDiagnosis',
+                DB::raw('COUNT(MDataProvisionalDiagnosis.PatientId) as Total')
+            )
+            ->whereDate('MDataProvisionalDiagnosis.CreateDate', '>=', $first_date)
+            ->whereDate('MDataProvisionalDiagnosis.CreateDate', '<=', $last_date)
+            ->where(function($query) use ($barcode_prefix) {
+                if ($barcode_prefix) {
+                    $query->where('Patient.RegistrationId', 'LIKE', $barcode_prefix . '%');
+                }
+            })
+            ->join('Patient', 'MDataProvisionalDiagnosis.PatientId', '=', 'Patient.PatientId')
+            ->groupBy(DB::raw("FORMAT(MDataProvisionalDiagnosis.CreateDate, 'dd/MM/yyyy')"), 'ProvisionalDiagnosis')
             ->get();
-
-
-
-        $this->setPageData('Datewise Provisional DX','Datewise Provisional DX','fas fa-th-list');
-        return view('report::datewisedx',compact('results','healthcenters'));
+            $resultCount = $results->count();
+            $hcname=DB::table('HealthCenter')->where('HealthCenterCode',$barcode_prefix )->first('HealthCenterName');
+            $response = [
+                'healthcenter' => $hcname->HealthCenterName ?? 'All',	
+                'results' => $results,
+                'resultCount' => $resultCount,
+                'first_date' => $first_date,
+                'last_date' => $last_date,
+            ];
+    
+        return response()->json($response);
 
     }
+      public function patientwisedxreport(Request $request){
+       
+       
+    
+        $first_date = $request->fdate;
+        $last_date = $request->ldate;
+        $barcode_prefix = $request->hc_id;
+
+            // $results = DB::table("MDataProvisionalDiagnosis")
+            // ->select(
+            //     DB::raw("FORMAT(MDataProvisionalDiagnosis.CreateDate, 'dd/MM/yyyy') as CreateDate"),
+            //     'ProvisionalDiagnosis',
+            //     DB::raw('COUNT(MDataProvisionalDiagnosis.PatientId) as Total'),
+            //     'MDataProvisionalDiagnosis.PatientId',
+            //     'Patient.RegistrationId',
+            //     'Patient.GivenName',
+            //     'Patient.FamilyName',
+            //     'Patient.BirthDate',
+            //     'Patient.Age',
+            //     'Patient.CellNumber',
+            //     'RefGender.GenderCode',
+            //     )
+            // ->whereDate('MDataProvisionalDiagnosis.CreateDate', '>=', $first_date)
+            // ->whereDate('MDataProvisionalDiagnosis.CreateDate', '<=', $last_date)
+            // ->where(function($query) use ($barcode_prefix) {
+            //     if ($barcode_prefix) {
+            //         $query->where('Patient.RegistrationId', 'LIKE', $barcode_prefix . '%');
+            //     }
+            // })
+            // ->join('Patient', 'MDataProvisionalDiagnosis.PatientId', '=', 'Patient.PatientId')
+            // ->join('RefGender', 'RefGender.GenderId', '=', 'Patient.GenderId')
+            // ->get();
+
+         $results = DB::table("MDataProvisionalDiagnosis")
+    ->select(
+        DB::raw("FORMAT(MDataProvisionalDiagnosis.CreateDate, 'dd/MM/yyyy') as CreateDate"),
+        'ProvisionalDiagnosis',
+        'MDataProvisionalDiagnosis.MDProvisionalDiagnosisId',
+        'MDataProvisionalDiagnosis.PatientId',
+        'Patient.RegistrationId',
+        'Patient.GivenName',
+        'Patient.FamilyName',
+        'Patient.BirthDate',
+        'Patient.Age',
+        'Patient.CellNumber',
+        'RefGender.GenderCode'
+    )
+    
+    ->whereDate('MDataProvisionalDiagnosis.CreateDate', '>=', $first_date)
+    ->whereDate('MDataProvisionalDiagnosis.CreateDate', '<=', $last_date)
+    ->where(function($query) use ($barcode_prefix) {
+        if ($barcode_prefix) {
+            $query->where('Patient.RegistrationId', 'LIKE', $barcode_prefix . '%');
+        }
+    })
+    ->join('Patient', 'MDataProvisionalDiagnosis.PatientId', '=', 'Patient.PatientId')
+    ->join('RefGender', 'RefGender.GenderId', '=', 'Patient.GenderId')
+    ->groupBy(
+        DB::raw("FORMAT(MDataProvisionalDiagnosis.CreateDate, 'dd/MM/yyyy')"),
+        'ProvisionalDiagnosis',
+        'MDataProvisionalDiagnosis.MDProvisionalDiagnosisId',
+        'MDataProvisionalDiagnosis.PatientId',
+        'Patient.RegistrationId',
+        'Patient.GivenName',
+        'Patient.FamilyName',
+        'Patient.BirthDate',
+        'Patient.Age',
+        'Patient.CellNumber',
+        'RefGender.GenderCode'
+    )
+    ->get();
+            $resultCount = $results->count();
+            $hcname=DB::table('HealthCenter')->where('HealthCenterCode',$barcode_prefix )->first('HealthCenterName');
+            $response = [
+                'healthcenter' => $hcname->HealthCenterName ?? 'All',	
+                'results' => $results,
+                'resultCount' => $resultCount,
+                'first_date' => $first_date,
+                'last_date' => $last_date,
+            ];
+    
+        return response()->json($response);
+
+    }
+
       public function SearchByHC(Request $request){
          $healthcenters=HealthCenter::get(['HealthCenterId','HealthCenterName']);
          $refcases=RefReferral::get(['RId','Description']);

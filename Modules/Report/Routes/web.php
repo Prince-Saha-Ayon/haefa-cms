@@ -38,6 +38,7 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('ajax-top-ten-diseases', 'ReportController@AjaxTopTenDiseases')->name('ajaxtoptendiseases');
 
     Route::any('branch-wise-patients','ReportController@branchWisePatients')->name('branch-wise-patients');
+
     Route::any('disease-rate-date-range','ReportController@DiseaseRateDateRange')->name('diseaseRateDateRange');
     Route::get('ajax-disease-rate-date-range','ReportController@AjaxDiseaseRateDateRange')->name('AjaxDiseaseRateDateRange');
 
@@ -46,6 +47,14 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('get-upazillas/{dcId}','ReportController@GetUpazillas')->name('get-upazillas');
     Route::get('get-unions/{upId}','ReportController@GetUnions')->name('get-unions');
 
+
+
+
+    Route::any('followupdate','ReportController@AjaxFupDate')->name('ajax-fupdate');
+    Route::any('followupdate-report','ReportController@Ajaxfupdatereport')->name('Ajax-followupdate-report');
+
+    Route::get('provisionaldx', 'ReportController@patientwisedxindex')->name('provisionaldx');
+    Route::get('patient-wise-dx', 'ReportController@patientwisedxreport')->name('patient-wise-dx');
 
     Route::group(['prefix' => 'patientage', 'as'=>'patientage.'], function () {
         Route::post('show', 'ReportController@show')->name('show');

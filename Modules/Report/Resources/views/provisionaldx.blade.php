@@ -229,9 +229,14 @@
                             <thead class="bg-primary">
                             <tr>
                                 <th>No</th>
+                                <th>RegistrationID</th>
+                                <th>GivenName</th>
+                                <th>FamilyName</th>
+                                <th>Gender</th>
+                                <th>BirthDate</th>
+                                <th>Age</th>
+                                <th>Mobile</th>
                                 <th>Provisional DX</th>
-                                <th>Date</th>
-                                <th>Total</th>
                             </tr>
 
                             </thead>
@@ -313,7 +318,7 @@
     var patients;
     var now = new Date();
     var formattedDate = now.getDate().toString().padStart(2, '0') + '_' + (now.getMonth() + 1).toString().padStart(2, '0') + '_' + now.getFullYear();
-    var filename = 'ProvisionalDiagnosis_Datewise_' + formattedDate;
+    var filename = 'ProvisionalDiagnosis_' + formattedDate;
 
   
 
@@ -331,7 +336,7 @@
                 title: '',
                 customize: function(xlsx,resultCount) {
             var sheet = xlsx.xl.worksheets['sheet1.xml'];
-            var downrows = 5; // Number of rows to add
+            var downrows = 7; // Number of rows to add
             var clRow = $('row', sheet);
 
             // Update Row
@@ -393,20 +398,35 @@
 
             var r4 = Addrow(4, [{
                 k: 'A',
-                v: 'Total Patients:'
+                v: 'Report Type:',
             }, {
                 k: 'B',
-                v:  patients,
+                v:  'ProvisionalDiagnosis',
             }]);
-             var r5 = Addrow(4, [{
+             var r5 = Addrow(5, [{
                 k: 'A',
                 v: ''
             }, {
                 k: 'B',
                 v: ''
             }]);
+              var r6 = Addrow(6, [{
+                k: 'A',
+                v: 'Total Patients',
+            }, {
+                k: 'B',
+                v: patients,
+            }]);
+               var r7 = Addrow(7, [{
+                k: 'A',
+                v: '',
+            }, {
+                k: 'B',
+                v: '',
+            }]);
+            
 
-            sheet.childNodes[0].childNodes[1].innerHTML = r1 + r2 + r3 + r4 + sheet.childNodes[0].childNodes[1].innerHTML;
+            sheet.childNodes[0].childNodes[1].innerHTML = r1 + r2 + r3 + r4 + r5 + r6 + r7 + sheet.childNodes[0].childNodes[1].innerHTML;
             table.clear().draw();
             $('#hc_id').val('').selectpicker('refresh');
     },
@@ -423,7 +443,7 @@
 
         $.ajax({
             type: "GET",
-            url: "{{ url('date-wise-dx') }}",
+            url: "{{ url('patient-wise-dx') }}",
             data: { hc_id: hc_id, fdate: fdate, ldate: ldate },
             beforeSend: function () {
                 $('#warning-searching').removeClass('invisible');
@@ -461,9 +481,15 @@
                     $.each(results, function (index, result) {
                         var newRow = [
                             (index + 1),
-                            result.ProvisionalDiagnosis,
-                            (result.CreateDate || ""),
-                            (result.Total || ""),
+                            result.RegistrationId,
+                            (result.GivenName || ""),
+                            (result.FamilyName || ""),
+                            (result.GenderCode || ""),
+                            (result.BirthDate || ""),
+                            (result.Age || ""),
+                            (result.CellNumber || ""),
+                            (result.ProvisionalDiagnosis || ""),
+                           
                       
                         ];
 
