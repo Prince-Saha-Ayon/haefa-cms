@@ -23,7 +23,6 @@ class HomeController extends Controller
         if (permission('dashboard-access')) {
             $this->setPageData('Dashboard','Dashboard','fas fa-tachometer-alt');
 
-            $doctor_count = User::where('role_id','=',3)->get()->count();
             $patient_today_count = Patient::whereDate('CreateDate', Carbon::today())->get()->count();
             // $prescription_total_count = Prescription::all()->count();
             $prescription_today_count = Prescription::whereDate('CreateDate', Carbon::today())->get()->count();

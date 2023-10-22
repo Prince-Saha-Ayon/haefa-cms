@@ -374,11 +374,18 @@
       $('input[name="daterange"]').click(function() {
         $('.daterangepicker').show();
     });
+
+
+
  });
+
+
 
 
 $('#refresh').click(function(){
     $('#daterange').val('');
+
+
     $('.selectpicker').selectpicker('val', '');
     $('#container_diseases').html('');
 });

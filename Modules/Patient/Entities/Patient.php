@@ -2,6 +2,7 @@
 
 namespace Modules\Patient\Entities;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Modules\Patient\Entities\Gender;
 use Modules\Patient\Entities\MaritalStatus;
@@ -100,25 +101,44 @@ class Patient extends BaseModel
         return self::toBase()->get()->count();
     }
 
+    public static function registration_ids(){
+        $login_user = Auth::user()->cc_id ?? '';
+        // Get RegistrationIds
+        $data = DB::select('SELECT p.RegistrationId
+    FROM users u
+    INNER JOIN barcode_formats bf ON u.cc_id = bf.id
+    INNER JOIN Patient p ON LEFT(p.RegistrationId, 9) = bf.barcode_prefix
+    WHERE u.cc_id = ?', [$login_user]);
+
+        $firstNineDigitsArray = array_map(function ($item) {
+            return $item->RegistrationId;
+        }, $data);
+        return $firstNineDigitsArray;
+    }
+
     //top ten disease based on patient
     public static function top_ten_disease(){
+
+        $firstNineDigitsArray = Patient::registration_ids();
         $today = Carbon::today();
         $startDate = $today->format('m/d/Y');
 
         $illnesses = DB::table('MDataPatientIllnessHistory')
             ->join('RefIllness', 'MDataPatientIllnessHistory.IllnessId', '=', 'RefIllness.IllnessId')
             ->join('Patient', 'MDataPatientIllnessHistory.PatientId', '=', 'Patient.PatientId')
-//                ->where('MDataPatientIllnessHistory.CreateDate', $startDate)
+//            ->where('MDataPatientIllnessHistory.CreateDate', $startDate)
+            ->whereIn('Patient.RegistrationId', $firstNineDigitsArray)
             ->groupBy('RefIllness.IllnessId', 'RefIllness.IllnessCode')
             ->orderByRaw('COUNT(*) DESC')
             ->select('RefIllness.IllnessId', 'RefIllness.IllnessCode', DB::raw('COUNT(*) as Patients'))
-            ->take(10)
+            ->take(10)  // You can add this back if you want to limit the results to 10 rows
             ->get();
         return $illnesses;
     }
 
     //all disease based on patient start
     public static function all_disease(){
+        $firstNineDigitsArray = Patient::registration_ids();
         $today = Carbon::today();
         $startDate = $today->format('m/d/Y');
 
@@ -126,6 +146,7 @@ class Patient extends BaseModel
             ->join('RefIllness', 'MDataPatientIllnessHistory.IllnessId', '=', 'RefIllness.IllnessId')
             ->join('Patient', 'MDataPatientIllnessHistory.PatientId', '=', 'Patient.PatientId')
 //                ->where('MDataPatientIllnessHistory.CreateDate', $startDate)
+            ->whereIn('Patient.RegistrationId', $firstNineDigitsArray)
             ->groupBy('RefIllness.IllnessId', 'RefIllness.IllnessCode')
             ->orderByRaw('COUNT(*) DESC')
             ->select('RefIllness.IllnessId', 'RefIllness.IllnessCode', DB::raw('COUNT(*) as Patients'))
