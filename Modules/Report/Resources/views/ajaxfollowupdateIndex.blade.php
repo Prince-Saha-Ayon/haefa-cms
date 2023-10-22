@@ -229,13 +229,38 @@
                             <thead class="bg-primary">
                             <tr>
                                 <th>No</th>
-                                <th>Provisional DX</th>
-                                <th>Date</th>
-                                <th>Total</th>
+                                <th>RegistrationID</th>
+                                <th>GivenName</th>
+                                <th>FamilyName</th>
+                                <th>Gender</th>
+                                <th>BirthDate</th>
+                                <th>Age</th>
+                                <th>Mobile</th>
+                                <th>FollowUpDate</th>
                             </tr>
 
                             </thead>
-                    
+                             @if($fupdates ?? '')
+                                <tbody>
+                                @foreach($fupdates as $result)
+                                    <tr>
+                                    
+                                        <td>{{$loop->iteration}}</td>
+                                        <td>{{$result->RegistrationId}}</td>
+                                        <td>{{$result->GivenName??""}}</td>
+                                        <td>{{$result->FamilyName??""}}</td>
+                                        <td>{{$result->GenderCode??''}}</td>
+                                        <td>{{$result->BirthDate??''}}</td>
+                                         <td>{{$result->Age??''}}</td>
+                                        <td>{{$result->CellNumber??''}}</td>
+                                        <td>{{$result->FollowUpDate??''}}</td>
+                                    </tr>
+                                @endforeach
+                                </tbody>
+                            @endif
+                         
+                                <tbody>
+                             </tbody>
                          
                         </table>
 
@@ -313,7 +338,7 @@
     var patients;
     var now = new Date();
     var formattedDate = now.getDate().toString().padStart(2, '0') + '_' + (now.getMonth() + 1).toString().padStart(2, '0') + '_' + now.getFullYear();
-    var filename = 'ProvisionalDiagnosis_Datewise_' + formattedDate;
+    var filename = 'FollowUpDate_' + formattedDate;
 
   
 
@@ -423,7 +448,7 @@
 
         $.ajax({
             type: "GET",
-            url: "{{ url('date-wise-dx') }}",
+            url: "{{ url('followupdate-report') }}",
             data: { hc_id: hc_id, fdate: fdate, ldate: ldate },
             beforeSend: function () {
                 $('#warning-searching').removeClass('invisible');
@@ -432,39 +457,27 @@
                 $('#warning-searching').addClass('invisible');
             },
             success: function (response) {
-                var results = response.results;
+                var fupdates = response.fupdates;
                 healthcenter = response.healthcenter;
-                var firstDate = new Date(response.first_date);
-                var lastDate = new Date(response.last_date);
-
-                    var formatDate = function (date) {
-                    var day = date.getDate().toString().padStart(2, '0');
-                    var monthNames = [
-                        "January", "February", "March", "April", "May", "June",
-                        "July", "August", "September", "October", "November", "December"
-                    ];
-                    var monthName = monthNames[date.getMonth()];
-                    var year = date.getFullYear();
-                    return day + "-" + monthName + "-" + year;
-                };
-
-                collectionDate = formatDate(firstDate) + "_To_" + formatDate(lastDate);
-               
+                collectionDate=response.first_date+"_To_"+response.last_date;
                 patients=response.resultCount;
-            
-                var tableBody = $('#dataTable tbody')
+                var tableBody = $('#dataTable tbody');
 
                 // Clear the existing table rows
                 table.clear().draw();
 
-                if (results.length > 0) {
-                    $.each(results, function (index, result) {
+                if (fupdates.length > 0) {
+                    $.each(fupdates, function (index, result) {
                         var newRow = [
                             (index + 1),
-                            result.ProvisionalDiagnosis,
-                            (result.CreateDate || ""),
-                            (result.Total || ""),
-                      
+                            result.RegistrationId,
+                            (result.GivenName || ""),
+                            (result.FamilyName || ""),
+                            (result.GenderCode || ""),
+                            (result.BirthDate || ""),
+                            (result.Age || ""),
+                            (result.CellNumber || ""),
+                            (result.FollowUpDate || "")
                         ];
 
                         // Add a new row to the table
@@ -490,7 +503,16 @@
         $('#warning-searching').removeClass('invisible');
     });
 
-    
+    $(function () {
+
+        $('#starting_age, #ending_age').on('input', function () {
+            if ($('#starting_age').val() != '' && $('#ending_age').val() != '') {
+                $('#btn-filter').removeClass('d-none');
+            } else {
+                $('#btn-filter').addClass('d-none');
+            }
+        });
+    });
 
 </script>
 @endpush
