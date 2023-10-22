@@ -25,7 +25,6 @@ class HomeController extends Controller
 
             $branch_wise_disease_count = Patient::get_branch_wise_disease_count();
             $referred_case_count_heltcenter = Patient::branch_wise_referred_case_with_referrel_center_count();
-            return $referred_case_count_heltcenter;
             $branch_name = Patient::get_branch_name();
             $registrationId=Patient::select('RegistrationId')->get();
             //top ten disease graph of todays date start
@@ -35,7 +34,8 @@ class HomeController extends Controller
             //all disease graph of todays date start
             $all_illnesses = Patient::all_disease();
             //all disease graph of todays date end
-            return view('home',compact('registrationId','illnesses','all_illnesses','branch_name'));
+            return view('home',compact('registrationId','illnesses','all_illnesses',
+                'branch_name','branch_wise_disease_count','referred_case_count_heltcenter'));
         }else{
             return $this->unauthorized_access_blocked();
         }

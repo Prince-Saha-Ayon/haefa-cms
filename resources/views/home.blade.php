@@ -14,10 +14,11 @@
 <div class="dt-content">
     <h2 class="p-3 border  bg-info text-white font-weight-bold rounded" style="font-size: 14px;">Branch Name: {{$branch_name}}</h2>
     <div class="row pt-5">
-
+        <?php print_r($branch_wise_disease_count); ?>
       <div class="col-xl-3 col-sm-5">
         <div class="dt-card dt-chart dt-card__full-height align-items-center pt-5">
           <h2 class="text-black mt-1 p-3">Total Number of DM Patients</h2>
+
         </div>
       </div>
 
