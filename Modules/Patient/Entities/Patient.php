@@ -135,12 +135,16 @@ class Patient extends BaseModel
             '0C436780-E230-4A61-8B9C-C111CF294539'
         ];
 
+        $today = Carbon::today(); // $yesterday = $today->subDay();
+        $startDate = $today->format('m/d/Y');
+
         $all_diseases = DB::table('MDataPatientIllnessHistory')
             ->selectRaw('COUNT(*) as count, RefIllness.IllnessId, RefIllness.IllnessCode')
             ->Join('RefIllness', 'RefIllness.IllnessId', '=', 'MDataPatientIllnessHistory.IllnessId')
             ->Join('Patient', 'Patient.PatientId', '=', 'MDataPatientIllnessHistory.PatientId')
             ->whereIn('Patient.RegistrationId', $LoginRegistrationId)
             ->whereIn('RefIllness.IllnessId', $disease_array)
+            ->where('MDataPatientIllnessHistory.CreateDate', $startDate)
             ->groupBy('RefIllness.IllnessId', 'RefIllness.IllnessCode')
             ->get();
 
@@ -151,11 +155,15 @@ class Patient extends BaseModel
     public static function branch_wise_referred_case_with_referrel_center_count(){
         $branch_id = Patient::get_branch_id();
 
+        $today = Carbon::today();
+        $startDate = $today->format('m/d/Y');
+
         $all_referred_case = DB::table('MDataPatientReferral')
             ->select(DB::raw('COUNT(*) as number_of_referred_case'),'HealthCenter.HealthCenterName')
             ->join('HealthCenter', 'HealthCenter.HealthCenterId', '=', 'MDataPatientReferral.HealthCenterId')
             ->join('Patient', 'Patient.PatientId', '=', 'MDataPatientReferral.PatientId')
             ->where('HealthCenter.HealthCenterId', $branch_id)
+            ->where('MDataPatientReferral.CreateDate', $startDate)
             ->groupBy('HealthCenter.HealthCenterName')
             ->orderByRaw('COUNT(*) DESC')
             ->get();
@@ -181,14 +189,13 @@ class Patient extends BaseModel
     //top ten disease based on patient
     public static function top_ten_disease(){
         $LoginRegistrationId = Patient::registration_ids();
-        $today = Carbon::today();
-        $yesterday = $today->subDay();
+        $today = Carbon::today(); // $yesterday = $today->subDay();
         $startDate = $today->format('m/d/Y');
 
         $illnesses = DB::table('MDataPatientIllnessHistory')
             ->join('RefIllness', 'MDataPatientIllnessHistory.IllnessId', '=', 'RefIllness.IllnessId')
             ->join('Patient', 'MDataPatientIllnessHistory.PatientId', '=', 'Patient.PatientId')
-//            ->where('MDataPatientIllnessHistory.CreateDate', $startDate)
+            ->where('MDataPatientIllnessHistory.CreateDate', $startDate)
             ->whereIn('Patient.RegistrationId', $LoginRegistrationId)
             ->groupBy('RefIllness.IllnessId', 'RefIllness.IllnessCode')
             ->orderByRaw('COUNT(*) DESC')
@@ -208,7 +215,7 @@ class Patient extends BaseModel
         $illnesses = DB::table('MDataPatientIllnessHistory')
             ->join('RefIllness', 'MDataPatientIllnessHistory.IllnessId', '=', 'RefIllness.IllnessId')
             ->join('Patient', 'MDataPatientIllnessHistory.PatientId', '=', 'Patient.PatientId')
-//                ->where('MDataPatientIllnessHistory.CreateDate', $startDate)
+            ->where('MDataPatientIllnessHistory.CreateDate', $startDate)
             ->whereIn('Patient.RegistrationId', $LoginRegistrationId)
             ->groupBy('RefIllness.IllnessId', 'RefIllness.IllnessCode')
             ->orderByRaw('COUNT(*) DESC')

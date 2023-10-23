@@ -15,13 +15,43 @@
     <h2 class="p-3 border text-black dt-card font-weight-bold rounded" style="font-size: 14px;">Branch Name: {{$branch_name}}</h2>
     <div class="row pt-5">
      {{-- Disease & branch wise patient count--}}
+        @php
+            $disease_array = [
+                [
+                    'id' => 'DBB019E4-E1A1-460F-A874-C98101D006FB',
+                    'name' => 'DM'
+                ],
+                [
+                    'id' => '81209B1C-8C0D-414C-A5ED-3D179F3B463A',
+                    'name' => 'HTN'
+                ],
+                [
+                    'id' => '98E2AE4F-7639-49CA-A7AF-9FE396F5EDC2',
+                    'name' => 'ANC/PNC'
+                ],
+                [
+                    'id' => 'BB268EAB-EDD6-4D50-8886-C418C133C555',
+                    'name' => 'Pregnancy Induced Hypertension'
+                ],
+                [
+                    'id' => '0C436780-E230-4A61-8B9C-C111CF294539',
+                    'name' => 'Gestational DM'
+                ],
+            ];
+        @endphp
 
-        @foreach($branch_wise_disease_count as $branch_wise_disease)
+        @foreach($disease_array as $disease)
+            @php
+                $diseaseData = $branch_wise_disease_count->first(function ($item) use ($disease) {
+                    return $item->IllnessId === $disease['id'];
+                });
+            @endphp
+
             <div class="col-xl-3 col-sm-5">
                 <div class="dt-card dt-chart dt-card__full-height align-items-center pt-5">
-                    <h4 class="text-black mt-1 p-2">Total Number of {{ $branch_wise_disease->IllnessCode ?? '' }} Patients</h4>
+                    <h4 class="text-black mt-1 p-2">Total Number of {{ $diseaseData ? $diseaseData->IllnessCode : $disease['name'] }} Patients</h4>
                     <h5 class="text-black mt-1 p-1">
-                        {{ $branch_wise_disease->count ?? 0 }}
+                        {{ $diseaseData ? $diseaseData->count : 0 }}
                     </h5>
                 </div>
             </div>
