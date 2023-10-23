@@ -12,7 +12,7 @@
 
 @section('content')
 <div class="dt-content">
-    <h2 class="p-3 border  bg-info text-white font-weight-bold rounded" style="font-size: 14px;">Branch Name: {{$branch_name}}</h2>
+    <h2 class="p-3 border text-black dt-card font-weight-bold rounded" style="font-size: 14px;">Branch Name: {{$branch_name}}</h2>
     <div class="row pt-5">
      {{-- Disease & branch wise patient count--}}
      @php
@@ -38,16 +38,14 @@
 
         {{--        Referred helthcenter name with patient count--}}
         @foreach($referred_case_count_heltcenter as $referred_case_heltcenter)
-            <?php //if ($diseaseId === $disease) { ?>
-                <div class="col-xl-3 col-sm-5">
-                    <div class="dt-card dt-chart dt-card__full-height align-items-center pt-5">
-                        <h4 class="text-black mt-1 p-2">Total Number of {{ $referred_case_heltcenter->HealthCenterName ?? '' }} Patients</h4>
-                        <h5 class="text-black mt-1 p-1">
-                            {{ $referred_case_heltcenter->number_of_referred_case ?? 0 }}
-                        </h5>
-                    </div>
+            <div class="col-xl-3 col-sm-5">
+                <div class="dt-card dt-chart dt-card__full-height align-items-center pt-5">
+                    <h4 class="text-black mt-1 p-2">Total Number of {{ $referred_case_heltcenter->HealthCenterName ?? '' }} Patients</h4>
+                    <h5 class="text-black mt-1 p-1">
+                        {{ $referred_case_heltcenter->number_of_referred_case ?? 0 }}
+                    </h5>
                 </div>
-            <?php // }  ?>
+            </div>
         @endforeach
 
     </div>
