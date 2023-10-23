@@ -37,7 +37,7 @@
         @endforeach
 
         {{--        Referred helthcenter name with patient count--}}
-        @foreach($referred_case_count_heltcenter as $referred_case_heltcenter)
+        @forelse($referred_case_count_heltcenter as $referred_case_heltcenter)
             <div class="col-xl-3 col-sm-5">
                 <div class="dt-card dt-chart dt-card__full-height align-items-center pt-5">
                     <h4 class="text-black mt-1 p-2">Total Number of {{ $referred_case_heltcenter->HealthCenterName ?? '' }} Patients</h4>
@@ -46,7 +46,14 @@
                     </h5>
                 </div>
             </div>
-        @endforeach
+        @empty
+            <div class="col-xl-3 col-sm-5">
+                <div class="dt-card dt-chart dt-card__full-height align-items-center pt-5">
+                    <h4 class="text-black mt-1 p-2">No referred cases available</h4>
+                    <h5 class="text-black mt-1 p-1">0</h5>
+                </div>
+            </div>
+        @endforelse
 
     </div>
 
