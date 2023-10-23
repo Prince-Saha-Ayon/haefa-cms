@@ -14,31 +14,46 @@
 <div class="dt-content">
     <h2 class="p-3 border  bg-info text-white font-weight-bold rounded" style="font-size: 14px;">Branch Name: {{$branch_name}}</h2>
     <div class="row pt-5">
-        <?php print_r($branch_wise_disease_count); ?>
-      <div class="col-xl-3 col-sm-5">
-        <div class="dt-card dt-chart dt-card__full-height align-items-center pt-5">
-          <h2 class="text-black mt-1 p-3">Total Number of DM Patients</h2>
+     {{-- Disease & branch wise patient count--}}
+     @php
+         $disease_array = [
+            'DBB019E4-E1A1-460F-A874-C98101D006FB',
+            '81209B1C-8C0D-414C-A5ED-3D179F3B463A',
+            '98E2AE4F-7639-49CA-A7AF-9FE396F5EDC2',
+            'BB268EAB-EDD6-4D50-8886-C418C133C555',
+            '0C436780-E230-4A61-8B9C-C111CF294539'
+        ];
+         @endphp
 
-        </div>
-      </div>
-
-      <div class="col-xl-2 col-sm-4">
-        <div class="dt-card dt-chart dt-card__full-height align-items-center pt-5">
-          <h2 class="text-black mt-1 p-3">Total Number of HTN Patients</h2>
-        </div>
-      </div>
-
-      <div class="col-xl-2 col-sm-4">
-        <div class="dt-card dt-chart dt-card__full-height align-items-center pt-5">
-          <h2 class="text-black mt-1 p-3">Total Number of ANC/PNC Patients</h2>
-        </div>
-      </div>
-
-      <div class="col-xl-2 col-sm-4">
-        <div class="dt-card dt-chart dt-card__full-height align-items-center pt-5">
-          <h2 class="text-black mt-1 p-3">Total Number of ANC/PNC Patients</h2>
-        </div>
-      </div>
+        @foreach($branch_wise_disease_count as $branch_wise_disease)
+            <?php
+                $diseaseId = $branch_wise_disease->IllnessId;
+                // Find matching disease data in $disease_array
+                foreach ($disease_array as $disease) {
+                    if ($diseaseId === $disease) { ?>
+                    <div class="col-xl-3 col-sm-5">
+                        <div class="dt-card dt-chart dt-card__full-height align-items-center pt-5">
+                            <h4 class="text-black mt-1 p-2">Total Number of {{ $branch_wise_disease->IllnessCode ?? '' }} Patients</h4>
+                            <h5 class="text-black mt-1 p-1">
+                                {{ $branch_wise_disease->count ?? 0 }}
+                            </h5>
+                        </div>
+                    </div>
+                  <?php  } } ?>
+        @endforeach
+        {{--        Referred helthcenter name with patient count--}}
+        @foreach($referred_case_count_heltcenter as $referred_case_heltcenter)
+            <?php //if ($diseaseId === $disease) { ?>
+                <div class="col-xl-3 col-sm-5">
+                    <div class="dt-card dt-chart dt-card__full-height align-items-center pt-5">
+                        <h4 class="text-black mt-1 p-2">Total Number of {{ $referred_case_heltcenter->HealthCenterName ?? '' }} Patients</h4>
+                        <h5 class="text-black mt-1 p-1">
+                            {{ $referred_case_heltcenter->number_of_referred_case ?? 0 }}
+                        </h5>
+                    </div>
+                </div>
+            <?php // }  ?>
+        @endforeach
 
     </div>
 

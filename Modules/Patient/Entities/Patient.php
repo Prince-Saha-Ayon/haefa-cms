@@ -125,11 +125,12 @@ class Patient extends BaseModel
         ];
 
         $all_diseases = DB::table('MDataPatientIllnessHistory')
-            ->select('*')
-            ->join('RefIllness', 'RefIllness.IllnessId', '=', 'MDataPatientIllnessHistory.IllnessId')
-            ->join('Patient', 'Patient.PatientId', '=', 'MDataPatientIllnessHistory.PatientId')
+            ->selectRaw('COUNT(*) as count, RefIllness.IllnessId, RefIllness.IllnessCode')
+            ->Join('RefIllness', 'RefIllness.IllnessId', '=', 'MDataPatientIllnessHistory.IllnessId')
+            ->Join('Patient', 'Patient.PatientId', '=', 'MDataPatientIllnessHistory.PatientId')
             ->whereIn('Patient.RegistrationId', $LoginRegistrationId)
             ->whereIn('RefIllness.IllnessId', $disease_array)
+            ->groupBy('RefIllness.IllnessId', 'RefIllness.IllnessCode')
             ->get();
 
         return $all_diseases;
