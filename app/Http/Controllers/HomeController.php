@@ -24,6 +24,7 @@ class HomeController extends Controller
             $this->setPageData('Dashboard','Dashboard','fas fa-tachometer-alt');
 
             $branch_wise_disease_count = Patient::get_branch_wise_disease_count();
+
             $referred_case_count_heltcenter = Patient::branch_wise_referred_case_with_referrel_center_count();
             $branch_name = Patient::get_branch_name();
             $registrationId=Patient::select('RegistrationId')->get();
@@ -33,6 +34,7 @@ class HomeController extends Controller
 
             //all disease graph of todays date start
             $all_illnesses = Patient::all_disease();
+
             //all disease graph of todays date end
             return view('home',compact('registrationId','illnesses','all_illnesses',
                 'branch_name','branch_wise_disease_count','referred_case_count_heltcenter'));

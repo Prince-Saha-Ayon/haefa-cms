@@ -104,10 +104,12 @@ class Patient extends BaseModel
     public static function get_branch_name(){
         $login_user = Auth::user()->cc_id ?? '';
         $branch_query = DB::select("SELECT TOP 1 hc.HealthCenterName
-            FROM users u
-            INNER JOIN barcode_formats bf ON u.cc_id = bf.id
+            FROM Patient p
+            INNER JOIN barcode_formats bf ON LEFT(p.RegistrationId, 9) = bf.barcode_prefix
             INNER JOIN HealthCenter hc ON bf.barcode_community_clinic = hc.HealthCenterId
+            INNER JOIN users u ON u.cc_id = bf.id
             WHERE u.cc_id = '$login_user'");
+
         $branch_name = $branch_query[0]->HealthCenterName??'';
         return $branch_name;
 
@@ -115,9 +117,10 @@ class Patient extends BaseModel
     public static function get_branch_id(){
         $login_user = Auth::user()->cc_id ?? '';
         $branch_query = DB::select("SELECT TOP 1 hc.HealthCenterId
-            FROM users u
-            INNER JOIN barcode_formats bf ON u.cc_id = bf.id
+            FROM Patient p
+            INNER JOIN barcode_formats bf ON LEFT(p.RegistrationId, 9) = bf.barcode_prefix
             INNER JOIN HealthCenter hc ON bf.barcode_community_clinic = hc.HealthCenterId
+            INNER JOIN users u ON u.cc_id = bf.id
             WHERE u.cc_id = '$login_user'");
         $branch_id = $branch_query[0]->HealthCenterId??'';
         return $branch_id;
@@ -144,7 +147,7 @@ class Patient extends BaseModel
             ->Join('Patient', 'Patient.PatientId', '=', 'MDataPatientIllnessHistory.PatientId')
             ->whereIn('Patient.RegistrationId', $LoginRegistrationId)
             ->whereIn('RefIllness.IllnessId', $disease_array)
-            ->where('MDataPatientIllnessHistory.CreateDate', $startDate)
+            ->whereDate('MDataPatientIllnessHistory.CreateDate', $startDate)
             ->groupBy('RefIllness.IllnessId', 'RefIllness.IllnessCode')
             ->get();
 
@@ -163,7 +166,7 @@ class Patient extends BaseModel
             ->join('HealthCenter', 'HealthCenter.HealthCenterId', '=', 'MDataPatientReferral.HealthCenterId')
             ->join('Patient', 'Patient.PatientId', '=', 'MDataPatientReferral.PatientId')
             ->where('HealthCenter.HealthCenterId', $branch_id)
-            ->where('MDataPatientReferral.CreateDate', $startDate)
+            ->whereDate('MDataPatientReferral.CreateDate', $startDate)
             ->groupBy('HealthCenter.HealthCenterName')
             ->orderByRaw('COUNT(*) DESC')
             ->get();
@@ -174,11 +177,12 @@ class Patient extends BaseModel
     public static function registration_ids(){
         $login_user = Auth::user()->cc_id ?? '';
         // Get RegistrationIds
-        $data = DB::select('SELECT p.RegistrationId
-            FROM users u
-            INNER JOIN barcode_formats bf ON u.cc_id = bf.id
-            INNER JOIN Patient p ON LEFT(p.RegistrationId, 9) = bf.barcode_prefix
-            WHERE u.cc_id = ?', [$login_user]);
+
+        $data = DB::select("SELECT p.RegistrationId
+            FROM Patient p
+            INNER JOIN barcode_formats bf ON LEFT(p.RegistrationId, 9) = bf.barcode_prefix
+            INNER JOIN users u ON u.cc_id = bf.id
+            WHERE u.cc_id = '$login_user'");
 
         $LoginRegistrationId = array_map(function ($item) {
             return $item->RegistrationId;
@@ -195,7 +199,7 @@ class Patient extends BaseModel
         $illnesses = DB::table('MDataPatientIllnessHistory')
             ->join('RefIllness', 'MDataPatientIllnessHistory.IllnessId', '=', 'RefIllness.IllnessId')
             ->join('Patient', 'MDataPatientIllnessHistory.PatientId', '=', 'Patient.PatientId')
-            ->where('MDataPatientIllnessHistory.CreateDate', $startDate)
+            ->whereDate('MDataPatientIllnessHistory.CreateDate', $startDate)
             ->whereIn('Patient.RegistrationId', $LoginRegistrationId)
             ->groupBy('RefIllness.IllnessId', 'RefIllness.IllnessCode')
             ->orderByRaw('COUNT(*) DESC')
@@ -215,7 +219,7 @@ class Patient extends BaseModel
         $illnesses = DB::table('MDataPatientIllnessHistory')
             ->join('RefIllness', 'MDataPatientIllnessHistory.IllnessId', '=', 'RefIllness.IllnessId')
             ->join('Patient', 'MDataPatientIllnessHistory.PatientId', '=', 'Patient.PatientId')
-            ->where('MDataPatientIllnessHistory.CreateDate', $startDate)
+            ->whereDate('MDataPatientIllnessHistory.CreateDate', $startDate)
             ->whereIn('Patient.RegistrationId', $LoginRegistrationId)
             ->groupBy('RefIllness.IllnessId', 'RefIllness.IllnessCode')
             ->orderByRaw('COUNT(*) DESC')
