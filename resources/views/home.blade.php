@@ -15,15 +15,6 @@
     <h2 class="p-3 border text-black dt-card font-weight-bold rounded" style="font-size: 14px;">Branch Name: {{$branch_name}}</h2>
     <div class="row pt-5">
      {{-- Disease & branch wise patient count--}}
-     @php
-         $disease_array = [
-            'DBB019E4-E1A1-460F-A874-C98101D006FB',
-            '81209B1C-8C0D-414C-A5ED-3D179F3B463A',
-            '98E2AE4F-7639-49CA-A7AF-9FE396F5EDC2',
-            'BB268EAB-EDD6-4D50-8886-C418C133C555',
-            '0C436780-E230-4A61-8B9C-C111CF294539'
-        ];
-         @endphp
 
         @foreach($branch_wise_disease_count as $branch_wise_disease)
             <div class="col-xl-3 col-sm-5">
