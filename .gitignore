@@ -8,3 +8,5 @@ Homestead.yaml
 modules_statuses.json
 /modules_statuses.json
 .env
+laravel.log
+/laravel.log
