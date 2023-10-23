@@ -112,6 +112,17 @@ class Patient extends BaseModel
         return $branch_name;
 
     }
+    public static function get_branch_id(){
+        $login_user = Auth::user()->cc_id ?? '';
+        $branch_query = DB::select("SELECT TOP 1 hc.HealthCenterId
+            FROM users u
+            INNER JOIN barcode_formats bf ON u.cc_id = bf.id
+            INNER JOIN HealthCenter hc ON bf.barcode_community_clinic = hc.HealthCenterId
+            WHERE u.cc_id = '$login_user'");
+        $branch_id = $branch_query[0]->HealthCenterId??'';
+        return $branch_id;
+
+    }
     //get branch wise disease
     public static function get_branch_wise_disease_count()
     {
@@ -138,13 +149,13 @@ class Patient extends BaseModel
 
     //get branch wise referred case with referrel center
     public static function branch_wise_referred_case_with_referrel_center_count(){
-        $LoginRegistrationId = Patient::registration_ids();
+        $branch_id = Patient::get_branch_id();
 
         $all_referred_case = DB::table('MDataPatientReferral')
             ->select(DB::raw('COUNT(*) as number_of_referred_case'),'HealthCenter.HealthCenterName')
             ->join('HealthCenter', 'HealthCenter.HealthCenterId', '=', 'MDataPatientReferral.HealthCenterId')
             ->join('Patient', 'Patient.PatientId', '=', 'MDataPatientReferral.PatientId')
-//            ->whereIn('MDataPatientIllnessHistory.RegistrationId', $LoginRegistrationId)
+            ->where('HealthCenter.HealthCenterId', $branch_id)
             ->groupBy('HealthCenter.HealthCenterName')
             ->orderByRaw('COUNT(*) DESC')
             ->get();

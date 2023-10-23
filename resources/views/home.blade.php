@@ -26,21 +26,16 @@
          @endphp
 
         @foreach($branch_wise_disease_count as $branch_wise_disease)
-            <?php
-                $diseaseId = $branch_wise_disease->IllnessId;
-                // Find matching disease data in $disease_array
-                foreach ($disease_array as $disease) {
-                    if ($diseaseId === $disease) { ?>
-                    <div class="col-xl-3 col-sm-5">
-                        <div class="dt-card dt-chart dt-card__full-height align-items-center pt-5">
-                            <h4 class="text-black mt-1 p-2">Total Number of {{ $branch_wise_disease->IllnessCode ?? '' }} Patients</h4>
-                            <h5 class="text-black mt-1 p-1">
-                                {{ $branch_wise_disease->count ?? 0 }}
-                            </h5>
-                        </div>
-                    </div>
-                  <?php  } } ?>
+            <div class="col-xl-3 col-sm-5">
+                <div class="dt-card dt-chart dt-card__full-height align-items-center pt-5">
+                    <h4 class="text-black mt-1 p-2">Total Number of {{ $branch_wise_disease->IllnessCode ?? '' }} Patients</h4>
+                    <h5 class="text-black mt-1 p-1">
+                        {{ $branch_wise_disease->count ?? 0 }}
+                    </h5>
+                </div>
+            </div>
         @endforeach
+
         {{--        Referred helthcenter name with patient count--}}
         @foreach($referred_case_count_heltcenter as $referred_case_heltcenter)
             <?php //if ($diseaseId === $disease) { ?>
