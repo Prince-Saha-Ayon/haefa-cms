@@ -182,6 +182,7 @@ class Patient extends BaseModel
     public static function top_ten_disease(){
         $LoginRegistrationId = Patient::registration_ids();
         $today = Carbon::today();
+        $yesterday = $today->subDay();
         $startDate = $today->format('m/d/Y');
 
         $illnesses = DB::table('MDataPatientIllnessHistory')
@@ -201,6 +202,7 @@ class Patient extends BaseModel
     public static function all_disease(){
         $LoginRegistrationId = Patient::registration_ids();
         $today = Carbon::today();
+        $yesterday = $today->subDay();
         $startDate = $today->format('m/d/Y');
 
         $illnesses = DB::table('MDataPatientIllnessHistory')
