@@ -30,11 +30,11 @@ class HomeController extends Controller
             $registrationId=Patient::select('RegistrationId')->get();
             //top ten disease graph of todays date start
             $illnesses['diseases'] = Patient::top_ten_disease();
+
             //top ten disease graph of todays date end
 
             //all disease graph of todays date start
             $all_illnesses = Patient::all_disease();
-
             //all disease graph of todays date end
             return view('home',compact('registrationId','illnesses','all_illnesses',
                 'branch_name','branch_wise_disease_count','referred_case_count_heltcenter'));
