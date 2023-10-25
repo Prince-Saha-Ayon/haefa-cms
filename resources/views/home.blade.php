@@ -61,7 +61,7 @@
         @forelse($referred_case_count_heltcenter as $referred_case_heltcenter)
             <div class="col-xl-3 col-sm-5">
                 <div class="dt-card dt-chart dt-card__full-height align-items-center pt-5">
-                    <h4 class="text-black mt-1 p-2">Total Number of {{ $referred_case_heltcenter->HealthCenterName ?? '' }} Patients</h4>
+                    <h4 class="text-black mt-1 p-2">Total Number of Referral Case</h4>
                     <h5 class="text-black mt-1 p-1">
                         {{ $referred_case_heltcenter->number_of_referred_case ?? 0 }}
                     </h5>
@@ -70,7 +70,7 @@
         @empty
             <div class="col-xl-3 col-sm-5">
                 <div class="dt-card dt-chart dt-card__full-height align-items-center pt-5">
-                    <h4 class="text-black mt-1 p-2">No referred cases available</h4>
+                    <h4 class="text-black mt-1 p-2">Total Number of Referral Case</h4>
                     <h5 class="text-black mt-1 p-1">0</h5>
                 </div>
             </div>

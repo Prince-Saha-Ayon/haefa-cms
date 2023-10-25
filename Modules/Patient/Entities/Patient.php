@@ -102,7 +102,7 @@ class Patient extends BaseModel
     }
 
     public static function get_branch_name(){
-        $login_user = Auth::user()->cc_id ?? '';
+        $login_user = Auth::user()->cc_id ?? 0;
         $branch_query = DB::select("SELECT TOP 1 hc.HealthCenterName
             FROM Patient p
             INNER JOIN barcode_formats bf ON LEFT(p.RegistrationId, 9) = bf.barcode_prefix
@@ -115,14 +115,14 @@ class Patient extends BaseModel
 
     }
     public static function get_branch_id(){
-        $login_user = Auth::user()->cc_id ?? '';
+        $login_user = Auth::user()->cc_id ?? 0;
         $branch_query = DB::select("SELECT TOP 1 hc.HealthCenterId
             FROM Patient p
             INNER JOIN barcode_formats bf ON LEFT(p.RegistrationId, 9) = bf.barcode_prefix
             INNER JOIN HealthCenter hc ON bf.barcode_community_clinic = hc.HealthCenterId
             INNER JOIN users u ON u.cc_id = bf.id
             WHERE u.cc_id = '$login_user'");
-        $branch_id = $branch_query[0]->HealthCenterId??'';
+        $branch_id = $branch_query[0]->HealthCenterId??'69A15C52-B198-4DBC-9EAE-000000000000';
         return $branch_id;
 
     }
@@ -162,12 +162,19 @@ class Patient extends BaseModel
         $startDate = $today->format('m/d/Y');
 
         $all_referred_case = DB::table('MDataPatientReferral')
-            ->select(DB::raw('COUNT(*) as number_of_referred_case'),'HealthCenter.HealthCenterName')
+            ->select(DB::raw('COUNT(DISTINCT MDataPatientReferral.PatientId) as number_of_referred_case'),'HealthCenter.HealthCenterName','MDataPatientReferral.PatientId')
             ->join('HealthCenter', 'HealthCenter.HealthCenterId', '=', 'MDataPatientReferral.HealthCenterId')
             ->join('Patient', 'Patient.PatientId', '=', 'MDataPatientReferral.PatientId')
-            ->where('HealthCenter.HealthCenterId', $branch_id)
+            ->where(function($query) use ($branch_id) {
+                if ($branch_id !== null) {
+                    $query->where('HealthCenter.HealthCenterId', $branch_id);
+                }else{
+                    $query->whereNull('HealthCenter.HealthCenterId');
+                }
+            })
+//            ->where('HealthCenter.HealthCenterId', $branch_id)
             ->whereDate('MDataPatientReferral.CreateDate', $startDate)
-            ->groupBy('HealthCenter.HealthCenterName')
+            ->groupBy('HealthCenter.HealthCenterName','MDataPatientReferral.PatientId')
             ->orderByRaw('COUNT(*) DESC')
             ->get();
         return $all_referred_case;
@@ -175,7 +182,7 @@ class Patient extends BaseModel
 
     //get referred
     public static function registration_ids(){
-        $login_user = Auth::user()->cc_id ?? '';
+        $login_user = Auth::user()->cc_id ?? 0;
         // Get RegistrationIds
 
         $data = DB::select("SELECT p.RegistrationId
