@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\DB;
+use Modules\Patient\Entities\MDataPatientIllnessHistory;
 use Modules\Patient\Entities\Patient;
 use Modules\Prescription\Entities\Prescription;
 use App\Models\User;
@@ -21,7 +22,7 @@ class HomeController extends Controller
     {
         ini_set('max_execution_time', 3000);
         if (permission('dashboard-access')) {
-            $this->setPageData('Dashboard','Dashboard','fas fa-tachometer-alt');
+            $this->setPageData('Dashboard', 'Dashboard', 'fas fa-tachometer-alt');
 
             $branch_wise_disease_count = Patient::get_branch_wise_disease_count();
 
@@ -60,14 +61,19 @@ class HomeController extends Controller
 
             //all disease graph of todays date start
             $all_illnesses = Patient::all_disease();
-            //all disease graph of todays date end
+            // all disease graph of todays date end
             return view('home',compact('registrationId','illnesses','all_illnesses',
                 'branch_name','branch_wise_disease_count','referred_case_count_heltcenter','DM_count',
                 'HTN_count','ANCPNC_count','PregnancyInducedHypertensionCount','GestationalDMCount'
             ));
+
+//            $illnesses['diseases']='';
+//            $all_illnesses = '';
+//            return view('home',compact('illnesses','all_illnesses'));
         }else{
             return $this->unauthorized_access_blocked();
         }
+
     }
 
     public function unauthorized()

@@ -13,7 +13,7 @@
 @endpush
 @section('content')
 <div class="dt-content">
-    <h2 class="p-3 border text-black dt-card font-weight-bold rounded" style="font-size: 14px;">Branch Name: {{$branch_name}}</h2>
+    <h2 class="p-3 border text-black dt-card font-weight-bold rounded" style="font-size: 14px;">Branch Name: {{$branch_name??''}}</h2>
     <div class="row pt-5">
      {{-- Disease & branch wise patient count--}}
 
@@ -21,7 +21,7 @@
             <div class="dt-card dt-chart dt-card__full-height align-items-center pt-5">
                 <h4 class="text-black mt-1 p-2">Total Number of DM Patients</h4>
                 <h5 class="text-black mt-1 p-1">
-                    {{ $DM_count }}
+                    {{ $DM_count??0 }}
                 </h5>
             </div>
         </div>
@@ -30,7 +30,7 @@
             <div class="dt-card dt-chart dt-card__full-height align-items-center pt-5">
                 <h4 class="text-black mt-1 p-2">Total Number of HTN Patients</h4>
                 <h5 class="text-black mt-1 p-1">
-                    {{ $HTN_count }}
+                    {{ $HTN_count??0 }}
                 </h5>
             </div>
         </div>
@@ -39,7 +39,7 @@
             <div class="dt-card dt-chart dt-card__full-height align-items-center pt-5">
                 <h4 class="text-black mt-1 p-2">Total Number of ANC/PNC Patients</h4>
                 <h5 class="text-black mt-1 p-1">
-                    {{ $ANCPNC_count }}
+                    {{ $ANCPNC_count??0 }}
                 </h5>
             </div>
         </div>
@@ -48,7 +48,7 @@
             <div class="dt-card dt-chart dt-card__full-height align-items-center pt-5">
                 <h4 class="text-black mt-1 p-2">Total Number of Pregnancy Induced Hypertension Patients</h4>
                 <h5 class="text-black mt-1 p-1">
-                    {{ $PregnancyInducedHypertensionCount }}
+                    {{ $PregnancyInducedHypertensionCount??0 }}
                 </h5>
             </div>
         </div>
@@ -57,7 +57,7 @@
             <div class="dt-card dt-chart dt-card__full-height align-items-center pt-5">
                 <h4 class="text-black mt-1 p-2">Total Number of Gestational DM Patients</h4>
                 <h5 class="text-black mt-1 p-1">
-                    {{ $GestationalDMCount }}
+                    {{ $GestationalDMCount??0 }}
                 </h5>
             </div>
         </div>
@@ -67,7 +67,7 @@
             <div class="dt-card dt-chart dt-card__full-height align-items-center pt-5">
                 <h4 class="text-black mt-1 p-2">Total Number of Referral Case</h4>
                 <h5 class="text-black mt-1 p-1">
-                    {{ $referred_case_count_heltcenter }}
+                    {{ $referred_case_count_heltcenter??0 }}
                 </h5>
             </div>
         </div>
@@ -166,7 +166,7 @@
 
 @push('script')
 <script>
-
+$(document).ready(function(){
 // Top ten disease
 var chartData = {!! $illnesses['diseases'] !!};
 
@@ -282,6 +282,6 @@ Highcharts.chart('container_alldiseases', {
         })
     }]
 });
-
+})
 </script>
 @endpush

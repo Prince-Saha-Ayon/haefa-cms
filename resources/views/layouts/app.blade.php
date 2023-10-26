@@ -13,13 +13,15 @@
   <title>{{ config('settings.title') ? config('settings.title') : env('APP_NAME') }} - @yield('title')</title>
 
   <!-- Site favicon -->
-  <link rel="shortcut icon" href="images/Logo.png" type="image/x-icon">
+  <link rel="shortcut icon" href="images/Logo.png" alt="Logo" type="image/x-icon">
   <!-- /site favicon -->
 
   <link rel="stylesheet" href="css/app.css">
+  @if(request()->path() !== '/')
   <link rel="stylesheet" href="css/daterangepicker.css">
   <link rel="stylesheet" href="css/datatables.bundle.css">
-    <script src="js/webcam.min.js"></script>
+  <script src="js/webcam.min.js"></script>
+  @endif
   @stack('stylesheet')
 </head>
 <body class="dt-sidebar--fixed dt-header--fixed">
@@ -70,13 +72,15 @@
 <script src="js/moment.min.js"></script>
 <script src="js/daterangepicker.min.js"></script>
 <script src="js/perfect-scrollbar.min.js"></script>
-<script src="js/datatables.bundle.js"></script>
 <!-- /perfect scrollbar jQuery -->
 
 <script src="js/script.js"></script>
 
 <script src="js/custom.js"></script>
-{{-- <script src="js/custom/charts/dashboard-crypto.js"></script> --}}
+@if(request()->path() !== '/')
+<script src="js/datatables.bundle.js"></script>
+<script src="js/custom/charts/dashboard-crypto.js"></script>
+@endif
 <script>
   var _token = "{{ csrf_token() }}";
 </script>
