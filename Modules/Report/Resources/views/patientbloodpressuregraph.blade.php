@@ -5,184 +5,17 @@
 @endsection
 
 @push('stylesheet')
-
-
-
-
 <style>
-{
-        {
-        -- pagination style--
-    }
-}
-
-.pagination {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    list-style: none;
-    padding: 0;
-}
-
-.pagination li {
-    margin: 0 5px;
-}
-
-.pagination .active {
-    font-weight: bold;
-    color: #000;
-}
-
-.pagination a {
-    color: #007bff;
-    text-decoration: none;
-    padding: 5px 10px;
-    border: 1px solid #007bff;
-    border-radius: 5px;
-}
-
-.pagination a:hover {
-    background-color: #007bff;
-    color: #fff;
-}
-
-
-    {
-        {
-        --pagination style ends--
-    }
-}
-
-#prescription .container {
-    background-color: #f2f2f2 !important;
-}
-
-.header p {
-    font-size: 14px;
-}
-
-.aside {
-    width: 400px;
-    border-right: 1px solid #ddd;
-    min-height: 600px;
-    padding-bottom: 20px;
-}
-
-.signatureImage {
-    display: inline-block;
-    width: 100px;
-    object-fit: contain;
-    margin-bottom: 5px;
-}
-
-.signatureBox {
-    position: absolute;
-    right: 50px;
-    bottom: 30px;
-}
-
-.footer {
-    padding-top: 20px;
-    padding-bottom: 20px;
-    border-top: 1px solid #ddd;
-}
-
-.footer p {
-    font-size: 14px;
-}
-
-.apiLogo {
-    max-width: 40px;
-    transform: translateY(-4px);
-    margin-left: 5px;
-}
-
-.logoText {
-    font-size: 14px;
-}
-
-.nextinfo {
-    margin-top: 150px;
-}
-
-.userImg {
-    margin-top: 20px;
-    width: 200px;
-    height: 200px;
-    object-fit: cover;
-    border-radius: 20px;
-    border: 10px solid rgba(122, 122, 122, .15);
-}
-
-.dataItem p {
-    font-weight: 400;
-    font-size: 15px;
-}
-
-.dataItem span {
-    font-weight: 600;
-    font-size: 15px;
-}
-
-@media (max-width: 767px) {
-
-    #prescription,
-    .logoText,
-    address p,
-    .header p {
-        font-size: 12px !important;
-    }
-
-    .header h4 {
-        font-size: 18px !important;
-    }
-
-    .patientageLeftSide {
+    .bootstrap-select{
         width: 100% !important;
-        min-height: auto !important;
-        border: 0 !important;
     }
-
-    .itemMerge {
-        flex-direction: column;
-    }
-
-    .patientageLeftSide h5 {
-        font-size: 18px !important;
-    }
-
-    .userImg {
-        width: 140px !important;
-        height: 140px !important;
-        border-width: 5px;
-    }
-
-    .patientageRightSide .dataItem p,
-    .patientageRightSide .dataItem span,
-    .patientageLeftSide p {
-        margin-bottom: 0;
-        font-size: 14px;
-    }
-
-    .patientageRightSide .dataItem h5 {
-        font-size: 16px !important;
-        margin-bottom: 5px !important;
-    }
-
-    .patientageRightSide {
-        padding: 10px 10px !important;
-    }
-
-    .patientageRightSide .dataItem {
-        margin-top: 15px !important;
-    }
-
-}
 </style>
+
+
+
 @endpush
 
-<script src="js/dataTables.buttons.min.js"></script>
-    <script src="js/buttons.html5.min.js"></script>
+
     <script src="js/highcharts.js"></script>
     <script src="js/series-label.js"></script>
     <script src="js/exporting.js"></script>
@@ -227,42 +60,54 @@
                 <!-- Card Body -->
                 <div class="dt-card__body">
 
-                    <form id="form-filter" method="GET" action="{{url('patient-blood-pressure-graph')}}">
+                    <form id="form-filter" method="GET">
 
                         <div class="row">
-                            <div class="form-group col-md-4">
-                                <label for="name">Date Range</label>
-                                 <input type="text" class="form-control" value="" name="daterange" id="daterange"
+                            <div class="col-lg-3">
+                                <div class="form-group">
+                                <label for="name" class="d-block">Date Range</label>
+                                 <input type="text" class="form-control  w-100" value="" name="daterange" id="daterange"
                                     placeholder="Select Date" required>
                             </div>
-                          
+                            </div>
 
-                            <div class="form-group col-md-2">
-                                <label for="name">Patient</label>
-
-                                <select class="selectpicker" data-live-search="true" name="registration_id" id="registration_id" required>
-                                    <option value="">Select Registration ID</option> <!-- Empty option added -->
-
-                                    @foreach($registrationId as $registration_id)
-                                        <option value="{{$registration_id->RegistrationId}}">{{$registration_id->RegistrationId}}</option>
-
+                            <div class="col-lg-3">
+                                <div class="form-group">
+                                <label for="name" class="d-block">Branch</label>
+                                <select class="selectpicker w-100" data-live-search="true" name="hc_id" id="hc_id">
+                                    <option value="">Select Branch</option> <!-- Empty option added -->
+                                    @foreach($branches as $branch)
+                                    <option value="{{$branch->barcode_prefix}}">{{$branch->healthCenter->HealthCenterName}}</option>
                                     @endforeach
-
                                 </select>
                             </div>
-                            <div class="col-md-4 warning-searching invisible" id="warning-searching">
+                            </div>
+
+                            <div class="col-lg-3">
+                                <div class="form-group">
+                                <label for="name" class="d-block">Patient</label>
+                                <select class="selectpicker w-100 disable" data-live-search="true" name="registration_id" id="registration_id" required disabled>
+                                    <option value="">Select Registration ID</option> <!-- Empty option added -->
+                                </select>
+                            </div>
+                            </div>
+                            
+                            <div class="col-lg-1">
+                                <div class="warning-searching invisible" id="warning-searching">
                                 <span class="text-danger" id="warning-message"></span>
                                 <span class="spinner-border text-danger"></span>
                             </div>
+                            </div>
 
-                            <div class="form-group col-md-2 pt-24">
-
+                            <div class="col-lg-2">
+                                <div class="form-group pt-24">
                                 <button type="button" id="search" class="btn btn-primary btn-sm float-right mr-2">
                                     <i class="fas fa-search"></i>
                                 </button>
 
                                 <button type="button" id="refresh" class="btn btn-primary btn-sm float-right mr-2 refresh">
                                 <i class="fas fa-sync-alt"></i></button>
+                            </div>
                             </div>
                         </div>
 
@@ -298,7 +143,7 @@
 
 <script>
 
-     $(document).ready(function(){
+    $(document).ready(function(){
     var start = moment().subtract(29, 'days');
     var end = moment();
 
@@ -324,6 +169,46 @@
     });
       $('input[name="daterange"]').click(function() {
         $('.daterangepicker').show();
+    });
+
+     $('#hc_id').change(function () {
+        
+        var hcId = $(this).val();
+        console.log(hcId);
+
+      if (hcId) {
+         
+            $.ajax({
+                type: 'GET',
+                url: '{{ route("get-patients", "hcId") }}'.replace('hcId', hcId),
+                beforeSend: function(){
+                     $('#registration_id').prop('disabled', true);
+                     $('#warning-searching').removeClass('invisible');
+                },
+                success: function (data) {
+                    console.log(data)
+                     $('#registration_id').prop('disabled', false);
+                    $('#warning-searching').addClass('invisible');
+                     
+            // Add the default empty option
+            $('#registration_id').html('<option value="">Select Patient</option>');
+                        $.each(data, function (key, value) {
+                            console.log('gg')
+                             $("#registration_id").append('<option value="'+ value.RegistrationId+'">' + value.RegistrationId +'</option>');
+                            // $("#up_id").append('<option value="' + value.id + '" class="selectpicker">' + value.name + '</option>');
+                        });
+                        $("#registration_id").addClass("selectpicker");
+                        $("#registration_id").selectpicker('refresh');
+                }
+            });
+        } else {
+            $('#registration_id').empty();
+            $('#registration_id').append($('<option>', {
+                value: '',
+                text: 'Select Patient'
+            }));
+        }
+
     });
 
 
@@ -364,6 +249,7 @@ $('#search').click(function() {
             $('#warning-searching').addClass('invisible');
         },
         success: function(data) {
+            console.log(data);
             $('#container_bloodp').html(data);
         },
         error: function(xhr, ajaxOption, thrownError) {

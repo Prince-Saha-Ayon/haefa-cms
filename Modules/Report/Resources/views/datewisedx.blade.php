@@ -6,148 +6,7 @@
 
 @push('stylesheet')
 
-<style>
-    {{--        pagination style--}}
 
-    .pagination {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        list-style: none;
-        padding: 0;
-    }
-
-    .pagination li {
-        margin: 0 5px;
-    }
-
-    .pagination .active {
-        font-weight: bold;
-        color: #000;
-    }
-
-    .pagination a {
-        color: #007bff;
-        text-decoration: none;
-        padding: 5px 10px;
-        border: 1px solid #007bff;
-        border-radius: 5px;
-    }
-
-    .pagination a:hover {
-        background-color: #007bff;
-        color: #fff;
-    }
-
-
-    {{--pagination style ends--}}
-
-    #prescription .container {
-        background-color: #f2f2f2 !important;
-    }
-
-    .header p {
-        font-size: 14px;
-    }
-    .aside {
-        width: 400px;
-        border-right: 1px solid #ddd;
-        min-height: 600px;
-        padding-bottom: 20px;
-    }
-
-    .signatureImage {
-        display: inline-block;
-        width: 100px;
-        object-fit: contain;
-        margin-bottom: 5px;
-    }
-    .signatureBox {
-        position: absolute;
-        right: 50px;
-        bottom: 30px;
-    }
-    .footer {
-        padding-top: 20px;
-        padding-bottom: 20px;
-        border-top: 1px solid #ddd;
-    }
-
-    .footer p {
-        font-size: 14px;
-    }
-    .apiLogo {
-        max-width: 40px;
-        transform: translateY(-4px);
-        margin-left: 5px;
-    }
-    .logoText {
-        font-size: 14px;
-    }
-    .nextinfo {
-        margin-top: 150px;
-    }
-
-    .userImg {
-        margin-top: 20px;
-        width: 200px;
-        height: 200px;
-        object-fit: cover;
-        border-radius: 20px;
-        border: 10px solid rgba(122,122,122,.15);
-    }
-
-    .dataItem p{
-        font-weight: 400;
-        font-size: 15px;
-    }
-    .dataItem span{
-        font-weight: 600;
-        font-size: 15px;
-    }
-
-    @media (max-width: 767px){
-        #prescription, .logoText, address p, .header p{
-            font-size: 12px !important;
-        }
-        .header h4{
-            font-size: 18px !important;
-        }
-        .patientageLeftSide {
-            width: 100% !important;
-            min-height: auto !important;
-            border: 0 !important;
-        }
-        .itemMerge{
-            flex-direction: column;
-        }
-        .patientageLeftSide h5{
-            font-size: 18px !important;
-        }
-        .userImg {
-            width: 140px !important;
-            height: 140px !important;
-            border-width: 5px;
-        }
-        .patientageRightSide .dataItem p,
-        .patientageRightSide .dataItem span,
-        .patientageLeftSide p{
-            margin-bottom: 0;
-            font-size: 14px;
-        }
-        .patientageRightSide .dataItem h5{
-            font-size: 16px !important;
-            margin-bottom: 5px !important;
-        }
-        .patientageRightSide{
-            padding: 10px 10px !important;
-        }
-        .patientageRightSide .dataItem{
-            margin-top: 15px !important;
-        }
-
-    }
-</style>
 @endpush
 
 @section('content')
@@ -202,7 +61,7 @@
                                 <select class="selectpicker" data-live-search="true" name="hc_id" id="hc_id">
                                     <option value="">Select Branch</option> <!-- Empty option added -->
                                     @foreach($branches as $branch)
-                                    <option value="{{$branch->barcode_prefix}}">{{$branch->HealthCenterName}}</option>
+                                    <option value="{{$branch->barcode_prefix}}">{{$branch->healthCenter->HealthCenterName}}</option>
                                     @endforeach
                                 </select>
                             </div>
@@ -369,36 +228,24 @@
 
             var r1 = Addrow(1, [{
                 k: 'A',
-                v: 'App Name:'
-            }, {
-                k: 'B',
-                v: 'Nirog Plus'
+                v: 'App Name: Nirog Plus' ,
             }]);
 
             var r2 = Addrow(2, [{
                 k: 'A',
-                v: 'Branch: '
-            }, {
-                k: 'B',
-                v: healthcenter, // Replace '6' with actual count
+                v: 'Branch: ' + healthcenter,
             }]);
 
             var r3 = Addrow(3, [{
                 k: 'A',
-                v: 'Collection Date:'
-            }, {
-                k: 'B',
-                v: collectionDate, // Replace '4' with actual count
+                v: 'Collection Date:' + collectionDate,
             }]);
 
             var r4 = Addrow(4, [{
                 k: 'A',
-                v: 'Total Patients:'
-            }, {
-                k: 'B',
-                v:  patients,
+                v: 'Total Patients:' + patients,
             }]);
-             var r5 = Addrow(4, [{
+             var r5 = Addrow(5, [{
                 k: 'A',
                 v: ''
             }, {

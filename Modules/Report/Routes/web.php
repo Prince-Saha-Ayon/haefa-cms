@@ -17,8 +17,8 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('datewisedx', 'ReportController@datewisedxindex')->name('datewisedx');
     Route::any('search-by-age', 'ReportController@SearchByAge')->name('search-by-age');
     Route::any('date-wise-dx', 'ReportController@SearchByDate')->name('date-wise-dx');
-    Route::get('glucosegraph', 'ReportController@glucosegraphindex')->name('glucosegraph');
-    Route::post('glucose-graph', 'ReportController@GlucoseGraph')->name('glucose-graph');
+    Route::any('glucosegraph', 'ReportController@glucosegraphindex')->name('glucosegraph');
+    Route::any('glucose-graph', 'ReportController@GlucoseGraph')->name('glucose-graph');
     Route::get('diseasechart', 'ReportController@diseaseindex')->name('diseasechart');
     Route::get('patient-blood-pressure-graph', 'ReportController@PatientBloodPressureGraph')->name('patientbloodpressuregraph');
     Route::get('ajax-patient-blood-pressure', 'ReportController@AjaxPatientBloodPressure')->name('ajaxpatientbloodpressure');
@@ -47,6 +47,8 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('get-upazillas/{dcId}','ReportController@GetUpazillas')->name('get-upazillas');
     Route::get('get-unions/{upId}','ReportController@GetUnions')->name('get-unions');
 
+    Route::get('get-patients/{hc_id}','ReportController@GetPatients')->name('get-patients');
+
 
 
 
@@ -55,6 +57,14 @@ Route::group(['middleware' => ['auth']], function () {
 
     Route::get('provisionaldx', 'ReportController@patientwisedxindex')->name('provisionaldx');
     Route::get('patient-wise-dx', 'ReportController@patientwisedxreport')->name('patient-wise-dx');
+
+    Route::get('agewisedx', 'ReportController@patientagewisedxindex')->name('agewisedx');
+    Route::get('agewisedxreport', 'ReportController@PatientagewisedxReport')->name('agewisedxreport');
+
+    Route::get('treatment', 'ReportController@treatmentindex')->name('treatment');
+    Route::get('treatment-report', 'ReportController@treatmentreport')->name('treatment-report');
+
+
 
     Route::group(['prefix' => 'patientage', 'as'=>'patientage.'], function () {
         Route::post('show', 'ReportController@show')->name('show');

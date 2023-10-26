@@ -43,20 +43,14 @@ class ReportController extends BaseController
     public function datewisedxindex(){
         // $healthcenters=BarcodeFormat::with('healthCenter')->get();
         
-        $branches = DB::table('barcode_formats')
-        ->join('HealthCenter', 'barcode_formats.barcode_community_clinic', '=', 'HealthCenter.HealthCenterId')
-        ->select('barcode_formats.barcode_prefix', 'HealthCenter.HealthCenterName')
-        ->get();
+       $branches=BarcodeFormat::with('healthCenter')->get(); 
         $this->setPageData('Datewise Provisional DX','Datewise Provisional DX','fas fa-th-list');
         return view('report::datewisedx',compact('branches'));
     }
     public function patientwisedxindex(){
         // $healthcenters=BarcodeFormat::with('healthCenter')->get();
         
-        $branches = DB::table('barcode_formats')
-        ->join('HealthCenter', 'barcode_formats.barcode_community_clinic', '=', 'HealthCenter.HealthCenterId')
-        ->select('barcode_formats.barcode_prefix', 'HealthCenter.HealthCenterName')
-        ->get();
+       $branches=BarcodeFormat::with('healthCenter')->get(); 
         $this->setPageData('Patient Provisional DX','Patient Provisional DX','fas fa-th-list');
         return view('report::provisionaldx',compact('branches'));
     }
@@ -67,9 +61,10 @@ public function diseaseindex()
         return view('report::diseasechart');
     }
     public function glucosegraphindex(){
-        $registrationId=Patient::select('RegistrationId')->get();
+        $branches=BarcodeFormat::with('healthCenter')->get();   
+       
         $this->setPageData('Diabetes Mellitus','Diabetes Mellitus','fas fa-th-list');
-        return view('report::glucosegraph',compact('registrationId'));
+        return view('report::glucosegraph',compact('branches'));
 
     }
      public function DiseaseWisePatient(){
@@ -79,6 +74,14 @@ public function diseaseindex()
         return view('report::diseasewisepatient',compact('healthcenters','refcases'));
 
     }
+     public function patientagewisedxindex(){
+        $branches=BarcodeFormat::with('healthCenter')->get(); 
+        $this->setPageData('Provisional Diagnosis Age wise/Patient Count Age wise','Provisional Diagnosis Age wise/Patient Count Age wise','fas fa-th-list');
+        return view('report::agewisedx',compact('branches'));
+
+    }
+
+    
       public function HCWiseReferral(){
         $healthcenters=HealthCenter::get(['HealthCenterId','HealthCenterName']);
         $refcases=RefReferral::get(['RId','Description']);
@@ -88,8 +91,6 @@ public function diseaseindex()
     }
      public function TopTenDiseases(){
         $healthcenters=BarcodeFormat::with('healthCenter')->get();
-        $refcases=RefReferral::get(['RId','Description']);
-        $registrationId=Patient::select('RegistrationId')->get();
         $this->setPageData('Chart of Diseases by Branch','Chart of Diseases by Branch','fas fa-th-list');
 
         return view('report::toptendiseases',compact('healthcenters'));
@@ -97,30 +98,27 @@ public function diseaseindex()
     }
       public function DistrictwisePatientIndex(Request $request){
         $districts=District::get(['id','name']);
-       
-        
         $this->setPageData('Districtwise Patients','Districtwise Patients','fas fa-th-list');
         return view('report::districtwisepatients',compact('districts'));
 
     }
      public function FollowUpDate(Request $request){
-     
-        $branches = DB::table('barcode_formats')
-        ->join('HealthCenter', 'barcode_formats.barcode_community_clinic', '=', 'HealthCenter.HealthCenterId')
-        ->select('barcode_formats.barcode_prefix', 'HealthCenter.HealthCenterName')
-        ->get();
-
-        
+       $branches=BarcodeFormat::with('healthCenter')->get(); 
         $this->setPageData('Follow Up Date','Follow Up Date','fa fa-medical');
         return view('report::followupdate_index',compact('branches'));
 
     }
+
+    public function treatmentindex(){
+        // $healthcenters=BarcodeFormat::with('healthCenter')->get();
+        
+       $branches=BarcodeFormat::with('healthCenter')->get(); 
+        $this->setPageData('Patient Treatment','Patient Treatment','fas fa-th-list');
+        return view('report::treatment',compact('branches'));
+    }
     public function FollowUpDateReport(Request $request)
     {
-         $branches = DB::table('barcode_formats')
-        ->join('HealthCenter', 'barcode_formats.barcode_community_clinic', '=', 'HealthCenter.HealthCenterId')
-        ->select('barcode_formats.barcode_prefix', 'HealthCenter.HealthCenterName')
-        ->get();
+        $branches=BarcodeFormat::with('healthCenter')->get(); 
         $daterange = $request->daterange;
         $dates = explode(' - ', $daterange);
 // Assign the start and end dates to separate variables
@@ -165,10 +163,7 @@ public function diseaseindex()
 
     public function AjaxFupDate(Request $request){
     //branches
-    $branches = DB::table('barcode_formats')
-        ->join('HealthCenter', 'barcode_formats.barcode_community_clinic', '=', 'HealthCenter.HealthCenterId')
-        ->select('barcode_formats.barcode_prefix', 'HealthCenter.HealthCenterName')
-        ->get();
+   $branches=BarcodeFormat::with('healthCenter')->get(); 
     $this->setPageData(
         'FollowUp Date',
         'FollowUp Date',
@@ -185,12 +180,12 @@ public function diseaseindex()
         $fupdates=FollowUpDate::whereBetween('CreateDate', [ $first_date,  $last_date])
          ->where(function($query) use ($barcode_prefix) {
             if ($barcode_prefix) {
-                $query->where('Patient.RegistrationId', 'LIKE', $barcode_prefix . '%');
+                $query->where('RegistrationId', 'LIKE', $barcode_prefix . '%');
             }
         })
         ->get();
     
-       
+     
         $resultCount = $fupdates->count();
         $hcname=DB::table('HealthCenter')->where('HealthCenterCode',$barcode_prefix )->first('HealthCenterName');
          $response = [
@@ -307,33 +302,9 @@ $results = Address::with('districtAddress','upazillaAddress','unionAddress')->se
         $last_date = $request->ldate;
         $barcode_prefix = $request->hc_id;
 
-            // $results = DB::table("MDataProvisionalDiagnosis")
-            // ->select(
-            //     DB::raw("FORMAT(MDataProvisionalDiagnosis.CreateDate, 'dd/MM/yyyy') as CreateDate"),
-            //     'ProvisionalDiagnosis',
-            //     DB::raw('COUNT(MDataProvisionalDiagnosis.PatientId) as Total'),
-            //     'MDataProvisionalDiagnosis.PatientId',
-            //     'Patient.RegistrationId',
-            //     'Patient.GivenName',
-            //     'Patient.FamilyName',
-            //     'Patient.BirthDate',
-            //     'Patient.Age',
-            //     'Patient.CellNumber',
-            //     'RefGender.GenderCode',
-            //     )
-            // ->whereDate('MDataProvisionalDiagnosis.CreateDate', '>=', $first_date)
-            // ->whereDate('MDataProvisionalDiagnosis.CreateDate', '<=', $last_date)
-            // ->where(function($query) use ($barcode_prefix) {
-            //     if ($barcode_prefix) {
-            //         $query->where('Patient.RegistrationId', 'LIKE', $barcode_prefix . '%');
-            //     }
-            // })
-            // ->join('Patient', 'MDataProvisionalDiagnosis.PatientId', '=', 'Patient.PatientId')
-            // ->join('RefGender', 'RefGender.GenderId', '=', 'Patient.GenderId')
-            // ->get();
 
          $results = DB::table("MDataProvisionalDiagnosis")
-    ->select(
+        ->select(
         DB::raw("FORMAT(MDataProvisionalDiagnosis.CreateDate, 'dd/MM/yyyy') as CreateDate"),
         'ProvisionalDiagnosis',
         'MDataProvisionalDiagnosis.MDProvisionalDiagnosisId',
@@ -381,6 +352,150 @@ $results = Address::with('districtAddress','upazillaAddress','unionAddress')->se
             ];
     
         return response()->json($response);
+
+    }
+
+        public function treatmentreport(Request $request){
+        
+        $first_date = $request->fdate;
+        $last_date = $request->ldate;
+        $barcode_prefix = $request->hc_id;
+
+         $results = DB::table("MDataTreatmentSuggestion")
+        ->select(
+        DB::raw("FORMAT(MDataTreatmentSuggestion.CreateDate, 'dd/MM/yyyy') as CreateDate"),
+        'MDataTreatmentSuggestion.MDTreatmentSuggestionId',
+        'MDataTreatmentSuggestion.Frequency',
+        'MDataTreatmentSuggestion.Hourly',
+        'MDataTreatmentSuggestion.DrugDurationValue',
+        'MDataTreatmentSuggestion.OtherDrug',
+        'MDataTreatmentSuggestion.PatientId',
+        'Patient.RegistrationId',
+        'Patient.GivenName',
+        'Patient.FamilyName',
+        'Patient.BirthDate',
+        'Patient.Age',
+        'Patient.CellNumber',
+        'RefGender.GenderCode',
+        'RefInstruction.InstructionInBangla',
+        'RefDrug.DrugCode'
+    )
+    
+    ->whereDate('MDataTreatmentSuggestion.CreateDate', '>=', $first_date)
+    ->whereDate('MDataTreatmentSuggestion.CreateDate', '<=', $last_date)
+    ->where(function($query) use ($barcode_prefix) {
+        if ($barcode_prefix) {
+            $query->where('Patient.RegistrationId', 'LIKE', $barcode_prefix . '%');
+        }
+    })
+    ->join('Patient', 'MDataTreatmentSuggestion.PatientId', '=', 'Patient.PatientId')
+    ->join('RefGender', 'RefGender.GenderId', '=', 'Patient.GenderId')
+    ->join('RefInstruction', 'RefInstruction.RefInstructionId', '=', 'MDataTreatmentSuggestion.RefInstructionId')
+    ->join('RefDrug', 'RefDrug.DrugId', '=', 'MDataTreatmentSuggestion.DrugId')
+    ->groupBy(
+        DB::raw("FORMAT(MDataTreatmentSuggestion.CreateDate, 'dd/MM/yyyy')"),
+        'MDataTreatmentSuggestion.MDTreatmentSuggestionId',
+        'MDataTreatmentSuggestion.Frequency',
+        'MDataTreatmentSuggestion.Hourly',
+        'MDataTreatmentSuggestion.DrugDurationValue',
+        'MDataTreatmentSuggestion.OtherDrug',
+        'MDataTreatmentSuggestion.PatientId',
+        'Patient.RegistrationId',
+        'Patient.GivenName',
+        'Patient.FamilyName',
+        'Patient.BirthDate',
+        'Patient.Age',
+        'Patient.CellNumber',
+        'RefGender.GenderCode',
+        'RefInstruction.InstructionInBangla',
+        'RefDrug.DrugCode'
+    )
+    ->get();
+            $resultCount = $results->count();
+            $hcname=DB::table('HealthCenter')->where('HealthCenterCode',$barcode_prefix )->first('HealthCenterName');
+            $response = [
+                'healthcenter' => $hcname->HealthCenterName ?? 'All',	
+                'results' => $results,
+                'resultCount' => $resultCount,
+                'first_date' => $first_date,
+                'last_date' => $last_date,
+            ];
+    
+        return response()->json($response);
+
+    }
+       public function PatientagewisedxReport(Request $request){
+       
+       
+    
+        $first_date = $request->fdate;
+        $last_date = $request->ldate;
+        $barcode_prefix = $request->hc_id;
+        $starting_age = $request->starting_age;
+        $ending_age = $request->ending_age;
+
+
+       $results = DB::table("MDataProvisionalDiagnosis")
+        ->select(
+            'ProvisionalDiagnosis',
+           
+            DB::raw('COUNT(MDataProvisionalDiagnosis.PatientId) as Total'),
+            DB::raw("
+                SUM(CASE 
+                    WHEN RefGender.GenderCode = 'Male' AND Patient.Age >= 0 AND Patient.Age <= 5 THEN 1
+                    ELSE 0
+                END) as Male_0_5,
+                SUM(CASE 
+                    WHEN RefGender.GenderCode = 'Male' AND Patient.Age > 5 THEN 1
+                    ELSE 0
+                END) as Male_Above_5,
+                SUM(CASE 
+                    WHEN RefGender.GenderCode = 'Male' THEN 1
+                    ELSE 0
+                END) as Male_Total,
+                SUM(CASE 
+                    WHEN RefGender.GenderCode = 'Female' AND Patient.Age >= 0 AND Patient.Age <= 5 THEN 1
+                    ELSE 0
+                END) as Female_0_5,
+                SUM(CASE 
+                    WHEN RefGender.GenderCode = 'Female' AND Patient.Age > 5 THEN 1
+                    ELSE 0
+                END) as Female_Above_5,
+                SUM(CASE 
+                    WHEN RefGender.GenderCode = 'Female' THEN 1
+                    ELSE 0
+                END) as Female_Total
+            ")
+        )
+        ->whereDate('MDataProvisionalDiagnosis.CreateDate', '>=', $first_date)
+        ->whereDate('MDataProvisionalDiagnosis.CreateDate', '<=', $last_date)
+        ->where(function($query) use ($barcode_prefix,$starting_age,$ending_age) {
+            if ($barcode_prefix) {
+                $query->where('Patient.RegistrationId', 'LIKE', $barcode_prefix . '%');
+            } 
+            if ($starting_age !== null) {
+                $query->where('Patient.Age', '>=', $starting_age);
+            }
+            if ($ending_age !== null) {
+                $query->where('Patient.Age', '<=', $ending_age);
+            }
+        })
+        ->join('Patient', 'MDataProvisionalDiagnosis.PatientId', '=', 'Patient.PatientId')
+        ->join('RefGender', 'RefGender.GenderId', '=', 'Patient.GenderId')
+        ->groupBy(
+            'ProvisionalDiagnosis',    
+        )
+        ->get();
+
+                $hcname=DB::table('HealthCenter')->where('HealthCenterCode',$barcode_prefix )->first('HealthCenterName');
+                $response = [
+                    'healthcenter' => $hcname->HealthCenterName ?? 'All',	
+                    'results' => $results,
+                    'first_date' => $first_date,
+                    'last_date' => $last_date,
+                ];
+        
+            return response()->json($response);
 
     }
 
@@ -563,10 +678,7 @@ $results = DB::table("MDataPatientReferral")
         $male=$female=$Total=$femaleAboveFive=0;
 
         //branches
-        $branches = DB::table('barcode_formats')
-            ->join('HealthCenter', 'barcode_formats.barcode_community_clinic', '=', 'HealthCenter.HealthCenterId')
-            ->select('barcode_formats.barcode_prefix', 'HealthCenter.HealthCenterName')
-            ->get();
+        $branches=BarcodeFormat::with('healthCenter')->get(); 
 
         $results = DB::table('barcode_formats')
             ->join('HealthCenter', 'barcode_formats.barcode_community_clinic', '=', 'HealthCenter.HealthCenterId')
@@ -617,10 +729,7 @@ $results = DB::table("MDataPatientReferral")
 
     public function diseaseRateDateRange(Request $request){
         //branches
-        $branches = DB::table('barcode_formats')
-            ->join('HealthCenter', 'barcode_formats.barcode_community_clinic', '=', 'HealthCenter.HealthCenterId')
-            ->select('barcode_formats.barcode_prefix', 'HealthCenter.HealthCenterName')
-            ->get();
+        $branches=BarcodeFormat::with('healthCenter')->get(); 
         $this->setPageData(
             'Report-',
             'Branch Wise Disease Report',
@@ -636,9 +745,8 @@ $results = DB::table("MDataPatientReferral")
         $last_date = $request->ldate;
 
         if($barcode_prefix){
-            $barcode_tbl = DB::table('barcode_formats')
-                ->join('HealthCenter', 'barcode_formats.barcode_community_clinic', '=', 'HealthCenter.HealthCenterId')
-                ->where('barcode_formats.barcode_prefix',$barcode_prefix)
+            $barcode_tbl = BarcodeFormat::with('healthCenter') 
+                ->where('barcode_prefix',$barcode_prefix)
                 ->first();
             $branchName = $barcode_tbl->HealthCenterName??'';
         }else{
@@ -670,47 +778,69 @@ $results = DB::table("MDataPatientReferral")
     }
 
     public function GlucoseGraph(Request $request){
-        $daterange = $request->daterange;
-        $dates = explode(' - ', $daterange);
-        $starting_date = $dates[0]??'';
-        $ending_date = $dates[1]??'';
-        $registrationId=Patient::select('RegistrationId')->get();
-        $RegistrationId = $request->reg_id;
+        $starting_date = $request->starting_date;
+        $ending_date = $request->ending_date;
+        $RegistrationId = $request->registration_id;
 
-        $results = DB::select("
-            SELECT TOP 7 CONVERT(date, MDataGlucoseHb.CreateDate) AS DistinctDate, RBG, FBG,Hemoglobin
-            FROM MDataGlucoseHb
-            INNER JOIN Patient ON Patient.PatientId=MDataGlucoseHb.PatientId AND Patient.RegistrationId='{$RegistrationId}'
-            WHERE CONVERT(date, MDataGlucoseHb.CreateDate) BETWEEN ? AND ? AND RBG !='' AND FBG !=''
-            GROUP BY CONVERT(date, MDataGlucoseHb.CreateDate), RBG, FBG,Hemoglobin
-            ORDER BY DistinctDate DESC
-        ", [$starting_date, $ending_date]);
+           $datas = DB::select("
+            WITH RankedData AS (
+                SELECT
+                    CONVERT(date, MDataGlucoseHb.CreateDate) AS DistinctDate,
+                    RBG,
+                    FBG,
+                    Hemoglobin,
+                    ROW_NUMBER() OVER (PARTITION BY CONVERT(date, MDataGlucoseHb.CreateDate) ORDER BY MDataGlucoseHb.CreateDate DESC) AS RowNum
+                FROM MDataGlucoseHb
+                INNER JOIN Patient ON Patient.PatientId = MDataGlucoseHb.PatientId AND Patient.RegistrationId = '{$RegistrationId}'
+                WHERE CONVERT(date, MDataGlucoseHb.CreateDate) BETWEEN ? AND ?
+            )
+            SELECT
+                DistinctDate,
+                RBG,
+                FBG,
+                Hemoglobin
+            FROM RankedData
+            WHERE RowNum = 1
+            ORDER BY DistinctDate DESC", [$starting_date, $ending_date]);
+
+            foreach ($datas as $row) {
+            $distinctDate = $row->DistinctDate;
+            $medications = DB::table('MDataTreatmentSuggestion')
+                ->select(['MDataTreatmentSuggestion.DrugId', 'DrugCode', DB::raw("CONVERT(date, MDataTreatmentSuggestion.CreateDate) AS Cdate")])
+                ->join('Patient', 'MDataTreatmentSuggestion.PatientId', '=', 'Patient.PatientId')
+                ->join('RefDrug', 'RefDrug.DrugId', '=', 'MDataTreatmentSuggestion.DrugId')
+                ->where('Patient.RegistrationId', $RegistrationId)
+                ->whereRaw("CONVERT(date, MDataTreatmentSuggestion.CreateDate) = ?", [$distinctDate])
+                ->get();
+
+            $medicationsByDate[$distinctDate] = $medications;
+        }
 
         $rbg = array();
         $fbg = array();
         $hemoglobin = array();
         $DistinctDate = array();
+        $medicationData=array();
+        foreach ($datas as $gcRow) {
+        $distinctDate = $gcRow->DistinctDate;
+        $medications = $medicationsByDate[$distinctDate] ?? null;
 
-        foreach ($results as $result) {
-            array_push($rbg, $result->RBG);
-            array_push($fbg, $result->FBG);
-            array_push($hemoglobin, $result->Hemoglobin);
-            array_push($DistinctDate, $result->DistinctDate);
+            if ($medications !== null) {
+
+                array_push($rbg, $gcRow->RBG);
+                array_push($fbg, $gcRow->FBG);
+                array_push($hemoglobin, $gcRow->Hemoglobin);
+                array_push($DistinctDate, $gcRow->DistinctDate);
+                $medicationData[] = $medications->toArray();
+                
+            }
         }
 
         $rbgNumeric = json_encode($rbg,JSON_NUMERIC_CHECK);
         $fbgNumeric = json_encode($fbg, JSON_NUMERIC_CHECK);
         $hemoglobinNumeric = json_encode($hemoglobin, JSON_NUMERIC_CHECK);
-
-
-//        return response()->json([
-//            's_date'=>$rbgNumeric,
-//            'e_date'=>$fbgNumeric,
-//            'reg_id'=>$rbg,
-//            'results'=>$DistinctDate,
-//        ]);
         $this->setPageData('Diabetes Mellitus','Diabetes Mellitus','fas fa-th-list');
-        return view('report::glucosegraph',compact('DistinctDate','registrationId','rbg','rbgNumeric','fbg','fbgNumeric','hemoglobin','hemoglobinNumeric'));
+        return view('report::glucose_ajax',compact('DistinctDate','rbg','rbgNumeric','fbg','fbgNumeric','hemoglobin','hemoglobinNumeric','medicationData'));
     }
 
      /**
@@ -719,10 +849,18 @@ $results = DB::table("MDataPatientReferral")
      */
 
     public function PatientBloodPressureGraph(){
-        $registrationId=Patient::select('RegistrationId')->get();
+      
+        $branches=BarcodeFormat::with('healthCenter')->get();        
         $this->setPageData('Patient Blood Pressure Graph','Patient wise Blood Pressure Graph','fas fa-th-list');
 
-        return view('report::patientbloodpressuregraph',compact('registrationId'));
+        return view('report::patientbloodpressuregraph',compact('branches'));
+    }
+
+    public function GetPatients($hc_id){
+       
+        $registrationId=Patient::where('RegistrationId', 'LIKE', $hc_id . '%')->get();
+        return response()->json($registrationId);
+
     }
 
      /**
@@ -737,35 +875,87 @@ $results = DB::table("MDataPatientReferral")
 
       
 
-            $datas = DB::select("
-            SELECT TOP 7 CONVERT(date, MDataBP.CreateDate) AS DistinctDate, BPSystolic1, BPDiastolic1, BPSystolic2, BPDiastolic2
+       $datas = DB::select("
+        WITH RankedData AS (
+            SELECT
+                CONVERT(date, MDataBP.CreateDate) AS DistinctDate,
+                BPSystolic1,
+                BPDiastolic1,
+                BPSystolic2,
+                BPDiastolic2,
+                ROW_NUMBER() OVER (PARTITION BY CONVERT(date, MDataBP.CreateDate) ORDER BY MDataBP.CreateDate DESC) AS RowNum
             FROM MDataBP
-            INNER JOIN Patient ON Patient.PatientId=MDataBP.PatientId AND Patient.RegistrationId='{$RegistrationId}'
+            INNER JOIN Patient ON Patient.PatientId = MDataBP.PatientId AND Patient.RegistrationId = '{$RegistrationId}'
             WHERE CONVERT(date, MDataBP.CreateDate) BETWEEN ? AND ?
-            GROUP BY CONVERT(date, MDataBP.CreateDate), BPSystolic1, BPDiastolic1, BPSystolic2, BPDiastolic2
-            ORDER BY DistinctDate DESC",[$startDate, $endDate]);
+        )
+        SELECT
+            DistinctDate,
+            BPSystolic1,
+            BPDiastolic1,
+            BPSystolic2,
+            BPDiastolic2
+        FROM RankedData
+        WHERE RowNum = 1
+        ORDER BY DistinctDate DESC", [$startDate, $endDate]);
 
+       
+
+       
+            
+
+      $medicationsByDate = [];
+
+        foreach ($datas as $row) {
+            $distinctDate = $row->DistinctDate;
+            $medications = DB::table('MDataTreatmentSuggestion')
+                ->select(['MDataTreatmentSuggestion.DrugId', 'DrugCode', DB::raw("CONVERT(date, MDataTreatmentSuggestion.CreateDate) AS Cdate")])
+                ->join('Patient', 'MDataTreatmentSuggestion.PatientId', '=', 'Patient.PatientId')
+                ->join('RefDrug', 'RefDrug.DrugId', '=', 'MDataTreatmentSuggestion.DrugId')
+                ->where('Patient.RegistrationId', $RegistrationId)
+                ->whereRaw("CONVERT(date, MDataTreatmentSuggestion.CreateDate) = ?", [$distinctDate])
+                ->get();
+
+            $medicationsByDate[$distinctDate] = $medications;
+        }
+        
+
+       
+
+       
         $BPSystolic1 = array();
         $BPDiastolic1 = array();
         $BPSystolic2 = array();
         $BPDiastolic2 = array();
         $DistinctDate = array();
+        $medicationData=array();
 
-        foreach ($datas as $row) {
-            array_push($BPSystolic1, $row->BPSystolic1);
-            array_push($BPDiastolic1, $row->BPDiastolic1);
-            array_push($BPSystolic2, $row->BPSystolic2);
-            array_push($BPDiastolic2, $row->BPDiastolic2);
-            array_push($DistinctDate, $row->DistinctDate);
+         foreach ($datas as $bpRow) {
+            $distinctDate = $bpRow->DistinctDate;
+            $medications = $medicationsByDate[$distinctDate] ?? null;
+
+            if ($medications !== null) {
+
+                array_push($BPSystolic1, $bpRow->BPSystolic1);
+                array_push($BPDiastolic1, $bpRow->BPDiastolic1);
+                array_push($BPSystolic2, $bpRow->BPSystolic2);
+                array_push($BPDiastolic2, $bpRow->BPDiastolic2);
+                array_push($DistinctDate, $bpRow->DistinctDate);
+                $medicationData[] = $medications->toArray();
+                
+            }
         }
+
 
         $BPSystolic1Numeric = json_encode($BPSystolic1,JSON_NUMERIC_CHECK);
         $BPDiastolic1Numeric = json_encode($BPDiastolic1, JSON_NUMERIC_CHECK);
         $BPSystolic2Numeric = json_encode($BPSystolic2, JSON_NUMERIC_CHECK);
         $BPDiastolic2Numeric = json_encode($BPDiastolic2, JSON_NUMERIC_CHECK);
+
         return view('report::bloodpressure_ajax',compact('BPSystolic1Numeric','BPDiastolic1Numeric',
         'BPSystolic2Numeric','BPDiastolic2Numeric','DistinctDate','BPSystolic1','BPDiastolic1',
-        'BPSystolic2','BPDiastolic2'));
+        'BPSystolic2','BPDiastolic2','medicationData'));
+
+       
     }
 
     /**

@@ -8,6 +8,10 @@ var BPSystolic2 = {!! json_encode($BPSystolic2) !!};
 
 var BPDiastolic2 = {!! json_encode($BPDiastolic2) !!};
 
+var medicationData = {!! json_encode($medicationData) !!};
+
+console.log(medicationData);
+
 
 Highcharts.chart('container_bloodp', {
     chart: {
@@ -21,7 +25,10 @@ Highcharts.chart('container_bloodp', {
     },
     xAxis: {
          title: {
-            text: 'Date '
+            text: 'Date ',
+            style: {
+                fontSize: '14px' // Adjust the font size as needed
+        },
         },
 
         categories: {!! json_encode($DistinctDate) !!},
@@ -36,24 +43,46 @@ Highcharts.chart('container_bloodp', {
 
         labels: {
             style: {
-                fontSize: '12px'
+                fontSize: '16px'
             }
-        }
+        },
     },
     yAxis: {
         title: {
-            text: 'Blood Pressure '
+            text: 'Blood Pressure ',
+             style: {
+                fontSize: '14px' // Adjust the font size as needed
+        },
         },
         labels: {
             style: {
-                fontSize: '12px'
+                fontSize: '16px'
             }
-        }
+        },
+        
     },
-    tooltip: {
-        crosshairs: true,
-        shared: false
-    },
+        tooltip: {
+                crosshairs: true,
+                shared: false,
+             
+                style: {
+                    fontSize: '16px'
+                },
+                formatter: function() {
+                var index = this.point.index;
+                var medicationDataForDate = medicationData[index];
+
+                var tooltipContent = '<b>Date: ' + this.x + '</b><br>';
+                if (medicationDataForDate) {
+                    tooltipContent += '<br>Medications:<br>';
+                    for (var i = 0; i < medicationDataForDate.length; i++) {
+                        tooltipContent += medicationDataForDate[i].DrugCode + '<br>';
+                    }
+                }
+
+                return tooltipContent;
+            },
+        },
 
     plotOptions: {
         spline: {
@@ -76,19 +105,18 @@ Highcharts.chart('container_bloodp', {
                     var label3 = bpsData2;
                     var label4 = bpdData2;
 
-                    if (this.series.index ===0) {
-                        return label1;
-                    }else if (this.series.index ===1) {
-                        return label2;
-                    }
-                    else if (this.series.index ===2) {
-                        return label3;
-                    }else if (this.series.index ===3) {
-                        return label4;
-                    }
+                   if (this.series.index === 0) {
+                     return '<span style="font-size: 18px;">' + label1 + '</span>';
+                } else if (this.series.index === 1) {
+                    return '<span style="font-size: 18px;">' + label2 + '</span>'; // Adjust font size as needed
+                } else if (this.series.index === 2) {
+                    return '<span style="font-size: 18px;">' + label3 + '</span>'; // Adjust font size as needed
+                } else if (this.series.index === 3) {
+                    return '<span style="font-size: 18px;">' + label4 + '</span>'; // Adjust font size as needed
+                }
                 },
                 style: {
-                    fontSize: '12px'
+                    fontSize: '16px'
                 }
             }
         }
@@ -96,7 +124,8 @@ Highcharts.chart('container_bloodp', {
     series: [{
             name: 'BPSystolic1',
             marker: {
-                symbol: 'square'
+                symbol: 'square',
+                
             },
             // data: [5.22, 5.7, 8.7, 13.9, 18.2, 21.4, 1.0]
             data: <?php echo $BPSystolic1Numeric; ?>

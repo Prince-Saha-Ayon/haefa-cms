@@ -202,7 +202,7 @@
                                 <select class="selectpicker" data-live-search="true" name="hc_id" id="hc_id">
                                     <option value="">Select Branch</option> <!-- Empty option added -->
                                     @foreach($branches as $branch)
-                                    <option value="{{$branch->barcode_prefix}}">{{$branch->HealthCenterName}}</option>
+                                    <option value="{{$branch->barcode_prefix}}">{{$branch->healthCenter->HealthCenterName}}</option>
                                     @endforeach
                                 </select>
                             </div>
@@ -374,34 +374,22 @@
 
             var r1 = Addrow(1, [{
                 k: 'A',
-                v: 'App Name:'
-            }, {
-                k: 'B',
-                v: 'Nirog Plus'
+                v: 'App Name: Nirog Plus'
             }]);
 
             var r2 = Addrow(2, [{
                 k: 'A',
-                v: 'Branch: '
-            }, {
-                k: 'B',
-                v: healthcenter, // Replace '6' with actual count
+                v: 'Branch: ' + healthcenter,
             }]);
 
             var r3 = Addrow(3, [{
                 k: 'A',
-                v: 'Collection Date:'
-            }, {
-                k: 'B',
-                v: collectionDate, // Replace '4' with actual count
+                v: 'Collection Date:' + collectionDate,
             }]);
 
             var r4 = Addrow(4, [{
                 k: 'A',
-                v: 'Report Type:',
-            }, {
-                k: 'B',
-                v:  'ProvisionalDiagnosis',
+                v: 'Report Type: ProvisionalDiagnosis',
             }]);
              var r5 = Addrow(5, [{
                 k: 'A',
@@ -412,10 +400,7 @@
             }]);
               var r6 = Addrow(6, [{
                 k: 'A',
-                v: 'Total Patients',
-            }, {
-                k: 'B',
-                v: patients,
+                v: 'Total Patients' + patients,
             }]);
                var r7 = Addrow(7, [{
                 k: 'A',
