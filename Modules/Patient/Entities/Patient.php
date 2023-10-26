@@ -144,8 +144,7 @@ class Patient extends BaseModel
         ];
 
         $today = Carbon::today();
-//        $startDate = $today->format('Y-m-d');
-        $startDate = '2023-10-25';
+        $startDate = $today->format('Y-m-d');
 
         $all_diseases = MDataPatientIllnessHistory::selectRaw('COUNT(*) as count, RefIllness.IllnessId, RefIllness.IllnessCode')
             ->join('RefIllness', 'RefIllness.IllnessId', '=', 'MDataPatientIllnessHistory.IllnessId')
