@@ -69,8 +69,10 @@
 
 <!-- Optional JavaScript -->
 <script src="js/app.js"></script>
+@if(request()->path() !== '/')
 <script src="js/moment.min.js"></script>
 <script src="js/daterangepicker.min.js"></script>
+@endif
 <script src="js/perfect-scrollbar.min.js"></script>
 <!-- /perfect scrollbar jQuery -->
 
