@@ -6,148 +6,7 @@
 
 @push('stylesheet')
 
-<style>
-    {{--        pagination style--}}
 
-    .pagination {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        list-style: none;
-        padding: 0;
-    }
-
-    .pagination li {
-        margin: 0 5px;
-    }
-
-    .pagination .active {
-        font-weight: bold;
-        color: #000;
-    }
-
-    .pagination a {
-        color: #007bff;
-        text-decoration: none;
-        padding: 5px 10px;
-        border: 1px solid #007bff;
-        border-radius: 5px;
-    }
-
-    .pagination a:hover {
-        background-color: #007bff;
-        color: #fff;
-    }
-
-
-    {{--pagination style ends--}}
-
-    #prescription .container {
-        background-color: #f2f2f2 !important;
-    }
-
-    .header p {
-        font-size: 14px;
-    }
-    .aside {
-        width: 400px;
-        border-right: 1px solid #ddd;
-        min-height: 600px;
-        padding-bottom: 20px;
-    }
-
-    .signatureImage {
-        display: inline-block;
-        width: 100px;
-        object-fit: contain;
-        margin-bottom: 5px;
-    }
-    .signatureBox {
-        position: absolute;
-        right: 50px;
-        bottom: 30px;
-    }
-    .footer {
-        padding-top: 20px;
-        padding-bottom: 20px;
-        border-top: 1px solid #ddd;
-    }
-
-    .footer p {
-        font-size: 14px;
-    }
-    .apiLogo {
-        max-width: 40px;
-        transform: translateY(-4px);
-        margin-left: 5px;
-    }
-    .logoText {
-        font-size: 14px;
-    }
-    .nextinfo {
-        margin-top: 150px;
-    }
-
-    .userImg {
-        margin-top: 20px;
-        width: 200px;
-        height: 200px;
-        object-fit: cover;
-        border-radius: 20px;
-        border: 10px solid rgba(122,122,122,.15);
-    }
-
-    .dataItem p{
-        font-weight: 400;
-        font-size: 15px;
-    }
-    .dataItem span{
-        font-weight: 600;
-        font-size: 15px;
-    }
-
-    @media (max-width: 767px){
-        #prescription, .logoText, address p, .header p{
-            font-size: 12px !important;
-        }
-        .header h4{
-            font-size: 18px !important;
-        }
-        .patientageLeftSide {
-            width: 100% !important;
-            min-height: auto !important;
-            border: 0 !important;
-        }
-        .itemMerge{
-            flex-direction: column;
-        }
-        .patientageLeftSide h5{
-            font-size: 18px !important;
-        }
-        .userImg {
-            width: 140px !important;
-            height: 140px !important;
-            border-width: 5px;
-        }
-        .patientageRightSide .dataItem p,
-        .patientageRightSide .dataItem span,
-        .patientageLeftSide p{
-            margin-bottom: 0;
-            font-size: 14px;
-        }
-        .patientageRightSide .dataItem h5{
-            font-size: 16px !important;
-            margin-bottom: 5px !important;
-        }
-        .patientageRightSide{
-            padding: 10px 10px !important;
-        }
-        .patientageRightSide .dataItem{
-            margin-top: 15px !important;
-        }
-
-    }
-</style>
 @endpush
 
 @section('content')
@@ -206,6 +65,7 @@
                                     @endforeach
                                 </select>
                             </div>
+                         
 
                             <div class="col-md-2 warning-searching invisible" id="warning-searching">
                                 <span class="text-danger" id="warning-message">Searching...Please Wait</span>
@@ -223,24 +83,34 @@
                                 </button>
                             </div>
                         </div>
+                        <div class="row">
+                               <div class="form-group col-md-3">
+                                <label for="name">Starting Age</label>
+                                <input type="text" class="form-control" name="starting_age" id="starting_age" placeholder="Enter starting range">
+                            </div>
+                            <div class="form-group col-md-3">
+                                <label for="name">Ending Age</label>
+                                <input type="text" class="form-control" name="ending_age" id="ending_age" placeholder="Enter ending range">
+                            </div>
+                        </div>
                     </form>
 
                      <table id="dataTable" class="table table-striped table-bordered table-hover">
                             <thead class="bg-primary">
                             <tr>
                                 <th>No</th>
-                                <th>RegistrationID</th>
-                                <th>GivenName</th>
-                                <th>FamilyName</th>
-                                <th>Gender</th>
-                                <th>BirthDate</th>
-                                <th>Age</th>
-                                <th>Mobile</th>
-                                <th>FollowUpDate</th>
+                                <th>Provisional DX</th>
+                                <th>Male 0-5 years</th>
+                                <th>Male Above 5 years</th>
+                                <th>Total Male</th>
+                                <th>Female 0-5 years</th>
+                                <th>Female Above 5 years</th>
+                                <th>Total Female</th>
+                                <th>Total</th>
                             </tr>
 
                             </thead>
-                            
+                    
                          
                         </table>
 
@@ -318,7 +188,7 @@
     var patients;
     var now = new Date();
     var formattedDate = now.getDate().toString().padStart(2, '0') + '_' + (now.getMonth() + 1).toString().padStart(2, '0') + '_' + now.getFullYear();
-    var filename = 'FollowUpDate_' + formattedDate;
+    var filename = 'ProvisionalDiagnosis_Provisional Diagnosis Age wise/Patient Count Age wise_' + formattedDate;
 
   
 
@@ -374,24 +244,36 @@
 
             var r1 = Addrow(1, [{
                 k: 'A',
-                v: 'App Name: Nirog Plus'
+                v: 'App Name:'
+            }, {
+                k: 'B',
+                v: 'Nirog Plus'
             }]);
 
             var r2 = Addrow(2, [{
                 k: 'A',
-                v: 'Branch: ' + healthcenter,
+                v: 'Branch: '
+            }, {
+                k: 'B',
+                v: healthcenter, // Replace '6' with actual count
             }]);
 
             var r3 = Addrow(3, [{
                 k: 'A',
-                v: 'Collection Date:' + collectionDate,
+                v: 'Collection Date:'
+            }, {
+                k: 'B',
+                v: collectionDate, // Replace '4' with actual count
             }]);
 
             var r4 = Addrow(4, [{
                 k: 'A',
-                v: 'Total Patients:' + patients,
+                v: 'Report Type:'
+            }, {
+                k: 'B',
+                v:  'ProvisionalDiagnosis_Provisional Diagnosis Age wise/Patient Count Age wise',
             }]);
-             var r5 = Addrow(4, [{
+             var r5 = Addrow(5, [{
                 k: 'A',
                 v: ''
             }, {
@@ -399,7 +281,7 @@
                 v: ''
             }]);
 
-            sheet.childNodes[0].childNodes[1].innerHTML = r1 + r2 + r3 + r4 + sheet.childNodes[0].childNodes[1].innerHTML;
+            sheet.childNodes[0].childNodes[1].innerHTML = r1 + r2 + r3 + r4 + r5 + sheet.childNodes[0].childNodes[1].innerHTML;
             table.clear().draw();
             $('#hc_id').val('').selectpicker('refresh');
     },
@@ -413,11 +295,14 @@
         const parts = daterange.split(" - ");
         const fdate = parts[0];
         const ldate = parts[1];
+        const starting_age = $('#starting_age').val();
+        const ending_age = $('#ending_age').val();
+    
 
         $.ajax({
             type: "GET",
-            url: "{{ url('followupdate-report') }}",
-            data: { hc_id: hc_id, fdate: fdate, ldate: ldate },
+            url: "{{ url('agewisedxreport') }}",
+            data: { hc_id: hc_id, fdate: fdate, ldate: ldate, starting_age:starting_age, ending_age: ending_age},
             beforeSend: function () {
                 $('#warning-searching').removeClass('invisible');
             },
@@ -425,27 +310,44 @@
                 $('#warning-searching').addClass('invisible');
             },
             success: function (response) {
-                var fupdates = response.fupdates;
+                var results = response.results;
                 healthcenter = response.healthcenter;
-                collectionDate=response.first_date+"_To_"+response.last_date;
+                var firstDate = new Date(response.first_date);
+                var lastDate = new Date(response.last_date);
+
+                    var formatDate = function (date) {
+                    var day = date.getDate().toString().padStart(2, '0');
+                    var monthNames = [
+                        "January", "February", "March", "April", "May", "June",
+                        "July", "August", "September", "October", "November", "December"
+                    ];
+                    var monthName = monthNames[date.getMonth()];
+                    var year = date.getFullYear();
+                    return day + "-" + monthName + "-" + year;
+                };
+
+                collectionDate = formatDate(firstDate) + "_To_" + formatDate(lastDate);
+               
                 patients=response.resultCount;
-                var tableBody = $('#dataTable tbody');
+            
+                var tableBody = $('#dataTable tbody')
 
                 // Clear the existing table rows
                 table.clear().draw();
 
-                if (fupdates.length > 0) {
-                    $.each(fupdates, function (index, result) {
+                if (results.length > 0) {
+                    $.each(results, function (index, result) {
                         var newRow = [
                             (index + 1),
-                            result.RegistrationId,
-                            (result.GivenName || ""),
-                            (result.FamilyName || ""),
-                            (result.GenderCode || ""),
-                            (result.BirthDate || ""),
-                            (result.Age || ""),
-                            (result.CellNumber || ""),
-                            (result.FollowUpDate || "")
+                            result.ProvisionalDiagnosis,
+                            (result.Male_0_5 || ""),
+                            (result.Male_Above_5 || ""),
+                            (result.Male_Total || ""),
+                            (result.Female_0_5 || ""),
+                            (result.Female_Above_5 || ""),
+                            (result.Female_Total || ""),
+                            (result.Total || ""),
+                      
                         ];
 
                         // Add a new row to the table
@@ -464,6 +366,8 @@
        
         table.clear().draw();
         $('#hc_id').val('').selectpicker('refresh');
+        $('#starting_age').val('');
+        $('#ending_age').val('');
         
     });
 
@@ -471,16 +375,7 @@
         $('#warning-searching').removeClass('invisible');
     });
 
-    $(function () {
-
-        $('#starting_age, #ending_age').on('input', function () {
-            if ($('#starting_age').val() != '' && $('#ending_age').val() != '') {
-                $('#btn-filter').removeClass('d-none');
-            } else {
-                $('#btn-filter').addClass('d-none');
-            }
-        });
-    });
+    
 
 </script>
 @endpush
