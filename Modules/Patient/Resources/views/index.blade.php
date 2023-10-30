@@ -147,24 +147,7 @@
                 <!-- Card Body -->
                 <div class="dt-card__body">
 
-                    <form id="form-filter">
-                        <div class="row">
-                            <div class="form-group col-md-4">
-                                <label for="name">Registration Id</label>
-                                <input type="text" class="form-control" name="name" id="name" placeholder="Enter patient Registration Id">
-                            </div>
-                            <div class="form-group col-md-8 pt-24">
-                               <button type="button" class="btn btn-danger btn-sm float-right" id="btn-reset"
-                               data-toggle="tooltip" data-placement="top" data-original-title="Reset Data">
-                                   <i class="fas fa-redo-alt"></i>
-                                </button>
-                               <button type="button" class="btn btn-primary btn-sm float-right mr-2" id="btn-filter"
-                               data-toggle="tooltip" data-placement="top" data-original-title="Filter Data">
-                                   <i class="fas fa-search"></i>
-                                </button>
-                            </div>
-                        </div>
-                    </form>
+                    
                     
                         <table id="dataTable" class="table table-striped table-bordered table-hover">
                             <thead class="bg-primary">
