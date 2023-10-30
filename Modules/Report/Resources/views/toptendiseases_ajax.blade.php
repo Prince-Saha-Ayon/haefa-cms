@@ -11,7 +11,7 @@ var branchName = branch && branch.length > 0 ? branch[0].HealthCenterName : 'Unk
             type: 'column'
         },
         title: {
-            text: 'Top 10 Illnesses for'+ branchName
+            text: 'Top 10 Illnesses for-'+ branchName
         },
         credits: {
             enabled: false
@@ -26,7 +26,7 @@ var branchName = branch && branch.length > 0 ? branch[0].HealthCenterName : 'Unk
             }),
              labels: {
                 style: {
-                    fontSize: '9px',
+                    fontSize: '14px',
                     fontWeight: 'bold'
                 }
             },
@@ -37,9 +37,17 @@ var branchName = branch && branch.length > 0 ? branch[0].HealthCenterName : 'Unk
             },
              labels: {
                 style: {
-                    fontSize: '12px'
+                    fontSize: '14px'
                 }
             },
+        },
+        tooltip: {
+                crosshairs: true,
+                shared: false,
+             
+                style: {
+                    fontSize: '16px'
+                },
         },
           plotOptions: {
             column: {
@@ -55,8 +63,15 @@ var branchName = branch && branch.length > 0 ? branch[0].HealthCenterName : 'Unk
             },
             
         },
+        legend: {
+        itemStyle: {
+            fontSize: '12px', // Set the font size for the legend name
+            // Optionally, set font weight
+        },
+    },
         series: [{
             name: 'Patients',
+            
             data: chartData.map(function(item) {
                return parseFloat(item.Patients);
             })

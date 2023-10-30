@@ -64,6 +64,12 @@
                 fontSize: '14px'
             }
         },
+        legend: {
+        itemStyle: {
+            fontSize: '12px', // Set the font size for the legend name
+            // Optionally, set font weight
+        },
+    },
         plotLines: [{
             value: 6.9, // The FBG normal value
             color: 'green', // Line color

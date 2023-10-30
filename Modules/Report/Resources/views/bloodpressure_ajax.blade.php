@@ -83,6 +83,12 @@ Highcharts.chart('container_bloodp', {
                 return tooltipContent;
             },
         },
+         legend: {
+            itemStyle: {
+                fontSize: '12px', // Set the font size for the legend name
+                // Optionally, set font weight
+            },
+    },
 
     plotOptions: {
         
