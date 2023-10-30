@@ -30,7 +30,7 @@ class PatientController extends BaseController
     {
         if(permission('patient-access')){
             $patients=Patient::get();
-            $this->setPageData('Patient','patient','fas fa-th-list');
+            $this->setPageData('Patient','Patient','fas fa-th-list');
             return view('patient::index',compact('patients'));
         }else{
             return $this->unauthorized_access_blocked();

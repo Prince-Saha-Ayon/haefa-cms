@@ -1,20 +1,21 @@
 @extends('layouts.app')
 
 @push('stylesheet')
-<link rel="stylesheet" href="css/chart.min.css">
+<link rel="stylesheet" href="css/chart.min.css" crossorigin="anonymous">
 @endpush
 @push('script')
-    <script src="js/highcharts.js"></script>
-    <script src="js/chart.min.js"></script>
-    <script src="js/series-label.js"></script>
-    <script src="js/exporting.js"></script>
-    <script src="js/export-data.js"></script>
-    <script src="js/accessibility.js"></script>
+    <script src="js/highcharts.js" crossorigin="anonymous"></script>
+    <script src="js/chart.min.js" crossorigin="anonymous"></script>
+    <script src="js/series-label.js" crossorigin="anonymous"></script>
+    <script src="js/exporting.js" crossorigin="anonymous"></script>
+    <script src="js/export-data.js" crossorigin="anonymous"></script>
+    <script src="js/accessibility.js" crossorigin="anonymous"></script>
 @endpush
 @section('content')
 <div class="dt-content">
     <h2 class="p-3 border text-black dt-card font-weight-bold rounded" style="font-size: 14px;">Branch Name: {{$branch_name??''}}</h2>
     <div class="row pt-5">
+     {{-- Disease & branch wise patient count--}}
 
         <div class="col-xl-3 col-sm-5 p-3">
             <div class="dt-card dt-chart dt-card__full-height align-items-center pt-5">
@@ -61,6 +62,7 @@
             </div>
         </div>
 
+        {{--        Referred helthcenter name with patient count--}}
         <div class="col-xl-3 col-sm-5 p-3">
             <div class="dt-card dt-chart dt-card__full-height align-items-center pt-5">
                 <h4 class="text-black mt-1 p-2">Total Number of Referral Case</h4>
@@ -72,6 +74,7 @@
 
     </div>
 
+    {{-- Database Sync Button --}}
 
     <!-- Start :: Bar Chart-->
         <div class="row py-5">
@@ -81,7 +84,11 @@
             <div class="card bar-chart">
                 <div class="card-header d-flex align-items-center">
                 <h4 style="margin:0px;">Today's top 10 disease </h4>
+                <div class="ml-auto"> <!-- This div pushes the button to the right -->
+                    <a href="{{ route('toptendiseases') }}" class="btn btn-primary">Details</a>
                 </div>
+                </div>
+
             </div>
 
             <!-- Card -->
@@ -107,6 +114,9 @@
             <div class="card bar-chart">
                 <div class="card-header d-flex align-items-center">
                 <h4>Today's All disease </h4>
+                <div class="ml-auto"> <!-- This div pushes the button to the right -->
+                    <a href="{{ route('diseaseRateDateRange') }}" class="btn btn-primary">Details</a>
+                </div>
                 </div>
             </div>
 
@@ -127,7 +137,9 @@
             </div>
             <!-- /card -->
 
-         
+
+
+          
           </div>
         </div>
         <!-- End :: Bar Chart-->

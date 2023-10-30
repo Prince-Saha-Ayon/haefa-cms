@@ -45,11 +45,11 @@
                         <input type="hidden" name="RegistrationId" id="RegistrationId" value="{{ $patient->RegistrationId }}"/>
                         <div class="col-md-12">
                             <div class="row">
-                                <x-form.textbox type="text" labelName="First Name" name="GivenName" col="col-md-6" value="{{ $patient->GivenName }}" placeholder="Enter First Name"/>
-                                <x-form.textbox type="text" labelName="Last Name" name="FamilyName" col="col-md-6" value="{{ $patient->FamilyName }}" placeholder="Enter Last Name" />
-                                <x-form.textbox type="date" labelName="Date Of Birth" name="BirthDate" required="required" col="col-md-6" value="{{ $patient->BirthDate }}" placeholder="Enter Date Of Birth" />
-                                <x-form.textbox type="number" labelName="Patient Age" name="Age" col="col-md-6" value="{{ $patient->Age }}" placeholder="Enter name" />
-                                <x-form.textbox type="text" labelName="Contact Number" name="CellNumber" col="col-md-6" value="{{ $patient->CellNumber }}" placeholder="Enter name" />
+                                <x-form.textbox type="text" labelName="First Name" name="GivenName" col="col-md-6" value="{{ $patient->GivenName??'' }}" placeholder="Enter First Name"/>
+                                <x-form.textbox type="text" labelName="Last Name" name="FamilyName" col="col-md-6" value="{{ $patient->FamilyName ??'' }}" placeholder="Enter Last Name" />
+                                <x-form.textbox type="date" labelName="Date Of Birth" name="BirthDate" required="required" col="col-md-6" value="{{ $patient->BirthDate ??'' }}" placeholder="Enter Date Of Birth" />
+                                <x-form.textbox type="number" labelName="Patient Age" name="Age" col="col-md-6" value="{{ $patient->Age ??'' }}" placeholder="Enter name" />
+                                <x-form.textbox type="text" labelName="Contact Number" name="CellNumber" col="col-md-6" value="{{ $patient->CellNumber ??'' }}" placeholder="Enter name" />
                                 <x-form.selectbox labelName="Gender" name="GenderId" required="required" col="col-md-6" class="selectpicker">
                                     @if (!$genders->isEmpty())
                                         @foreach ($genders as $gender)
@@ -75,18 +75,18 @@
                                             <label class="custom-control-label" for="ID">ID</label>
                                         </div>
                                 </div>
-                                <x-form.textbox type="text" labelName="Contact Number" name="IdNumber" col="col-md-6" value="{{ $patient->IdNumber }}" placeholder="Id Number" />
+                                <x-form.textbox type="text" labelName="Contact Number" name="IdNumber" col="col-md-6" value="{{ $patient->IdNumber ??'' }}" placeholder="Id Number" />
                                 <x-form.selectbox labelName="Gender" name="IdOwner" required="required" col="col-md-6" class="selectpicker">
                                     @if (!$selfTypes->isEmpty())
                                         @foreach ($selfTypes as $selfType)
-                                        <option value="{{ $selfType->HeadOfFamilyId }}"  {{ $patient->IdOwner == $selfType->HeadOfFamilyId ? 'selected' : '' }}>{{ $selfType->HeadOfFamilyCode }}</option>
+                                        <option value="{{ $selfType->HeadOfFamilyId }}"  {{ $patient->IdOwner == $selfType->HeadOfFamilyId ? 'selected' : '' }}>{{ $selfType->HeadOfFamilyCode ??'' }}</option>
                                         @endforeach
                                     @endif
                                 </x-form.selectbox>
                                 <x-form.selectbox labelName="Marital Status" name="MaritalStatusId" required="required" col="col-md-6" class="selectpicker">
                                     @if (!$maritals->isEmpty())
                                         @foreach ($maritals as $marital)
-                                        <option value="{{ $marital->MaritalStatusId }}"  {{ $patient->MaritalStatusId == $marital->MaritalStatusId ? 'selected' : '' }}>{{ $marital->MaritalStatusCode }}</option>
+                                        <option value="{{ $marital->MaritalStatusId }}"  {{ $patient->MaritalStatusId == $marital->MaritalStatusId ? 'selected' : '' }}>{{ $marital->MaritalStatusCode ??'' }}</option>
                                         @endforeach
                                     @endif
                                 </x-form.selectbox>
@@ -102,24 +102,24 @@
                                     <div id="captured-image"></div>
                                 </div>
 
-                                <x-form.textbox type="text" labelName="Spouse Name" name="SpouseName" col="col-md-6" value="{{ $patient->SpouseName }}" placeholder="Enter Spouse Name"/>
+                                <x-form.textbox type="text" labelName="Spouse Name" name="SpouseName" col="col-md-6" value="{{ $patient->SpouseName ??'' }}" placeholder="Enter Spouse Name"/>
 
                                 <x-form.selectbox labelName="Religion" name="ReligionId" required="required" col="col-md-6" class="selectpicker">
                                     @if (!$religions->isEmpty())
                                         @foreach ($religions as $religion)
-                                            <option value="{{ $religion->ReligionId }}"  {{ $patient->ReligionId == $religion->ReligionId ? 'selected' : '' }}>{{ $religion->ReligionCode }}</option>
+                                            <option value="{{ $religion->ReligionId }}"  {{ $patient->ReligionId == $religion->ReligionId ? 'selected' : '' }}>{{ $religion->ReligionCode ??'' }}</option>
                                         @endforeach
                                     @endif
                                 </x-form.selectbox>
 
-                                <x-form.textbox type="number" labelName="Family Members" name="FamilyMembers" col="col-md-6" value="{{ $patient->FamilyMembers }}" placeholder="Enter Family Member"/>
-                                <x-form.textbox type="text" labelName="Father Name" name="FatherName" col="col-md-6" value="{{ $patient->FatherName }}" placeholder="Enter Father Name"/>
-                                <x-form.textbox type="text" labelName="Mother Name" name="MotherName" col="col-md-6" value="{{ $patient->MotherName }}" placeholder="Enter Mother Name"/>
+                                <x-form.textbox type="number" labelName="Family Members" name="FamilyMembers" col="col-md-6" value="{{ $patient->FamilyMembers ??'' }}" placeholder="Enter Family Member"/>
+                                <x-form.textbox type="text" labelName="Father Name" name="FatherName" col="col-md-6" value="{{ $patient->FatherName ??'' }}" placeholder="Enter Father Name"/>
+                                <x-form.textbox type="text" labelName="Mother Name" name="MotherName" col="col-md-6" value="{{ $patient->MotherName ??'' }}" placeholder="Enter Mother Name"/>
 
                                 <x-form.selectbox labelName="Education" name="EducationId" required="required" col="col-md-6" class="selectpicker">
                                     @if (!$educations->isEmpty())
                                         @foreach ($educations as $education)
-                                            <option value="{{ $education->EducationId }}"  {{ $education->EducationId == $patient->EducationId ? 'selected' : '' }}>{{ $education->EducationCode }}</option>
+                                            <option value="{{ $education->EducationId }}"  {{ $education->EducationId == $patient->EducationId ? 'selected' : '' }}>{{ $education->EducationCode ??'' }}</option>
                                         @endforeach
                                     @endif
                                 </x-form.selectbox>
@@ -127,24 +127,24 @@
                                 <x-form.selectbox labelName="Head of Family" name="HeadOfFamilyId" required="required" col="col-md-6" class="selectpicker">
                                     @if (!$RefHeadOfFamilies->isEmpty())
                                         @foreach ($RefHeadOfFamilies as $RefHeadOfFamilie)
-                                            <option value="{{ $RefHeadOfFamilie->HeadOfFamilyId }}"  {{ $RefHeadOfFamilie->HeadOfFamilyId == $patient->HeadOfFamilyId ? 'selected' : '' }}>{{ $RefHeadOfFamilie->HeadOfFamilyCode }}</option>
+                                            <option value="{{ $RefHeadOfFamilie->HeadOfFamilyId }}"  {{ $RefHeadOfFamilie->HeadOfFamilyId == $patient->HeadOfFamilyId ? 'selected' : '' }}>{{ $RefHeadOfFamilie->HeadOfFamilyCode ??'' }}</option>
                                         @endforeach
                                     @endif
                                 </x-form.selectbox>
 
                                 <div class="form-group col-md-6">
                                     <label for="ChildAge0To1">Child Age 0To1</label>
-                                    <input type="number" name="ChildAge0To1" id="ChildAge0To1" class="form-control " value="{{ $patient->ChildAge0To1 }}" placeholder="Enter Child Age 0To1">
+                                    <input type="number" name="ChildAge0To1" id="ChildAge0To1" class="form-control " value="{{ $patient->ChildAge0To1 ??'' }}" placeholder="Enter Child Age 0To1">
                                 </div>
 
                                 <div class="form-group col-md-6">
                                     <label for="ChildAge1To5">Child Age 1To5</label>
-                                    <input type="number" name="ChildAge1To5" id="ChildAge1To5" class="form-control " value="{{ $patient->ChildAge1To5 }}" placeholder="Enter Child Age 1To5">
+                                    <input type="number" name="ChildAge1To5" id="ChildAge1To5" class="form-control " value="{{ $patient->ChildAge1To5 ??'' }}" placeholder="Enter Child Age 1To5">
                                 </div>
 
                                 <div class="form-group col-md-6" >
                                     <label for="ChildAgeOver5">Child Age Over5</label>
-                                    <input type="number" name="ChildAgeOver5" id="ChildAgeOver5" class="form-control " value="{{ $patient->ChildAgeOver5 }}" placeholder="Enter Child Age Over5">
+                                    <input type="number" name="ChildAgeOver5" id="ChildAgeOver5" class="form-control " value="{{ $patient->ChildAgeOver5 ??'' }}" placeholder="Enter Child Age Over5">
                                 </div>
 
 {{--                                <div class="form-group col-md-6">--}}
@@ -169,19 +169,19 @@
                         <h3>Present Address</h3><br>
                         <div class="col-md-12">
                             <div class="row">
-                                <x-form.textbox type="text" labelName="Address" name="AddressLine1" col="col-md-6" value="{{ $address->AddressLine1 }}" placeholder="Enter Address" readonly/>
-                                <x-form.textbox type="text" labelName="Village" name="Village" col="col-md-6" value="{{ $address->Village }}" placeholder="Enter Village" />
-                                <x-form.textbox type="text" labelName="Union" name="Thana" col="col-md-6" value="{{ $address->Thana }}" placeholder="Enter Union" />
-                                <x-form.textbox type="text" labelName="Post Code" name="PostCode" col="col-md-6" value="{{ $address->PostCode }}" placeholder="Enter Post Code" />
+                                <x-form.textbox type="text" labelName="Address" name="AddressLine1" col="col-md-6" value="{{ $address->AddressLine1 ??'' }}" placeholder="Enter Address" readonly/>
+                                <x-form.textbox type="text" labelName="Village" name="Village" col="col-md-6" value="{{ $address->Village ??'' }}" placeholder="Enter Village" />
+                                <x-form.textbox type="text" labelName="Union" name="Thana" col="col-md-6" value="{{ $address->Thana ??'' }}" placeholder="Enter Union" />
+                                <x-form.textbox type="text" labelName="Post Code" name="PostCode" col="col-md-6" value="{{ $address->PostCode ??'' }}" placeholder="Enter Post Code" />
 
                                 <x-form.selectbox labelName="District" name="District" required="required" col="col-md-6" class="selectpicker">
                                     @if (!$districts->isEmpty())
                                         @foreach ($districts as $district)
-                                        <option value="{{ $district->districtName }}"  {{ $address->District == $district->districtName ? 'selected' : '' }}>{{ $district->districtName }}</option>
+                                        <option value="{{ $district->districtName }}"  {{ $address->District == $district->districtName ? 'selected' : '' }}>{{ $district->districtName ??'' }}</option>
                                         @endforeach
                                     @endif
                                 </x-form.selectbox>
-                                <x-form.textbox type="text" labelName="Country" name="Country" col="col-md-6" value="{{ $address->Country }}" placeholder="Enter Country" />
+                                <x-form.textbox type="text" labelName="Country" name="Country" col="col-md-6" value="{{ $address->Country ??'' }}" placeholder="Enter Country" />
 
 
                             </div>
@@ -189,19 +189,19 @@
                         <h3>Permanent Address</h3><br>
                         <div class="col-md-12">
                             <div class="row">
-                                <x-form.textbox type="text" labelName="Address" name="AddressLine1Parmanent" col="col-md-6" value="{{ $address->AddressLine1Parmanent }}" placeholder="Enter Address" readonly/>
-                                <x-form.textbox type="text" labelName="Village" name="VillageParmanent" col="col-md-6" value="{{ $address->VillageParmanent }}" placeholder="Enter Village" />
-                                <x-form.textbox type="text" labelName="Union" name="ThanaParmanent" col="col-md-6" value="{{ $address->ThanaParmanent }}" placeholder="Enter Union" />
-                                <x-form.textbox type="text" labelName="Post Code" name="PostCodeParmanent" col="col-md-6" value="{{ $address->PostCodeParmanent }}" placeholder="Enter Post Code" />
+                                <x-form.textbox type="text" labelName="Address" name="AddressLine1Parmanent" col="col-md-6" value="{{ $address->AddressLine1Parmanent ??'' }}" placeholder="Enter Address" readonly/>
+                                <x-form.textbox type="text" labelName="Village" name="VillageParmanent" col="col-md-6" value="{{ $address->VillageParmanent ??'' }}" placeholder="Enter Village" />
+                                <x-form.textbox type="text" labelName="Union" name="ThanaParmanent" col="col-md-6" value="{{ $address->ThanaParmanent ??'' }}" placeholder="Enter Union" />
+                                <x-form.textbox type="text" labelName="Post Code" name="PostCodeParmanent" col="col-md-6" value="{{ $address->PostCodeParmanent ??'' }}" placeholder="Enter Post Code" />
 
                                 <x-form.selectbox labelName="District" name="DistrictParmanent" required="required" col="col-md-6" class="selectpicker">
                                     @if (!$districts->isEmpty())
                                         @foreach ($districts as $district)
-                                        <option value="{{ $district->districtName }}"  {{ $address->DistrictParmanent == $district->districtName ? 'selected' : '' }}>{{ $district->districtName }}</option>
+                                        <option value="{{ $district->districtName }}"  {{ $address->DistrictParmanent == $district->districtName ? 'selected' : '' }}>{{ $district->districtName ??'' }}</option>
                                         @endforeach
                                     @endif
                                 </x-form.selectbox>
-                                <x-form.textbox type="text" labelName="Country" name="CountryParmanent" col="col-md-6" value="{{ $address->CountryParmanent }}" placeholder="Enter Country" />
+                                <x-form.textbox type="text" labelName="Country" name="CountryParmanent" col="col-md-6" value="{{ $address->CountryParmanent ??'' }}" placeholder="Enter Country" />
 
 
                             </div>
@@ -210,11 +210,11 @@
                         <h3>FDMN Camp</h3><br>
                         <div class="col-md-12">
                             <div class="row">
-                                <x-form.textbox type="text" labelName="Camp" name="Camp" col="col-md-6" value="{{ $address->Camp }}" placeholder="Enter Address" readonly/>
-                                <x-form.textbox type="text" labelName="Block Number" name="BlockNumber" col="col-md-6" value="{{ $address->BlockNumber }}" placeholder="Enter Village" />
-                                <x-form.textbox type="text" labelName="Majhi" name="Majhi" col="col-md-6" value="{{ $address->Majhi }}" placeholder="Enter Union" />
-                                <x-form.textbox type="text" labelName="Tent Number" name="TentNumber" col="col-md-6" value="{{ $address->TentNumber }}" placeholder="Enter Post Code" />
-                                <x-form.textbox type="text" labelName="FCN Number" name="FCN" col="col-md-6" value="{{ $address->FCN }}" placeholder="Enter Country" />
+                                <x-form.textbox type="text" labelName="Camp" name="Camp" col="col-md-6" value="{{ $address->Camp ??'' }}" placeholder="Enter Address" readonly/>
+                                <x-form.textbox type="text" labelName="Block Number" name="BlockNumber" col="col-md-6" value="{{ $address->BlockNumber ??'' }}" placeholder="Enter Village" />
+                                <x-form.textbox type="text" labelName="Majhi" name="Majhi" col="col-md-6" value="{{ $address->Majhi ??'' }}" placeholder="Enter Union" />
+                                <x-form.textbox type="text" labelName="Tent Number" name="TentNumber" col="col-md-6" value="{{ $address->TentNumber ??'' }}" placeholder="Enter Post Code" />
+                                <x-form.textbox type="text" labelName="FCN Number" name="FCN" col="col-md-6" value="{{ $address->FCN ??'' }}" placeholder="Enter Country" />
 
 
                             </div>
