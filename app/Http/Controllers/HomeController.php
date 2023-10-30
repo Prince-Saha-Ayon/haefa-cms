@@ -56,7 +56,6 @@ class HomeController extends Controller
             $registrationId=Patient::select('RegistrationId')->get();
             //top ten disease graph of todays date start
             $illnesses['diseases'] = Patient::top_ten_disease();
-
             //top ten disease graph of todays date end
 
             //all disease graph of todays date start
@@ -67,13 +66,9 @@ class HomeController extends Controller
                 'HTN_count','ANCPNC_count','PregnancyInducedHypertensionCount','GestationalDMCount'
             ));
 
-//            $illnesses['diseases']='';
-//            $all_illnesses = '';
-//            return view('home',compact('illnesses','all_illnesses'));
         }else{
             return $this->unauthorized_access_blocked();
         }
-
     }
 
     public function unauthorized()

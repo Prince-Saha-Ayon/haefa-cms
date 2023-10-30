@@ -62,7 +62,6 @@
         </div>
         <!-- /site content wrapper -->
 
-
     </main>
 </div>
 <!-- /root -->
@@ -70,11 +69,10 @@
 <!-- Optional JavaScript -->
 
 <script src="js/app.js" crossorigin="anonymous"></script>
-
-@if(request()->path() !== '/')
 <script src="js/moment.min.js" crossorigin="anonymous"></script>
-<script src="js/daterangepicker.min.js" crossorigin="anonymous"></script>
 <script src="js/perfect-scrollbar.min.js" crossorigin="anonymous"></script>
+@if(request()->path() !== '/')
+<script src="js/daterangepicker.min.js" crossorigin="anonymous"></script>
 <script src="js/datatables.bundle.js" crossorigin="anonymous"></script>
 @endif
 <!-- /perfect scrollbar jQuery -->
