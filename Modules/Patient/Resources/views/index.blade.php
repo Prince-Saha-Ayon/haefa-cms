@@ -135,12 +135,7 @@
                 <div class="dt-entry__heading">
                     <h2 class="dt-page__title mb-0 text-primary"><i class="{{ $page_icon }}"></i> {{ $sub_title }}</h2>
                 </div>
-                <!-- /entry heading -->
-                @if (permission('patient-add'))
-                <button class="btn btn-primary btn-sm" onclick="showFormModal('Add New Patient','Save')">
-                    <i class="fas fa-plus-square"></i> Add New
-                 </button>
-                @endif
+               
                 
 
             </div>
@@ -216,27 +211,7 @@
                             @endif
                         </table>
 
-                    {{-- <table id="dataTable" class="table table-striped table-bordered table-hover">
-                        <thead class="bg-primary">
-                            <tr>
-                                @if (permission('patient-bulk-delete'))
-                                <th>
-                                    <div class="custom-control custom-checkbox">
-                                        <input type="checkbox" class="custom-control-input" id="select_all" onchange="select_all()">
-                                        <label class="custom-control-label" for="select_all"></label>
-                                    </div>
-                                </th>
-                                @endif
-                                <th>Sl</th>
-                                <th>Registration Id</th>
-                                <th>Patient Name</th>
-                                <th>NID Number</th>
-                                <th>Mobile Number</th>
-                                <th>Action</th>
-                            </tr>
-                        </thead>
-                        <tbody></tbody>
-                    </table> --}}
+                    
 
                 </div>
                 <!-- /card body -->
@@ -251,7 +226,6 @@
     <!-- /grid -->
 
 </div>
-@include('patient::view-modal')
 @include('patient::viewid-modal')
 @endsection
 
@@ -365,13 +339,6 @@ $('#dataTable').DataTable({
 });
 
 
-
-
-
-
-
-
-
     $('#btn-filter').click(function () {
         table.ajax.reload();
     });
@@ -393,32 +360,6 @@ $('#dataTable').DataTable({
             method = 'add';
         }
         store_or_update_data(table, method, url, formData);
-    });
-
-    $(document).on('click', '.view_data', function () {
-        let id = $(this).data('id');
-        if (id) {
-            $.ajax({
-                url: "{{route('patient.show')}}",
-                type: "POST",
-                data: { id: id,_token: _token},
-                success: function (data) {
-
-                    $('#view_modal .details').html();
-                    $('#view_modal .details').html(data);
-
-                    $('#view_modal').modal({
-                        keyboard: false,
-                        backdrop: 'static',
-                    });
-                    $('#view_modal .modal-title').html(
-                        '<i class="fas fa-eye"></i> <span>Prescription</span>');
-                },
-                error: function (xhr, ajaxOption, thrownError) {
-                    console.log(thrownError + '\r\n' + xhr.statusText + '\r\n' + xhr.responseText);
-                }
-            });
-        }
     });
 
     $(document).on('click', '.viewid_data', function () {
@@ -446,75 +387,6 @@ $('#dataTable').DataTable({
             });
         }
     });
-   
-    
-
-
-    $(document).on('click', '.delete_data', function () {
-        let id    = $(this).data('id');
-        let name  = $(this).data('name');
-        let row   = table.row($(this).parent('tr'));
-        let url   = "{{ route('category.delete') }}";
-        delete_data(id, url, table, row, name);
-    });
-
-    function multi_delete(){
-        let ids = [];
-        let rows;
-        $('.select_data:checked').each(function(){
-            ids.push($(this).val());
-            rows = table.rows($('.select_data:checked').parents('tr'));
-        });
-        if(ids.length == 0){
-            Swal.fire({
-                type:'error',
-                title:'Error',
-                text:'Please checked at least one row of table!',
-                icon: 'warning',
-            });
-        }else{
-            let url = "{{route('patient.bulk.delete')}}";
-            bulk_delete(ids,url,table,rows);
-        }
-    }
-
-    $(document).on('click', '.change_status', function () {
-        let id    = $(this).data('id');
-        let status = $(this).data('status');
-        let name  = $(this).data('name');
-        let row   = table.row($(this).parent('tr'));
-        let url   = "{{ route('patient.change.status') }}";
-        Swal.fire({
-            title: 'Are you sure to change ' + name + ' status?',
-            icon: 'warning',
-            showCancelButton: true,
-            confirmButtonColor: '#3085d6',
-            cancelButtonColor: '#d33',
-            confirmButtonText: 'Yes!'
-        }).then((result) => {
-            if (result.value) {
-                $.ajax({
-                    url: url,
-                    type: "POST",
-                    data: { id: id,status:status, _token: _token},
-                    dataType: "JSON",
-                }).done(function (response) {
-                    if (response.status == "success") {
-                        Swal.fire("Status Changed", response.message, "success").then(function () {
-                            table.ajax.reload(null, false);
-                        });
-                    }
-                    if (response.status == "error") {
-                        Swal.fire('Oops...', response.message, "error");
-                    }
-                }).fail(function () {
-                    Swal.fire('Oops...', "Somthing went wrong with ajax!", "error");
-                });
-            }
-        });
-
-    });
-
 
 });
 </script>
