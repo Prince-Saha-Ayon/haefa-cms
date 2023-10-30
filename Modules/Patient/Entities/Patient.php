@@ -104,30 +104,26 @@ class Patient extends BaseModel
     public static function get_branch_name()
     {
         $login_user = Auth::user()->cc_id ?? 0;
-        $branch_name = Patient::select('hc.HealthCenterName')
+        return Patient::select('hc.HealthCenterName')
             ->join('barcode_formats AS bf', function ($join) {
                 $join->on(DB::raw('LEFT(Patient.RegistrationId, 9)'), '=', 'bf.barcode_prefix');
             })
             ->join('HealthCenter AS hc', 'bf.barcode_community_clinic', '=', 'hc.HealthCenterId')
             ->join('users AS u', 'u.cc_id', '=', 'bf.id')
             ->where('u.cc_id', $login_user)
-            ->first();
-
-        return $branch_name ? $branch_name->HealthCenterName : '';
+            ->first()->HealthCenterName??'';
     }
 
     public static function get_branch_id()
     {
         $login_user = Auth::user()->cc_id ?? 0;
 
-        $branch = Patient::select('HealthCenter.HealthCenterId')
+        return Patient::select('HealthCenter.HealthCenterId')
             ->join('barcode_formats AS bf', DB::raw('LEFT(Patient.RegistrationId, 9)'), '=', 'bf.barcode_prefix')
             ->join('HealthCenter', 'bf.barcode_community_clinic', '=', 'HealthCenter.HealthCenterId')
             ->join('users AS u', 'u.cc_id', '=', 'bf.id')
             ->where('u.cc_id', $login_user)
-            ->first();
-
-        return $branch ? $branch->HealthCenterId : '69A15C52-B198-4DBC-9EAE-000000000000';
+            ->first()->HealthCenterId?? '69A15C52-B198-4DBC-9EAE-000000000000';
     }
 
     //get branch wise disease
@@ -165,7 +161,7 @@ class Patient extends BaseModel
         $today = Carbon::today();
         $startDate = $today->format('m/d/Y');
 
-        $first_referred_case = MDataPatientReferral::selectRaw('COUNT(DISTINCT MDataPatientReferral.PatientId) as number_of_referred_case')
+        return MDataPatientReferral::selectRaw('COUNT(DISTINCT MDataPatientReferral.PatientId) as number_of_referred_case')
             ->join('HealthCenter', 'HealthCenter.HealthCenterId', '=', 'MDataPatientReferral.HealthCenterId')
             ->join('Patient', 'Patient.PatientId', '=', 'MDataPatientReferral.PatientId')
             ->when($branch_id !== null, function ($query) use ($branch_id) {
@@ -176,9 +172,7 @@ class Patient extends BaseModel
             ->whereDate('MDataPatientReferral.CreateDate', $startDate)
             ->groupBy('HealthCenter.HealthCenterName')
             ->orderByRaw('COUNT(*) DESC')
-            ->first();
-
-        return $first_referred_case ? $first_referred_case->number_of_referred_case : 0;
+            ->first()->number_of_referred_case?? 0;
     }
 
     //get referred
