@@ -135,7 +135,12 @@
                 <div class="dt-entry__heading">
                     <h2 class="dt-page__title mb-0 text-primary"><i class="{{ $page_icon }}"></i> {{ $sub_title }}</h2>
                 </div>
-                
+                <!-- /entry heading -->
+                @if (permission('patient-add'))
+                <button class="btn btn-primary btn-sm" onclick="showFormModal('Add New Patient','Save')">
+                    <i class="fas fa-plus-square"></i> Add New
+                 </button>
+                @endif
                 
 
             </div>
@@ -147,30 +152,49 @@
                 <!-- Card Body -->
                 <div class="dt-card__body">
 
+                    <form id="form-filter">
+                        <div class="row">
+                            <div class="form-group col-md-4">
+                                <label for="name">Registration Id</label>
+                                <input type="text" class="form-control" name="name" id="name" placeholder="Enter patient Registration Id">
+                            </div>
+                            <div class="form-group col-md-8 pt-24">
+                               <button type="button" class="btn btn-danger btn-sm float-right" id="btn-reset"
+                               data-toggle="tooltip" data-placement="top" data-original-title="Reset Data">
+                                   <i class="fas fa-redo-alt"></i>
+                                </button>
+                               <button type="button" class="btn btn-primary btn-sm float-right mr-2" id="btn-filter"
+                               data-toggle="tooltip" data-placement="top" data-original-title="Filter Data">
+                                   <i class="fas fa-search"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </form>
                     
                         <table id="dataTable" class="table table-striped table-bordered table-hover">
                             <thead class="bg-primary">
-                                <tr>
+                            <tr>
 
-                                    <th>Sl</th>
-                                    <th>Registration Id</th>
-                                    <th>Patient Name</th>
-                                    <th>Patient Age</th>
-                                    <th>NID Number</th>
-                                    <th>Mobile Number</th>
-                                    <th>Gender</th>
-                                    <th>BirthDate</th>
-                                    <th>Marital Status</th>
-                                    <th>Action</th>
-                                
+                                <th>Sl</th>
+                                <th>Registration Id</th>
+                                <th>Patient Name</th>
+                                <th>Patient Age</th>
+                                <th>NID Number</th>
+                                <th>Mobile Number</th>
+                                <th>Gender</th>
+                                <th>BirthDate</th>
+                                <th>Marital Status</th>
+                                <th>Action</th>
+                               
 
-                                </tr>
+                            </tr>
 
                             </thead>
                             @if($patients ?? '')
                                 <tbody>
                                 @foreach($patients as $result)
                                     <tr>
+
                                         <td>{{$loop->iteration}}</td>
                                         <td>{{$result->RegistrationId}}</td>
                                         <td>{{$result->GivenName}} {{$result->FamilyName}}</td>
@@ -180,10 +204,10 @@
                                         <td>{{optional($result->Gender)->GenderCode}}</td>
                                         <td>{{optional($result)->BirthDate}}</td>
                                         <td>{{optional($result->MaritalStatus)->MaritalStatusCode}}</td>
-                                        <td> 
-                                            <?php if(permission('patient-viewid')){?><a  class="viewid_data"  style="cursor: pointer;" data-id="{{$result->PatientId}}"><i class="fas fa-eye text-success"></i></a> <a class="" href="{{route('patient.edit', $result->PatientId)}}"><i class="fas fa-edit text-success"></i></a>
-                                            <?php } ?>
-                                        </td>
+                                     <td> 
+                                        <?php if(permission('patient-viewid')){?><a  class="viewid_data"  style="cursor: pointer;" data-id="{{$result->PatientId}}"><i class="fas fa-eye text-success"></i></a> <a class="" href="{{route('patient.edit', $result->PatientId)}}"><i class="fas fa-edit text-success"></i></a>
+                                    <?php } ?>
+                                    </td>
                                        
 
                                     </tr>
@@ -192,6 +216,27 @@
                             @endif
                         </table>
 
+                    {{-- <table id="dataTable" class="table table-striped table-bordered table-hover">
+                        <thead class="bg-primary">
+                            <tr>
+                                @if (permission('patient-bulk-delete'))
+                                <th>
+                                    <div class="custom-control custom-checkbox">
+                                        <input type="checkbox" class="custom-control-input" id="select_all" onchange="select_all()">
+                                        <label class="custom-control-label" for="select_all"></label>
+                                    </div>
+                                </th>
+                                @endif
+                                <th>Sl</th>
+                                <th>Registration Id</th>
+                                <th>Patient Name</th>
+                                <th>NID Number</th>
+                                <th>Mobile Number</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table> --}}
 
                 </div>
                 <!-- /card body -->
@@ -211,9 +256,8 @@
 @endsection
 
 @push('script')
-<script src="js/dataTables.buttons.min.js" crossorigin="anonymous"></script>
- <script src="js/buttons.html5.min.js" crossorigin="anonymous"></script>
-
+<script src="js/dataTables.buttons.min.js"></script>
+ <script src="js/buttons.html5.min.js"></script>
 <script>
 var table;
 $(document).ready(function(){
@@ -319,6 +363,14 @@ $('#dataTable').DataTable({
     ],
 
 });
+
+
+
+
+
+
+
+
 
     $('#btn-filter').click(function () {
         table.ajax.reload();

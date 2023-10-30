@@ -1,5 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
+
+<!-- Mirrored from uiwebsoft.com/justlog/login-nine/login.html by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 29 Aug 2020 00:36:10 GMT -->
 <head>
     <base href="{{ asset('/') }}">
     <meta charset="UTF-8">
@@ -16,6 +18,8 @@
 </head>
 <body>
 
+<!-- Loader -->
+<div class="loader"><div class="loader_div"></div></div>
 
 <!-- Login page -->
 <div class="login_wrapper">
@@ -82,7 +86,19 @@
 <script src="js/login.js"></script>
 
 <!-- Custom JS Script -->
+<script type="text/javascript">
 
+	var $window = $(window);
+
+        // :: Preloader Active Code
+        $window.on('load', function () {
+            $('.loader').fadeOut('slow', function () {
+                $(this).remove();
+            });
+        });
+</script>
 
 </body>
+
+<!-- Mirrored from uiwebsoft.com/justlog/login-nine/login.html by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 29 Aug 2020 00:36:12 GMT -->
 </html>
