@@ -85,6 +85,7 @@ Highcharts.chart('container_bloodp', {
         },
 
     plotOptions: {
+        
         spline: {
             marker: {
                 radius: 4,
@@ -106,13 +107,13 @@ Highcharts.chart('container_bloodp', {
                     var label4 = bpdData2;
 
                    if (this.series.index === 0) {
-                     return '<span style="font-size: 18px;">' + label1 + '</span>';
+                     return '<span style="font-size: 16px;">' + label1 + '</span>';
                 } else if (this.series.index === 1) {
-                    return '<span style="font-size: 18px;">' + label2 + '</span>'; // Adjust font size as needed
+                    return '<span style="font-size: 16px;">' + label2 + '</span>'; // Adjust font size as needed
                 } else if (this.series.index === 2) {
-                    return '<span style="font-size: 18px;">' + label3 + '</span>'; // Adjust font size as needed
+                    return '<span style="font-size: 16px;">' + label3 + '</span>'; // Adjust font size as needed
                 } else if (this.series.index === 3) {
-                    return '<span style="font-size: 18px;">' + label4 + '</span>'; // Adjust font size as needed
+                    return '<span style="font-size: 16px;">' + label4 + '</span>'; // Adjust font size as needed
                 }
                 },
                 style: {

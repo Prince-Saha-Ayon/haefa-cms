@@ -44,14 +44,14 @@ class ReportController extends BaseController
         // $healthcenters=BarcodeFormat::with('healthCenter')->get();
         
        $branches=BarcodeFormat::with('healthCenter')->get(); 
-        $this->setPageData('Datewise Provisional DX','Datewise Provisional DX','fas fa-th-list');
+        $this->setPageData('Provisional Diagnosis Datewise','Provisional Diagnosis Datewise','fas fa-th-list');
         return view('report::datewisedx',compact('branches'));
     }
     public function patientwisedxindex(){
         // $healthcenters=BarcodeFormat::with('healthCenter')->get();
         
        $branches=BarcodeFormat::with('healthCenter')->get(); 
-        $this->setPageData('Patient Provisional DX','Patient Provisional DX','fas fa-th-list');
+        $this->setPageData('Provisional Diagnosis','Provisional Diagnosis','fas fa-th-list');
         return view('report::provisionaldx',compact('branches'));
     }
     
@@ -152,7 +152,7 @@ public function diseaseindex()
         ->get();
        
         $resultCount = $fupdates->count();
-        $hcname=DB::table('HealthCenter')->where('HealthCenterCode',$hc )->first('HealthCenterName');
+         $hcname=HealthCenter::where('HealthCenterCode',$hc )->first('HealthCenterName');
      
 
         $this->setPageData('Follow Up Date','Follow Up Date','fa fa-medical');
@@ -165,8 +165,8 @@ public function diseaseindex()
     //branches
    $branches=BarcodeFormat::with('healthCenter')->get(); 
     $this->setPageData(
-        'FollowUp Date',
-        'FollowUp Date',
+        'Followup Date',
+        'Followup Date',
         'fas fa-th-list'
     );
     return view('report::ajaxfollowupdateIndex',compact('branches'));
@@ -187,7 +187,7 @@ public function diseaseindex()
     
      
         $resultCount = $fupdates->count();
-        $hcname=DB::table('HealthCenter')->where('HealthCenterCode',$barcode_prefix )->first('HealthCenterName');
+        $hcname=HealthCenter::where('HealthCenterCode',$barcode_prefix )->first('HealthCenterName');
          $response = [
             'healthcenter' => $hcname->HealthCenterName ?? 'All',	
             'fupdates' => $fupdates,
@@ -267,7 +267,7 @@ $results = Address::with('districtAddress','upazillaAddress','unionAddress')->se
 
         $results = DB::table("MDataProvisionalDiagnosis")
             ->select(
-                DB::raw("FORMAT(MDataProvisionalDiagnosis.CreateDate, 'dd/MM/yyyy') as CreateDate"),
+                DB::raw("CONVERT(varchar, MDataProvisionalDiagnosis.CreateDate, 106) as CreateDate"),
                 'ProvisionalDiagnosis',
                 DB::raw('COUNT(MDataProvisionalDiagnosis.PatientId) as Total')
             )
@@ -279,10 +279,14 @@ $results = Address::with('districtAddress','upazillaAddress','unionAddress')->se
                 }
             })
             ->join('Patient', 'MDataProvisionalDiagnosis.PatientId', '=', 'Patient.PatientId')
-            ->groupBy(DB::raw("FORMAT(MDataProvisionalDiagnosis.CreateDate, 'dd/MM/yyyy')"), 'ProvisionalDiagnosis')
+            ->groupBy(DB::raw("CONVERT(varchar, MDataProvisionalDiagnosis.CreateDate, 106)"), 'ProvisionalDiagnosis')
             ->get();
-            $resultCount = $results->count();
-            $hcname=DB::table('HealthCenter')->where('HealthCenterCode',$barcode_prefix )->first('HealthCenterName');
+
+            
+            $resultCount = $results->sum('Total');
+         
+            // $hcname=DB::table('HealthCenter')->where('HealthCenterCode',$barcode_prefix )->first('HealthCenterName');
+            $hcname=HealthCenter::where('HealthCenterCode',$barcode_prefix )->first('HealthCenterName');
             $response = [
                 'healthcenter' => $hcname->HealthCenterName ?? 'All',	
                 'results' => $results,
@@ -312,7 +316,7 @@ $results = Address::with('districtAddress','upazillaAddress','unionAddress')->se
         'Patient.RegistrationId',
         'Patient.GivenName',
         'Patient.FamilyName',
-        'Patient.BirthDate',
+        DB::raw("CONVERT(varchar, Patient.BirthDate, 106) as BirthDate"),
         'Patient.Age',
         'Patient.CellNumber',
         'RefGender.GenderCode'
@@ -335,14 +339,14 @@ $results = Address::with('districtAddress','upazillaAddress','unionAddress')->se
         'Patient.RegistrationId',
         'Patient.GivenName',
         'Patient.FamilyName',
-        'Patient.BirthDate',
+        DB::raw("CONVERT(varchar, Patient.BirthDate, 106)"),
         'Patient.Age',
         'Patient.CellNumber',
         'RefGender.GenderCode'
     )
     ->get();
             $resultCount = $results->count();
-            $hcname=DB::table('HealthCenter')->where('HealthCenterCode',$barcode_prefix )->first('HealthCenterName');
+            $hcname=HealthCenter::where('HealthCenterCode',$barcode_prefix )->first('HealthCenterName');
             $response = [
                 'healthcenter' => $hcname->HealthCenterName ?? 'All',	
                 'results' => $results,
@@ -412,7 +416,7 @@ $results = Address::with('districtAddress','upazillaAddress','unionAddress')->se
     )
     ->get();
             $resultCount = $results->count();
-            $hcname=DB::table('HealthCenter')->where('HealthCenterCode',$barcode_prefix )->first('HealthCenterName');
+            $hcname=HealthCenter::where('HealthCenterCode',$barcode_prefix )->first('HealthCenterName');
             $response = [
                 'healthcenter' => $hcname->HealthCenterName ?? 'All',	
                 'results' => $results,
@@ -487,7 +491,7 @@ $results = Address::with('districtAddress','upazillaAddress','unionAddress')->se
         )
         ->get();
 
-                $hcname=DB::table('HealthCenter')->where('HealthCenterCode',$barcode_prefix )->first('HealthCenterName');
+                $hcname=HealthCenter::where('HealthCenterCode',$barcode_prefix )->first('HealthCenterName');
                 $response = [
                     'healthcenter' => $hcname->HealthCenterName ?? 'All',	
                     'results' => $results,
