@@ -9,6 +9,7 @@
     .bootstrap-select{
         width: 100% !important;
     }
+   
 </style>
 
 
@@ -174,7 +175,7 @@
      $('#hc_id').change(function () {
         
         var hcId = $(this).val();
-        console.log(hcId);
+      
 
       if (hcId) {
          

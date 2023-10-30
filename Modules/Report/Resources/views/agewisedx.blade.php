@@ -188,7 +188,7 @@
     var patients;
     var now = new Date();
     var formattedDate = now.getDate().toString().padStart(2, '0') + '_' + (now.getMonth() + 1).toString().padStart(2, '0') + '_' + now.getFullYear();
-    var filename = 'ProvisionalDiagnosis_Provisional Diagnosis Age wise/Patient Count Age wise_' + formattedDate;
+    var filename = 'ProvisionalDiagnosis_Provisional Diagnosis Age wise-Patient Count Age wise_' + formattedDate;
 
   
 
@@ -244,34 +244,22 @@
 
             var r1 = Addrow(1, [{
                 k: 'A',
-                v: 'App Name:'
-            }, {
-                k: 'B',
-                v: 'Nirog Plus'
+                v: 'App Name: Nirog Plus'
             }]);
 
             var r2 = Addrow(2, [{
                 k: 'A',
-                v: 'Branch: '
-            }, {
-                k: 'B',
-                v: healthcenter, // Replace '6' with actual count
+                v: 'Branch:'+healthcenter,
             }]);
 
             var r3 = Addrow(3, [{
                 k: 'A',
-                v: 'Collection Date:'
-            }, {
-                k: 'B',
-                v: collectionDate, // Replace '4' with actual count
+                v: 'Collection Date:'+ collectionDate,
             }]);
 
             var r4 = Addrow(4, [{
                 k: 'A',
-                v: 'Report Type:'
-            }, {
-                k: 'B',
-                v:  'ProvisionalDiagnosis_Provisional Diagnosis Age wise/Patient Count Age wise',
+                v: 'Report Type: ProvisionalDiagnosis_Provisional Diagnosis Age wise/Patient Count Age wise'
             }]);
              var r5 = Addrow(5, [{
                 k: 'A',
