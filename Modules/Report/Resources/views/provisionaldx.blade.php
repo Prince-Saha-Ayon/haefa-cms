@@ -400,7 +400,7 @@
             }]);
               var r6 = Addrow(6, [{
                 k: 'A',
-                v: 'Total Patients' + patients,
+                v: 'Total Patients: ' + patients,
             }]);
                var r7 = Addrow(7, [{
                 k: 'A',
