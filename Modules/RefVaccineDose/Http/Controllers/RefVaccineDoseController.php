@@ -26,7 +26,7 @@ class RefVaccineDoseController extends BaseController
     public function index()
     {
         if(permission('refvaccinedose-access')){
-            $this->setPageData('RefVaccineDose','RefVaccineDose','fas fa-th-list');
+            $this->setPageData('VaccineDose','VaccineDose','fas fa-th-list');
             return view('refvaccinedose::index');
         }else{
             return $this->unauthorized_access_blocked();

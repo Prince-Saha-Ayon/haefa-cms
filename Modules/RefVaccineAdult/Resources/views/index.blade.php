@@ -5,63 +5,7 @@
 @endsection
 
 @push('stylesheet')
-    <style>
-#prescription .container {
-  background-color: #f2f2f2 !important;
-}
-
-.header p {
-  font-size: 14px;
-}
-.aside {
-  width: 400px;
-  border-right: 1px solid #ddd;
-  min-height: 600px;
-  padding-bottom: 20px;
-}
-
-.signatureImage {
-  display: inline-block;
-  width: 100px;
-  object-fit: contain;
-  margin-bottom: 5px;
-}
-.signatureBox {
-  position: absolute;
-  right: 50px;
-  bottom: 30px;
-}
-.footer {
-  padding-top: 20px;
-  padding-bottom: 20px;
-  border-top: 1px solid #ddd;
-}
-
-.footer p {
-  font-size: 14px;
-}
-.apiLogo {
-  max-width: 40px;
-  transform: translateY(-4px);
-  margin-left: 5px;
-}
-.logoText {
-  font-size: 14px;
-}
-.nextinfo {
-  margin-top: 150px;
-}
-
-@media (max-width: 767px){
-    #prescription, .logoText, address p, .header p{
-        font-size: 12px !important;
-    }
-    .header h4{
-        font-size: 18px !important;
-    }
-
-}
-    </style>
+   
 @endpush
 
 @section('content')
@@ -88,7 +32,7 @@
                 <!-- /entry heading -->
 
                 @if (permission('refvaccineadult-add'))
-                <button class="btn btn-primary btn-sm" onclick="showFormModal('Add Refvaccine Adult','Save'); removeId()">
+                <button class="btn btn-primary btn-sm" onclick="showFormModal('Add vaccine Adult','Save'); removeId()">
                     <i class="fas fa-plus-square"></i> Add New
                  </button>
                 @endif
@@ -208,33 +152,33 @@ $(document).ready(function(){
 
         "buttons": [
             @if (permission('refvaccineadult-report'))
-            {
-                'extend':'colvis','className':'btn btn-secondary btn-sm text-white','text':'Column'
-            },
-            {
-                "extend": 'excel',
-                'text':'Excel',
-                'className':'btn btn-secondary btn-sm text-white',
-                "title": "Menu List",
-                "filename": "Refvaccineadult",
-                "exportOptions": {
-                    columns: function (index, data, node) {
-                        return table.column(index).visible();
-                    }
-                }
-            },
-            {
-                "extend": 'pdf',
-                'text':'PDF',
-                'className':'btn btn-secondary btn-sm text-white',
-                "title": "Menu List",
-                "filename": "Refvaccineadult",
-                "orientation": "landscape", //portrait
-                "pageSize": "A4", //A3,A5,A6,legal,letter
-                "exportOptions": {
-                    columns: [1, 2, 3]
-                },
-            },
+            // {
+            //     'extend':'colvis','className':'btn btn-secondary btn-sm text-white','text':'Column'
+            // },
+            // {
+            //     "extend": 'excel',
+            //     'text':'Excel',
+            //     'className':'btn btn-secondary btn-sm text-white',
+            //     "title": "Menu List",
+            //     "filename": "Refvaccineadult",
+            //     "exportOptions": {
+            //         columns: function (index, data, node) {
+            //             return table.column(index).visible();
+            //         }
+            //     }
+            // },
+            // {
+            //     "extend": 'pdf',
+            //     'text':'PDF',
+            //     'className':'btn btn-secondary btn-sm text-white',
+            //     "title": "Menu List",
+            //     "filename": "Refvaccineadult",
+            //     "orientation": "landscape", //portrait
+            //     "pageSize": "A4", //A3,A5,A6,legal,letter
+            //     "exportOptions": {
+            //         columns: [1, 2, 3]
+            //     },
+            // },
             @endif
             @if (permission('refvaccineadult-bulk-delete'))
             {
@@ -466,12 +410,12 @@ $(document).on('click', '.edit_data', function () {
             dataType: "JSON",
             success: function (data) {
                 console.log(data);
-                $('#DepartmentCode').val(data.designation[0].DepartmentCode);
-                $('#DesignationTitle').val(data.designation[0].DesignationTitle);
+                // $('#DepartmentCode').val(data.designation[0].DepartmentCode);
+                // $('#DesignationTitle').val(data.designation[0].DesignationTitle);
                 $('#Description').val(data.designation[0].Description);
                 $('#RefvaccineId').val(data.designation[0].RefvaccineId);
-                $('#RefDepartmentId').val(data.departments[0].RefDepartmentId);
-                $('#WorkPlaceId').val(data.departments[0].WorkPlaceId);
+                // $('#RefDepartmentId').val(data.departments[0].RefDepartmentId);
+                // $('#WorkPlaceId').val(data.departments[0].WorkPlaceId);
                 $('#store_or_update_form .selectpicker').selectpicker('refresh');
 
                 $('#store_or_update_modal').modal({
@@ -479,7 +423,7 @@ $(document).on('click', '.edit_data', function () {
                     backdrop: 'static',
                 });
                 $('#store_or_update_modal .modal-title').html(
-                    '<i class="fas fa-edit"></i> <span>Edit Refvaccine</span>');
+                    '<i class="fas fa-edit"></i> <span>Edit vaccine</span>');
                 $('#store_or_update_modal #save-btn').text('Update');
             },
             error: function (xhr, ajaxOption, thrownError) {

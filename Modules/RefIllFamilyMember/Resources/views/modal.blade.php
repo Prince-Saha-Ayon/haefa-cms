@@ -20,7 +20,7 @@
                     {{-- <input type="hidden" name="update_id" id="update_id"/> --}}
                     <input type="hidden" name="IllFamilyMemberId" value="" id="IllFamilyMemberId"/>
                      <input type="hidden" name="SortOrder" value="1" />
-                    <x-form.textbox labelName="IllFamilyMember Code Code" name="IllFamilyMemberCode" id="IllFamilyMemberCode" required col="col-md-12"  placeholder="Enter IllFamilyMember Code"/>
+                    <x-form.textbox labelName="Ill Family Member Code Code" name="IllFamilyMemberCode" id="IllFamilyMemberCode" required="required" col="col-md-12"  placeholder="Enter IllFamilyMember Code"/>
                     <x-form.textbox labelName="Description" name="Description" id="Description"  col="col-md-12"  placeholder="Enter Description"/>
                 </div>
             </div>

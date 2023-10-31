@@ -21,7 +21,7 @@
                     <input type="hidden" name="VaccineDoseId" value="" id="VaccineDoseId"/>
                      <input type="hidden" name="SortOrder" value="1" />
                      <input type="hidden" name="VaccineDoseGroupId" value="5" />
-                    <x-form.textbox labelName="VaccineDoseTitle " name="VaccineDoseTitle" id="VaccineDoseTitle" required col="col-md-12"  placeholder="Enter VaccineDoseTitle"/>
+                    <x-form.textbox labelName="Vaccine Dose Title " name="VaccineDoseTitle" id="VaccineDoseTitle" required="required" col="col-md-12"  placeholder="Enter VaccineDoseTitle"/>
                 
                     <x-form.textbox labelName="Description" name="Description" id="Description"  col="col-md-12"  placeholder="Enter Description"/>
                 </div>

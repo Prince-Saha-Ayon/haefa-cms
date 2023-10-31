@@ -20,7 +20,7 @@
                     {{-- <input type="hidden" name="update_id" id="update_id"/> --}}
                     <input type="hidden" name="ReligionId" value="" id="ReligionId"/>
                      <input type="hidden" name="SortOrder" value="1" />
-                    <x-form.textbox labelName="Religion Code" name="ReligionCode" id="ReligionCode" required col="col-md-12"  placeholder="Enter Religion Code"/>
+                    <x-form.textbox labelName="Religion Code" name="ReligionCode" id="ReligionCode" required="required" col="col-md-12"  placeholder="Enter Religion Code"/>
                     <x-form.textbox labelName="Description" name="Description" id="Description"  col="col-md-12"  placeholder="Enter Description"/>
                 </div>
             </div>

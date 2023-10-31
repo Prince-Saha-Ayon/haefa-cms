@@ -26,7 +26,7 @@ class RefContraceptionMethodController extends BaseController
     public function index()
     {
         if(permission('refcontraceptionmethod-access')){
-            $this->setPageData('RefContraceptionMethod','RefContraceptionMethod','fas fa-th-list');
+            $this->setPageData('Contraception Method','Contraception Method','fas fa-th-list');
             return view('refcontraceptionmethod::index');
         }else{
             return $this->unauthorized_access_blocked();
