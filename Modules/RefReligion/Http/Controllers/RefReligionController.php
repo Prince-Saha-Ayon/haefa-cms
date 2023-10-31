@@ -26,7 +26,7 @@ class RefReligionController extends BaseController
     public function index()
     {
         if(permission('refreligion-access')){
-            $this->setPageData('RefReligion','RefReligion','fas fa-th-list');
+            $this->setPageData('Religion','Religion','fas fa-th-list');
             return view('refreligion::index');
         }else{
             return $this->unauthorized_access_blocked();

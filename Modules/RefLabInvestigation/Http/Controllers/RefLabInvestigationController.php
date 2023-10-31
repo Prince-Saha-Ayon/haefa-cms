@@ -29,7 +29,7 @@ class RefLabInvestigationController extends BaseController
         if(permission('reflabinvestigation-access')){
             $inv_group=RefLabInvestigationGroup::get();
           
-            $this->setPageData('RefLabInvestigation','RefLabInvestigation','fas fa-th-list');
+            $this->setPageData('Lab Investigation','Lab Investigation','fas fa-th-list');
             return view('reflabinvestigation::index',compact('inv_group'));
         }else{
             return $this->unauthorized_access_blocked();

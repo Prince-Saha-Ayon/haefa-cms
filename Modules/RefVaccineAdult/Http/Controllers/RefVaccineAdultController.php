@@ -29,7 +29,7 @@ class RefVaccineAdultController extends BaseController
     public function index()
     {
         if (permission('refvaccineadult-access')) {
-            $this->setPageData('RefVaccineAdult', 'RefVaccineAdult', 'fas fa-th-list');
+            $this->setPageData('Vaccine Adult', 'Vaccine Adult', 'fas fa-th-list');
             return view('refvaccineadult::index');
         } else {
             return $this->unauthorized_access_blocked();

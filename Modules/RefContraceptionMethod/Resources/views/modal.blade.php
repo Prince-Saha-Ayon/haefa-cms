@@ -20,7 +20,7 @@
                     {{-- <input type="hidden" name="update_id" id="update_id"/> --}}
                     <input type="hidden" name="ContraceptionMethodId" value="" id="ContraceptionMethodId"/>
                      <input type="hidden" name="SortOrder" value="1" />
-                    <x-form.textbox labelName="Contraception Method Code" name="ContraceptionMethodCode" id="ContraceptionMethodCode" required col="col-md-12"  placeholder="Enter Contraception Method Code"/>
+                    <x-form.textbox labelName="Contraception Method Code" name="ContraceptionMethodCode" id="ContraceptionMethodCode" required="required" col="col-md-12"  placeholder="Enter Contraception Method Code"/>
                     <x-form.textbox labelName="Description" name="Description" id="Description"  col="col-md-12"  placeholder="Enter Description"/>
                 </div>
             </div>
