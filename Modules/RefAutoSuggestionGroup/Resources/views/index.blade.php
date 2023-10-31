@@ -5,63 +5,7 @@
 @endsection
 
 @push('stylesheet')
-    <style>
-#prescription .container {
-  background-color: #f2f2f2 !important;
-}
-
-.header p {
-  font-size: 14px;
-}
-.aside {
-  width: 400px;
-  border-right: 1px solid #ddd;
-  min-height: 600px;
-  padding-bottom: 20px;
-}
-
-.signatureImage {
-  display: inline-block;
-  width: 100px;
-  object-fit: contain;
-  margin-bottom: 5px;
-}
-.signatureBox {
-  position: absolute;
-  right: 50px;
-  bottom: 30px;
-}
-.footer {
-  padding-top: 20px;
-  padding-bottom: 20px;
-  border-top: 1px solid #ddd;
-}
-
-.footer p {
-  font-size: 14px;
-}
-.apiLogo {
-  max-width: 40px;
-  transform: translateY(-4px);
-  margin-left: 5px;
-}
-.logoText {
-  font-size: 14px;
-}
-.nextinfo {
-  margin-top: 150px;
-}
-
-@media (max-width: 767px){
-    #prescription, .logoText, address p, .header p{
-        font-size: 12px !important;
-    }
-    .header h4{
-        font-size: 18px !important;
-    }
-
-}
-    </style>
+ 
 @endpush
 
 @section('content')
@@ -87,7 +31,7 @@
                 </div>
                 <!-- /entry heading -->
                 @if (permission('refautosuggestiongroup-add'))
-                <button class="btn btn-primary btn-sm" onclick="showFormModal('Add refautosuggestiongroup','Save');removeId()">
+                <button class="btn btn-primary btn-sm" onclick="showFormModal('Add autosuggestiongroup','Save');removeId()">
                     <i class="fas fa-plus-square"></i> Add New
                  </button>
                 @endif
@@ -104,8 +48,8 @@
                     <form id="form-filter">
                         <div class="row">
                             <div class="form-group col-md-4">
-                                <label for="name">RefAutoSuggestionGroupCode</label>
-                                <input type="text" class="form-control" name="name" id="name" placeholder="Enter RefAutoSuggestionGroupCode">
+                                <label for="name">AutoSuggestion Group Code</label>
+                                <input type="text" class="form-control" name="name" id="name" placeholder="Enter AutoSuggestion Group Code">
                             </div>
                             <div class="form-group col-md-8 pt-24">
                                <button type="button" class="btn btn-danger btn-sm float-right" id="btn-reset"
@@ -131,7 +75,7 @@
                                 </th>
                                 @endif
                                 <th>Sl</th>
-                                <th>RefAutoSuggestionGroupCode</th>
+                                <th>AutoSuggestion Group Code</th>
                                 <th>Description</th>
                                 <th>Action</th>
                             </tr>
@@ -290,7 +234,7 @@ $(document).ready(function(){
                         backdrop: 'static',
                     });
                     $('#view_modal .modal-title').html(
-                        '<i class="fas fa-eye"></i> <span>refautosuggestiongroup</span>');
+                        '<i class="fas fa-eye"></i> <span>autosuggestion group</span>');
                 },
                 error: function (xhr, ajaxOption, thrownError) {
                     console.log(thrownError + '\r\n' + xhr.statusText + '\r\n' + xhr.responseText);

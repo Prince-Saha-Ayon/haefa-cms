@@ -21,8 +21,8 @@
                     <input type="hidden" name="DrugId" value="" id="DrugId"/>
                      <input type="hidden" name="SortOrder" value="1" />
 
-                    <x-form.textbox labelName="DrugCode" name="DrugCode" id="DrugCode" required col="col-md-12"  placeholder="Enter Drug Code"/>
-                   <x-form.selectbox labelName="Drug Group" name="DrugGroupId" id="DrugGroupId"
+                    <x-form.textbox labelName="Drug Code" name="DrugCode" id="DrugCode" required="required" col="col-md-12"  placeholder="Enter Drug Code"/>
+                   <x-form.selectbox labelName="Drug Group" required="required" name="DrugGroupId" id="DrugGroupId"
                                 col="col-md-12" class="selectpicker">
                                 @foreach($drug_group as $dg)
                                 <option value="{{$dg->DrugGroupId??''}}">
@@ -30,7 +30,7 @@
                                 </option>
                                 @endforeach
                     </x-form.selectbox>
-                     <x-form.selectbox labelName="Drug Form" name="DrugFormId" id="DrugFormId"
+                     <x-form.selectbox labelName="Drug Form" required="required" name="DrugFormId" id="DrugFormId"
                                 col="col-md-12" class="selectpicker">
                                 @foreach($drug_form as $df)
                                 <option value="{{$df->DrugFormId??''}}">
@@ -38,7 +38,7 @@
                                 </option>
                                 @endforeach
                     </x-form.selectbox>
-                     <x-form.textbox labelName="DrugDose" name="DrugDose" id="DrugDose"  col="col-md-12"  placeholder="Enter DrugDose"/>
+                     <x-form.textbox labelName="Drug Dose" name="DrugDose" id="DrugDose"  col="col-md-12"  placeholder="Enter DrugDose"/>
                  
                     <x-form.textbox labelName="Description" name="Description" id="Description"  col="col-md-12"  placeholder="Enter Description"/>
                 </div>

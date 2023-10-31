@@ -21,7 +21,7 @@
                     <input type="hidden" name="FrequencyId" value="" id="FrequencyId"/>
                      <input type="hidden" name="SortOrder" value="1" />
 
-                    <x-form.textbox labelName="Frequency Code" name="FrequencyCode" id="FrequencyCode" required col="col-md-12"  placeholder="Enter Frequency Code"/>
+                    <x-form.textbox labelName="Frequency Code" name="FrequencyCode" id="FrequencyCode" required="required" col="col-md-12"  placeholder="Enter Frequency Code"/>
                      <x-form.textbox labelName="Frequency In English" name="FrequencyInEnglish" id="FrequencyInEnglish"  col="col-md-12"  placeholder="Enter Frequency In English"/>
                     <x-form.textbox labelName="Frequency In Bangla" name="FrequencyInBangla" id="FrequencyInBangla" required col="col-md-12"  placeholder="Enter Frequency In Bangla"/>
                     <x-form.textbox labelName="Description" name="Description" id="Description"  col="col-md-12"  placeholder="Enter Description"/>

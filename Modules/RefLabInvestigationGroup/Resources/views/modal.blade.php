@@ -20,7 +20,7 @@
                     {{-- <input type="hidden" name="update_id" id="update_id"/> --}}
                     <input type="hidden" name="RefLabInvestigationGroupId" value="" id="RefLabInvestigationGroupId"/>
                      <input type="hidden" name="SortOrder" value="1" />
-                    <x-form.textbox labelName="RefLabInvestigationGroup Code" name="RefLabInvestigationGroupCode" id="RefLabInvestigationGroupCode" required col="col-md-12"  placeholder="Enter RefLabInvestigationGroup Code"/>
+                    <x-form.textbox labelName="LabInvestigationGroup Code" name="RefLabInvestigationGroupCode" id="RefLabInvestigationGroupCode" required="required" col="col-md-12"  placeholder="Enter LabInvestigationGroup Code"/>
                 
                     <x-form.textbox labelName="Description" name="Description" id="Description"  col="col-md-12"  placeholder="Enter Description"/>
                 </div>

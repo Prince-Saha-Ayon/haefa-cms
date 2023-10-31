@@ -26,7 +26,7 @@ class RefBloodGroupController extends BaseController
     public function index()
     {
         if(permission('refbloodgroup-access')){
-            $this->setPageData('RefBloodGroup','RefBloodGroup','fas fa-th-list');
+            $this->setPageData('Blood Group','Blood Group','fas fa-th-list');
             return view('refbloodgroup::index');
         }else{
             return $this->unauthorized_access_blocked();

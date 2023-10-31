@@ -26,7 +26,7 @@ class RefBiopsyResultController extends BaseController
     public function index()
     {
         if(permission('refbiopsyresult-access')){
-            $this->setPageData('RefBiopsyResult','RefBiopsyResult','fas fa-th-list');
+            $this->setPageData('Biopsy Result','Biopsy Result','fas fa-th-list');
             return view('refbiopsyresult::index');
         }else{
             return $this->unauthorized_access_blocked();

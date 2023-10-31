@@ -26,7 +26,7 @@ class RefMaritalStatusController extends BaseController
     public function index()
     {
         if(permission('refmaritalstatus-access')){
-            $this->setPageData('RefMaritalStatus','RefMaritalStatus','fas fa-th-list');
+            $this->setPageData('MaritalStatus','MaritalStatus','fas fa-th-list');
             return view('refmaritalstatus::index');
         }else{
             return $this->unauthorized_access_blocked();

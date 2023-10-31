@@ -26,7 +26,7 @@ class RefCancerTreatmentController extends BaseController
     public function index()
     {
         if(permission('refcancertreatment-access')){
-            $this->setPageData('RefCancerTreatment','RefCancerTreatment','fas fa-th-list');
+            $this->setPageData('Cancer Treatment','Cancer Treatment','fas fa-th-list');
             return view('refcancertreatment::index');
         }else{
             return $this->unauthorized_access_blocked();

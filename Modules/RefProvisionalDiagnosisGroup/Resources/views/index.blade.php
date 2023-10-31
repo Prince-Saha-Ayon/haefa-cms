@@ -5,63 +5,7 @@
 @endsection
 
 @push('stylesheet')
-    <style>
-#prescription .container {
-  background-color: #f2f2f2 !important;
-}
-
-.header p {
-  font-size: 14px;
-}
-.aside {
-  width: 400px;
-  border-right: 1px solid #ddd;
-  min-height: 600px;
-  padding-bottom: 20px;
-}
-
-.signatureImage {
-  display: inline-block;
-  width: 100px;
-  object-fit: contain;
-  margin-bottom: 5px;
-}
-.signatureBox {
-  position: absolute;
-  right: 50px;
-  bottom: 30px;
-}
-.footer {
-  padding-top: 20px;
-  padding-bottom: 20px;
-  border-top: 1px solid #ddd;
-}
-
-.footer p {
-  font-size: 14px;
-}
-.apiLogo {
-  max-width: 40px;
-  transform: translateY(-4px);
-  margin-left: 5px;
-}
-.logoText {
-  font-size: 14px;
-}
-.nextinfo {
-  margin-top: 150px;
-}
-
-@media (max-width: 767px){
-    #prescription, .logoText, address p, .header p{
-        font-size: 12px !important;
-    }
-    .header h4{
-        font-size: 18px !important;
-    }
-
-}
-    </style>
+ 
 @endpush
 
 @section('content')
@@ -87,7 +31,7 @@
                 </div>
                 <!-- /entry heading -->
                 @if (permission('refprovisionaldiagnosisgroup-add'))
-                <button class="btn btn-primary btn-sm" onclick="showFormModal('Add refprovisionaldiagnosisgroup','Save');removeId()">
+                <button class="btn btn-primary btn-sm" onclick="showFormModal('Add provisionaldiagnosisgroup','Save');removeId()">
                     <i class="fas fa-plus-square"></i> Add New
                  </button>
                 @endif
@@ -104,8 +48,8 @@
                     <form id="form-filter">
                         <div class="row">
                             <div class="form-group col-md-4">
-                                <label for="name">RefProvisionalDiagnosisGroup</label>
-                                <input type="text" class="form-control" name="name" id="name" placeholder="Enter RefProvisionalDiagnosisGroup">
+                                <label for="name">ProvisionalDiagnosis Group</label>
+                                <input type="text" class="form-control" name="name" id="name" placeholder="Enter ProvisionalDiagnosisGroup">
                             </div>
                             <div class="form-group col-md-8 pt-24">
                                <button type="button" class="btn btn-danger btn-sm float-right" id="btn-reset"
@@ -131,7 +75,7 @@
                                 </th>
                                 @endif
                                 <th>Sl</th>
-                                <th>RefProvisionalDiagnosisGroupCode</th>
+                                <th>ProvisionalDiagnosis Group Code</th>
                                 <th>Category</th>
                                 <th>CommonTerm</th>
                                 <th>Action</th>
@@ -406,7 +350,7 @@ $(document).on('click', '.edit_data', function () {
                     backdrop: 'static',
                 });
                 $('#store_or_update_modal .modal-title').html(
-                    '<i class="fas fa-edit"></i> <span>Edit refprovisionaldiagnosisgroup</span>');
+                    '<i class="fas fa-edit"></i> <span>Edit provisionaldiagnosisgroup</span>');
                 $('#store_or_update_modal #save-btn').text('Update');
 
             },

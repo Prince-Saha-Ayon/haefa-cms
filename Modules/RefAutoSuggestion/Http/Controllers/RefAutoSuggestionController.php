@@ -29,7 +29,7 @@ class RefAutoSuggestionController extends BaseController
         if(permission('refautosuggestion-access')){
             $sug_group=RefAutoSuggestionGroup::get();
           
-            $this->setPageData('RefAutoSuggestion','RefAutoSuggestion','fas fa-th-list');
+            $this->setPageData('AutoSuggestion','AutoSuggestion','fas fa-th-list');
             return view('refautosuggestion::index',compact('sug_group'));
         }else{
             return $this->unauthorized_access_blocked();
