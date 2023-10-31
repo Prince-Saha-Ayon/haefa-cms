@@ -20,7 +20,7 @@
                     {{-- <input type="hidden" name="update_id" id="update_id"/> --}}
                     <input type="hidden" name="RefAutoSuggestionGroupId" value="" id="RefAutoSuggestionGroupId"/>
                      <input type="hidden" name="SortOrder" value="1" />
-                    <x-form.textbox labelName="RefAutoSuggestionGroupCode" name="RefAutoSuggestionGroupCode" id="RefAutoSuggestionGroupCode" required col="col-md-12"  placeholder="Enter RefAutoSuggestionGroupCode"/>
+                    <x-form.textbox labelName="AutoSuggestion Group Code" name="RefAutoSuggestionGroupCode" id="RefAutoSuggestionGroupCode" required="required" col="col-md-12"  placeholder="Enter AutoSuggestion Group Code"/>
                     <x-form.textbox labelName="Description" name="Description" id="Description"  col="col-md-12"  placeholder="Enter Description"/>
                 </div>
             </div>

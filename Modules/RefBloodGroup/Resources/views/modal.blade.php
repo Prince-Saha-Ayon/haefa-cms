@@ -20,7 +20,7 @@
                     {{-- <input type="hidden" name="update_id" id="update_id"/> --}}
                     <input type="hidden" name="RefBloodGroupId" value="" id="RefBloodGroupId"/>
                      <input type="hidden" name="SortOrder" value="1" />
-                    <x-form.textbox labelName="Blood Group" name="BloodGroupCode" id="BloodGroupCode" required="required" col="col-md-12" required="required" placeholder="Enter Blood Group"/>
+                    <x-form.textbox labelName="Blood Group" name="BloodGroupCode" id="BloodGroupCode" required="required" col="col-md-12" placeholder="Enter Blood Group"/>
                 </div>
             </div>
             <!-- /modal body -->

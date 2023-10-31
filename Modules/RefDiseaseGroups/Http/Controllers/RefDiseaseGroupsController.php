@@ -26,7 +26,7 @@ class RefDiseaseGroupsController extends BaseController
     public function index()
     {
         if(permission('refdiseasegroups-access')){
-            $this->setPageData('RefDiseaseGroups','RefDiseaseGroups','fas fa-th-list');
+            $this->setPageData('DiseaseGroups','DiseaseGroups','fas fa-th-list');
             return view('refdiseasegroups::index');
         }else{
             return $this->unauthorized_access_blocked();

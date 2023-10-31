@@ -31,7 +31,7 @@ class RefDrugController extends BaseController
         if(permission('refdrug-access')){
             $drug_group=RefDrugGroup::get();
             $drug_form=RefDrugForm::get();
-            $this->setPageData('RefDrug','RefDrug','fas fa-th-list');
+            $this->setPageData('Drug','Drug','fas fa-th-list');
             return view('refdrug::index',compact('drug_form','drug_group'));
         }else{
             return $this->unauthorized_access_blocked();

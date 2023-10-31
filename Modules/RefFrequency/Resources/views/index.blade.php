@@ -5,63 +5,7 @@
 @endsection
 
 @push('stylesheet')
-    <style>
-#prescription .container {
-  background-color: #f2f2f2 !important;
-}
-
-.header p {
-  font-size: 14px;
-}
-.aside {
-  width: 400px;
-  border-right: 1px solid #ddd;
-  min-height: 600px;
-  padding-bottom: 20px;
-}
-
-.signatureImage {
-  display: inline-block;
-  width: 100px;
-  object-fit: contain;
-  margin-bottom: 5px;
-}
-.signatureBox {
-  position: absolute;
-  right: 50px;
-  bottom: 30px;
-}
-.footer {
-  padding-top: 20px;
-  padding-bottom: 20px;
-  border-top: 1px solid #ddd;
-}
-
-.footer p {
-  font-size: 14px;
-}
-.apiLogo {
-  max-width: 40px;
-  transform: translateY(-4px);
-  margin-left: 5px;
-}
-.logoText {
-  font-size: 14px;
-}
-.nextinfo {
-  margin-top: 150px;
-}
-
-@media (max-width: 767px){
-    #prescription, .logoText, address p, .header p{
-        font-size: 12px !important;
-    }
-    .header h4{
-        font-size: 18px !important;
-    }
-
-}
-    </style>
+  
 @endpush
 
 @section('content')
@@ -87,7 +31,7 @@
                 </div>
                 <!-- /entry heading -->
                 @if (permission('reffrequency-add'))
-                <button class="btn btn-primary btn-sm" onclick="showFormModal('Add reffrequency','Save');removeId()">
+                <button class="btn btn-primary btn-sm" onclick="showFormModal('Add frequency','Save');removeId()">
                     <i class="fas fa-plus-square"></i> Add New
                  </button>
                 @endif
@@ -131,9 +75,9 @@
                                 </th>
                                 @endif
                                 <th>Sl</th>
-                                <th>FrequencyCode</th>
-                                <th>FrequencyInEnglish</th>
-                                <th>FrequencyInBangla</th>
+                                <th>Frequency Code</th>
+                                <th>Frequency In English</th>
+                                <th>Frequency In Bangla</th>
                                 <th>Description</th>
                                 <th>Action</th>
                             </tr>
@@ -384,7 +328,7 @@ $(document).on('click', '.edit_data', function () {
             data: { id: id,_token: _token},
             dataType: "JSON",
             success: function (data) {
-                console.log(data);
+         
                 //$('#store_or_update_form #update_id').val(data.AddressTypeId);
                 $('#FrequencyInEnglish').val(data.FrequencyInEnglish);
                 $('#FrequencyId').val(data.FrequencyId);
@@ -407,7 +351,7 @@ $(document).on('click', '.edit_data', function () {
                     backdrop: 'static',
                 });
                 $('#store_or_update_modal .modal-title').html(
-                    '<i class="fas fa-edit"></i> <span>Edit reffrequency</span>');
+                    '<i class="fas fa-edit"></i> <span>Edit frequency</span>');
                 $('#store_or_update_modal #save-btn').text('Update');
 
             },

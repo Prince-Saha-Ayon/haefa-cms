@@ -26,7 +26,7 @@ class RefFrequencyController extends BaseController
     public function index()
     {
         if(permission('reffrequency-access')){
-            $this->setPageData('RefFrequency','RefFrequency','fas fa-th-list');
+            $this->setPageData('Frequency','Frequency','fas fa-th-list');
             return view('reffrequency::index');
         }else{
             return $this->unauthorized_access_blocked();
