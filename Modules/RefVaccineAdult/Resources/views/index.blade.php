@@ -5,7 +5,7 @@
 @endsection
 
 @push('stylesheet')
-   
+  
 @endpush
 
 @section('content')
@@ -24,15 +24,14 @@
 
             <!-- Entry Header -->
             <div class="dt-entry__header">
-
+            
                 <!-- Entry Heading -->
                 <div class="dt-entry__heading">
                     <h2 class="dt-page__title mb-0 text-primary"><i class="{{ $page_icon }}"></i> {{ $sub_title }}</h2>
                 </div>
                 <!-- /entry heading -->
-
                 @if (permission('refvaccineadult-add'))
-                <button class="btn btn-primary btn-sm" onclick="showFormModal('Add vaccine Adult','Save'); removeId()">
+                <button class="btn btn-primary btn-sm" onclick="showFormModal('Add vaccine adult','Save');removeId()">
                     <i class="fas fa-plus-square"></i> Add New
                  </button>
                 @endif
@@ -76,8 +75,11 @@
                                 </th>
                                 @endif
                                 <th>Sl</th>
-                                <th>VaccineCode</th>
-                                <th>Vaccine Dose Number</th>
+                                <th>Vaccine Code</th>
+                                <th>Instruction</th>
+                                <th>Vaccine Dose Group</th>
+                                <th>Vaccine Dose</th>
+                                <th>Description</th>
                                 <th>Action</th>
                             </tr>
                         </thead>
@@ -97,8 +99,8 @@
     <!-- /grid -->
 
 </div>
-@include('refvaccineadult::view-modal')
-@include('refvaccineadult::add-edit-modal')
+@include('refvaccineadult::modal')
+{{-- @include('refvaccineadult::add-edit-modal') --}}
 @endsection
 
 @push('script')
@@ -114,7 +116,7 @@ $(document).ready(function(){
         "bInfo": true, //TO show the total number of data
         "bFilter": false, //For datatable default search box show/hide
         "pageLength": 10, //number of data show per page
-        "language": {
+        "language": { 
             processing: `<i class="fas fa-spinner fa-spin fa-3x fa-fw text-primary"></i> `,
             emptyTable: '<strong class="text-danger">No Data Found</strong>',
             infoEmpty: '',
@@ -130,8 +132,8 @@ $(document).ready(function(){
         },
         "columnDefs": [{
                 @if (permission('refvaccineadult-bulk-delete'))
-                "targets": [0,4],
-                @else
+                "targets": [0,6],
+                @else 
                 "targets": [3],
                 @endif
                 "orderable": false,
@@ -139,8 +141,8 @@ $(document).ready(function(){
             },
             {
                 @if (permission('refvaccineadult-bulk-delete'))
-                "targets": [1,3],
-                @else
+                "targets": [1,6],
+                @else 
                 "targets": [0,2],
                 @endif
                 "className": "text-center"
@@ -152,34 +154,34 @@ $(document).ready(function(){
 
         "buttons": [
             @if (permission('refvaccineadult-report'))
-            // {
-            //     'extend':'colvis','className':'btn btn-secondary btn-sm text-white','text':'Column'
-            // },
-            // {
-            //     "extend": 'excel',
-            //     'text':'Excel',
-            //     'className':'btn btn-secondary btn-sm text-white',
-            //     "title": "Menu List",
-            //     "filename": "Refvaccineadult",
-            //     "exportOptions": {
-            //         columns: function (index, data, node) {
-            //             return table.column(index).visible();
-            //         }
-            //     }
-            // },
-            // {
-            //     "extend": 'pdf',
-            //     'text':'PDF',
-            //     'className':'btn btn-secondary btn-sm text-white',
-            //     "title": "Menu List",
-            //     "filename": "Refvaccineadult",
-            //     "orientation": "landscape", //portrait
-            //     "pageSize": "A4", //A3,A5,A6,legal,letter
-            //     "exportOptions": {
-            //         columns: [1, 2, 3]
-            //     },
-            // },
-            @endif
+            {
+                'extend':'colvis','className':'btn btn-secondary btn-sm text-white','text':'Column'
+            },
+            {
+                "extend": 'excel',
+                'text':'Excel',
+                'className':'btn btn-secondary btn-sm text-white',
+                "title": "Menu List",
+                "filename": "refchief",
+                "exportOptions": {
+                    columns: function (index, data, node) {
+                        return table.column(index).visible();
+                    }
+                }
+            },
+            {
+                "extend": 'pdf',
+                'text':'PDF',
+                'className':'btn btn-secondary btn-sm text-white',
+                "title": "Menu List",
+                "filename": "refchief",
+                "orientation": "landscape", //portrait
+                "pageSize": "A4", //A3,A5,A6,legal,letter
+                "exportOptions": {
+                    columns: [1, 2, 3]
+                },
+            },
+            @endif 
             @if (permission('refvaccineadult-bulk-delete'))
             {
                 'className':'btn btn-danger btn-sm delete_btn d-none text-white',
@@ -205,97 +207,17 @@ $(document).ready(function(){
         let form = document.getElementById('store_or_update_form');
         let formData = new FormData(form);
         let url = "{{route('refvaccineadult.store.or.update')}}";
-        let id = $('#VaccineId').val();
+        let id = $('#update_id').val();
         let method;
         if (id) {
             method = 'update';
         } else {
             method = 'add';
         }
-        $.ajax({
-            url: url,
-            type: "POST",
-            data: formData,
-            dataType: "JSON",
-            contentType: false,
-            processData: false,
-            cache: false,
-            beforeSend: function(){
-                $('#save-btn').addClass('kt-spinner kt-spinner--md kt-spinner--light');
-            },
-            complete: function(){
-                $('#save-btn').removeClass('kt-spinner kt-spinner--md kt-spinner--light');
-            },
-            success: function (data) {
-                console.log(data);
-                $('#store_or_update_form').find('.is-invalid').removeClass('is-invalid');
-                $('#store_or_update_form').find('.error').remove();
-                if (data.status == false) {
-
-                    $.each(data.errors, function (key, value) {
-                        $('#store_or_update_form input#' + key).addClass('is-invalid');
-                        $('#store_or_update_form textarea#' + key).addClass('is-invalid');
-                        $('#store_or_update_form select#' + key).parent().addClass('is-invalid');
-                        if(key == 'code'){
-                            $('#store_or_update_form #' + key).parents('.form-group').append(
-                                '<small class="error text-danger">' + value + '</small>');
-                        }else{
-                            $('#store_or_update_form #' + key).parent().append(
-                                '<small class="error text-danger">' + value + '</small>');
-                        }
-
-                    });
-
-                } else {
-                    notification(data.status, data.message);
-                    if (data.status == 'success') {
-                        if (method == 'update') {
-                            table.ajax.reload(null, false);
-                        } else {
-                            table.ajax.reload();
-                        }
-                        $('#store_or_update_modal').modal('hide');
-                        $(this).find('#store_or_update_modal').trigger('reset');
-                        document.getElementById('content').innerHTML = '';
-
-                    }
-
-                }
-
-            },
-            error: function(jqXHR, textStatus, errorThrown) { // What to do if we fail
-
-                if(jqXHR.status === 422) {
-                    var errors = $.parseJSON(jqXHR.responseText);
-                    $.each(errors.errors, function (key, value) {
-                        $('#store_or_update_form input#' + key).addClass('is-invalid');
-                        $('#store_or_update_form textarea#' + key).addClass('is-invalid');
-                        $('#store_or_update_form select#' + key).parent().addClass('is-invalid');
-                        if(key == 'code'){
-                            $('#store_or_update_form #' + key).parents('.form-group').append(
-                                '<small class="error text-danger">' + value + '</small>');
-                        }else{
-                            $('#store_or_update_form #' + key).parent().append(
-                                '<small class="error text-danger">' + value + '</small>');
-                        }
-
-                    });
-                }
-
-                if (jqXHR.status === 403) {
-                    Swal.fire({
-                        title: "Errr!",
-                        text: 'You do not have the right permission!',
-                        icon: "danger",
-                        width:400,
-                        button: "Ok!",
-                    });
-                }
-            }
-
-
-        });
+        store_or_update_data(table, method, url, formData);
     });
+
+    
 
     $(document).on('click', '.view_data', function () {
         let id = $(this).data('id');
@@ -315,7 +237,7 @@ $(document).ready(function(){
                         backdrop: 'static',
                     });
                     $('#view_modal .modal-title').html(
-                        '<i class="fas fa-eye"></i> <span>Refvaccine</span>');
+                        '<i class="fas fa-eye"></i> <span>refvaccineadult</span>');
                 },
                 error: function (xhr, ajaxOption, thrownError) {
                     console.log(thrownError + '\r\n' + xhr.statusText + '\r\n' + xhr.responseText);
@@ -324,17 +246,15 @@ $(document).ready(function(){
         }
     });
 
-
-
     $(document).on('click', '.delete_data', function () {
-        let RefvaccineId    = $(this).data('id');
+        let id    = $(this).data('id');
         // let name  = $(this).data('name');
-        let name  = "Refvaccineadult";
-        console.log(name);
+        let name  = "refvaccineadult";
+    
         let row   = table.row($(this).parent('tr'));
         let url   = "{{ route('refvaccineadult.delete') }}";
-        let response = delete_data(RefvaccineId, url, table, row, name);
-
+        let response = delete_data(id, url, table, row, name);
+        
     });
 
     function multi_delete(){
@@ -357,41 +277,41 @@ $(document).ready(function(){
         }
     }
 
-    $(document).on('click', '.change_status', function () {
-        let RefvaccineId    = $(this).data('id');
-        let Status    = $(this).data('status');
-        let name  = $(this).data('name');
-        let row   = table.row($(this).parent('tr'));
-        let url   = "{{ route('refvaccineadult.change.status') }}";
-        Swal.fire({
-            title: 'Are you sure to change ' + name + ' status?',
-            icon: 'warning',
-            showCancelButton: true,
-            confirmButtonColor: '#3085d6',
-            cancelButtonColor: '#d33',
-            confirmButtonText: 'Yes!'
-        }).then((result) => {
-            if (result.value) {
-                $.ajax({
-                    url: url,
-                    type: "POST",
-                    data: { RefvaccineId: RefvaccineId,Status:Status, _token: _token},
-                    dataType: "JSON",
-                }).done(function (response) {
-                    if (response.status == "success") {
-                        Swal.fire("Status Changed", response.message, "success").then(function () {
-                            table.ajax.reload(null, false);
-                        });
-                    }
-                    if (response.status == "error") {
-                        Swal.fire('Oops...', response.message, "error");
-                    }
-                }).fail(function () {
-                    Swal.fire('Oops...', "Somthing went wrong with ajax!", "error");
-                });
-            }
-        });
+});
 
+$(document).on('click', '.change_status', function () {
+    let GenderId    = $(this).data('id');
+    let Status    = $(this).data('status');
+    let name  = $(this).data('name');
+    let row   = table.row($(this).parent('tr'));
+    let url   = "{{ route('refvaccineadult.change.status') }}";
+    Swal.fire({
+        title: 'Are you sure to change ' + name + ' status?',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Yes!'
+    }).then((result) => {
+        if (result.value) {
+            $.ajax({
+                url: url,
+                type: "POST",
+                data: { GenderId: GenderId,Status:Status, _token: _token},
+                dataType: "JSON",
+            }).done(function (response) {
+                if (response.status == "success") {
+                    Swal.fire("Status Changed", response.message, "success").then(function () {
+                        table.ajax.reload(null, false);
+                    });
+                }
+                if (response.status == "error") {
+                    Swal.fire('Oops...', response.message, "error");
+                }
+            }).fail(function () {
+                Swal.fire('Oops...', "Somthing went wrong with ajax!", "error");
+            });
+        }
     });
 
 });
@@ -401,7 +321,7 @@ $(document).on('click', '.edit_data', function () {
     $('#store_or_update_form')[0].reset();
     // $('#store_or_update_form').find('.is-invalid').removeClass('is-invalid');
     // $('#store_or_update_form').find('.error').remove();
-
+    
     if (id) {
         $.ajax({
             url: "{{route('refvaccineadult.edit')}}",
@@ -410,21 +330,46 @@ $(document).on('click', '.edit_data', function () {
             dataType: "JSON",
             success: function (data) {
                 console.log(data);
-                // $('#DepartmentCode').val(data.designation[0].DepartmentCode);
-                // $('#DesignationTitle').val(data.designation[0].DesignationTitle);
-                $('#Description').val(data.designation[0].Description);
-                $('#RefvaccineId').val(data.designation[0].RefvaccineId);
-                // $('#RefDepartmentId').val(data.departments[0].RefDepartmentId);
-                // $('#WorkPlaceId').val(data.departments[0].WorkPlaceId);
-                $('#store_or_update_form .selectpicker').selectpicker('refresh');
+                //$('#store_or_update_form #update_id').val(data.AddressTypeId);
+                $('#VaccineId').val(data.VaccineId);
+             
+                $('#VaccineCode').val(data.VaccineCode);
+              
+                $('#VaccineDoseNumber').val(data.VaccineDoseNumber);
+                $('#Instruction').val(data.Instruction);
+                $('#Description').val(data.Description);
+                var status = data.Status;
+                if(status=='1'){
+                    $('#activeCheckbox').prop('checked',true);
+                }else{
+                    $('#inactiveCheckbox').prop('checked', true);
+                }
+                var VaccineDoseGroupId = data.VaccineDoseGroupId;
+              
+
+                // Set the selected option in the select box
+                $("#VaccineDoseGroupId option").each(function() {
+                    if ($(this).val() == VaccineDoseGroupId) {
+                        $(this).prop("selected", true);
+                    }
+                });
+
+                // Set the value in the input field
+                $("#VaccineDoseGroupId").val(VaccineDoseGroupId);
+
+                // Update the selectpicker to reflect the changes
+                $("#VaccineDoseGroupId").selectpicker('refresh');
+
+
 
                 $('#store_or_update_modal').modal({
                     keyboard: false,
                     backdrop: 'static',
                 });
                 $('#store_or_update_modal .modal-title').html(
-                    '<i class="fas fa-edit"></i> <span>Edit vaccine</span>');
+                    '<i class="fas fa-edit"></i> <span>Edit drug</span>');
                 $('#store_or_update_modal #save-btn').text('Update');
+
             },
             error: function (xhr, ajaxOption, thrownError) {
                 console.log(thrownError + '\r\n' + xhr.statusText + '\r\n' + xhr.responseText);
@@ -433,9 +378,9 @@ $(document).on('click', '.edit_data', function () {
     }
 });
 
-
 function removeId(){
-    $('#RefvaccineId').val('');
+    $('#VaccineId').val('');
 }
+
 </script>
 @endpush

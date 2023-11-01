@@ -3,11 +3,12 @@
 namespace Modules\Union\Entities;
 
 use Modules\Base\Entities\BaseModel;
+use Modules\Upazila\Entities\Upazila;
 
 class Union extends BaseModel
 {
     protected $table = 'unions';
-    protected $primaryKey = 'id';
+   
     public $timestamps = false;
 
     protected $fillable = ['id','upazilla_id','name','bn_name','url'];
@@ -20,7 +21,9 @@ class Union extends BaseModel
     {
         $this->name = $name;
     }
-
+     public function upazilla(){
+        return $this->BelongsTo(Upazila::class,'upazilla_id','id');
+    }
     private function get_datatable_query()
     {
         if(permission('union-bulk-delete')){
@@ -30,7 +33,8 @@ class Union extends BaseModel
             $this->column_order = ['name',null];
         }
 
-        $query = self::toBase();
+     
+        $query = self::with(['upazilla']);
 
         /*****************
             * *Search Data **

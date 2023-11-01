@@ -5,63 +5,7 @@
 @endsection
 
 @push('stylesheet')
-    <style>
-#prescription .container {
-  background-color: #f2f2f2 !important;
-}
-
-.header p {
-  font-size: 14px;
-}
-.aside {
-  width: 400px;
-  border-right: 1px solid #ddd;
-  min-height: 600px;
-  padding-bottom: 20px;
-}
-
-.signatureImage {
-  display: inline-block;
-  width: 100px;
-  object-fit: contain;
-  margin-bottom: 5px;
-}
-.signatureBox {
-  position: absolute;
-  right: 50px;
-  bottom: 30px;
-}
-.footer {
-  padding-top: 20px;
-  padding-bottom: 20px;
-  border-top: 1px solid #ddd;
-}
-
-.footer p {
-  font-size: 14px;
-}
-.apiLogo {
-  max-width: 40px;
-  transform: translateY(-4px);
-  margin-left: 5px;
-}
-.logoText {
-  font-size: 14px;
-}
-.nextinfo {
-  margin-top: 150px;
-}
-
-@media (max-width: 767px){
-    #prescription, .logoText, address p, .header p{
-        font-size: 12px !important;
-    }
-    .header h4{
-        font-size: 18px !important;
-    }
-
-}
-    </style>
+   
 @endpush
 
 @section('content')
@@ -132,6 +76,7 @@
                                 @endif
                                 <th>Sl</th>
                                 <th>Upazila Name</th>
+                                <th>District Name</th>
                                 <!-- <th>Status</th> -->
                                 <th>Action</th>
                             </tr>
@@ -260,7 +205,7 @@ $(document).ready(function(){
         let form = document.getElementById('store_or_update_form');
         let formData = new FormData(form);
         let url = "{{route('upazila.store.or.update')}}";
-        let id = $('#Id').val();
+        let id = $('#id').val();
         let method;
         if (id) {
             method = 'update';
@@ -384,12 +329,28 @@ $(document).on('click', '.edit_data', function () {
             success: function (data) {
                 console.log(data);
                 //$('#store_or_update_form #update_id').val(data.AddressTypeId);
+                $('#store_or_update_form #name').val(data.name);
                 $('#name').val(data.name);
                 $('#url').val(data.url);
                 $('#district_id').val(data.district_id);
                 $('#bn_name').val(data.bn_name);
-                $('#Id').val(data.id);
-                $('.selectpicker').selectpicker('refresh');
+                $('#store_or_update_form #id').val(data.id);
+                 var district_id = data.district_id;
+              
+
+                // Set the selected option in the select box
+                $("#district_id option").each(function() {
+                    if ($(this).val() == district_id) {
+                        $(this).prop("selected", true);
+                    }
+                });
+
+                // Set the value in the input field
+                $("#district_id").val(district_id);
+
+                // Update the selectpicker to reflect the changes
+                $("#district_id").selectpicker('refresh');
+             
                 //$('#store_or_update_form #AddressTypeCode').val(data.AddressTypeCode);
 
                 $('#store_or_update_modal').modal({
@@ -409,7 +370,7 @@ $(document).on('click', '.edit_data', function () {
 });
 
 function removeId(){
-    $('#Id').val('');
+    $('#store_or_update_form #id').val('');
 }
 
 </script>
