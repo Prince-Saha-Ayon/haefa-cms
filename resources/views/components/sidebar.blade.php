@@ -8,11 +8,11 @@
                   @if ($menu->children->isEmpty())
                     @if ($menu->type == 1)
                     <li class="dt-side-nav__item dt-side-nav__header">
-                      <span class="dt-side-nav__text">{{ $menu->divider_title }}</span>
+                      <span class="dt-side-nav__text ">{{ $menu->divider_title }}</span>
                     </li> 
                     @else
                     <li class="dt-side-nav__item {{ request()->is($menu->url) ? 'selected' : '' }}">
-                      <a href="{{ $menu->url ? url($menu->url) : 'javascript:void();' }}" class="dt-side-nav__link {{ request()->is($menu->url) ? 'active' : '' }}"
+                      <a href="{{ $menu->url ? url($menu->url) : 'javascript:void();' }}" class="dt-side-nav__link navDashboard {{ request()->is($menu->url) ? 'active' : '' }}"
                          title="{{ $menu->module_name }}"> <i
                               class="{{ $menu->icon_class }}"></i>
                           <span class="dt-side-nav__text">{{ $menu->module_name }}</span> </a>

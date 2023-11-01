@@ -1850,7 +1850,7 @@ pre {
 }
 
 figure {
-    margin: 0 0 1rem
+    margin: 0 0 1rem;
 }
 
 img {
@@ -6504,7 +6504,6 @@ input[type="button"].btn-block {
     padding: 2.4rem 2.4rem;
     margin-bottom: 0;
     color: inherit;
-    background-color: rgba(0, 0, 0, 0.05);
     border-bottom: 0px solid transparent
 }
 
@@ -16525,7 +16524,8 @@ a:focus {
 .dt-module,
 .dt-card {
     position: relative;
-    box-shadow: 0 0 5px 5px rgba(0, 0, 0, 0.03);
+    /* box-shadow: 0 0 5px 5px rgba(0, 0, 0, 0.03); */
+    box-shadow: rgba(0, 0, 0, 0.05) 0px 10px 40px;
     margin-bottom: 3.2rem;
     background-color: #fff;
     border-radius: 1rem
@@ -16783,7 +16783,6 @@ a:focus {
 
 .dt-brand {
     width: 240px;
-    background-color: #00778ad9;
     color: #fff;
     padding: 0 2rem;
     display: -ms-flex;
@@ -16800,7 +16799,7 @@ a:focus {
     top: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(0, 0, 0, 0.3);
+    background-color: #fff;
     z-index: 1
 }
 
@@ -18763,7 +18762,9 @@ a:focus {
 
 .dt-card__body {
     padding: 2.4rem 2.4rem;
-    display: block
+    display: block;
+    box-shadow: rgba(0, 0, 0, 0.05) 0px 10px 40px;
+    border: 1px solid #e8e8e8 !important;
 }
 
 .dt-card__body+.dt-card__body,
@@ -18928,7 +18929,9 @@ a:focus {
 }
 
 .card {
-    box-shadow: 0 0 5px 5px rgba(0, 0, 0, 0.03);
+    /* box-shadow: 0 0 5px 5px rgba(0, 0, 0, 0.03); */
+    box-shadow: rgba(0, 0, 0, 0.05) 0px 10px 40px;
+    border: 1px solid #e8e8e8 !important;
     margin-bottom: 3.2rem
 }
 
@@ -27165,19 +27168,18 @@ div.dt-button-collection.dropdown-menu {
 } */
 
 
-
 .dt-sidebar {
     background-color: #fff;
     border-right: solid 1px #fff;
 }
 
-.dt-side-nav__item:nth-child(1) .dt-side-nav__link{
+.dt-side-nav__item:nth-child(1) .dt-side-nav__link.navDashboard{
     margin-top: 5px;
     transform: translateY(10px);
 }
 
-
 .dt-side-nav__link{
+    padding: 8px 30px 8px 40px;
     color: #333;
     font-weight: 500;
     font-family: 'Roboto', sans-serif !important;
@@ -27242,13 +27244,13 @@ div.dt-button-collection.dropdown-menu {
 
 
 
-
 /* Dashboard CSS here */
 .iconBox{
     background-color: rgba(0, 0, 0, 0.12);
     width: 90px;
     min-height: 90px;
     height: 100%;
+    flex-shrink: 0;
 }
 .iconBox i{
     color: #fff;
@@ -27256,6 +27258,7 @@ div.dt-button-collection.dropdown-menu {
 }
 .info_Item{
     background-color: #aaa !important;
+    box-shadow: rgba(0, 0, 0, 0.15) 0px 5px 15px 0px;
 }
 
 .bg1{
@@ -27269,6 +27272,12 @@ div.dt-button-collection.dropdown-menu {
 }
 .bg4{
     background-color: #FF9800 !important;
+}
+.bg5{
+    background-color: #6f2172 !important;
+}
+.bg6{
+    background-color: #4a4a9d !important;
 }
 
 
