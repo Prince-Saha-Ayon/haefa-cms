@@ -17,16 +17,60 @@
     <div class="row pt-5">
      {{-- Disease & branch wise patient count--}}
 
-        <div class="col-xl-3 col-sm-5 p-3">
-            <div class="dt-card dt-chart dt-card__full-height align-items-center pt-5">
-                <h4 class="text-black mt-1 p-2">Total Number of DM Patients</h4>
-                <h5 class="text-black mt-1 p-1">
-                    {{ $DM_count??0 }}
-                </h5>
+        <div class="col-xl-3 col-lg-3 col-sm-4">
+            <div class="info_Item bg1 d-flex align-items-center">
+                <div class="iconBox d-flex align-items-center justify-content-center">
+                    <i class="fa fa-address-book" aria-hidden="true"></i>
+                </div>
+                <div class="content p-3">
+                    <p class="text-black text-white text-uppercase mb-0">Total Number of DM Patients</p>
+                    <h1 class="text-black text-white mb-0">
+                        {{ $DM_count??0 }}
+                    </h1>
+                </div>
+            </div>
+        </div>
+        <div class="col-xl-3 col-lg-3 col-sm-4">
+            <div class="info_Item bg2 d-flex align-items-center">
+                <div class="iconBox d-flex align-items-center justify-content-center">
+                <i class="fa fa-flask" aria-hidden="true"></i>
+                </div>
+                <div class="content p-3">
+                    <p class="text-black text-white text-uppercase mb-0">Total Number of DM Patients</p>
+                    <h1 class="text-black text-white mb-0">
+                        {{ $DM_count??0 }}
+                    </h1>
+                </div>
+            </div>
+        </div>
+        <div class="col-xl-3 col-lg-3 col-sm-4">
+            <div class="info_Item bg3 d-flex align-items-center">
+                <div class="iconBox d-flex align-items-center justify-content-center">
+                <i class="fa fa-deaf" aria-hidden="true"></i>
+                </div>
+                <div class="content p-3">
+                    <p class="text-black text-white text-uppercase mb-0">Total Number of DM Patients</p>
+                    <h1 class="text-black text-white mb-0">
+                        {{ $DM_count??0 }}
+                    </h1>
+                </div>
+            </div>
+        </div>
+        <div class="col-xl-3 col-lg-3 col-sm-4">
+            <div class="info_Item bg4 d-flex align-items-center">
+                <div class="iconBox d-flex align-items-center justify-content-center">
+                    <i class="fa fa-thermometer-full" aria-hidden="true"></i>
+                </div>
+                <div class="content p-3">
+                    <p class="text-black text-white text-uppercase mb-0">Total Number of DM Patients</p>
+                    <h1 class="text-black text-white mb-0">
+                        {{ $DM_count??0 }}
+                    </h1>
+                </div>
             </div>
         </div>
 
-        <div class="col-xl-3 col-sm-5 p-3">
+        <!-- <div class="col-xl-3 col-sm-5 p-3">
             <div class="dt-card dt-chart dt-card__full-height align-items-center pt-5">
                 <h4 class="text-black mt-1 p-2">Total Number of HTN Patients</h4>
                 <h5 class="text-black mt-1 p-1">
@@ -70,7 +114,7 @@
                     {{ $referred_case_count_heltcenter??0 }}
                 </h5>
             </div>
-        </div>
+        </div> -->
 
     </div>
 
