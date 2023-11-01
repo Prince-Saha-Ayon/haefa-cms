@@ -13,14 +13,14 @@
 @endpush
 @section('content')
 <div class="dt-content">
-    <h2 class="p-3 border text-black dt-card font-weight-bold rounded" style="font-size: 14px;">Branch Name: {{$branch_name??''}}</h2>
-    <div class="row pt-5">
+    <h2 class="px-5 py-4 mb-3 border text-black dt-card font-weight-bold rounded" style="font-size: 14px;">Branch Name: {{$branch_name??''}}</h2>
+    <div class="row g-4 pt-5">
      {{-- Disease & branch wise patient count--}}
 
-        <div class="col-xl-3 col-lg-3 col-sm-4">
+        <div class="col-xl-3 col-lg-3 col-sm-4 mb-5">
             <div class="info_Item bg1 d-flex align-items-center">
                 <div class="iconBox d-flex align-items-center justify-content-center">
-                    <i class="fa fa-address-book" aria-hidden="true"></i>
+                    <i class="fa fa-syringe" aria-hidden="true"></i>
                 </div>
                 <div class="content p-3">
                     <p class="text-black text-white text-uppercase mb-0">Total Number of DM Patients</p>
@@ -30,91 +30,71 @@
                 </div>
             </div>
         </div>
-        <div class="col-xl-3 col-lg-3 col-sm-4">
+        <div class="col-xl-3 col-lg-3 col-sm-4 mb-5">
             <div class="info_Item bg2 d-flex align-items-center">
                 <div class="iconBox d-flex align-items-center justify-content-center">
-                <i class="fa fa-flask" aria-hidden="true"></i>
+                    <i class="fa fa-heartbeat" aria-hidden="true"></i>
                 </div>
                 <div class="content p-3">
-                    <p class="text-black text-white text-uppercase mb-0">Total Number of DM Patients</p>
+                    <p class="text-black text-white text-uppercase mb-0">Total Number of HTN Patients</p>
                     <h1 class="text-black text-white mb-0">
-                        {{ $DM_count??0 }}
+                    {{ $HTN_count??0 }}
                     </h1>
                 </div>
             </div>
         </div>
-        <div class="col-xl-3 col-lg-3 col-sm-4">
+        <div class="col-xl-3 col-lg-3 col-sm-4 mb-5">
             <div class="info_Item bg3 d-flex align-items-center">
                 <div class="iconBox d-flex align-items-center justify-content-center">
-                <i class="fa fa-deaf" aria-hidden="true"></i>
+                    <i class="fa fa-flask" aria-hidden="true"></i>
                 </div>
                 <div class="content p-3">
-                    <p class="text-black text-white text-uppercase mb-0">Total Number of DM Patients</p>
+                    <p class="text-black text-white text-uppercase mb-0">Total Number of ANC/PNC Patients</p>
                     <h1 class="text-black text-white mb-0">
-                        {{ $DM_count??0 }}
+                        {{ $ANCPNC_count??0 }}
                     </h1>
                 </div>
             </div>
         </div>
-        <div class="col-xl-3 col-lg-3 col-sm-4">
+        <div class="col-xl-3 col-lg-3 col-sm-4 mb-5">
             <div class="info_Item bg4 d-flex align-items-center">
                 <div class="iconBox d-flex align-items-center justify-content-center">
                     <i class="fa fa-thermometer-full" aria-hidden="true"></i>
                 </div>
                 <div class="content p-3">
-                    <p class="text-black text-white text-uppercase mb-0">Total Number of DM Patients</p>
+                    <p class="text-black text-white text-uppercase mb-0">Total Number of Pregnancy Induced Hypertension Patients</p>
                     <h1 class="text-black text-white mb-0">
-                        {{ $DM_count??0 }}
+                        {{ $PregnancyInducedHypertensionCount??0 }}
                     </h1>
                 </div>
             </div>
         </div>
-
-        <!-- <div class="col-xl-3 col-sm-5 p-3">
-            <div class="dt-card dt-chart dt-card__full-height align-items-center pt-5">
-                <h4 class="text-black mt-1 p-2">Total Number of HTN Patients</h4>
-                <h5 class="text-black mt-1 p-1">
-                    {{ $HTN_count??0 }}
-                </h5>
+        <div class="col-xl-3 col-lg-3 col-sm-4 mb-5">
+            <div class="info_Item bg5 d-flex align-items-center">
+                <div class="iconBox d-flex align-items-center justify-content-center">
+                    <i class="fa fa-hourglass-half" aria-hidden="true"></i>
+                </div>
+                <div class="content p-3">
+                    <p class="text-black text-white text-uppercase mb-0">Total Number of Gestational DM Patients</p>
+                    <h1 class="text-black text-white mb-0">
+                        {{ $GestationalDMCount??0 }}
+                    </h1>
+                </div>
             </div>
         </div>
-
-        <div class="col-xl-3 col-sm-5 p-3">
-            <div class="dt-card dt-chart dt-card__full-height align-items-center pt-5">
-                <h4 class="text-black mt-1 p-2">Total Number of ANC/PNC Patients</h4>
-                <h5 class="text-black mt-1 p-1">
-                    {{ $ANCPNC_count??0 }}
-                </h5>
+        <div class="col-xl-3 col-lg-3 col-sm-4 mb-5">
+            <div class="info_Item bg6 d-flex align-items-center">
+                <div class="iconBox d-flex align-items-center justify-content-center">
+                    <i class="fa fa-bed" aria-hidden="true"></i>
+                </div>
+                <div class="content p-3">
+                    <p class="text-black text-white text-uppercase mb-0">Total Number of Referral Case</p>
+                    <h1 class="text-black text-white mb-0">
+                        {{ $referred_case_count_heltcenter??0 }}
+                    </h1>
+                </div>
             </div>
         </div>
-
-        <div class="col-xl-3 col-sm-5 p-3">
-            <div class="dt-card dt-chart dt-card__full-height align-items-center pt-5">
-                <h4 class="text-black mt-1 p-2">Total Number of Pregnancy Induced Hypertension Patients</h4>
-                <h5 class="text-black mt-1 p-1">
-                    {{ $PregnancyInducedHypertensionCount??0 }}
-                </h5>
-            </div>
-        </div>
-
-        <div class="col-xl-3 col-sm-5 p-3">
-            <div class="dt-card dt-chart dt-card__full-height align-items-center pt-5">
-                <h4 class="text-black mt-1 p-2">Total Number of Gestational DM Patients</h4>
-                <h5 class="text-black mt-1 p-1">
-                    {{ $GestationalDMCount??0 }}
-                </h5>
-            </div>
-        </div>
-
-        {{--        Referred helthcenter name with patient count--}}
-        <div class="col-xl-3 col-sm-5 p-3">
-            <div class="dt-card dt-chart dt-card__full-height align-items-center pt-5">
-                <h4 class="text-black mt-1 p-2">Total Number of Referral Case</h4>
-                <h5 class="text-black mt-1 p-1">
-                    {{ $referred_case_count_heltcenter??0 }}
-                </h5>
-            </div>
-        </div> -->
 
     </div>
 
@@ -157,7 +137,7 @@
             <!-- heart rate graph -->
             <div class="card bar-chart">
                 <div class="card-header d-flex align-items-center">
-                <h4>Today's All disease </h4>
+                <h4 class="mb-0">Today's All disease</h4>
                 <div class="ml-auto"> <!-- This div pushes the button to the right -->
                     <a href="{{ route('diseaseRateDateRange') }}" class="btn btn-primary">Details</a>
                 </div>
@@ -177,7 +157,6 @@
                     </div>
                 </div>
                 <!-- /card body -->
-
             </div>
             <!-- /card -->
 
