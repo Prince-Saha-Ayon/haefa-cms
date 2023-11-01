@@ -74,6 +74,7 @@ class UnionController extends BaseController
 
                     $row[] = $no;
                     $row[] = $value->name;
+                    $row[] = $value->upazilla->name;
                     // $row[] = permission('union-edit') ? change_status($value->Id,$value->Status,'refdepartment') : STATUS_LABEL[$value->Status];
                     $row[] = action_button($action);
                     $data[] = $row;
@@ -97,14 +98,18 @@ class UnionController extends BaseController
     public function store_or_update_data(UnionFormRequest $request)
     {
         if($request->ajax()){
-            if(permission('Union-add') || permission('union-edit')){
+            if(permission('union-add') || permission('union-edit')){
                 try{
+                    
                     $collection = collect($request->validated());
                     if(isset($request->id) && !empty($request->id)){
                     $collection = collect($request->all());
                     //track_data from base controller to merge created_by and created_at merge with request data
                     $collection = $this->track_data_tables($request->id,$collection);
+                    
                     $result = $this->model->where('id', $request->id)->update($collection->all());
+                    
+                
                     $output = $this->store_message($result,$request->id);
                     return response()->json($output);
                 }
@@ -214,7 +219,17 @@ class UnionController extends BaseController
      */
     public function edit(Request $request)
     {
-        return $data = Union::find($request->id)->get();
+      
+          if($request->ajax()){
+            if(permission('refvaccineadult-edit')){
+               $output = Union::where('id',$request->id)->first();
+            }else{
+                $output = $this->access_blocked();
+            }
+            return response()->json($output);
+        }else{
+            return response()->json($this->access_blocked());
+        }
     }
 
     public function bulk_delete(Request $request)

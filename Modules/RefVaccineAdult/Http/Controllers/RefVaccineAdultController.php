@@ -12,6 +12,7 @@ use Modules\RefVaccineAdult\Entities\RefVaccineAdult;
 use Modules\RefVaccineAdult\Http\Requests\RefVaccineAdultRequest;
 use Illuminate\Support\Str;
 use DB;
+use Modules\RefVaccineDose\Entities\RefVaccineDose;
 
 class RefVaccineAdultController extends BaseController
 {
@@ -29,8 +30,9 @@ class RefVaccineAdultController extends BaseController
     public function index()
     {
         if (permission('refvaccineadult-access')) {
+            $vaccine_group=RefVaccineDose::get();
             $this->setPageData('Vaccine Adult', 'Vaccine Adult', 'fas fa-th-list');
-            return view('refvaccineadult::index');
+            return view('refvaccineadult::index', compact('vaccine_group'));
         } else {
             return $this->unauthorized_access_blocked();
         }
@@ -76,7 +78,10 @@ class RefVaccineAdultController extends BaseController
 
                     $row[] = $no;
                     $row[] = $value->VaccineCode ?? '';
+                    $row[] = $value->Instruction ?? '';
+                    $row[] = $value->vaccinegroup->VaccineDoseTitle ?? '';
                     $row[] = $value->VaccineDoseNumber ?? '';
+                    $row[] = $value->Description ?? '';
                     // $row[] = permission('refvaccineadult-edit') ? change_status($value->VaccineId,$value->Status,'refdepartment') : STATUS_LABEL[$value->Status];
                     $row[] = action_button($action);
                     $data[] = $row;
@@ -151,17 +156,17 @@ class RefVaccineAdultController extends BaseController
      */
     public function edit(Request $request)
     {
-        $data1 = DB::select("SELECT  rd.DesignationTitle,rd.Description,rd.RefDepartmentId,
-                    wp.WorkPlaceName,rfd.DepartmentCode,rd.VaccineId,rd.WorkPlaceId
-                    FROM RefVaccineAdult AS rd
-                    INNER JOIN WorkPlace AS wp ON rd.WorkPlaceId = wp.WorkPlaceId
-                    INNER JOIN RefDepartment AS rfd ON rd.RefDepartmentId = rfd.RefDepartmentId
-                    WHERE rd.VaccineId='$request->id'");
-
-        $data2 = DB::select("SELECT * FROM WorkPlace");
-        $data3 = DB::select("SELECT * FROM RefDepartment");
-
-        return response()->json(['designation' => $data1, 'workplaces' => $data2, 'departments' => $data3]);
+       
+         if($request->ajax()){
+            if(permission('refvaccineadult-edit')){
+               $output = DB::table('RefVaccineAdult')->where('VaccineId',$request->id)->first();
+            }else{
+                $output = $this->access_blocked();
+            }
+            return response()->json($output);
+        }else{
+            return response()->json($this->access_blocked());
+        }
 
     }
 

@@ -8,7 +8,7 @@ use Modules\Patient\Entities\District;
 class Upazila extends BaseModel
 {
     protected $table = 'upazilas';
-    protected $primaryKey = 'id';
+   
     public $timestamps = false;
 
     protected $fillable = ['id','district_id','name','bn_name',
@@ -22,7 +22,9 @@ class Upazila extends BaseModel
     {
         $this->name = $name;
     }
-
+    public function district(){
+        return $this->BelongsTo(District::class,'district_id','id');
+    }
     private function get_datatable_query()
     {
         if(permission('union-bulk-delete')){
@@ -32,7 +34,7 @@ class Upazila extends BaseModel
             $this->column_order = ['name',null];
         }
 
-        $query = self::toBase();
+        $query = self::with('district');
 
         /*****************
             * *Search Data **
@@ -70,8 +72,6 @@ class Upazila extends BaseModel
         return self::toBase()->get()->count();
     }
 
-    public function get_district(){
-        return $this->belongsTo(District::class,'district_id','id');
-    }
+   
 
 }

@@ -74,6 +74,7 @@ class UpazilaController extends BaseController
 
                     $row[] = $no;
                     $row[] = $value->name;
+                    $row[] = $value->district->name;
 //                    $row[] = $value->bn_name;
                     // $row[] = permission('upazila-edit') ? change_status($value->Id,$value->Status,'refdepartment') : STATUS_LABEL[$value->Status];
                     $row[] = action_button($action);
@@ -98,7 +99,7 @@ class UpazilaController extends BaseController
     public function store_or_update_data(UpazilaFormRequest $request)
     {
         if($request->ajax()){
-            if(permission('Upazila-add') || permission('upazila-edit')){
+            if(permission('upazila-add') || permission('upazila-edit')){
                 try{
                     $collection = collect($request->validated());
                     if(isset($request->id) && !empty($request->id)){
@@ -218,7 +219,17 @@ class UpazilaController extends BaseController
      */
     public function edit(Request $request)
     {
-        return $data = $this->model->find($request->id);
+      
+         if($request->ajax()){
+            if(permission('refvaccineadult-edit')){
+               $output = Upazila::where('id',$request->id)->first();
+            }else{
+                $output = $this->access_blocked();
+            }
+            return response()->json($output);
+        }else{
+            return response()->json($this->access_blocked());
+        }
     }
 
     public function bulk_delete(Request $request)

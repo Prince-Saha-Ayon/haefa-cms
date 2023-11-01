@@ -132,6 +132,7 @@
                                 @endif
                                 <th>Sl</th>
                                 <th>Union Name</th>
+                                <th>Upazilla Name</th>
                                 <!-- <th>Status</th> -->
                                 <th>Action</th>
                             </tr>
@@ -152,8 +153,8 @@
     <!-- /grid -->
 
 </div>
-@include('union::view-modal')
-@include('union::add-edit-modal')
+@include('union::modal')
+
 @endsection
 
 @push('script')
@@ -384,9 +385,26 @@ $(document).on('click', '.edit_data', function () {
             success: function (data) {
                 console.log(data);
                 //$('#store_or_update_form #update_id').val(data.AddressTypeId);
-                $('#UnionName').val(data.UnionName);
-                $('#ShortName').val(data.ShortName);
-                $('#Id').val(data.Id);
+                $('#store_or_update_form #name').val(data.name);
+                $('#bn_name').val(data.bn_name);
+                $('#upazilla_id').val(data.upazilla_id);
+                $('#url').val(data.url);
+                $('#store_or_update_form #id').val(data.id);
+                var upazilla_id = data.upazilla_id;
+              
+
+                // Set the selected option in the select box
+                $("#upazilla_id option").each(function() {
+                    if ($(this).val() == upazilla_id) {
+                        $(this).prop("selected", true);
+                    }
+                });
+
+                // Set the value in the input field
+                $("#upazilla_id").val(upazilla_id);
+
+                // Update the selectpicker to reflect the changes
+                $("#upazilla_id").selectpicker('refresh');
 
                 //$('#store_or_update_form #AddressTypeCode').val(data.AddressTypeCode);
 
@@ -407,7 +425,7 @@ $(document).on('click', '.edit_data', function () {
 });
 
 function removeId(){
-    $('#Id').val('');
+    $('#store_or_update_form #id').val('');
 }
 
 </script>

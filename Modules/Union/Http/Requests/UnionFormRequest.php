@@ -14,12 +14,16 @@ class UnionFormRequest extends FormRequest
     public function rules()
     {
         $rules = [];
+           
+        $rules['name'] = ['required','unique:unions,name'];
+        $rules['upazilla_id'] = ['required'];
+      
 
-        if(request()->id){
-            $rules['name'][2] = 'unique:unions,name,' . request()->id;
-        }else{
-            $rules['name'] = ['required','unique:unions,name'];
-        }
+        // if(request()->id){
+        //     $rules['name'][2] = 'unique:unions,name,' . request()->id;
+        // }else{
+        //     $rules['name'] = ['required','unique:unions,name'];
+        // }
         return $rules;
     }
 

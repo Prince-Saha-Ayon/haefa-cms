@@ -5,6 +5,7 @@ namespace Modules\RefVaccine\Entities;
 use Illuminate\Database\Eloquent\Model;
 use Modules\Base\Entities\BaseModel;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Modules\RefVaccineDose\Entities\RefVaccineDose;
 
 class RefVaccine extends BaseModel
 {
@@ -24,6 +25,10 @@ class RefVaccine extends BaseModel
         $this->name = $name;
     }
 
+    public function vaccinegroup(){
+        return $this->BelongsTo(RefVaccineDose::class,'VaccineDoseGroupId','VaccineDoseGroupId');
+    }
+
     private function get_datatable_query()
     {
         if(permission('refvaccine-bulk-delete')){
@@ -33,7 +38,7 @@ class RefVaccine extends BaseModel
             $this->column_order = ['VaccineCode','VaccineDoseNumber',null];
         }
 
-        $query = self::toBase();
+       $query = self::with(['vaccinegroup']);
 
         /*****************
          * *Search Data **
