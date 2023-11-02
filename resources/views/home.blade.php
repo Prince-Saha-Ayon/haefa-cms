@@ -227,7 +227,19 @@ Highcharts.chart('container_diseases', {
     series: [{
         name: 'Patients',
         data: chartData.map(function(item) {
-            return parseFloat(item.Patients);
+            let color;
+            const patientCount = parseFloat(item.Patients);
+            if (patientCount >= 0 && patientCount <= 100) {
+                color = 'green'; // Color for the range 0-100
+            } else if (patientCount > 100 && patientCount <= 150) {
+                color = 'yellow'; // Color for the range 101-150
+            } else {
+                color = 'red'; // Color for values greater than 150
+            }
+            return {
+                y: patientCount,
+                color: color
+            };
         })
     }]
 });
@@ -285,7 +297,19 @@ Highcharts.chart('container_alldiseases', {
     series: [{
         name: 'Patients',
         data: chartDataAll.map(function(allitem) {
-            return parseFloat(allitem.Patients);
+            let color;
+            const patientCount = parseFloat(allitem.Patients);
+            if (patientCount >= 0 && patientCount <= 100) {
+                color = 'green'; // Color for the range 0-100
+            } else if (patientCount > 100 && patientCount <= 150) {
+                color = 'yellow'; // Color for the range 101-150
+            } else {
+                color = 'red'; // Color for values greater than 150
+            }
+            return {
+                y: patientCount,
+                color: color
+            };
         })
     }]
 });
