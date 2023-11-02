@@ -122,7 +122,12 @@
 
                     <div class="row">
                         <div class="col-md-12">
-                            <figure class="highcharts-figure">
+                            <figure class="highcharts-figure position-relative">
+                            <div class="colorBox d-flex">
+                                    <p class="mb-0 d-flex align-items-center"><span></span>0 - 100</p>
+                                    <p class="mb-0 d-flex align-items-center"><span></span>101 - 150</p>
+                                    <p class="mb-0 d-flex align-items-center"><span></span>151 - 200</p>
+                                </div>
                                 <div id="container_diseases"></div>
                             </figure>
                         </div>
@@ -147,10 +152,16 @@
             <!-- Card -->
             <div class="dt-card">
                 <!-- Card Body -->
-                <div class="dt-card__body">
+                <div class="dt-card__body ">
+                    
                     <div class="row">
                         <div class="col-md-12">
-                            <figure class="highcharts-figure">
+                            <figure class="highcharts-figure position-relative">
+                                <div class="colorBox d-flex">
+                                    <p class="mb-0 d-flex align-items-center"><span></span>0 - 100</p>
+                                    <p class="mb-0 d-flex align-items-center"><span></span>101 - 150</p>
+                                    <p class="mb-0 d-flex align-items-center"><span></span>151 - 200</p>
+                                </div>
                                 <div id="container_alldiseases"></div>
                             </figure>
                         </div>
