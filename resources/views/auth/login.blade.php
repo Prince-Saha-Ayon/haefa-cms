@@ -29,7 +29,7 @@
         <div class="col-md-6 bg-white">
             <div class="login_box">
                      <a href="{{ url('/') }}" class="logo_text">
-                        <img class="d-none d-lg-inline-block" src="images/Logo.png" alt="Logo" style="max-width: 250px;"/>
+                        <img class="d-none d-lg-inline-block" src="images/Logo.png" alt="Logo" style="max-width: 100px;"/>
                         </a>
                     <div class="login_form">
                         <div class="login_form_inner">
@@ -54,7 +54,7 @@
                                 @enderror
                                 </div>
                                 <div class="checkbox clearfix">
-                                    <div class="form-check checkbox-theme">
+                                    <div class="pl-0 form-check checkbox-theme">
                                         <input class="form-check-input" type="checkbox" name="remember" value="" id="rememberMe" {{ old('remember') ? 'checked' : '' }}>
                                         <label class="form-check-label" for="rememberMe">
                                             Remember me

@@ -17,7 +17,7 @@
     <div class="row g-4 pt-5">
      {{-- Disease & branch wise patient count--}}
 
-        <div class="col-xl-3 col-lg-3 col-sm-4 mb-5">
+        <div class="col-xl-4 col-lg-6 col-md-6 col-sm-6 mb-5">
             <div class="info_Item bg1 d-flex align-items-center">
                 <div class="iconBox d-flex align-items-center justify-content-center">
                     <i class="fa fa-syringe" aria-hidden="true"></i>
@@ -30,7 +30,7 @@
                 </div>
             </div>
         </div>
-        <div class="col-xl-3 col-lg-3 col-sm-4 mb-5">
+        <div class="col-xl-4 col-lg-6 col-md-6 col-sm-6 mb-5">
             <div class="info_Item bg2 d-flex align-items-center">
                 <div class="iconBox d-flex align-items-center justify-content-center">
                     <i class="fa fa-heartbeat" aria-hidden="true"></i>
@@ -43,7 +43,7 @@
                 </div>
             </div>
         </div>
-        <div class="col-xl-3 col-lg-3 col-sm-4 mb-5">
+        <div class="col-xl-4 col-lg-6 col-md-6 col-sm-6 mb-5">
             <div class="info_Item bg3 d-flex align-items-center">
                 <div class="iconBox d-flex align-items-center justify-content-center">
                     <i class="fa fa-flask" aria-hidden="true"></i>
@@ -56,7 +56,7 @@
                 </div>
             </div>
         </div>
-        <div class="col-xl-3 col-lg-3 col-sm-4 mb-5">
+        <div class="col-xl-4 col-lg-6 col-md-6 col-sm-6 mb-5">
             <div class="info_Item bg4 d-flex align-items-center">
                 <div class="iconBox d-flex align-items-center justify-content-center">
                     <i class="fa fa-thermometer-full" aria-hidden="true"></i>
@@ -69,7 +69,7 @@
                 </div>
             </div>
         </div>
-        <div class="col-xl-3 col-lg-3 col-sm-4 mb-5">
+        <div class="col-xl-4 col-lg-6 col-md-6 col-sm-6 mb-5">
             <div class="info_Item bg5 d-flex align-items-center">
                 <div class="iconBox d-flex align-items-center justify-content-center">
                     <i class="fa fa-hourglass-half" aria-hidden="true"></i>
@@ -82,7 +82,7 @@
                 </div>
             </div>
         </div>
-        <div class="col-xl-3 col-lg-3 col-sm-4 mb-5">
+        <div class="col-xl-4 col-lg-6 col-md-6 col-sm-6 mb-5">
             <div class="info_Item bg6 d-flex align-items-center">
                 <div class="iconBox d-flex align-items-center justify-content-center">
                     <i class="fa fa-bed" aria-hidden="true"></i>
