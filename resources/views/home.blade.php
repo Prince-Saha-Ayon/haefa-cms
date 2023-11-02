@@ -126,7 +126,7 @@
                             <div class="colorBox d-flex">
                                     <p class="mb-0 d-flex align-items-center"><span></span>0 - 100</p>
                                     <p class="mb-0 d-flex align-items-center"><span></span>101 - 150</p>
-                                    <p class="mb-0 d-flex align-items-center"><span></span>151 - 200</p>
+                                    <p class="mb-0 d-flex align-items-center"><span></span>>151</p>
                                 </div>
                                 <div id="container_diseases"></div>
                             </figure>
@@ -160,7 +160,7 @@
                                 <div class="colorBox d-flex">
                                     <p class="mb-0 d-flex align-items-center"><span></span>0 - 100</p>
                                     <p class="mb-0 d-flex align-items-center"><span></span>101 - 150</p>
-                                    <p class="mb-0 d-flex align-items-center"><span></span>151 - 200</p>
+                                    <p class="mb-0 d-flex align-items-center"><span></span>>151</p>
                                 </div>
                                 <div id="container_alldiseases"></div>
                             </figure>
@@ -199,9 +199,6 @@ Highcharts.chart('container_diseases', {
         enabled: false
     },
     xAxis: {
-        title: {
-            text: 'Diseases'
-        },
         categories: chartData.map(function(item) {
             return item.IllnessCode;
         }),
@@ -236,7 +233,7 @@ Highcharts.chart('container_diseases', {
         }
     },
     series: [{
-        name: 'Patients',
+        name: 'Diseases',
         data: chartData.map(function(item) {
             let color;
             const patientCount = parseFloat(item.Patients);
@@ -269,9 +266,6 @@ Highcharts.chart('container_alldiseases', {
         enabled: false
     },
     xAxis: {
-        title: {
-            text: 'Diseases'
-        },
         categories: chartDataAll.map(function(allitem) {
             return allitem.IllnessCode;
         }),
@@ -306,7 +300,7 @@ Highcharts.chart('container_alldiseases', {
         }
     },
     series: [{
-        name: 'Patients',
+        name: 'Diseases',
         data: chartDataAll.map(function(allitem) {
             let color;
             const patientCount = parseFloat(allitem.Patients);

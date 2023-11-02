@@ -53,17 +53,6 @@
                                     </span>
                                 @enderror
                                 </div>
-                                <div class="checkbox clearfix">
-                                    <div class="pl-0 form-check checkbox-theme">
-                                        <input class="form-check-input" type="checkbox" name="remember" value="" id="rememberMe" {{ old('remember') ? 'checked' : '' }}>
-                                        <label class="form-check-label" for="rememberMe">
-                                            Remember me
-                                        </label>
-                                    </div>
-                                    @if (Route::has('password.request'))
-                                    <a href="{{ route('password.request') }}">Forgot Password</a>
-                                    @endif
-                                </div>
                                 <div class="form-group">
                                     <button type="submit" class="btn-md btn-theme btn-block"><i class="fas fa-sign-in-alt"></i> Login</button>
                                 </div>

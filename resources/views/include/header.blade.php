@@ -35,49 +35,7 @@
         <div class="dt-nav-wrapper">
 
 
-          <!-- Header Menu -->
-          <ul class="dt-nav">
-            <li class="dt-nav__item dt-notification dropdown">
-
-              <!-- Dropdown Link -->
-              <a href="#" class="dt-nav__link dropdown-toggle no-arrow" data-toggle="dropdown"
-                 aria-haspopup="true" aria-expanded="false"> <i class="icon icon-notification icon-fw"></i>
-              </a>
-              <!-- /dropdown link -->
-
-              <!-- Dropdown Option -->
-              <div class="dropdown-menu dropdown-menu-right dropdown-menu-media">
-                <!-- Dropdown Menu Header -->
-                <div class="dropdown-menu-header">
-                  <h4 class="title">Notifications</h4>
-                </div>
-                <!-- /dropdown menu header -->
-
-                <!-- Dropdown Menu Body -->
-                <div class="dropdown-menu-body ps-custom-scrollbar">
-
-                  <div class="h-auto">
-                    <!-- Media -->
-                    <a href="" class="media">
-                      <!-- Media Body -->
-                      <span class="media-body">
-                      <span class="message">
-                      </span>
-                    </span>
-                      <!-- /media body -->
-
-                    </a>
-                    <!-- /media -->
-                  </div>
-
-                </div>
-                <!-- /dropdown menu body -->
-              </div>
-              <!-- /dropdown option -->
-
-            </li>
-          </ul>
-          <!-- /header menu -->
+          
 
 
           <!-- Header Menu -->
