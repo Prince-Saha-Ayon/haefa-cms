@@ -199,9 +199,6 @@ Highcharts.chart('container_diseases', {
         enabled: false
     },
     xAxis: {
-        title: {
-            text: 'Diseases'
-        },
         categories: chartData.map(function(item) {
             return item.IllnessCode;
         }),
@@ -236,7 +233,7 @@ Highcharts.chart('container_diseases', {
         }
     },
     series: [{
-        name: 'Patients',
+        name: 'Diseases',
         data: chartData.map(function(item) {
             let color;
             const patientCount = parseFloat(item.Patients);
@@ -269,9 +266,6 @@ Highcharts.chart('container_alldiseases', {
         enabled: false
     },
     xAxis: {
-        title: {
-            text: 'Diseases'
-        },
         categories: chartDataAll.map(function(allitem) {
             return allitem.IllnessCode;
         }),
@@ -306,7 +300,7 @@ Highcharts.chart('container_alldiseases', {
         }
     },
     series: [{
-        name: 'Patients',
+        name: 'Diseases',
         data: chartDataAll.map(function(allitem) {
             let color;
             const patientCount = parseFloat(allitem.Patients);
