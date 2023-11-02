@@ -126,7 +126,7 @@
                             <div class="colorBox d-flex">
                                     <p class="mb-0 d-flex align-items-center"><span></span>0 - 100</p>
                                     <p class="mb-0 d-flex align-items-center"><span></span>101 - 150</p>
-                                    <p class="mb-0 d-flex align-items-center"><span></span>151 - 200</p>
+                                    <p class="mb-0 d-flex align-items-center"><span></span>>151</p>
                                 </div>
                                 <div id="container_diseases"></div>
                             </figure>
@@ -160,7 +160,7 @@
                                 <div class="colorBox d-flex">
                                     <p class="mb-0 d-flex align-items-center"><span></span>0 - 100</p>
                                     <p class="mb-0 d-flex align-items-center"><span></span>101 - 150</p>
-                                    <p class="mb-0 d-flex align-items-center"><span></span>151 - 200</p>
+                                    <p class="mb-0 d-flex align-items-center"><span></span>>151</p>
                                 </div>
                                 <div id="container_alldiseases"></div>
                             </figure>
