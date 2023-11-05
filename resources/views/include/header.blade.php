@@ -72,7 +72,8 @@
                 </a>
                 <a class="dropdown-item" href="{{ route('logout') }}" onclick="event.preventDefault();
                 document.getElementById('logout-form').submit()">
-                  <i class="fa fa-sign-out icon-fw mr-2 mr-sm-1" aria-hidden="true"></i>Logout
+                  <i class="fa fa-share mr-2 mr-sm-1" aria-hidden="true"></i>
+                  Logout
                 </a>
                 <form action="{{ route('logout') }}" id="logout-form" method="POST" class="d-none">
                 @csrf
