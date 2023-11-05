@@ -30,6 +30,9 @@ use Modules\Report\Entities\Htnmalehost;
 use Modules\Report\Entities\Htnmalerohingya;
 use Modules\Report\Entities\HTNRohingyaFemale;
 use Modules\Report\Entities\HTNRohingyaMale;
+use Modules\Report\Entities\MDataPatientObsGynae;
+use Modules\Report\Entities\MDataPatientObsGynaeView;
+use Modules\Report\Entities\PatientDandHTN;
 use Modules\Report\Entities\Report;
 use Modules\Report\Entities\District;
 use Illuminate\Routing\Controller;
@@ -145,6 +148,49 @@ public function diseaseindex()
         $barcode_prefix = $request->hc_id;
         $first_date = $request->fdate;
         $last_date = $request->ldate;
+        $cc_name = HealthCenter::where('HealthCenterCode',$barcode_prefix)->get('HealthCenterName')->first();
+        $bf=BarcodeFormat::where('barcode_prefix',$barcode_prefix)->with(['union','upazila'])->first();
+        $union=$bf->union->name ?? '';
+        $upazila=$bf->upazila->name ?? '';
+
+ $total_diabetes = PatientDandHTN::selectRaw('SUM(DistinctPatientCount) as TotalDistinctPatientCount')
+    ->fromSub(function ($query) use ($first_date, $last_date, $barcode_prefix) {
+        $query->selectRaw('CONVERT(date, CreateDate) as CreateDate, COUNT(DISTINCT PatientId) as DistinctPatientCount')
+            ->whereBetween(DB::raw('CONVERT(date, CreateDate)'), [$first_date, $last_date])
+            ->where('RegistrationId', 'LIKE', $barcode_prefix . '%')
+            ->where('Diabetes', 'yes')
+              ->groupBy(DB::raw('CONVERT(date, CreateDate)'))// Group by the CreateDate column
+            ->from('PatientDandHTN');
+    }, 'subquery')
+    ->first()
+    ->TotalDistinctPatientCount;
+
+$total_htn = PatientDandHTN::selectRaw('SUM(DistinctPatientCount) as TotalDistinctPatientCount')
+    ->fromSub(function ($query) use ($first_date, $last_date, $barcode_prefix) {
+        $query->selectRaw('CONVERT(date, CreateDate) as CreateDate, COUNT(DISTINCT PatientId) as DistinctPatientCount')
+            ->whereBetween(DB::raw('CONVERT(date, CreateDate)'), [$first_date, $last_date])
+            ->where('RegistrationId', 'LIKE', $barcode_prefix . '%')
+            ->where('Hypertension', 'yes')
+              ->groupBy(DB::raw('CONVERT(date, CreateDate)'))// Group by the CreateDate column
+            ->from('PatientDandHTN');
+    }, 'subquery')
+    ->first()
+    ->TotalDistinctPatientCount;
+
+
+$pregnant = MDataPatientObsGynaeView::selectRaw('SUM(DistinctPatientCount) as TotalDistinctPatientCount')
+    ->fromSub(function ($query) use ($first_date, $last_date, $barcode_prefix) {
+        $query->selectRaw('CONVERT(date, CreateDate) as CreateDate, COUNT(DISTINCT PatientId) as DistinctPatientCount')
+            ->whereBetween(DB::raw('CONVERT(date, CreateDate)'), [$first_date, $last_date])
+            ->where('RegistrationId', 'LIKE', $barcode_prefix . '%')
+             ->where('IsPregnant', 'True')
+              ->groupBy(DB::raw('CONVERT(date, CreateDate)'))// Group by the CreateDate column
+            ->from('MDataPatientObsGynaeView');
+    }, 'subquery')
+    ->first()
+    ->TotalDistinctPatientCount;
+
+
        
 $total_bp_male_host = Htnmalehost::selectRaw('SUM(DistinctPatientCount) as TotalDistinctPatientCount')
     ->fromSub(function ($query) use ($first_date, $last_date, $barcode_prefix) {
@@ -156,6 +202,9 @@ $total_bp_male_host = Htnmalehost::selectRaw('SUM(DistinctPatientCount) as Total
     }, 'subquery')
     ->first()
     ->TotalDistinctPatientCount;
+
+
+
 
     $total_bp_male_rohingya = BPRohingyaMale::selectRaw('SUM(DistinctPatientCount) as TotalDistinctPatientCount')
     ->fromSub(function ($query) use ($first_date, $last_date, $barcode_prefix) {
@@ -331,6 +380,8 @@ $total_bp_male_host = Htnmalehost::selectRaw('SUM(DistinctPatientCount) as Total
 
     
 
+    
+
         return response()->json([
             'total_bp_male_host' => $total_bp_male_host,
             'total_bp_male_rohingya' => $total_bp_male_rohingya,
@@ -348,6 +399,13 @@ $total_bp_male_host = Htnmalehost::selectRaw('SUM(DistinctPatientCount) as Total
             'total_dm_male_rohingya' => $total_dm_male_rohingya,
             'total_dm_female_host' => $total_dm_female_host,
             'total_dm_female_rohingya' => $total_dm_female_rohingya,
+        
+            'pregnant' => $pregnant,
+            'total_htn' => $total_htn,
+            'total_diabetes' => $total_diabetes,
+            'cc_name' => $cc_name->HealthCenterName,
+            'union' => $union,
+            'upazila' => $upazila,
         
         ]);
       
