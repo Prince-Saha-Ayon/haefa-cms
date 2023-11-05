@@ -83,214 +83,74 @@
                             </div>
                         </div>
                     </form>
-                      <table id="dataTable" class="table table-striped table-bordered table-hover">
+
+                     <table id="dataTable" class="table table-striped table-bordered table-hover">
                             <thead class="bg-primary">
                             <tr>
-                              
-                                <th>Headers</th>
-                                <th>data</th>
-                            </tr>
-
-                            </thead>
-                            <tbody>
-                                <tr>
-                                  
-                                    <td>Camp Name/CC Name</td>
-                                    <td id="ccname"></td>
-                                </tr>
-                                 <tr>
-                                  
-                                    <td>Union</td>
-                                    <td id="union"></td>
-                                </tr>
-                                <tr>
-                                    
-                                    <td>Upazilla</td>
-                                    <td id="upazilla"></td>
-                                </tr>
-                                <tr>
-                               
-                                    <td>Contact Name</td>
-                                    <td id="contactname"></td>
-                                </tr>
-
-                                 <tr>
-                             
-                                    <td>Contact Email</td>
-                                    <td id="email"></td>
-                                </tr>
-                                 <tr>
-                                   
-                                    <td>Project Donor</td>
-                                    <td id="donor"></td>
-                                </tr>
-                                <tr>
-                                   
-                                    <td>Implementing Partners</td>
-                                    <td id="implementingpartners"></td>
-                                </tr>
-                                <tr>
-                                   
-                                    <td>Programming Partners</td>
-                                    <td id="programmingpartners"></td>
-                                </tr>
-                            </tbody>
-                    
-                         
-                    </table>
-
-                        <table id="dataTable2" class="table table-striped table-bordered table-hover">
-                            <thead class="bg-primary">
-                            <tr>
-                              
-                                <th>Diseases</th>
-                                <th>total</th>
-                            </tr>
-
-                            </thead>
-                            <tbody>
-                                <tr>
-                                  
-                                    <td>Diabetes</td>
-                                    <td id="diabetes"></td>
-                                </tr>
-                                 <tr>
-                                  
-                                    <td>Hypertension</td>
-                                    <td id="hypertension"></td>
-                                </tr>
-                                <tr>
-                                    
-                                    <td>Pregnant</td>
-                                    <td id="pregnant"></td>
-                                </tr>
-                               
-                            </tbody>
-                    
-                         
-                    </table>
-
-                     <table id="dataTable3" class="table table-striped table-bordered table-hover">
-                            <thead class="bg-primary">
-                            <tr>
-                              
-                                <th>Rohingya NCD Screening</th>
+                                <th>No</th>
+                                <th>NCD Screening</th>
+                                <th>Host</th>
                                 <th>Rohingya</th>
                             </tr>
 
                             </thead>
                             <tbody>
                                 <tr>
-                                  
+                                    <td></td>
                                     <td>Number of beneficiaries screened for Hyper Tension - Male</td>
+                                    <td id="bpmalehost"></td>
                                     <td id="bpmalerohingya"></td>
                                 </tr>
                                  <tr>
-                                  
+                                    <td></td>
                                     <td>Number of beneficiaries screened for Hyper Tension - Female</td>
+                                    <td id="bpfemalehost"></td>
                                     <td id="bpfemalerohingya"></td>
                                 </tr>
                                 <tr>
-                                    
+                                    <td></td>
                                     <td>Number of beneficiaries detected with High Blood Pressure - Male</td>
+                                    <td id="htnmalehost"></td>
                                     <td id="htnmalerohingya"></td>
                                 </tr>
                                 <tr>
-                               
+                                    <td></td>
                                     <td>Number of beneficiaries detected with High Blood Pressure - Female</td>
+                                    <td id="htnfemalehost"></td>
                                     <td id="htnfemalerohingya"></td>
                                 </tr>
 
                                  <tr>
-                             
+                                    <td></td>
                                     <td>Number of beneficiaries screened for Diabetes Mellitus - Male</td>
+                                    <td id="glucosemalehost"></td>
                                     <td id="glucosemalerohingya"></td>
                                 </tr>
                                  <tr>
-                                   
+                                    <td></td>
                                     <td>Number of beneficiaries screened for Diabetes Mellitus - Female</td>
+                                    <td id="glucosefemalehost"></td>
                                     <td id="glucosefemalerohingya"></td>
                                 </tr>
                                 <tr>
-                                   
+                                    <td></td>
                                     <td>Number of beneficiaries detected with High Blood Sugar - Male</td>
+                                    <td id="dmmalehost"></td>
                                     <td id="dmmalerohingya"></td>
                                 </tr>
                                 <tr>
-                                   
+                                    <td></td>
                                     <td>Number of beneficiaries detected with High Blood Sugar - Female</td>
+                                    <td id="dmfemalehost"></td>
                                     <td id="dmfemalerohingya"></td>
                                 </tr>
                             </tbody>
                     
                          
-                    </table>
+                        </table>
 
 
-                 <table id="dataTable4" class="table table-striped table-bordered table-hover">
-                            <thead class="bg-primary">
-                            <tr>
-                               
-                                <th>Host NCD Screening</th>
-                                <th>Host</th>
-                            </tr>
-
-                            </thead>
-                            <tbody>
-                                <tr>
-                                  
-                                    <td>Number of beneficiaries screened for Hyper Tension - Male</td>
-                                    <td id="bpmalehost"></td>
-
-                                </tr>
-                                 <tr>
-                                  
-                                    <td>Number of beneficiaries screened for Hyper Tension - Female</td>
-                                    <td id="bpfemalehost"></td>
-
-                                </tr>
-                                <tr>
-                               
-                                    <td>Number of beneficiaries detected with High Blood Pressure - Male</td>
-                                    <td id="htnmalehost"></td>
-
-                                </tr>
-                                <tr>
-                              
-                                    <td>Number of beneficiaries detected with High Blood Pressure - Female</td>
-                                    <td id="htnfemalehost"></td>
-
-                                </tr>
-
-                                 <tr>
-                          
-                                    <td>Number of beneficiaries screened for Diabetes Mellitus - Male</td>
-                                    <td id="glucosemalehost"></td>
-
-                                </tr>
-                                 <tr>
-                           
-                                    <td>Number of beneficiaries screened for Diabetes Mellitus - Female</td>
-                                    <td id="glucosefemalehost"></td>
-
-                                </tr>
-                                <tr>
-                           
-                                    <td>Number of beneficiaries detected with High Blood Sugar - Male</td>
-                                    <td id="dmmalehost"></td>
-
-                                </tr>
-                                <tr>
-            
-                                    <td>Number of beneficiaries detected with High Blood Sugar - Female</td>
-                                    <td id="dmfemalehost"></td>
-
-                                </tr>
-                            </tbody>
-                    
-                         
-                </table>
-                <button id="export-button" class="btn btn-primary">Export to Excel</button>
+                
 
                 </div>
                 <!-- /card body -->
@@ -315,7 +175,6 @@
 
 <script src="js/dataTables.buttons.min.js"></script>
 <script src="js/buttons.html5.min.js"></script>
-<script lang="javascript" src="https://cdn.sheetjs.com/xlsx-0.20.0/package/dist/xlsx.full.min.js"></script>
 <script>
 
 // disease rate by date range start
@@ -373,73 +232,88 @@
 
     
     $(document).ready(function () {
-   
-  document.getElementById('export-button').addEventListener('click', function () {
-    // Get data from all four tables
-    var table1Data = [];
-    var table2Data = [];
-    var table3Data = [];
-    var table4Data = [];
+    table = $('#dataTable').DataTable({
+        pagingType: 'full_numbers',
+        dom: 'Bfrtip',
+        orderCellsTop: true,
+        buttons: [
+            {
+                extend: 'excel',
+                text: 'Export to Excel',
+                filename: filename,
+                title: '',
+                customize: function(xlsx,resultCount) {
+            var sheet = xlsx.xl.worksheets['sheet1.xml'];
+            var downrows = 5; // Number of rows to add
+            var clRow = $('row', sheet);
 
-    var table1Rows = document.querySelectorAll('#dataTable tbody tr');
-    var table2Rows = document.querySelectorAll('#dataTable2 tbody tr');
-    var table3Rows = document.querySelectorAll('#dataTable3 tbody tr');
-    var table4Rows = document.querySelectorAll('#dataTable4 tbody tr');
+            // Update Row
+            clRow.each(function() {
+                var attr = $(this).attr('r');
+                var ind = parseInt(attr);
+                ind = ind + downrows;
+                $(this).attr("r", ind);
+            });
 
-    // Process and collect data for the first table
-    table1Data.push(['NCD Screening Rohingya', 'Numbers']);
-    table1Rows.forEach(function (row) {
-        var rowData = [];
-        row.querySelectorAll('td').forEach(function (cell) {
-            rowData.push(cell.innerText);
-        });
-        table1Data.push(rowData);
+            // Update row > c
+            $('row c', sheet).each(function() {
+                var attr = $(this).attr('r');
+                var pre = attr.substring(0, 1);
+                var ind = parseInt(attr.substring(1, attr.length));
+                ind = ind + downrows;
+                $(this).attr("r", pre + ind);
+            });
+         
+
+            function Addrow(index, data) {
+                var msg = '<row r="' + index + '">';
+                for (var i = 0; i < data.length; i++) {
+                    var key = data[i].k;
+                    var value = data[i].v;
+                    msg += '<c t="inlineStr" r="' + key + index + '">';
+                    msg += '<is>';
+                    msg += '<t>' + value + '</t>';
+                    msg += '</is>';
+                    msg += '</c>';
+                }
+                msg += '</row>';
+                return msg;
+            }
+
+            var r1 = Addrow(1, [{
+                k: 'A',
+                v: 'App Name: Nirog Plus' ,
+            }]);
+
+            var r2 = Addrow(2, [{
+                k: 'A',
+                v: 'Branch: ' + healthcenter,
+            }]);
+
+            var r3 = Addrow(3, [{
+                k: 'A',
+                v: 'Collection Date:' + collectionDate,
+            }]);
+
+            var r4 = Addrow(4, [{
+                k: 'A',
+                v: 'Total Patients:' + patients,
+            }]);
+             var r5 = Addrow(5, [{
+                k: 'A',
+                v: ''
+            }, {
+                k: 'B',
+                v: ''
+            }]);
+
+            sheet.childNodes[0].childNodes[1].innerHTML = r1 + r2 + r3 + r4 + sheet.childNodes[0].childNodes[1].innerHTML;
+            table.clear().draw();
+            $('#hc_id').val('').selectpicker('refresh');
+    },
+            },
+        ],
     });
-
-    // Process and collect data for the second table
-    table2Data.push(['NCD Screening Host', 'Numbers']);
-    table2Rows.forEach(function (row) {
-        var rowData = [];
-        row.querySelectorAll('td').forEach(function (cell) {
-            rowData.push(cell.innerText);
-        });
-        table2Data.push(rowData);
-    });
-
-    // Process and collect data for the third table
-    table3Data.push(['Your Table3 Header', 'Your Table3 Header']);
-    table3Rows.forEach(function (row) {
-        var rowData = [];
-        row.querySelectorAll('td').forEach(function (cell) {
-            rowData.push(cell.innerText);
-        });
-        table3Data.push(rowData);
-    });
-
-    // Process and collect data for the fourth table
-    table4Data.push(['Your Table4 Header', 'Your Table4 Header']);
-    table4Rows.forEach(function (row) {
-        var rowData = [];
-        row.querySelectorAll('td').forEach(function (cell) {
-            rowData.push(cell.innerText);
-        });
-        table4Data.push(rowData);
-    });
-
-    // Combine data from all tables
-    var combinedData = table1Data.concat(table2Data, table3Data, table4Data);
-
-    // Create a new workbook
-    var wb = XLSX.utils.book_new();
-
-    // Add data to a worksheet
-    var ws = XLSX.utils.aoa_to_sheet(combinedData);
-    XLSX.utils.book_append_sheet(wb, ws, 'Sheet1');
-
-    // Export the workbook to Excel
-    XLSX.writeFile(wb, 'exported_data.xlsx');
-});
-
 
      $('#search').click(function () {
         var daterange = $('#daterange').val();
@@ -479,26 +353,7 @@
                let dmfemalehost=response.total_dm_female_host ? response.total_dm_female_host : '0';
                let dmfemalerohingya=response.total_dm_female_rohingya ? response.total_dm_female_rohingya : '0';
 
-
-               let pregnant=response.pregnant ? response.pregnant : '0';
-               let total_htn=response.total_htn ? response.total_htn : '0';
-               let total_diabetes=response.total_diabetes ? response.total_diabetes : '0';
-               let cc_name=response.cc_name ? response.cc_name : 'N/A';
-               let union=response.union ? response.union : 'N/A';
-               let upazila=response.upazila ? response.upazila : 'N/A';
-
-
-               $('#diabetes').text(total_diabetes);
-               $('#hypertension').text(total_htn);
-               $('#pregnant').text(pregnant);
-               $('#ccname').text(cc_name);
-               $('#union').text(union);
-               $('#upazilla').text(upazila);
-         
-
-                 
-
-
+           
              
                $('#bpmalehost').text(bpmalehost);
                $('#bpmalerohingya').text(bpmalerohingya);
@@ -537,6 +392,30 @@
 
                 collectionDate = formatDate(firstDate) + "_To_" + formatDate(lastDate);
                
+                // patients=response.resultCount;
+            
+                // var tableBody = $('#dataTable tbody')
+
+                // // Clear the existing table rows
+                // table.clear().draw();
+
+                // if (results.length > 0) {
+                //     $.each(results, function (index, result) {
+                //         var newRow = [
+                //             (index + 1),
+                //             result.ProvisionalDiagnosis,
+                //             (result.CreateDate || ""),
+                //             (result.Total || ""),
+                      
+                //         ];
+
+                //         // Add a new row to the table
+                //         table.row.add(newRow).draw();
+                //     });
+                // } else {
+                //     // Handle the case where there are no results (optional)
+                //     tableBody.html('<tr><td colspan="9">No results found</td></tr>');
+                // }
             },
         });
     });
