@@ -13,6 +13,23 @@ use Modules\Patient\Entities\Patient;
 use Modules\RefDiseaseGroups\Entities\RefDiseaseGroups;
 use Modules\HealthCenter\Entities\HealthCenter;
 use Modules\RefReferral\Entities\RefReferral;
+use Modules\Report\Entities\BPHostFemale;
+use Modules\Report\Entities\BPRohingyaFemale;
+use Modules\Report\Entities\BPRohingyaMale;
+use Modules\Report\Entities\DMHostFemale;
+use Modules\Report\Entities\DMHostMale;
+use Modules\Report\Entities\DMRohingyaFemale;
+use Modules\Report\Entities\DMRohingyaMale;
+use Modules\Report\Entities\GlucoseHostFemale;
+use Modules\Report\Entities\GlucoseHostMale;
+use Modules\Report\Entities\GlucoseRohingyaFemale;
+use Modules\Report\Entities\GlucoseRohingyaMale;
+use Modules\Report\Entities\HTNHostFemale;
+use Modules\Report\Entities\HTNHostMale;
+use Modules\Report\Entities\Htnmalehost;
+use Modules\Report\Entities\Htnmalerohingya;
+use Modules\Report\Entities\HTNRohingyaFemale;
+use Modules\Report\Entities\HTNRohingyaMale;
 use Modules\Report\Entities\Report;
 use Modules\Report\Entities\District;
 use Illuminate\Routing\Controller;
@@ -116,6 +133,230 @@ public function diseaseindex()
         $this->setPageData('Patient Treatment','Patient Treatment','fas fa-th-list');
         return view('report::treatment',compact('branches'));
     }
+     public function CustomReport(){
+        // $healthcenters=BarcodeFormat::with('healthCenter')->get();
+        
+       $branches=BarcodeFormat::with('healthCenter')->get(); 
+        $this->setPageData('Custom Report','Custom Report','fas fa-th-list');
+        return view('report::customreport',compact('branches'));
+    }
+      public function CustomReportData(Request $request){
+        // $healthcenters=BarcodeFormat::with('healthCenter')->get();
+        $barcode_prefix = $request->hc_id;
+        $first_date = $request->fdate;
+        $last_date = $request->ldate;
+       
+$total_bp_male_host = Htnmalehost::selectRaw('SUM(DistinctPatientCount) as TotalDistinctPatientCount')
+    ->fromSub(function ($query) use ($first_date, $last_date, $barcode_prefix) {
+        $query->selectRaw('CONVERT(date, CreateDate) as CreateDate, COUNT(DISTINCT PatientId) as DistinctPatientCount')
+            ->whereBetween(DB::raw('CONVERT(date, CreateDate)'), [$first_date, $last_date])
+            ->where('RegistrationId', 'LIKE', $barcode_prefix . '%')
+              ->groupBy(DB::raw('CONVERT(date, CreateDate)'))// Group by the CreateDate column
+            ->from('BPHostMale');
+    }, 'subquery')
+    ->first()
+    ->TotalDistinctPatientCount;
+
+    $total_bp_male_rohingya = BPRohingyaMale::selectRaw('SUM(DistinctPatientCount) as TotalDistinctPatientCount')
+    ->fromSub(function ($query) use ($first_date, $last_date, $barcode_prefix) {
+        $query->selectRaw('CONVERT(date, CreateDate) as CreateDate, COUNT(DISTINCT PatientId) as DistinctPatientCount')
+            ->whereBetween(DB::raw('CONVERT(date, CreateDate)'), [$first_date, $last_date])
+            ->where('RegistrationId', 'LIKE', $barcode_prefix . '%')
+              ->groupBy(DB::raw('CONVERT(date, CreateDate)'))// Group by the CreateDate column
+            ->from('BPRohingyaMale');
+    }, 'subquery')
+    ->first()
+    ->TotalDistinctPatientCount;
+
+    $total_bp_female_host = BPHostFemale::selectRaw('SUM(DistinctPatientCount) as TotalDistinctPatientCount')
+    ->fromSub(function ($query) use ($first_date, $last_date, $barcode_prefix) {
+        $query->selectRaw('CONVERT(date, CreateDate) as CreateDate, COUNT(DISTINCT PatientId) as DistinctPatientCount')
+            ->whereBetween(DB::raw('CONVERT(date, CreateDate)'), [$first_date, $last_date])
+            ->where('RegistrationId', 'LIKE', $barcode_prefix . '%')
+              ->groupBy(DB::raw('CONVERT(date, CreateDate)'))// Group by the CreateDate column
+            ->from('BPHostFemale');
+    }, 'subquery')
+    ->first()
+    ->TotalDistinctPatientCount;
+
+    
+    $total_bp_female_rohingya = BPRohingyaFemale::selectRaw('SUM(DistinctPatientCount) as TotalDistinctPatientCount')
+    ->fromSub(function ($query) use ($first_date, $last_date, $barcode_prefix) {
+        $query->selectRaw('CONVERT(date, CreateDate) as CreateDate, COUNT(DISTINCT PatientId) as DistinctPatientCount')
+            ->whereBetween(DB::raw('CONVERT(date, CreateDate)'), [$first_date, $last_date])
+            ->where('RegistrationId', 'LIKE', $barcode_prefix . '%')
+              ->groupBy(DB::raw('CONVERT(date, CreateDate)'))// Group by the CreateDate column
+            ->from('BPRohingyaFemale');
+    }, 'subquery')
+    ->first()
+    ->TotalDistinctPatientCount;
+
+
+    $total_htn_male_host = HTNHostMale::selectRaw('SUM(DistinctPatientCount) as TotalDistinctPatientCount')
+        ->fromSub(function ($query) use ($first_date, $last_date, $barcode_prefix) {
+            $query->selectRaw('CONVERT(date, CreateDate) as CreateDate, COUNT(DISTINCT PatientId) as DistinctPatientCount')
+                ->whereBetween(DB::raw('CONVERT(date, CreateDate)'), [$first_date, $last_date])
+                ->where('RegistrationId', 'LIKE', $barcode_prefix . '%')
+                ->groupBy(DB::raw('CONVERT(date, CreateDate)'))// Group by the CreateDate column
+                ->from('HTNHostMale');
+        }, 'subquery')
+        ->first()
+        ->TotalDistinctPatientCount;
+
+
+     $total_htn_male_rohingya = HTNRohingyaMale::selectRaw('SUM(DistinctPatientCount) as TotalDistinctPatientCount')
+        ->fromSub(function ($query) use ($first_date, $last_date, $barcode_prefix) {
+            $query->selectRaw('CONVERT(date, CreateDate) as CreateDate, COUNT(DISTINCT PatientId) as DistinctPatientCount')
+                ->whereBetween(DB::raw('CONVERT(date, CreateDate)'), [$first_date, $last_date])
+                ->where('RegistrationId', 'LIKE', $barcode_prefix . '%')
+                ->groupBy(DB::raw('CONVERT(date, CreateDate)'))// Group by the CreateDate column
+                ->from('HTNRohingyaMale');
+        }, 'subquery')
+        ->first()
+        ->TotalDistinctPatientCount;
+
+
+      $total_htn_female_host = HTNHostFemale::selectRaw('SUM(DistinctPatientCount) as TotalDistinctPatientCount')
+        ->fromSub(function ($query) use ($first_date, $last_date, $barcode_prefix) {
+            $query->selectRaw('CONVERT(date, CreateDate) as CreateDate, COUNT(DISTINCT PatientId) as DistinctPatientCount')
+                ->whereBetween(DB::raw('CONVERT(date, CreateDate)'), [$first_date, $last_date])
+                ->where('RegistrationId', 'LIKE', $barcode_prefix . '%')
+                ->groupBy(DB::raw('CONVERT(date, CreateDate)'))// Group by the CreateDate column
+                ->from('HTNHostFemale');
+        }, 'subquery')
+        ->first()
+        ->TotalDistinctPatientCount;
+
+      $total_htn_female_rohingya = HTNRohingyaFemale::selectRaw('SUM(DistinctPatientCount) as TotalDistinctPatientCount')
+        ->fromSub(function ($query) use ($first_date, $last_date, $barcode_prefix) {
+            $query->selectRaw('CONVERT(date, CreateDate) as CreateDate, COUNT(DISTINCT PatientId) as DistinctPatientCount')
+                ->whereBetween(DB::raw('CONVERT(date, CreateDate)'), [$first_date, $last_date])
+                ->where('RegistrationId', 'LIKE', $barcode_prefix . '%')
+                ->groupBy(DB::raw('CONVERT(date, CreateDate)'))// Group by the CreateDate column
+                ->from('HTNRohingyaFemale');
+        }, 'subquery')
+        ->first()
+        ->TotalDistinctPatientCount;
+
+
+       $total_glucose_male_host = GlucoseHostMale::selectRaw('SUM(DistinctPatientCount) as TotalDistinctPatientCount')
+        ->fromSub(function ($query) use ($first_date, $last_date, $barcode_prefix) {
+            $query->selectRaw('CONVERT(date, CreateDate) as CreateDate, COUNT(DISTINCT PatientId) as DistinctPatientCount')
+                ->whereBetween(DB::raw('CONVERT(date, CreateDate)'), [$first_date, $last_date])
+                ->where('RegistrationId', 'LIKE', $barcode_prefix . '%')
+                ->groupBy(DB::raw('CONVERT(date, CreateDate)'))// Group by the CreateDate column
+                ->from('GlucoseHostMale');
+        }, 'subquery')
+        ->first()
+        ->TotalDistinctPatientCount;
+
+    
+       $total_glucose_female_host = GlucoseHostFemale::selectRaw('SUM(DistinctPatientCount) as TotalDistinctPatientCount')
+        ->fromSub(function ($query) use ($first_date, $last_date, $barcode_prefix) {
+            $query->selectRaw('CONVERT(date, CreateDate) as CreateDate, COUNT(DISTINCT PatientId) as DistinctPatientCount')
+                ->whereBetween(DB::raw('CONVERT(date, CreateDate)'), [$first_date, $last_date])
+                ->where('RegistrationId', 'LIKE', $barcode_prefix . '%')
+                ->groupBy(DB::raw('CONVERT(date, CreateDate)'))// Group by the CreateDate column
+                ->from('GlucoseHostFemale');
+        }, 'subquery')
+        ->first()
+        ->TotalDistinctPatientCount;
+
+      $total_glucose_male_rohingya = GlucoseRohingyaMale::selectRaw('SUM(DistinctPatientCount) as TotalDistinctPatientCount')
+        ->fromSub(function ($query) use ($first_date, $last_date, $barcode_prefix) {
+            $query->selectRaw('CONVERT(date, CreateDate) as CreateDate, COUNT(DISTINCT PatientId) as DistinctPatientCount')
+                ->whereBetween(DB::raw('CONVERT(date, CreateDate)'), [$first_date, $last_date])
+                ->where('RegistrationId', 'LIKE', $barcode_prefix . '%')
+                ->groupBy(DB::raw('CONVERT(date, CreateDate)'))// Group by the CreateDate column
+                ->from('GlucoseRohingyaMale');
+        }, 'subquery')
+        ->first()
+        ->TotalDistinctPatientCount;
+
+    
+      $total_glucose_female_rohingya = GlucoseRohingyaFemale::selectRaw('SUM(DistinctPatientCount) as TotalDistinctPatientCount')
+        ->fromSub(function ($query) use ($first_date, $last_date, $barcode_prefix) {
+            $query->selectRaw('CONVERT(date, CreateDate) as CreateDate, COUNT(DISTINCT PatientId) as DistinctPatientCount')
+                ->whereBetween(DB::raw('CONVERT(date, CreateDate)'), [$first_date, $last_date])
+                ->where('RegistrationId', 'LIKE', $barcode_prefix . '%')
+                ->groupBy(DB::raw('CONVERT(date, CreateDate)'))// Group by the CreateDate column
+                ->from('GlucoseRohingyaFemale');
+        }, 'subquery')
+        ->first()
+        ->TotalDistinctPatientCount;
+
+      $total_dm_male_host = DMHostMale::selectRaw('SUM(DistinctPatientCount) as TotalDistinctPatientCount')
+        ->fromSub(function ($query) use ($first_date, $last_date, $barcode_prefix) {
+            $query->selectRaw('CONVERT(date, CreateDate) as CreateDate, COUNT(DISTINCT PatientId) as DistinctPatientCount')
+                ->whereBetween(DB::raw('CONVERT(date, CreateDate)'), [$first_date, $last_date])
+                ->where('RegistrationId', 'LIKE', $barcode_prefix . '%')
+                ->groupBy(DB::raw('CONVERT(date, CreateDate)'))// Group by the CreateDate column
+                ->from('DMHostMale');
+        }, 'subquery')
+        ->first()
+        ->TotalDistinctPatientCount; 
+
+      $total_dm_female_host = DMHostFemale::selectRaw('SUM(DistinctPatientCount) as TotalDistinctPatientCount')
+        ->fromSub(function ($query) use ($first_date, $last_date, $barcode_prefix) {
+            $query->selectRaw('CONVERT(date, CreateDate) as CreateDate, COUNT(DISTINCT PatientId) as DistinctPatientCount')
+                ->whereBetween(DB::raw('CONVERT(date, CreateDate)'), [$first_date, $last_date])
+                ->where('RegistrationId', 'LIKE', $barcode_prefix . '%')
+                ->groupBy(DB::raw('CONVERT(date, CreateDate)'))// Group by the CreateDate column
+                ->from('DMHostFemale');
+        }, 'subquery')
+        ->first()
+        ->TotalDistinctPatientCount;  
+
+        $total_dm_male_rohingya = DMRohingyaMale::selectRaw('SUM(DistinctPatientCount) as TotalDistinctPatientCount')
+        ->fromSub(function ($query) use ($first_date, $last_date, $barcode_prefix) {
+            $query->selectRaw('CONVERT(date, CreateDate) as CreateDate, COUNT(DISTINCT PatientId) as DistinctPatientCount')
+                ->whereBetween(DB::raw('CONVERT(date, CreateDate)'), [$first_date, $last_date])
+                ->where('RegistrationId', 'LIKE', $barcode_prefix . '%')
+                ->groupBy(DB::raw('CONVERT(date, CreateDate)'))// Group by the CreateDate column
+                ->from('DMRohingyaMale');
+        }, 'subquery')
+        ->first()
+        ->TotalDistinctPatientCount;
+
+     $total_dm_female_rohingya = DMRohingyaFemale::selectRaw('SUM(DistinctPatientCount) as TotalDistinctPatientCount')
+        ->fromSub(function ($query) use ($first_date, $last_date, $barcode_prefix) {
+            $query->selectRaw('CONVERT(date, CreateDate) as CreateDate, COUNT(DISTINCT PatientId) as DistinctPatientCount')
+                ->whereBetween(DB::raw('CONVERT(date, CreateDate)'), [$first_date, $last_date])
+                ->where('RegistrationId', 'LIKE', $barcode_prefix . '%')
+                ->groupBy(DB::raw('CONVERT(date, CreateDate)'))// Group by the CreateDate column
+                ->from('DMRohingyaFemale');
+        }, 'subquery')
+        ->first()
+        ->TotalDistinctPatientCount;
+
+    
+
+        return response()->json([
+            'total_bp_male_host' => $total_bp_male_host,
+            'total_bp_male_rohingya' => $total_bp_male_rohingya,
+            'total_bp_female_host' => $total_bp_female_host,
+            'total_bp_female_rohingya' => $total_bp_female_rohingya,
+            'total_htn_male_host' => $total_htn_male_host,
+            'total_htn_male_rohingya' => $total_htn_male_rohingya,
+            'total_htn_female_host' => $total_htn_female_host,
+            'total_htn_female_rohingya' => $total_htn_female_rohingya,
+            'total_glucose_male_host' => $total_glucose_male_host,
+            'total_glucose_female_host' => $total_glucose_female_host,
+            'total_glucose_male_rohingya' => $total_glucose_male_rohingya,
+            'total_glucose_female_rohingya' => $total_glucose_female_rohingya,
+            'total_dm_male_host' => $total_dm_male_host,
+            'total_dm_male_rohingya' => $total_dm_male_rohingya,
+            'total_dm_female_host' => $total_dm_female_host,
+            'total_dm_female_rohingya' => $total_dm_female_rohingya,
+        
+        ]);
+      
+      
+    }
+
+    
+
+
     public function FollowUpDateReport(Request $request)
     {
         $branches=BarcodeFormat::with('healthCenter')->get(); 
