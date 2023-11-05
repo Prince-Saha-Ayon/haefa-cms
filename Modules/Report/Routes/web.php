@@ -65,6 +65,10 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('treatment-report', 'ReportController@treatmentreport')->name('treatment-report');
 
 
+    Route::get('customreport', 'ReportController@CustomReport')->name('customreport');
+    Route::get('custom-report', 'ReportController@CustomReportData')->name('custom-report');
+
+
 
     Route::group(['prefix' => 'patientage', 'as'=>'patientage.'], function () {
         Route::post('show', 'ReportController@show')->name('show');
