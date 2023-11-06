@@ -47,15 +47,15 @@
                     <form id="generate_barcode_form" method="POST">
                         @csrf
                         <div class="pb-3 mb-3 select-barcode-type">
-                            <div class="form-check form-check-inline">
+                            <div class="form-check form-check-inline ml-4">
                                 <input class="form-check-input" type="radio" name="barcode_type" id="barcode_type_old"
                                        value="old" onclick="getGeneratedBarcode(this.value)">
-                                <label class="form-check-label" for="inlineRadio1">Printed Barcode</label>
+                                <label class="form-check-label" for="barcode_type_old">Printed Barcode</label>
                             </div>
                             <div class="form-check form-check-inline">
                                 <input class="form-check-input" type="radio" name="barcode_type" id="barcode_type_new"
                                        value="new" onclick="getGeneratedBarcode(this.value)">
-                                <label class="form-check-label" for="inlineRadio1">Print New Barcode</label>
+                                <label class="form-check-label" for="barcode_type_new">Print New Barcode</label>
                             </div>
                             <div class="mt-2 spinner" id="spinner">
 
