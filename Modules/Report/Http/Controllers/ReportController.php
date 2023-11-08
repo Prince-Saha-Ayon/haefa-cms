@@ -44,6 +44,7 @@ use Modules\Report\Entities\Union;
 use Modules\Report\Entities\Upazilla;
 use Modules\Report\Entities\FollowUpDate;
 use Illuminate\Support\Facades\Log; 
+use Modules\Report\Entities\ViewDumpData;
 use Symfony\Component\Process\Process;
 use App\Jobs\SyncJob; // Import the job class
 use Illuminate\Support\Facades\Queue; // Import Queue facade
@@ -142,6 +143,54 @@ public function diseaseindex()
        $branches=BarcodeFormat::with('healthCenter')->get(); 
         $this->setPageData('Custom Report','Custom Report','fas fa-th-list');
         return view('report::customreport',compact('branches'));
+    }
+      public function FullDataDump(){
+ 
+       $branches=BarcodeFormat::with('healthCenter')->get(); 
+        $this->setPageData('Full Data Dump','Full Data Dump','fas fa-th-list');
+        return view('report::fulldatadump',compact('branches'));
+    }
+     public function FullDataExport(){
+ 
+       $branches=BarcodeFormat::with('healthCenter')->get(); 
+        $this->setPageData('Full Data Export','Full Data Export','fas fa-th-list');
+        return view('report::fulldataexport',compact('branches'));
+    }
+    public function FullDataDumpReport(Request $request){
+        $barcode_prefix = $request->hc_id;
+        $first_date = $request->fdate;
+        $last_date = $request->ldate;
+        $hcname=HealthCenter::where('HealthCenterCode',$barcode_prefix )->first('HealthCenterName');
+        $data_dump=ViewDumpData::whereBetween(DB::raw('CONVERT(date, CollectionDates)'), [$first_date, $last_date])
+        ->where(function($query) use ($barcode_prefix) {
+            if ($barcode_prefix) {
+                $query->where('RegistrationId', 'LIKE', $barcode_prefix . '%');
+            }  
+        })->get(); 
+
+        return response()->json([
+            'data_dump'=>$data_dump,
+            'healthcenter'=>$hcname
+        ]);
+      
+    }
+      public function FullDataExportReport(Request $request){
+        $barcode_prefix = $request->hc_id;
+        $first_date = $request->fdate;
+        $last_date = $request->ldate;
+        $hcname=HealthCenter::where('HealthCenterCode',$barcode_prefix )->first('HealthCenterName');
+        $data_dump=ViewDumpData::whereBetween(DB::raw('CONVERT(date, CollectionDates)'), [$first_date, $last_date])
+        ->where(function($query) use ($barcode_prefix) {
+            if ($barcode_prefix) {
+                $query->where('RegistrationId', 'LIKE', $barcode_prefix . '%');
+            }  
+        })->get(); 
+        
+        return response()->json([
+            'data_dump'=>$data_dump,
+            'healthcenter'=>$hcname
+        ]);
+      
     }
       public function CustomReportData(Request $request){
         // $healthcenters=BarcodeFormat::with('healthCenter')->get();
@@ -777,10 +826,10 @@ $results = Address::with('districtAddress','upazillaAddress','unionAddress')->se
                 $query->where('Patient.RegistrationId', 'LIKE', $barcode_prefix . '%');
             } 
             if ($starting_age !== null) {
-                $query->where('Patient.Age', '>=', $starting_age);
+                $query->where(DB::raw('CAST(Patient.Age AS INT)'), '>=', $starting_age);
             }
             if ($ending_age !== null) {
-                $query->where('Patient.Age', '<=', $ending_age);
+                $query->where(DB::raw('CAST(Patient.Age AS INT)'), '<=', $ending_age);
             }
         })
         ->join('Patient', 'MDataProvisionalDiagnosis.PatientId', '=', 'Patient.PatientId')
