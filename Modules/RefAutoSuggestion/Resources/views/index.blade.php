@@ -76,7 +76,7 @@
                                 @endif
                                 <th>Sl</th>
                                 <th>Auto Suggestion</th>
-                                <th>LabInvestigation Group</th>
+                                <th>Auto Suggestion Group</th>
                                 <th>Description</th>
                                 <th>Action</th>
                             </tr>
