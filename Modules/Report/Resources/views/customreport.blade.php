@@ -56,14 +56,14 @@
                             </div>
 
                             <div class="form-group col-md-3">
-                                <label for="name">Branches</label>
+                                <label for="name">Branches <span style="color: red">*</span></label>
 
-                                <select class="selectpicker" data-live-search="true" name="hc_id" id="hc_id">
-                                    <option value="">Select Branch</option> <!-- Empty option added -->
-                                    @foreach($branches as $branch)
+                            <select class="selectpicker required" required="required" data-live-search="true" name="hc_id" id="hc_id">
+                                <option value="">Select Branch </option> <!-- Empty option added -->
+                                @foreach($branches as $branch)
                                     <option value="{{$branch->barcode_prefix}}">{{$branch->healthCenter->HealthCenterName}}</option>
-                                    @endforeach
-                                </select>
+                                @endforeach
+                            </select>
                             </div>
 
                             <div class="col-md-2 warning-searching invisible" id="warning-searching">
@@ -83,7 +83,7 @@
                             </div>
                         </div>
                     </form>
-                      <table id="dataTable" class="table table-striped table-bordered table-hover">
+                      <table id="dataTable" class="table table-striped table-bordered table-hover d-none">
                             <thead class="bg-primary">
                             <tr>
                               
@@ -139,7 +139,7 @@
                          
                     </table>
 
-                        <table id="dataTable2" class="table table-striped table-bordered table-hover">
+                        <table id="dataTable2" class="table table-striped table-bordered table-hover d-none">
                             <thead class="bg-primary">
                             <tr>
                               
@@ -170,7 +170,7 @@
                          
                     </table>
 
-                     <table id="dataTable3" class="table table-striped table-bordered table-hover">
+                     <table id="dataTable3" class="table table-striped table-bordered table-hover d-none">
                             <thead class="bg-primary">
                             <tr>
                               
@@ -227,7 +227,7 @@
                     </table>
 
 
-                 <table id="dataTable4" class="table table-striped table-bordered table-hover">
+                 <table id="dataTable4" class="table table-striped table-bordered table-hover d-none">
                             <thead class="bg-primary">
                             <tr>
                                
@@ -290,7 +290,7 @@
                     
                          
                 </table>
-                <button id="export-button" class="btn btn-primary">Export to Excel</button>
+                <button id="export-button" class="btn btn-primary disabled">Export to Excel</button>
 
                 </div>
                 <!-- /card body -->
@@ -315,7 +315,7 @@
 
 <script src="js/dataTables.buttons.min.js"></script>
 <script src="js/buttons.html5.min.js"></script>
-<script lang="javascript" src="https://cdn.sheetjs.com/xlsx-0.20.0/package/dist/xlsx.full.min.js"></script>
+<script lang="javascript" src="js/xlsx.full.min.js"></script>
 <script>
 
 // disease rate by date range start
@@ -367,9 +367,20 @@
     var patients;
     var now = new Date();
     var formattedDate = now.getDate().toString().padStart(2, '0') + '_' + (now.getMonth() + 1).toString().padStart(2, '0') + '_' + now.getFullYear();
-    var filename = 'ProvisionalDiagnosis_Datewise_' + formattedDate;
+    var filename = 'Custom Report_' + formattedDate;
 
-  
+    document.getElementById('search').disabled = true; // Disable the button initially
+
+    document.getElementById('hc_id').addEventListener('change', function () {
+        // Enable the button when the select field is filled
+        document.getElementById('search').disabled = !this.value;
+    });
+
+    document.getElementById('btn-reset').addEventListener('click', function () {
+        // Reset the select field and disable the button
+        document.getElementById('hc_id').value = '';
+        document.getElementById('search').disabled = true;
+    });
 
     
     $(document).ready(function () {
@@ -387,7 +398,10 @@
     var table4Rows = document.querySelectorAll('#dataTable4 tbody tr');
 
     // Process and collect data for the first table
-    table1Data.push(['NCD Screening Rohingya', 'Numbers']);
+    table1Data.push(['Health and Education for All (HAEFA)', '']);
+    table1Data.push(['Report']);
+    table1Data.push(['Date:'+ formattedDate]);
+     table1Data.push(['']);
     table1Rows.forEach(function (row) {
         var rowData = [];
         row.querySelectorAll('td').forEach(function (cell) {
@@ -397,7 +411,9 @@
     });
 
     // Process and collect data for the second table
-    table2Data.push(['NCD Screening Host', 'Numbers']);
+    table2Data.push(['']);
+    table2Data.push(['']);
+    table2Data.push(['', '']);
     table2Rows.forEach(function (row) {
         var rowData = [];
         row.querySelectorAll('td').forEach(function (cell) {
@@ -407,7 +423,9 @@
     });
 
     // Process and collect data for the third table
-    table3Data.push(['Your Table3 Header', 'Your Table3 Header']);
+    table3Data.push(['']);
+    table3Data.push(['']);
+    table3Data.push(['Rohingya NCD Screening', '']);
     table3Rows.forEach(function (row) {
         var rowData = [];
         row.querySelectorAll('td').forEach(function (cell) {
@@ -417,7 +435,9 @@
     });
 
     // Process and collect data for the fourth table
-    table4Data.push(['Your Table4 Header', 'Your Table4 Header']);
+    table4Data.push(['']);
+    table4Data.push(['']);
+    table4Data.push(['Host NCD Screening', '']);
     table4Rows.forEach(function (row) {
         var rowData = [];
         row.querySelectorAll('td').forEach(function (cell) {
@@ -435,9 +455,15 @@
     // Add data to a worksheet
     var ws = XLSX.utils.aoa_to_sheet(combinedData);
     XLSX.utils.book_append_sheet(wb, ws, 'Sheet1');
+    var wscols = [
+    { wch: 60 }, // Set the width of the first column to 20
+    ];
+
+// Update the worksheet with column widths
+    ws['!cols'] = wscols;
 
     // Export the workbook to Excel
-    XLSX.writeFile(wb, 'exported_data.xlsx');
+    XLSX.writeFile(wb, 'Custom_Report_' + formattedDate + '.xlsx');
 });
 
 
@@ -457,6 +483,7 @@
             },
             complete: function () {
                 $('#warning-searching').addClass('invisible');
+                $('#export-button').removeClass('disabled');
             },
             success: function (response) {
                let bpmalehost=response.total_bp_male_host ? response.total_bp_male_host : '0';
