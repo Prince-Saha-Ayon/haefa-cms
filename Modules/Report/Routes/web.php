@@ -69,6 +69,11 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('custom-report', 'ReportController@CustomReportData')->name('custom-report');
 
 
+    Route::get('fulldatadump', 'ReportController@FullDataDump')->name('fulldatadump');
+    Route::get('fulldatadumpreport', 'ReportController@FullDataDumpReport')->name('fulldatadumpreport');
+
+    Route::get('fulldataexport', 'ReportController@FullDataExport')->name('fulldataexport');
+    Route::get('fulldataexportreport', 'ReportController@FullDataExportReport')->name('fulldataexportreport');
 
     Route::group(['prefix' => 'patientage', 'as'=>'patientage.'], function () {
         Route::post('show', 'ReportController@show')->name('show');

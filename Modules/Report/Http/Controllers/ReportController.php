@@ -178,13 +178,16 @@ public function diseaseindex()
         $barcode_prefix = $request->hc_id;
         $first_date = $request->fdate;
         $last_date = $request->ldate;
+
         $hcname=HealthCenter::where('HealthCenterCode',$barcode_prefix )->first('HealthCenterName');
+
         $data_dump=ViewDumpData::whereBetween(DB::raw('CONVERT(date, CollectionDates)'), [$first_date, $last_date])
         ->where(function($query) use ($barcode_prefix) {
             if ($barcode_prefix) {
                 $query->where('RegistrationId', 'LIKE', $barcode_prefix . '%');
             }  
         })->get(); 
+
         
         return response()->json([
             'data_dump'=>$data_dump,
