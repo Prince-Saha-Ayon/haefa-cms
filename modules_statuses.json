@@ -77,5 +77,6 @@
     "RefVaccineDose": true,
     "RefProvisionalDiagnosis": true,
     "RefLabInvestigation": true,
-    "RefAutoSuggestion": true
+    "RefAutoSuggestion": true,
+    "RefAdvice": true
 }

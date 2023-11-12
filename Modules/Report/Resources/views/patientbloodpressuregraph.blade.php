@@ -102,12 +102,13 @@
 
                             <div class="col-lg-2">
                                 <div class="form-group pt-24">
+                                <button type="button" id="refresh" class="btn btn-danger btn-sm float-right mr-2 refresh">
+                                <i class="fas fa-sync-alt"></i></button>
                                 <button type="button" id="search" class="btn btn-primary btn-sm float-right mr-2">
                                     <i class="fas fa-search"></i>
                                 </button>
 
-                                <button type="button" id="refresh" class="btn btn-primary btn-sm float-right mr-2 refresh">
-                                <i class="fas fa-sync-alt"></i></button>
+                               
                             </div>
                             </div>
                         </div>
