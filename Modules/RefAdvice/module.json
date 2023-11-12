@@ -1,0 +1,13 @@
+{
+    "name": "RefAdvice",
+    "alias": "refadvice",
+    "description": "",
+    "keywords": [],
+    "priority": 0,
+    "providers": [
+        "Modules\\RefAdvice\\Providers\\RefAdviceServiceProvider"
+    ],
+    "aliases": {},
+    "files": [],
+    "requires": []
+}

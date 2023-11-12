@@ -170,60 +170,7 @@
     font-size: 15px;
 }
 
-@media (max-width: 767px) {
 
-    #prescription,
-    .logoText,
-    address p,
-    .header p {
-        font-size: 12px !important;
-    }
-
-    .header h4 {
-        font-size: 18px !important;
-    }
-
-    .patientageLeftSide {
-        width: 100% !important;
-        min-height: auto !important;
-        border: 0 !important;
-    }
-
-    .itemMerge {
-        flex-direction: column;
-    }
-
-    .patientageLeftSide h5 {
-        font-size: 18px !important;
-    }
-
-    .userImg {
-        width: 140px !important;
-        height: 140px !important;
-        border-width: 5px;
-    }
-
-    .patientageRightSide .dataItem p,
-    .patientageRightSide .dataItem span,
-    .patientageLeftSide p {
-        margin-bottom: 0;
-        font-size: 14px;
-    }
-
-    .patientageRightSide .dataItem h5 {
-        font-size: 16px !important;
-        margin-bottom: 5px !important;
-    }
-
-    .patientageRightSide {
-        padding: 10px 10px !important;
-    }
-
-    .patientageRightSide .dataItem {
-        margin-top: 15px !important;
-    }
-
-}
 </style>
 @endpush
 
@@ -297,14 +244,15 @@
                                 <span class="spinner-border text-danger"></span>
                             </div>
 
-                            <div class="form-group col-md-2 pt-24">
+                            <div class="form-group col-md-4 pt-24">
+                                 <button type="button" id="refresh" class="btn btn-danger btn-sm float-right mr-2 refresh">
+                                <i class="fas fa-sync-alt"></i></button>
 
                                 <button type="button" id="search" class="btn btn-primary btn-sm float-right mr-2">
                                     <i class="fas fa-search"></i>
                                 </button>
 
-                                <button type="button" id="refresh" class="btn btn-primary btn-sm float-right mr-2 refresh">
-                                <i class="fas fa-sync-alt"></i></button>
+                               
                             </div>
                         </div>
 

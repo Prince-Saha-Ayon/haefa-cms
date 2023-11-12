@@ -72,6 +72,9 @@
                             </div>
                             <div class="form-group col-md-4 pt-24">
 
+                                 <button type="button" id="refresh" class="btn btn-danger btn-sm float-right mr-2 refresh">
+                                <i class="fas fa-sync-alt"></i></button>
+
                                 <button type="button"  class="btn btn-primary btn-sm float-right mr-2" id="search"
                                         data-toggle="tooltip" data-placement="top" data-original-title="Filter Data">
                                     <i class="fas fa-search"></i>
@@ -278,6 +281,14 @@ $('#search').click(function() {
     $('#btn-filter').on('click', function (event) {
         $('#warning-searching').removeClass('invisible');
     });
+
+    $('#refresh').click(function(){
+    $('#daterange').val('');
+  
+
+    $('.selectpicker').selectpicker('val', '');
+    $('#date_wise').html('');
+});
 
     $(function () {
 
