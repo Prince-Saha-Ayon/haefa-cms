@@ -13,16 +13,16 @@
 
 
 Route::group(['middleware' => ['auth']], function () {
-    Route::get('barcodeprint', 'barcodeprintController@index')->name('barcodeprint');
-    Route::get('latest-range/{id}', 'barcodeprintcontroller@latest_range')->name('latest.range');
-    Route::get('get-barcodes/{barcode_type}', 'barcodeprintcontroller@get_barcodes')->name('get.barcodes');
-    Route::get('view-barcodes/{startValue}', 'barcodeprintcontroller@view_barcodes')->name('view.barcodes');
+    Route::get('barcodeprint', 'BarcodeprintController@index')->name('barcodeprint');
+    Route::get('latest-range/{id}', 'BarcodeprintController@latest_range')->name('latest.range');
+    Route::get('get-barcodes/{barcode_type}', 'BarcodeprintController@get_barcodes')->name('get.barcodes');
+    Route::get('view-barcodes/{startValue}', 'BarcodeprintController@view_barcodes')->name('view.barcodes');
     Route::group(['prefix' => 'barcodeprint', 'as'=>'barcodeprint.'], function () {
-        Route::post('barcode/product-autocomplete-search', 'barcodeprintController@autocomplete_search_product');
-        Route::get('store-or-update', 'barcodeprintcontroller@store_or_update_data')->name('store.or.update');
-        Route::get('store-or-update-range', 'barcodeprintcontroller@store_or_update_data_range')->name('store.or.update.range');
-        Route::post('barcode/search-product', 'barcodeprintcontroller@search_product')->name('barcode.search.product');
-        Route::get('print-barcode', 'barcodeprintcontroller@index')->name('print.barcode');
-        Route::post('generate-barcode', 'barcodecontroller@generatebarcode')->name('generate.barcode');
+        Route::post('barcode/product-autocomplete-search', 'BarcodeprintController@autocomplete_search_product');
+        Route::get('store-or-update', 'BarcodeprintController@store_or_update_data')->name('store.or.update');
+        Route::get('store-or-update-range', 'BarcodeprintController@store_or_update_data_range')->name('store.or.update.range');
+        Route::post('barcode/search-product', 'BarcodeprintController@search_product')->name('barcode.search.product');
+        Route::get('print-barcode', 'BarcodeprintController@index')->name('print.barcode');
+        Route::post('generate-barcode', 'BarcodeprintController@generatebarcode')->name('generate.barcode');
     });
 });

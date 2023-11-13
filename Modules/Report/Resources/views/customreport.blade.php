@@ -398,7 +398,7 @@
     var table4Rows = document.querySelectorAll('#dataTable4 tbody tr');
 
     // Process and collect data for the first table
-    table1Data.push(['Health and Education for All (HAEFA)', '']);
+    table1Data.push(['Nirog Plus', '']);
     table1Data.push(['Report']);
     table1Data.push(['Date:'+ formattedDate]);
      table1Data.push(['']);
