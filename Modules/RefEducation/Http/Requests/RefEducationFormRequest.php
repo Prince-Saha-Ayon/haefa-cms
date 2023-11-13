@@ -14,7 +14,7 @@ class RefEducationFormRequest extends FormRequest
     public function rules()
     {
         $rules = [];
-        $rules['EducationCode'] = ['required','unique:RefEducation,EducationCode'];
+        $rules['EducationCode'] = ['required'];
         return $rules;
     }
 

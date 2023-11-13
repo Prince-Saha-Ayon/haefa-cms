@@ -14,7 +14,7 @@ class RefChiefComplainFormRequest extends FormRequest
     public function rules()
     {
         $rules = [];
-        $rules['CCCode'] = ['required','unique:RefChiefComplain,CCCode'];
+        $rules['CCCode'] = ['required'];
         return $rules;
     }
 

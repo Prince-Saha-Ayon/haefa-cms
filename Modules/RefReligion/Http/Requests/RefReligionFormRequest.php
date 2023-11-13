@@ -14,7 +14,8 @@ class RefReligionFormRequest extends FormRequest
     public function rules()
     {
         $rules = [];
-        $rules['ReligionCode'] = ['required','unique:RefReligion,ReligionCode'];
+        $rules['ReligionCode'] = ['required'];
+      
         return $rules;
     }
 

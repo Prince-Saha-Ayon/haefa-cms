@@ -34,9 +34,9 @@
               <h5 class="mb-3 py-1 ps-2 border-start border-success text-success border-4 d-inline-block">Present Address</h5>
                 <p><span>Address :</span> @if (!(empty($patientDetails->address))){{$patientDetails->address->AddressLine1}} @endif</p>
                 <p><span>Village :</span> @if (!(empty($patientDetails->address))){{$patientDetails->address->Village}} @endif</p>
-                <p><span>Union :</span> @if (!(empty($patientDetails->address))){{$patientDetails->address->Thana}} @endif</p>
+                <p><span>Union :</span> @if (!(empty($patientDetails->address))){{$patientDetails->address->unionAddress->name}} @endif</p>
                 <p><span>Post Code :</span> @if (!(empty($patientDetails->address))){{$patientDetails->address->PostCode}} @endif</p>
-                <p><span>District :</span> @if (!(empty($patientDetails->address))){{$patientDetails->address->District}} @endif</p>
+                <p><span>District :</span> @if (!(empty($patientDetails->address))){{$patientDetails->address->districtAddress->name}} @endif</p>
                 <p><span>Country :</span> @if (!(empty($patientDetails->address))){{$patientDetails->address->Country}} @endif</p>
             </div>
             <div class="dataItem mt-5">

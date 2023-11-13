@@ -14,7 +14,7 @@ class RefVaccineAdultRequest extends FormRequest
     public function rules()
     {
         $rules = [];
-        $rules['VaccineCode'] = ['required','unique:RefVaccineAdult,VaccineCode'];
+        $rules['VaccineCode'] = ['required'];
         $rules['VaccineDoseNumber'] = ['required'];
         $rules['VaccineDoseGroupId'] = ['required'];
         return $rules;

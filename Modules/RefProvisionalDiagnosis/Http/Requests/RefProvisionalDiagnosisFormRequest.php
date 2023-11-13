@@ -14,8 +14,8 @@ class RefProvisionalDiagnosisFormRequest extends FormRequest
     public function rules()
     {
         $rules = [];
-        $rules['ProvisionalDiagnosisCode'] = ['required','unique:RefProvisionalDiagnosis,ProvisionalDiagnosisCode'];
-        $rules['ProvisionalDiagnosisName'] = ['required','unique:RefProvisionalDiagnosis,ProvisionalDiagnosisName'];
+        $rules['ProvisionalDiagnosisCode'] = ['required'];
+        $rules['ProvisionalDiagnosisName'] = ['required'];
         $rules['RefProvisionalDiagnosisGroupId'] = ['required'];
       
         return $rules;

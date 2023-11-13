@@ -69,48 +69,11 @@
   font-weight: 600;
   font-size: 15px;
 }
-
-@media (max-width: 767px){
-    #prescription, .logoText, address p, .header p{
-        font-size: 12px !important;
-    }
-    .header h4{
-        font-size: 18px !important;
-    }
-    .patientLeftSide {
-    width: 100% !important;
-    min-height: auto !important;
-    border: 0 !important;
-  }
-  .itemMerge{
-    flex-direction: column;
-  }
-  .patientLeftSide h5{
-    font-size: 18px !important;
-  }
-  .userImg {
-    width: 140px !important;
-    height: 140px !important;
-    border-width: 5px;
-  }
-  .patientRightSide .dataItem p,
-  .patientRightSide .dataItem span,
-  .patientLeftSide p{
-    margin-bottom: 0;
-    font-size: 14px;
-  }
-  .patientRightSide .dataItem h5{
-    font-size: 16px !important;
-    margin-bottom: 5px !important;
-  }
-  .patientRightSide{
-    padding: 10px 10px !important;
-  }
-  .patientRightSide .dataItem{
-    margin-top: 15px !important;
-  }
-
+.buttons-excel{
+    display: none !important;
 }
+
+
     </style>
 @endpush
 

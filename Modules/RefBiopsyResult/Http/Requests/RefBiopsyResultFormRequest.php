@@ -14,7 +14,7 @@ class RefBiopsyResultFormRequest extends FormRequest
     public function rules()
     {
         $rules = [];
-        $rules['BiopsyResultCode'] = ['required','unique:RefBiopsyResult,BiopsyResultCode'];
+        $rules['BiopsyResultCode'] = ['required'];
         return $rules;
     }
 

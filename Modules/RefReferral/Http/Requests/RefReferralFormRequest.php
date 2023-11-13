@@ -14,7 +14,7 @@ class RefReferralFormRequest extends FormRequest
     public function rules()
     {
         $rules = [];
-        $rules['RCode'] = ['required','unique:RefReferral,RCode'];
+        $rules['RCode'] = ['required'];
         return $rules;
     }
 

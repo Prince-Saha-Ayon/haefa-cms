@@ -14,7 +14,7 @@ class RefDiseaseGroupsFormRequest extends FormRequest
     public function rules()
     {
         $rules = [];
-        $rules['DiseaseGroupName'] = ['required','unique:RefDiseaseGroups,DiseaseGroupName'];
+        $rules['DiseaseGroupName'] = ['required'];
         return $rules;
     }
 

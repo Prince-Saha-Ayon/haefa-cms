@@ -14,7 +14,7 @@ class RefDrugGroupFormRequest extends FormRequest
     public function rules()
     {
         $rules = [];
-        $rules['DrugGroupCode'] = ['required','unique:RefDrugGroup,DrugGroupCode'];
+        $rules['DrugGroupCode'] = ['required'];
         return $rules;
     }
 

@@ -15,7 +15,7 @@ class RefDepartmentFormRequest extends FormRequest
     {
         $rules = [];
         $rules['WorkPlaceId'] = ['required'];
-        $rules['DepartmentCode'] = ['required','unique:RefDepartment,DepartmentCode'];
+        $rules['DepartmentCode'] = ['required'];
         return $rules;
     }
 

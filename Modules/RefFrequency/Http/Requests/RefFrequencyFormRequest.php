@@ -14,7 +14,7 @@ class RefFrequencyFormRequest extends FormRequest
     public function rules()
     {
         $rules = [];
-        $rules['FrequencyCode'] = ['required','unique:RefFrequency,FrequencyCode'];
+        $rules['FrequencyCode'] = ['required'];
         return $rules;
     }
 

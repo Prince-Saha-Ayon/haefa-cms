@@ -136,7 +136,6 @@ class PatientController extends BaseController
                         'IdNumber' => $request->IdNumber,
                         'IdOwner' => $request->IdOwner,
                         'MaritalStatusId' => $request->MaritalStatusId,
-
                         'SpouseName' => $request->SpouseName,
                         'ReligionId' => $request->ReligionId,
                         'FamilyMembers' => $request->FamilyMembers,
@@ -147,7 +146,6 @@ class PatientController extends BaseController
                         'ChildAge0To1' => $request->ChildAge0To1,
                         'ChildAge1To5' => $request->ChildAge1To5,
                         'ChildAgeOver5' => $request->ChildAgeOver5,
-
                         'UpdateUser' => auth()->user()->name,
                         'UpdateDate' => $date,
                 ]);
@@ -197,12 +195,13 @@ class PatientController extends BaseController
                     'genders' => Gender::all(),
                     'maritals' => MaritalStatus::all(),
                     'selfTypes' => SelfType::all(),
-                    'address' => Address::where('PatientId','=',$request->id)->first(),
+                    'address' => Address::with('upazillaAddress','unionAddress','districtAddress')->where('PatientId','=',$request->id)->first(),
                     'districts' => District::all(),
                     'educations' => RefEducation::all(),
                     'religions' => RefReligion::all(),
                     'RefHeadOfFamilies' => RefHeadOfFamily::all(),
                 ];
+                
                 return view('patient::edit',$data);
             }else{
                 return $this->access_blocked();

@@ -14,7 +14,7 @@ class RefMaritalStatusFormRequest extends FormRequest
     public function rules()
     {
         $rules = [];
-        $rules['MaritalStatusCode'] = ['required','unique:RefMaritalStatus,MaritalStatusCode'];
+        $rules['MaritalStatusCode'] = ['required'];
         return $rules;
     }
 

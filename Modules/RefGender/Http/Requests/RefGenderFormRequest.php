@@ -14,7 +14,7 @@ class RefGenderFormRequest extends FormRequest
     public function rules()
     {
         $rules = [];
-        $rules['GenderCode'] = ['required','unique:RefGender,GenderCode'];
+        $rules['GenderCode'] = ['required'];
         return $rules;
     }
 
