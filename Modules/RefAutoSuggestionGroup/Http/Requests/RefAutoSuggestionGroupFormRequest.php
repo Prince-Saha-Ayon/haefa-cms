@@ -14,7 +14,7 @@ class RefAutoSuggestionGroupFormRequest extends FormRequest
     public function rules()
     {
         $rules = [];
-        $rules['RefAutoSuggestionGroupCode'] = ['required','unique:RefAutoSuggestionGroup,RefAutoSuggestionGroupCode'];
+        $rules['RefAutoSuggestionGroupCode'] = ['required'];
         return $rules;
     }
 

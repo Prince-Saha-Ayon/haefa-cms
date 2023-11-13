@@ -14,7 +14,7 @@ class RefContraceptionMethodFormRequest extends FormRequest
     public function rules()
     {
         $rules = [];
-        $rules['ContraceptionMethodCode'] = ['required','unique:RefContraceptionMethod,ContraceptionMethodCode'];
+        $rules['ContraceptionMethodCode'] = ['required'];
         return $rules;
     }
 

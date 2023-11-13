@@ -15,7 +15,7 @@ class UnionFormRequest extends FormRequest
     {
         $rules = [];
            
-        $rules['name'] = ['required','unique:unions,name'];
+        $rules['name'] = ['required'];
         $rules['upazilla_id'] = ['required'];
       
 

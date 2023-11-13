@@ -14,7 +14,7 @@ class RefDurationFormRequest extends FormRequest
     public function rules()
     {
         $rules = [];
-        $rules['DurationCode'] = ['required','unique:RefDuration,DurationCode'];
+        $rules['DurationCode'] = ['required'];
         return $rules;
     }
 

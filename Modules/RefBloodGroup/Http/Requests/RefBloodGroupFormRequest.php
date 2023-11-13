@@ -14,7 +14,7 @@ class RefBloodGroupFormRequest extends FormRequest
     public function rules()
     {
         $rules = [];
-        $rules['BloodGroupCode'] = ['required','unique:RefBloodGroup,BloodGroupCode'];
+        $rules['BloodGroupCode'] = ['required'];
         return $rules;
     }
 

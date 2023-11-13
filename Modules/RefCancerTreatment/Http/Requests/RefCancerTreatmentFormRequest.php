@@ -14,7 +14,7 @@ class RefCancerTreatmentFormRequest extends FormRequest
     public function rules()
     {
         $rules = [];
-        $rules['CancerTreatmentCode'] = ['required','unique:RefCancerTreatment,CancerTreatmentCode'];
+        $rules['CancerTreatmentCode'] = ['required'];
         return $rules;
     }
 

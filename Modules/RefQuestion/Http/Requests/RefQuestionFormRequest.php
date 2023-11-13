@@ -14,7 +14,7 @@ class RefQuestionFormRequest extends FormRequest
     public function rules()
     {
         $rules = [];
-        $rules['QuestionModuleName'] = ['required','unique:RefQuestion,QuestionModuleName'];
+        $rules['QuestionModuleName'] = ['required'];
         $rules['QuestionTypeId'] = ['required'];
         $rules['QuestionGroupId'] = ['required'];
         $rules['AnswerTitle'] = ['required'];

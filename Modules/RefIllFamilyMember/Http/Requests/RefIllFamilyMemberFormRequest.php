@@ -14,7 +14,7 @@ class RefIllFamilyMemberFormRequest extends FormRequest
     public function rules()
     {
         $rules = [];
-        $rules['IllFamilyMemberCode'] = ['required','unique:RefIllFamilyMember,IllFamilyMemberCode'];
+        $rules['IllFamilyMemberCode'] = ['required'];
         return $rules;
     }
 

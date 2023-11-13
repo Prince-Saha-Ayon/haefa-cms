@@ -14,7 +14,7 @@ class RefSocialBehaviorFormRequest extends FormRequest
     public function rules()
     {
         $rules = [];
-        $rules['SocialBehaviorCode'] = ['required','unique:RefSocialBehavior,SocialBehaviorCode'];
+        $rules['SocialBehaviorCode'] = ['required'];
         return $rules;
     }
 

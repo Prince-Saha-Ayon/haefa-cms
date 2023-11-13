@@ -14,7 +14,7 @@ class RefMnstProductUsageTimeFormRequest extends FormRequest
     public function rules()
     {
         $rules = [];
-        $rules['MenstruationProductUsageTimeCode'] = ['required','unique:RefMnstProductUsageTime,MenstruationProductUsageTimeCode'];
+        $rules['MenstruationProductUsageTimeCode'] = ['required'];
         return $rules;
     }
 

@@ -14,7 +14,7 @@ class RefAdviceFormRequest extends FormRequest
     public function rules()
     {
         $rules = [];
-        $rules['AdviceCode'] = ['required','unique:RefAdvice,AdviceCode'];
+        $rules['AdviceCode'] = ['required'];
        
       
         return $rules;
