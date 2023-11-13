@@ -41,6 +41,7 @@
 
             <!-- Card -->
             <div class="dt-card">
+                {{-- Somthing to add --}}
 
                 <!-- Card Body -->
                 <div class="dt-card__body">
