@@ -16,6 +16,7 @@ class RefLabInvestigationFormRequest extends FormRequest
         $rules = [];
         $rules['RefLabInvestigationCode'] = ['required'];
         $rules['RefLabInvestigationGroupId'] = ['required'];
+        $rules['Investigation'] = ['required'];
       
         return $rules;
     }

@@ -42,7 +42,7 @@ class RefProvisionalDiagnosisController extends BaseController
      * @return $data
      */
     public function get_datatable_data(Request $request){
-        set_time_limit(3600);
+        // set_time_limit(3600);
         if(permission('refprovisionaldiagnosis-access')){
             if($request->ajax()){
                 

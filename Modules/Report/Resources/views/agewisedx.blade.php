@@ -188,7 +188,7 @@
     var patients;
     var now = new Date();
     var formattedDate = now.getDate().toString().padStart(2, '0') + '_' + (now.getMonth() + 1).toString().padStart(2, '0') + '_' + now.getFullYear();
-    var filename = 'ProvisionalDiagnosis_Provisional Diagnosis Age wise-Patient Count Age wise_' + formattedDate;
+    var filename = 'Provisional Diagnosis Age wise-Patient Count Age wise_' + formattedDate;
 
   
 

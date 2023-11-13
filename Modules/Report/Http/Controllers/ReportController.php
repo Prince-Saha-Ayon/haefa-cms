@@ -1087,7 +1087,7 @@ $results = DB::table("MDataPatientReferral")
         $branches=BarcodeFormat::with('healthCenter')->get(); 
         $this->setPageData(
             'Report-',
-            'Branch Wise Disease Report',
+            'Branch Wise All Disease Report',
             'fas fa-th-list'
         );
         return view('report::diseaserate_by_daterange',compact('branches'));
