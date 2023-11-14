@@ -92,7 +92,7 @@
                                 <th>GivenName</th>
                                 <th>FamilyName</th>
                                 <th>Gender</th>
-                                <th>BirthDate</th>
+                              
                                 <th>Age</th>
                                 <th>Mobile</th>
                                 <th>TreatmentSuggestion</th>
@@ -340,7 +340,7 @@
                             (result.GivenName || ""),
                             (result.FamilyName || ""),
                             (result.GenderCode || ""),
-                            (result.BirthDate || ""),
+                            
                             (result.Age || ""),
                             (result.CellNumber || ""),
                             ('Drug: '+ result.DrugCode || "") + (',Frequency:' + result.Frequency || "") + (',DrugDurationValue:' + result.DrugDurationValue || ""),

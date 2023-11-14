@@ -105,8 +105,8 @@
                     <form id="form-filter">
                         <div class="row">
                             <div class="form-group col-md-4">
-                                <label for="name">Prescription Name</label>
-                                <input type="text" class="form-control" name="name" id="name" placeholder="Enter prescription name">
+                                <label for="name">Prescription ID</label>
+                                <input type="text" class="form-control" name="name" id="name" placeholder="Enter prescription ID">
                             </div>
                             <div class="form-group col-md-8 pt-24">
                                <button type="button" class="btn btn-danger btn-sm float-right" id="btn-reset"
