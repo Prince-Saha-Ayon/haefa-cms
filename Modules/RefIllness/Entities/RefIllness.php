@@ -7,7 +7,7 @@ use Modules\Base\Entities\BaseModel;
 class RefIllness extends BaseModel
 {
     protected $table = 'RefIllness';
-    protected $primaryKey = 'IllnessId';
+ 
     public $timestamps = false;
 
     protected $fillable = ['IllnessId','IllnessCode','Description','HOIllness','FamilyHO','SortOrder','Status','CreateDate','CreateUser','UpdateDate','UpdateUser','OrgId'];

@@ -6,18 +6,18 @@ use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Http\Request;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Routing\Controller;
-use Modules\Refillness\Entities\Refillness;
-use Modules\Refillness\Http\Requests\RefillnessFormRequest;
+use Modules\RefIllness\Entities\RefIllness;
+use Modules\RefIllness\Http\Requests\RefIllnessFormRequest;
 use Illuminate\Foundation\Validation\ValidatesRequests;
 use Modules\Base\Http\Controllers\BaseController;
 use Illuminate\Support\Str;
 use DB;
 
-class RefillnessController extends BaseController
+class RefIllnessController extends BaseController
 {
     
     protected $model;
-    public function __construct(Refillness $model)
+    public function __construct(RefIllness $model)
     {
         $this->model = $model;
     }
@@ -29,7 +29,7 @@ class RefillnessController extends BaseController
     public function index()
     {
         if(permission('refillness-access')){
-            $this->setPageData('Refillness','Refillness','fas fa-th-list');
+            $this->setPageData('Illness','Illness','fas fa-th-list');
             return view('refillness::index');
         }else{
             return $this->unauthorized_access_blocked();
@@ -200,7 +200,7 @@ class RefillnessController extends BaseController
         if(permission('refillness-view')){
             if($request->ajax()){
                 if (permission('refillness-view')) {
-                    $Refillnesss= Refillness::where('IllnessId','=',$request->id)->first(); 
+                    $Refillnesss= RefIllness::where('IllnessId','=',$request->id)->first(); 
                 }
             }
             return view('refillness::details',compact('Refillnesss'))->render();
@@ -217,7 +217,7 @@ class RefillnessController extends BaseController
      */
     public function edit(Request $request)
     {
-        return $data = DB::table('Refillness')->where('IllnessId',$request->id)->first();
+        return $data = DB::table('RefIllness')->where('IllnessId',$request->id)->first();
     }
 
     public function bulk_delete(Request $request)
