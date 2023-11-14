@@ -16,6 +16,7 @@ class RefillnessFormRequest extends FormRequest
         $rules = [];
         $rules['IllnessCode'] = ['required'];
         $rules['HOIllness'] = ['required'];
+        $rules['FamilyHO'] = ['required'];
         return $rules;
     }
 
