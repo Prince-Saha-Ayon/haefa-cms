@@ -28,7 +28,7 @@ class RefChiefComplainController extends BaseController
     public function index()
     {
         if(permission('refchiefcomplain-access')){
-            $this->setPageData('Refchiefcomplain','Refchiefcomplain','fas fa-th-list');
+            $this->setPageData('Chiefcomplain','Chiefcomplain','fas fa-th-list');
             return view('refchiefcomplain::index');
         }else{
             return $this->unauthorized_access_blocked();
