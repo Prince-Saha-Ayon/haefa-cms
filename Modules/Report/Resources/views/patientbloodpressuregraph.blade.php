@@ -9,6 +9,9 @@
     .bootstrap-select{
         width: 100% !important;
     }
+    .dropdown-menu.inner.show{
+    min-width: 10px !important;
+   }
    
 </style>
 

@@ -38,7 +38,7 @@
 
                     <div class="row">
                       <div class="col-md-12 ">
-                        <div class="form-group col-md-12 ">
+                        <div class="form-group col-md-12 required">
                           <label for="FamilyHO">FamilyHO</label>
                           <input type="number" required="required" name="FamilyHO" id="FamilyHO" class="form-control " value="" placeholder="Enter FamilyHO">
                         </div>
