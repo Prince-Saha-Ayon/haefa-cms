@@ -87,7 +87,7 @@
                 </div>
                 <!-- /entry heading -->
                 @if (permission('refinstruction-add'))
-                <button class="btn btn-primary btn-sm" onclick="showFormModal('Add Refinstruction','Save');removeId()">
+                <button class="btn btn-primary btn-sm" onclick="showFormModal('Add Instruction','Save');removeId()">
                     <i class="fas fa-plus-square"></i> Add New
                  </button>
                 @endif

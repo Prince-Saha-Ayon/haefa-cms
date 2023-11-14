@@ -28,7 +28,7 @@ class RefInstructionController extends BaseController
     public function index()
     {
         if(permission('refinstruction-access')){
-            $this->setPageData('Refinstruction','Refinstruction','fas fa-th-list');
+            $this->setPageData('Instruction','Instruction','fas fa-th-list');
             return view('refinstruction::index');
         }else{
             return $this->unauthorized_access_blocked();
