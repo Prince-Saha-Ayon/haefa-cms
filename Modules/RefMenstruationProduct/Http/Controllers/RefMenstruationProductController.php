@@ -28,7 +28,7 @@ class RefMenstruationProductController extends BaseController
     public function index()
     {
         if(permission('refmenstruationproduct-access')){
-            $this->setPageData('Ref Menstruation Product','Ref Menstruation Product','fas fa-th-list');
+            $this->setPageData('Menstruation Product','Menstruation Product','fas fa-th-list');
             return view('refmenstruationproduct::index');
         }else{
             return $this->unauthorized_access_blocked();
