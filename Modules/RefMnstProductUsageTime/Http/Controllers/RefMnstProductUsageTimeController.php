@@ -28,7 +28,7 @@ class RefMnstProductUsageTimeController extends BaseController
     public function index()
     {
         if(permission('refmnstproductusagetime-access')){
-            $this->setPageData('RefMnstProductUsageTime','RefMnstProductUsageTime','fas fa-th-list');
+            $this->setPageData('MnstProductUsageTime','MnstProductUsageTime','fas fa-th-list');
             return view('refmnstproductusagetime::index');
         }else{
             return $this->unauthorized_access_blocked();
