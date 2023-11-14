@@ -295,6 +295,15 @@
 
                 if (fupdates.length > 0) {
                     $.each(fupdates, function (index, result) {
+                        var dateParts = result.FollowUpDate.split('-');
+                        var formattedfollowupDate = new Date(dateParts[0], dateParts[1] - 1, dateParts[2]);
+
+                        // Format the date as "dd-Mon-yyyy"
+                        var formattedDateString = formattedfollowupDate.toLocaleDateString('en-GB', {
+                            day: '2-digit',
+                            month: 'short',
+                            year: 'numeric'
+                        });
                         var newRow = [
                             (index + 1),
                             result.RegistrationId,
@@ -304,7 +313,7 @@
                             (result.BirthDate || ""),
                             (result.Age || ""),
                             (result.CellNumber || ""),
-                            (result.FollowUpDate || "")
+                            formattedDateString
                         ];
 
                         // Add a new row to the table

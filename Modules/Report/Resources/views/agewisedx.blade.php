@@ -187,7 +187,12 @@
     var collectionDate='';
     var patients;
     var now = new Date();
-    var formattedDate = now.getDate().toString().padStart(2, '0') + '_' + (now.getMonth() + 1).toString().padStart(2, '0') + '_' + now.getFullYear();
+    var formattedDate = now.getDate().toString().padStart(2, '0') + '_' +
+    (now.getMonth() + 1).toString().padStart(2, '0') + '_' +
+    now.getFullYear() + '_' +
+    now.getHours().toString().padStart(2, '0') + '_' +
+    now.getMinutes().toString().padStart(2, '0') + '_' +
+    now.getSeconds().toString().padStart(2, '0');
     var filename = 'Provisional Diagnosis Age wise-Patient Count Age wise_' + formattedDate;
 
   
@@ -259,7 +264,7 @@
 
             var r4 = Addrow(4, [{
                 k: 'A',
-                v: 'Report Type: ProvisionalDiagnosis_Provisional Diagnosis Age wise/Patient Count Age wise'
+                v: 'Report Type: Provisional Diagnosis Age wise/Patient Count Age wise'
             }]);
              var r5 = Addrow(5, [{
                 k: 'A',
