@@ -87,7 +87,7 @@
                 </div>
                 <!-- /entry heading -->
                 @if (permission('refmnstproductusagetime-add'))
-                <button class="btn btn-primary btn-sm" onclick="showFormModal('Add RefMnstProductUsageTime','Save');removeId()">
+                <button class="btn btn-primary btn-sm" onclick="showFormModal('Add MnstProductUsageTime','Save');removeId()">
                     <i class="fas fa-plus-square"></i> Add New
                  </button>
                 @endif
@@ -104,8 +104,8 @@
                     <form id="form-filter">
                         <div class="row">
                             <div class="form-group col-md-4">
-                                <label for="name">Ref Mnst Product Usage Time</label>
-                                <input type="text" class="form-control" name="name" id="name" placeholder="Enter Ref Mnst Product Usage Time">
+                                <label for="name">Mnst Product Usage Time</label>
+                                <input type="text" class="form-control" name="name" id="name" placeholder="Enter Mnst Product Usage Time">
                             </div>
                             <div class="form-group col-md-8 pt-24">
                                <button type="button" class="btn btn-danger btn-sm float-right" id="btn-reset"
