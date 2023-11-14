@@ -1,6 +1,6 @@
 <?php
 
-namespace Modules\Refillness\Http\Requests;
+namespace Modules\RefIllness\Http\Requests;
 
 use App\Http\Requests\FormRequest;
 
