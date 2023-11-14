@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Routing\Controller;
 use Modules\RefIllness\Entities\RefIllness;
-use Modules\RefIllness\Http\Requests\RefIllnessFormRequest;
+use Modules\RefIllness\Http\Requests\RefillnessFormRequest;
 use Illuminate\Foundation\Validation\ValidatesRequests;
 use Modules\Base\Http\Controllers\BaseController;
 use Illuminate\Support\Str;

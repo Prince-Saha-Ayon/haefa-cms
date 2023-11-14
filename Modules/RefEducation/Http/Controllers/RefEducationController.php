@@ -29,7 +29,7 @@ class RefEducationController extends BaseController
     public function index()
     {
         if(permission('refeducation-access')){
-            $this->setPageData('Refeducation','Refeducation','fas fa-th-list');
+            $this->setPageData('Education','Education','fas fa-th-list');
             return view('refeducation::index');
         }else{
             return $this->unauthorized_access_blocked();
