@@ -134,7 +134,7 @@ public function diseaseindex()
         // $healthcenters=BarcodeFormat::with('healthCenter')->get();
         
        $branches=BarcodeFormat::with('healthCenter')->get(); 
-        $this->setPageData('Patient Treatment','Patient Treatment','fas fa-th-list');
+        $this->setPageData('Treatment Suggestions','Treatment Suggestions','fas fa-th-list');
         return view('report::treatment',compact('branches'));
     }
      public function CustomReport(){

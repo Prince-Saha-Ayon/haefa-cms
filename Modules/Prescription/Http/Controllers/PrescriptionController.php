@@ -23,7 +23,7 @@ class PrescriptionController extends BaseController
     public function index()
     {
         if(permission('prescription-access')){
-            $this->setPageData('Prescription','prescription','fas fa-th-list');
+            $this->setPageData('Prescription','All Prescription','fas fa-th-list');
             return view('prescription::index');
         }else{
             return $this->unauthorized_access_blocked();
