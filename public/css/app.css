@@ -27150,13 +27150,13 @@ div.dt-button-collection.dropdown-menu {
 }
 .dt-header__toolbar .dt-nav__link::after{
     content: '';
-    width: 15px;
-    height: 15px;
+    width: 13px;
+    height: 13px;
     border: 1px solid #fff;
     border-radius: 100%;
     position: absolute;
     right: 0;
-    bottom: 13px;
+    bottom: 15px;
     background-color: yellowgreen;
     z-index: 200;
 }
@@ -27179,15 +27179,6 @@ div.dt-button-collection.dropdown-menu {
 .dt-sidebar--fixed .dt-sidebar {
     margin-top: 60px;
 }
-
-
-/* .bg-primary {
-    background-image: linear-gradient(to right, #EA8D8D , #A890FE);
-}
-.btn-secondary {
-    background-color: #EA8D8D;
-} */
-
 
 .dt-sidebar {
     background-color: #fff;
@@ -27223,12 +27214,6 @@ div.dt-button-collection.dropdown-menu {
     padding: 5px 10px 5px 20px;
 }
 
-
-/* .dropdown-item.active, .dropdown-item:active {
-    background-color: initial !important;
-    color: #f44336;
-} */
-
 .dropdown-item.active,
 .dropdown-item:active {
   color: #333 !important;
@@ -27244,13 +27229,6 @@ div.dt-button-collection.dropdown-menu {
     margin-bottom: 8px;
 }
 
-/* .dropdown-item:nth-child(2){
-    margin-top: 10px;
-    margin-bottom: 0px;
-} */
-
-
-
 .dt-nav__link{
     margin-right: 15px;
 }
@@ -27260,8 +27238,6 @@ div.dt-button-collection.dropdown-menu {
 .dt-nav__link:hover, .dt-nav__link:focus, .dt-nav__link:active{
     color: #ddd;
 }
-
-
 
 
 
@@ -27332,7 +27308,6 @@ div.dt-button-collection.dropdown-menu {
     background-color: red;
 }
 
-
 .dt-sidebar--folded .dt-side-nav__item .dt-side-nav__link{
     padding-left: 30px !important;
 }
@@ -27340,6 +27315,14 @@ div.dt-button-collection.dropdown-menu {
 .viewid_data{
     margin-right: 8px;
 }
+
+
+#dataTable thead tr th:nth-child(1){
+    min-width: 40px;
+    padding-right: 15px !important;
+    padding-left: 0px !important;
+}
+
 
 /* Jiaur CSS End Here  */
 
