@@ -156,6 +156,114 @@ public function diseaseindex()
         $this->setPageData('Full Data Export','Full Data Export','fas fa-th-list');
         return view('report::fulldataexport',compact('branches'));
     }
+     public function HyperTension(){
+ 
+       $branches=BarcodeFormat::with('healthCenter')->get(); 
+        $this->setPageData('Number of Patients Diagnosed with HTN','Number of Patients Diagnosed with HTN','fas fa-th-list');
+        return view('report::hypertension',compact('branches'));
+    }
+
+      public function HyperTensionReport(Request $request){
+ 
+       $barcode_prefix = $request->hc_id;
+        $first_date = $request->fdate;
+        $last_date = $request->ldate;
+
+        if($barcode_prefix){
+            $barcode_tbl = BarcodeFormat::with('healthCenter') 
+                ->where('barcode_prefix',$barcode_prefix)
+                ->first();
+            $branchName = $barcode_tbl->HealthCenterName??'';
+        }else{
+            $branchName = 'ALL';
+        }
+
+    //   $illnesses = DB::table('MDataPatientIllnessHistory')
+    //     ->select([
+    //         DB::raw('Count(MDataPatientIllnessHistory.PatientId) as TotalPatientId'),
+    //         DB::raw('CONVERT(date, MDataPatientIllnessHistory.CreateDate) as IllCreateDate'),
+    //         DB::raw("
+    //             SUM(CASE 
+    //                 WHEN (CAST(MDataBP.BPSystolic1 AS INT) > 130 AND CAST(MDataBP.BPSystolic1 AS INT) > 80) 
+    //                     OR (CAST(MDataBP.BPSystolic2 AS INT) > 130 AND CAST(MDataBP.BPSystolic2 AS INT) > 80) THEN 1
+    //                 ELSE 0
+    //             END) as Uncontrolled,
+    //             SUM(CASE 
+    //                 WHEN (CAST(MDataBP.BPSystolic1 AS INT) <= 130 AND CAST(MDataBP.BPSystolic1 AS INT) <= 80) 
+    //                     OR (CAST(MDataBP.BPSystolic2 AS INT) > 130 AND CAST(MDataBP.BPSystolic2 AS INT) > 80) THEN 1
+    //                 ELSE 0
+    //             END) as Controlled
+    //         ") // Removed the extra comma here
+    //     ])
+    //     ->where('IllnessId', '=', 'A69382EF-905C-4FC1-BA32-53E86FC50E35')
+    //     ->join('Patient', 'MDataPatientIllnessHistory.PatientId', '=', 'Patient.PatientId')
+    //     ->join('MDataBP', 'MDataBP.PatientId', '=', 'MDataPatientIllnessHistory.PatientId')
+    //     ->whereBetween('MDataPatientIllnessHistory.CreateDate', [$first_date, $last_date])
+    //     ->where(function ($query) use ($barcode_prefix) {
+    //         if ($barcode_prefix) {
+    //             $query->where('RegistrationId', 'LIKE', $barcode_prefix . '%');
+    //         }
+    //     })
+    //     ->groupBy(DB::raw('CONVERT(date, MDataPatientIllnessHistory.CreateDate)'))
+    //     ->get();
+
+                $illnesses = DB::table('MDataPatientIllnessHistory')
+            ->select([
+                DB::raw('COUNT(MDataPatientIllnessHistory.PatientId) as TotalPatientId'),
+                DB::raw('CONVERT(date, MDataPatientIllnessHistory.CreateDate) as IllCreateDate'),
+                DB::raw("
+                    SUM(
+                        CASE 
+                            WHEN (
+                                MaxBP.BPSystolic1 > 130 AND MaxBP.BPSystolic1 > 80
+                            ) OR (
+                                MaxBP.BPSystolic2 > 130 AND MaxBP.BPSystolic2 > 80
+                            ) THEN 1
+                            ELSE 0
+                        END
+                    ) as Uncontrolled
+                "),
+                DB::raw("
+                    SUM(
+                        CASE 
+                            WHEN (
+                                MaxBP.BPSystolic1 <= 130 AND MaxBP.BPSystolic1 <= 80
+                            ) OR (
+                                MaxBP.BPSystolic2 <= 130 AND MaxBP.BPSystolic2 <= 80
+                            ) THEN 1
+                            ELSE 0
+                        END
+                    ) as Controlled
+                "),
+            ])
+            ->join('Patient', 'MDataPatientIllnessHistory.PatientId', '=', 'Patient.PatientId')
+            ->leftJoin(DB::raw('(
+                SELECT 
+                    PatientId,
+                    MAX(CAST(BPSystolic1 AS INT)) AS BPSystolic1,
+                    MAX(CAST(BPSystolic2 AS INT)) AS BPSystolic2
+                FROM MDataBP
+                GROUP BY PatientId
+            ) AS MaxBP'), 'MaxBP.PatientId', '=', 'MDataPatientIllnessHistory.PatientId')
+            ->where('IllnessId', '=', 'A69382EF-905C-4FC1-BA32-53E86FC50E35')
+            ->whereBetween('MDataPatientIllnessHistory.CreateDate', [$first_date, $last_date])
+            ->where(function($query) use ($barcode_prefix) {
+            if ($barcode_prefix) {
+                $query->where('RegistrationId', 'LIKE', $barcode_prefix . '%');
+            }  
+           })
+            ->groupBy(DB::raw('CONVERT(date, MDataPatientIllnessHistory.CreateDate)'))
+            ->get();
+
+
+
+        $response = [
+            'healthcenter' => $branchName,
+            'data' => $illnesses,
+        ];
+        return response()->json($response);
+    }
+
     public function FullDataDumpReport(Request $request){
         $barcode_prefix = $request->hc_id;
         $first_date = $request->fdate;

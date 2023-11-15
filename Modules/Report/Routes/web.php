@@ -20,6 +20,7 @@ Route::group(['middleware' => ['auth']], function () {
     Route::any('glucosegraph', 'ReportController@glucosegraphindex')->name('glucosegraph');
     Route::any('glucose-graph', 'ReportController@GlucoseGraph')->name('glucose-graph');
     Route::get('diseasechart', 'ReportController@diseaseindex')->name('diseasechart');
+
     Route::get('patient-blood-pressure-graph', 'ReportController@PatientBloodPressureGraph')->name('patientbloodpressuregraph');
     Route::get('ajax-patient-blood-pressure', 'ReportController@AjaxPatientBloodPressure')->name('ajaxpatientbloodpressure');
 
@@ -74,6 +75,9 @@ Route::group(['middleware' => ['auth']], function () {
 
     Route::get('fulldataexport', 'ReportController@FullDataExport')->name('fulldataexport');
     Route::get('fulldataexportreport', 'ReportController@FullDataExportReport')->name('fulldataexportreport');
+
+    Route::get('hypertension', 'ReportController@HyperTension')->name('hypertension');
+    Route::get('hypertension-report', 'ReportController@HyperTensionReport')->name('hypertension-report');
 
     Route::group(['prefix' => 'patientage', 'as'=>'patientage.'], function () {
         Route::post('show', 'ReportController@show')->name('show');
