@@ -182,43 +182,43 @@
                             <tbody>
                                 <tr>
                                   
-                                    <td>Number of beneficiaries screened for Hyper Tension - Male</td>
+                                    <td>Number of beneficiaries screened for hypertension (mention the number of persons whose blood pressure were measured) -  Male</td>
                                     <td id="bpmalerohingya"></td>
                                 </tr>
                                  <tr>
                                   
-                                    <td>Number of beneficiaries screened for Hyper Tension - Female</td>
+                                    <td>Number of beneficiaries screened for hypertension (mention the number of persons whose blood pressure were measured) -  Female</td>
                                     <td id="bpfemalerohingya"></td>
                                 </tr>
                                 <tr>
                                     
-                                    <td>Number of beneficiaries detected with High Blood Pressure - Male</td>
+                                    <td>Number of beneficiaries detected with high blood pressure (mention the number of persons whose blood pressure was found systolic blood pressure ≥140 mmHg and/or diastolic blood pressure on both days is ≥90 mmHg) -  Male</td>
                                     <td id="htnmalerohingya"></td>
                                 </tr>
                                 <tr>
                                
-                                    <td>Number of beneficiaries detected with High Blood Pressure - Female</td>
+                                    <td>Number of beneficiaries detected with high blood pressure (mention the number of persons whose blood pressure was found systolic blood pressure ≥140 mmHg and/or diastolic blood pressure on both days is ≥90 mmHg) -  Female</td>
                                     <td id="htnfemalerohingya"></td>
                                 </tr>
 
                                  <tr>
                              
-                                    <td>Number of beneficiaries screened for Diabetes Mellitus - Male</td>
+                                    <td>Number of beneficiaries screened for diabetes mellitus (mention the number of persons whose blood glucose were measured) -  Male</td>
                                     <td id="glucosemalerohingya"></td>
                                 </tr>
                                  <tr>
                                    
-                                    <td>Number of beneficiaries screened for Diabetes Mellitus - Female</td>
+                                    <td>Number of beneficiaries screened for diabetes mellitus (mention the number of persons whose blood glucose were measured) - Rohingya Female</td>
                                     <td id="glucosefemalerohingya"></td>
                                 </tr>
                                 <tr>
                                    
-                                    <td>Number of beneficiaries detected with High Blood Sugar - Male</td>
+                                    <td>Number of beneficiaries detected with high blood sugar (mention the number of persons whose Fasting Plasma Glucose was found ≥7 mmol/L or Random Plasma Glucose was found ≥11.1 mmol/L) -  Male</td>
                                     <td id="dmmalerohingya"></td>
                                 </tr>
                                 <tr>
                                    
-                                    <td>Number of beneficiaries detected with High Blood Sugar - Female</td>
+                                    <td>Number of beneficiaries detected with high blood sugar (mention the number of persons whose Fasting Plasma Glucose was found ≥7 mmol/L or Random Plasma Glucose was found ≥11.1 mmol/L) -  Female</td>
                                     <td id="dmfemalerohingya"></td>
                                 </tr>
                             </tbody>
@@ -239,50 +239,50 @@
                             <tbody>
                                 <tr>
                                   
-                                    <td>Number of beneficiaries screened for Hyper Tension - Male</td>
+                                    <td>Number of beneficiaries screened for hypertension (mention the number of persons whose blood pressure were measured) - Host Male</td>
                                     <td id="bpmalehost"></td>
 
                                 </tr>
                                  <tr>
                                   
-                                    <td>Number of beneficiaries screened for Hyper Tension - Female</td>
+                                    <td>Number of beneficiaries screened for hypertension (mention the number of persons whose blood pressure were measured) - Host Female</td>
                                     <td id="bpfemalehost"></td>
 
                                 </tr>
                                 <tr>
                                
-                                    <td>Number of beneficiaries detected with High Blood Pressure - Male</td>
+                                    <td>Number of beneficiaries detected with high blood pressure (mention the number of persons whose blood pressure was found systolic blood pressure ≥140 mmHg and/or diastolic blood pressure on both days is ≥90 mmHg) - Host Male</td>
                                     <td id="htnmalehost"></td>
 
                                 </tr>
                                 <tr>
                               
-                                    <td>Number of beneficiaries detected with High Blood Pressure - Female</td>
+                                    <td>Number of beneficiaries detected with high blood pressure (mention the number of persons whose blood pressure was found systolic blood pressure ≥140 mmHg and/or diastolic blood pressure on both days is ≥90 mmHg) - Host Female</td>
                                     <td id="htnfemalehost"></td>
 
                                 </tr>
 
                                  <tr>
                           
-                                    <td>Number of beneficiaries screened for Diabetes Mellitus - Male</td>
+                                    <td>Number of beneficiaries screened for diabetes mellitus (mention the number of persons whose blood glucose were measured) -Host Male</td>
                                     <td id="glucosemalehost"></td>
 
                                 </tr>
                                  <tr>
                            
-                                    <td>Number of beneficiaries screened for Diabetes Mellitus - Female</td>
+                                    <td>Number of beneficiaries screened for diabetes mellitus (mention the number of persons whose blood glucose were measured) - Host Female</td>
                                     <td id="glucosefemalehost"></td>
 
                                 </tr>
                                 <tr>
                            
-                                    <td>Number of beneficiaries detected with High Blood Sugar - Male</td>
+                                    <td>Number of beneficiaries detected with high blood sugar (mention the number of persons whose Fasting Plasma Glucose was found ≥7 mmol/L or Random Plasma Glucose was found ≥11.1 mmol/L) - Host Male</td>
                                     <td id="dmmalehost"></td>
 
                                 </tr>
                                 <tr>
             
-                                    <td>Number of beneficiaries detected with High Blood Sugar - Female</td>
+                                    <td>Number of beneficiaries detected with high blood sugar (mention the number of persons whose Fasting Plasma Glucose was found ≥7 mmol/L or Random Plasma Glucose was found ≥11.1 mmol/L) - Host Female</td>
                                     <td id="dmfemalehost"></td>
 
                                 </tr>
