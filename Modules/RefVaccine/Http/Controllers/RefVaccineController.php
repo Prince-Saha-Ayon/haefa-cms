@@ -31,7 +31,7 @@ class RefVaccineController extends BaseController
     {
         if (permission('refvaccine-access')) {
               $vaccine_group=RefVaccineDose::get();
-            $this->setPageData('RefVaccineChild', 'RefVaccineChild', 'fas fa-th-list');
+            $this->setPageData('VaccineChild', 'VaccineChild', 'fas fa-th-list');
             return view('refvaccine::index',compact('vaccine_group'));
         } else {
             return $this->unauthorized_access_blocked();
