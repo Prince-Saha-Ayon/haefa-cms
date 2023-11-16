@@ -142,6 +142,7 @@ $(document).ready(function(){
                 "orderable": false,
                 "className": "text-center"
             },
+            { targets: [4,5], visible: false }, 
             {
                 @if (permission('deviceregistration-bulk-delete'))
                 "targets": [1,3],
