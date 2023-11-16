@@ -5,7 +5,12 @@
 @endsection
 
 @push('stylesheet')
-  
+  <style>
+.dataTable > thead > tr > th[class*="sort"]:before,
+.dataTable > thead > tr > th[class*="sort"]:after {
+    content: "" !important;
+}
+    </style>
 @endpush
 
 @section('content')

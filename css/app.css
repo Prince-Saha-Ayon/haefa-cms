@@ -1098,6 +1098,12 @@
     line-height: 95px
 }
 
+/* remove data table arrow */
+.dataTable > thead > tr > th[class*="sort"]:before,
+.dataTable > thead > tr > th[class*="sort"]:after {
+    content: "" !important;
+}
+
 .size-100 {
     width: 100px;
     height: 100px;
