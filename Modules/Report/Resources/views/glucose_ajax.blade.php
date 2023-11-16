@@ -73,10 +73,10 @@
     plotLines: [{
       value: 7, // The FBG normal value
       color: 'green', // Line color
-      dashStyle: 'ShortDash', // Line style (optional)
+      dashStyle: 'Solid', // Line style (optional)
       width: 2, // Line width (optional)
       label: {
-        text: 'Normal FBG: 7', // Label text
+        text: 'Normal FBG ', // Label text
         align: 'center',
          // Label position adjustment
       },

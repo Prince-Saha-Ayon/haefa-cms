@@ -5,7 +5,15 @@
 @endsection
 
 @push('stylesheet')
-
+<style>
+    .bootstrap-select{
+        width: 100% !important;
+    }
+    .dropdown-menu.inner.show{
+    min-width: 10px !important;
+   }
+   
+</style>
 
 @endpush
 
@@ -58,7 +66,7 @@
                             <div class="form-group col-md-3">
                                 <label for="name">Branches</label>
 
-                                <select class="selectpicker" data-live-search="true" name="hc_id" id="hc_id">
+                                <select class="selectpicker w-100" data-live-search="true" name="hc_id" id="hc_id">
                                     <option value="">Select Branch</option> <!-- Empty option added -->
                                     @foreach($branches as $branch)
                                     <option value="{{$branch->barcode_prefix}}">{{$branch->healthCenter->HealthCenterName}}</option>
