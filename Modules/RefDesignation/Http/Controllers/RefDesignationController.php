@@ -27,7 +27,7 @@ class RefDesignationController extends BaseController
     public function index()
     {
         if(permission('refdesignation-access')){
-            $this->setPageData('Refdesignation','Refdesignation','fas fa-th-list');
+            $this->setPageData('Designation','Designation','fas fa-th-list');
             $data['workplaces'] = DB::select("SELECT * FROM WorkPlace");  
             $data['departments'] = DB::select("SELECT * FROM RefDepartment");
             return view('refdesignation::index',$data);

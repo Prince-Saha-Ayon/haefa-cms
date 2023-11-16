@@ -31,7 +31,7 @@
                 </div>
                 <!-- /entry heading -->
                 @if (permission('refvaccine-add'))
-                <button class="btn btn-primary btn-sm" onclick="showFormModal('Add vaccine adult','Save');removeId()">
+                <button class="btn btn-primary btn-sm" onclick="showFormModal('Add vaccine child','Save');removeId()">
                     <i class="fas fa-plus-square"></i> Add New
                  </button>
                 @endif
@@ -111,7 +111,7 @@ $(document).ready(function(){
     table = $('#dataTable').DataTable({
         "processing": true, //Feature control the processing indicator
         "serverSide": true, //Feature control DataTable server side processing mode
-        "order": [], //Initial no order
+        "ordering": false, //Initial no order
         "responsive": true, //Make table responsive in mobile device
         "bInfo": true, //TO show the total number of data
         "bFilter": false, //For datatable default search box show/hide
