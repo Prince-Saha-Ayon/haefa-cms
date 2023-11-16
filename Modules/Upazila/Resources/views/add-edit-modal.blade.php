@@ -19,8 +19,8 @@
                 <div class="row">
                     <div class="col-md-12">
                         <div class="form-group col-md-12">
-                            <label for="district_id">District</label>
-                            <select name="district_id" id="district_id" required="required" class="form-control selectpicker required" data-live-search="true" >
+                            <label for="district_id">District <span style="color:red"> *</span></label>
+                            <select name="district_id" id="district_id" required="required" class="form-control selectpicker " data-live-search="true" >
                                 <option value=""> Select Please</option>
                                 @foreach ($districts as $district)
                                     <option value="{{ $district->id }}">{{ $district->name }}</option>

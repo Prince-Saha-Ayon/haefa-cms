@@ -70,17 +70,19 @@
             // Optionally, set font weight
         },
     },
-        plotLines: [{
-            value: 6.9, // The FBG normal value
-            color: 'green', // Line color
-            dashStyle: 'Solid', // Line style (optional)
-            width: 2, // Line width (optional)
-            label: {
-                text: 'Normal FBG', // Label text
-                align: 'right',
-                x: -10 // Label position adjustment
-            }
-        }]
+    plotLines: [{
+      value: 7, // The FBG normal value
+      color: 'green', // Line color
+      dashStyle: 'ShortDash', // Line style (optional)
+      width: 2, // Line width (optional)
+      label: {
+        text: 'Normal FBG: 7', // Label text
+        align: 'center',
+         // Label position adjustment
+      },
+      zIndex: 2 // Set the zIndex to a higher value than the other series
+    }],
+        
     },
             tooltip: {
                 crosshairs: true,
@@ -148,20 +150,23 @@
                         symbol: 'square'
                     },
                     // data: [5.22, 5.7, 8.7, 13.9, 18.2, 21.4, 1.0]
-                    data: <?php echo $rbgNumeric ?? '0' ; ?>
+                    data: <?php echo $rbgNumeric ?? '0' ; ?>,
+                    zIndex: 1
                 },
                 {name: 'FBG (mmol/L)',
                     marker: {
                         symbol: 'square'
                     },
-                    data: <?php echo $fbgNumeric ?? '0' ; ?>
+                    data: <?php echo $fbgNumeric ?? '0' ; ?>,
+                    zIndex: 1
                 },
 
                 {name: 'Hemoglobin (m/dL)',
                     marker: {
                         symbol: 'square'
                     },
-                    data: <?php echo $hemoglobinNumeric ?? '0' ; ?>
+                    data: <?php echo $hemoglobinNumeric ?? '0' ; ?>,
+                    zIndex: 1
                 },
 
             ]
