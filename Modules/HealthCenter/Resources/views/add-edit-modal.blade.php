@@ -19,7 +19,7 @@
                 <div class="row">
                     <div class="col-md-12">
                         <input type="hidden" name="HealthCenterId" value="" id="HealthCenterId"/>
-                        <x-form.textbox labelName="HealthCenter Name" name="HealthCenterName" id="HealthCenterName" col="col-md-12" placeholder="Enter HealthCenter Name"/>
+                        <x-form.textbox labelName="HealthCenter Name" name="HealthCenterName" required="required" id="HealthCenterName" col="col-md-12" placeholder="Enter HealthCenter Name"/>
                     </div>
 
                 </div>
