@@ -20,7 +20,7 @@
                     {{-- <input type="hidden" name="update_id" id="update_id"/> --}}
                     <input type="hidden" name="DurationId" value="" id="DurationId"/>
                      <input type="hidden" name="SortOrder" value="1" />
-                    <x-form.textbox labelName="Duration Code" name="DurationCode" id="DurationCode" required="code" col="col-md-12"  placeholder="Enter Duration Code"/>
+                    <x-form.textbox labelName="Duration Code" name="DurationCode" id="DurationCode" required="required" col="col-md-12"  placeholder="Enter Duration Code"/>
                      <x-form.textbox labelName="Duration In English" name="DurationInEnglish" id="DurationInEnglish"  col="col-md-12"  placeholder="Enter Duration In English"/>
                     <x-form.textbox labelName="Duration In Bangla" name="DurationInBangla" id="DurationInBangla" col="col-md-12"  placeholder="Enter Duration In Bangla"/>
                     <x-form.textbox labelName="Description" name="Description" id="Description"  col="col-md-12"  placeholder="Enter Description"/>
