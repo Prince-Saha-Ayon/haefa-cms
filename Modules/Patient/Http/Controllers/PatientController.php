@@ -18,6 +18,8 @@ use Carbon\Carbon;
 use Auth;
 use Modules\RefEducation\Entities\RefEducation;
 use Modules\RefReligion\Entities\RefReligion;
+use Modules\Union\Entities\Union;
+use Modules\Upazila\Entities\Upazila;
 
 class PatientController extends BaseController
 {
@@ -170,6 +172,7 @@ class PatientController extends BaseController
                         'UpdateUser' => auth()->user()->name,
                         'UpdateDate' => $date,
                 ]);
+
                 $output = $this->store_message('ok',$request->update_id);
             }else{
                 $output = $this->access_blocked();
@@ -197,6 +200,7 @@ class PatientController extends BaseController
                     'selfTypes' => SelfType::all(),
                     'address' => Address::with('upazillaAddress','unionAddress','districtAddress')->where('PatientId','=',$request->id)->first(),
                     'districts' => District::all(),
+                    'upazilas' => Upazila::all(),
                     'educations' => RefEducation::all(),
                     'religions' => RefReligion::all(),
                     'RefHeadOfFamilies' => RefHeadOfFamily::all(),
