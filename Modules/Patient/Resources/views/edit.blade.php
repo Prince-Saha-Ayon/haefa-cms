@@ -184,7 +184,22 @@
                             <div class="row">
                                 <x-form.textbox type="text" labelName="Address" name="AddressLine1" col="col-md-6" value="{{ $address->AddressLine1 ??'' }}" placeholder="Enter Address" readonly/>
                                 <x-form.textbox type="text" labelName="Village" name="Village" col="col-md-6" value="{{ $address->Village ??'' }}" placeholder="Enter Village" />
-                                <x-form.textbox type="text" labelName="Union" name="Thana" col="col-md-6" value="{{ $address->unionAddress->name ??'' }}" placeholder="Enter Union" />
+                             
+                                
+                                 <x-form.selectbox labelName="Union" name="Thana" required="required" col="col-md-6" class="selectpicker">
+                                    @if (!$upazilas->isEmpty())
+                                    @if( $address->Thana != '')
+                                        @foreach ($upazilas as $upazila)
+                                        <option value="{{ $upazila->id }}"  {{ $address->Thana == $upazila->id ? 'selected' : '' }}>{{ $upazila->name ??'' }}</option>
+                                        @endforeach
+                                    @endif
+                                    @else
+                                         @foreach ($upazilas as $upazila)
+                                        <option value="{{ $upazila->id }}">{{ $upazila->name ??'' }}</option>
+                                        @endforeach
+                                    @endif
+                                </x-form.selectbox>
+
                                 <x-form.textbox type="text" labelName="Post Code" name="PostCode" col="col-md-6" value="{{ $address->PostCode ??'' }}" placeholder="Enter Post Code" />
 
                                 <x-form.selectbox labelName="District" name="District" required="required" col="col-md-6" class="selectpicker">
@@ -210,7 +225,22 @@
                             <div class="row">
                                 <x-form.textbox type="text" labelName="Address" name="AddressLine1Parmanent" col="col-md-6" value="{{ $address->AddressLine1Parmanent ??'' }}" placeholder="Enter Address" readonly/>
                                 <x-form.textbox type="text" labelName="Village" name="VillageParmanent" col="col-md-6" value="{{ $address->VillageParmanent ??'' }}" placeholder="Enter Village" />
-                                <x-form.textbox type="text" labelName="Union" name="ThanaParmanent" col="col-md-6" value="{{ $address->unionAddress->name ??'' }}" placeholder="Enter Union" />
+                             
+
+                                <x-form.selectbox labelName="Union" name="ThanaParmanent" required="required" col="col-md-6" class="selectpicker">
+                                    @if (!$upazilas->isEmpty())
+                                    @if( $address->ThanaParmanent != '')
+                                        @foreach ($upazilas as $upazila)
+                                        <option value="{{ $upazila->id }}"  {{ $address->ThanaParmanent == $upazila->id ? 'selected' : '' }}>{{ $upazila->name ??'' }}</option>
+                                        @endforeach
+                                    @endif
+                                    @else
+                                         @foreach ($upazilas as $upazila)
+                                        <option value="{{ $upazila->id }}">{{ $upazila->name ??'' }}</option>
+                                        @endforeach
+                                    @endif
+                                </x-form.selectbox>
+
                                 <x-form.textbox type="text" labelName="Post Code" name="PostCodeParmanent" col="col-md-6" value="{{ $address->PostCodeParmanent ??'' }}" placeholder="Enter Post Code" />
 
                                 <x-form.selectbox labelName="District" name="DistrictParmanent" required="required" col="col-md-6" class="selectpicker">
