@@ -31,7 +31,7 @@
                                 @endforeach
                     </x-form.selectbox>
                     
-                     <x-form.textbox labelName="Vaccine Dose" required="required" name="VaccineDoseNumber" id="VaccineDoseNumber"  col="col-md-12"  placeholder="Enter Vaccine Dose"/>
+                     <x-form.textbox labelName="Vaccine Dose" type="number" required="required" name="VaccineDoseNumber" id="VaccineDoseNumber"  col="col-md-12"  placeholder="Enter Vaccine Dose "/>
 
                      <x-form.textbox labelName="Instruction" name="Instruction" id="Instruction"  col="col-md-12"  placeholder="Enter Instruction"/>
                  
