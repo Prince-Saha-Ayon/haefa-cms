@@ -170,7 +170,7 @@ class PrescriptionController extends BaseController
             FROM MDataProvisionalDiagnosis
             WHERE PatientId ='$patient_id' AND  CAST(CreateDate AS date) ='$create_date'ORDER BY CAST(CreateDate AS date) DESC");
 
-            $Investigation= DB::select("SELECT RI.Investigation, I.OtherInvestigation, I.CreateDate
+            $Investigation= DB::select("SELECT RI.Investigation, I.OtherInvestigation, I.PositiveNegativeStatus, I.Instruction, I.CreateDate
             FROM MDataInvestigation as I
             INNER JOIN RefLabInvestigation as RI on RI.RefLabInvestigationId = I.InvestigationId
             WHERE I.PatientId ='$patient_id' AND  CAST(I.CreateDate AS date)='$create_date' ORDER BY CAST(I.CreateDate AS date) DESC");

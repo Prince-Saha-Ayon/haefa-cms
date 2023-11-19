@@ -60,7 +60,7 @@
             <div class="item pt-1">
               <b class="d-block mb-0 py-0 border-bottom">Lab Investigations</b>
               @foreach($Investigation as $key => $IGS)
-              <p class="mb-0 mt-0 pe-1">{{ ++$key }}. {{ $IGS->Investigation}} {!! !empty($IGS->OtherInvestigation) ? '[' . $IGS->OtherInvestigation . ']' : '' !!}</p>
+              <p class="mb-0 mt-0 pe-1">{{ ++$key }}. {{ $IGS->Investigation}} {!! !empty($IGS->PositiveNegativeStatus) ? '[' . $IGS->PositiveNegativeStatus . ']' : '' !!} {!! !empty($IGS->Instruction) ? '[' . $IGS->Instruction . ']' : '' !!}</p>
               @endforeach
             </div>
           </aside>
