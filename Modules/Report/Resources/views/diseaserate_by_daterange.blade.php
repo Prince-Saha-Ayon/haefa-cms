@@ -154,7 +154,7 @@ $('#search').click(function() {
             //console.log(response.data);
             // Extract the data array from the response
             var data = response.data.data;
-            console.log(response)
+          
             var branchName = response.healthcenter && response.healthcenter != '' ? response.healthcenter : 'All Branch';
 
             // Define an array to store colors for each data point
@@ -215,14 +215,14 @@ $('#search').click(function() {
                     },
                 },
                 series: [{
-                    name: 'Patients',
+                    name: 'Diseases',
                     type: 'column',
                     data: data,
                     showInLegend: false,
                     colors: colors, // Use the custom colors array
                 }],
                 exporting: {
-                    filename: 'branch_wise_disease_report', // Specify your custom file name here
+                    filename: 'branch_wise_All_disease_report', // Specify your custom file name here
                 },
             });
         },
