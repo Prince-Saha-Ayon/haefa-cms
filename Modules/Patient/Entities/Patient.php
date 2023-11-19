@@ -106,7 +106,7 @@ class Patient extends BaseModel
     {
 
          $cc_prefix=BarcodeFormat::where('id',Auth::user()->cc_id)->first('barcode_prefix');
-        return HealthCenter::where('HealthCenterCode',$cc_prefix->barcode_prefix)->first()->HealthCenterName ?? '';
+        return HealthCenter::where('HealthCenterCode',$cc_prefix->barcode_prefix ??'')->first()->HealthCenterName ?? '';
   
     }
 
@@ -128,7 +128,7 @@ class Patient extends BaseModel
     {
    
          $cc_prefix=BarcodeFormat::where('id',Auth::user()->cc_id)->first('barcode_prefix');
-         $cc=$cc_prefix->barcode_prefix;
+         $cc=$cc_prefix->barcode_prefix ?? '';
      
         $disease_array = [
             'DBB019E4-E1A1-460F-A874-C98101D006FB',
@@ -193,7 +193,7 @@ class Patient extends BaseModel
         $startDate = $today->format('Y-m-d');
 
         $cc_prefix=BarcodeFormat::where('id',Auth::user()->cc_id)->first('barcode_prefix');
-        $cc=$cc_prefix->barcode_prefix;
+        $cc=$cc_prefix->barcode_prefix ?? '';
 
       
 
@@ -221,7 +221,7 @@ class Patient extends BaseModel
         $startDate = $today->format('Y-m-d');
 
         $cc_prefix=BarcodeFormat::where('id',Auth::user()->cc_id)->first('barcode_prefix');
-        $cc=$cc_prefix->barcode_prefix;
+        $cc=$cc_prefix->barcode_prefix ?? '';
 
       
 
