@@ -4,6 +4,7 @@ namespace Modules\Patient\Entities;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Modules\HealthCenter\Entities\HealthCenter;
 use Modules\Patient\Entities\Gender;
 use Modules\Patient\Entities\MaritalStatus;
 use Modules\Patient\Entities\Address;
@@ -103,15 +104,10 @@ class Patient extends BaseModel
 
     public static function get_branch_name()
     {
-        $login_user = Auth::user()->cc_id ?? 0;
-        return Patient::select('hc.HealthCenterName')
-            ->join('barcode_formats AS bf', function ($join) {
-                $join->on(DB::raw('LEFT(Patient.RegistrationId, 9)'), '=', 'bf.barcode_prefix');
-            })
-            ->join('HealthCenter AS hc', 'bf.barcode_community_clinic', '=', 'hc.HealthCenterId')
-            ->join('users AS u', 'u.cc_id', '=', 'bf.id')
-            ->where('u.cc_id', $login_user)
-            ->first()->HealthCenterName??'';
+
+         $cc_prefix=BarcodeFormat::where('id',Auth::user()->cc_id)->first('barcode_prefix');
+        return HealthCenter::where('HealthCenterCode',$cc_prefix->barcode_prefix)->first()->HealthCenterName ?? '';
+  
     }
 
     public static function get_branch_id()
@@ -130,26 +126,35 @@ class Patient extends BaseModel
 
     public static function get_branch_wise_disease_count()
     {
-        $LoginRegistrationId = Patient::registration_ids();
+   
+         $cc_prefix=BarcodeFormat::where('id',Auth::user()->cc_id)->first('barcode_prefix');
+         $cc=$cc_prefix->barcode_prefix;
+     
         $disease_array = [
             'DBB019E4-E1A1-460F-A874-C98101D006FB',
             '81209B1C-8C0D-414C-A5ED-3D179F3B463A',
             '98E2AE4F-7639-49CA-A7AF-9FE396F5EDC2',
             'BB268EAB-EDD6-4D50-8886-C418C133C555',
-            '0C436780-E230-4A61-8B9C-C111CF294539'
+            '0C436780-E230-4A61-8B9C-C111CF294539',
+            'A69382EF-905C-4FC1-BA32-53E86FC50E35'
         ];
 
         $today = Carbon::today();
         $startDate = $today->format('Y-m-d');
 
-        $all_diseases = MDataPatientIllnessHistory::selectRaw('COUNT(*) as count, RefIllness.IllnessId, RefIllness.IllnessCode')
-            ->join('RefIllness', 'RefIllness.IllnessId', '=', 'MDataPatientIllnessHistory.IllnessId')
-            ->join('Patient', 'Patient.PatientId', '=', 'MDataPatientIllnessHistory.PatientId')
-            ->whereIn('Patient.RegistrationId', $LoginRegistrationId)
-            ->whereIn('RefIllness.IllnessId', $disease_array)
-            ->whereDate('MDataPatientIllnessHistory.CreateDate', $startDate)
-            ->groupBy('RefIllness.IllnessId', 'RefIllness.IllnessCode')
-            ->get();
+ $all_diseases = MDataPatientIllnessHistory::selectRaw('COUNT(DISTINCT MDataPatientIllnessHistory.PatientId) as count, MDataPatientIllnessHistory.IllnessId ')
+    ->join('Patient', 'Patient.PatientId', '=', 'MDataPatientIllnessHistory.PatientId')
+     // Add this line
+    ->where('Patient.RegistrationId', 'LIKE', $cc. '%')
+    ->whereIn('MDataPatientIllnessHistory.IllnessId', $disease_array)
+    ->whereDate('MDataPatientIllnessHistory.CreateDate', $startDate)
+    ->where('MDataPatientIllnessHistory.Status','LIKE', 'yes')
+    ->whereDate(DB::raw('CONVERT(date, MDataPatientIllnessHistory.CreateDate)'), $startDate)
+    ->groupBy('MDataPatientIllnessHistory.IllnessId')
+    ->get();
+
+
+         
 
         return $all_diseases;
     }
@@ -169,7 +174,7 @@ class Patient extends BaseModel
             }, function ($query) {
                 $query->whereNull('HealthCenter.HealthCenterId');
             })
-            ->whereDate('MDataPatientReferral.CreateDate', $startDate)
+            ->whereDate(DB::raw('CONVERT(date, MDataPatientReferral.CreateDate)'), $startDate)
             ->groupBy('HealthCenter.HealthCenterName')
             ->orderByRaw('COUNT(*) DESC')
             ->first()->number_of_referred_case?? 0;
@@ -177,43 +182,33 @@ class Patient extends BaseModel
 
     //get referred
 
-    public static function registration_ids()
-    {
-        $login_user = Auth::user()->cc_id ?? 0;
-
-        $LoginRegistrationId = Patient::select('Patient.RegistrationId')
-            ->join('barcode_formats AS bf', function ($join) {
-                $join->on(DB::raw('LEFT(Patient.RegistrationId, 9)'), '=', 'bf.barcode_prefix');
-            })
-            ->join('users AS u', 'u.cc_id', '=', 'bf.id')
-            ->where('u.cc_id', $login_user)
-            ->pluck('Patient.RegistrationId')
-            ->toArray();
-
-        return $LoginRegistrationId;
-    }
+  
 
     //top ten disease based on patient
 
     public static function top_ten_disease()
     {
-        $LoginRegistrationId = Patient::registration_ids();
+      
         $today = Carbon::today();
         $startDate = $today->format('Y-m-d');
 
-        $illnesses = MDataPatientIllnessHistory::select(
-            'RefIllness.IllnessId',
-            'RefIllness.IllnessCode',
-            DB::raw('COUNT(*) as Patients')
-        )
+        $cc_prefix=BarcodeFormat::where('id',Auth::user()->cc_id)->first('barcode_prefix');
+        $cc=$cc_prefix->barcode_prefix;
+
+      
+
+        $illnesses= DB::table('MDataPatientIllnessHistory')
             ->join('RefIllness', 'MDataPatientIllnessHistory.IllnessId', '=', 'RefIllness.IllnessId')
             ->join('Patient', 'MDataPatientIllnessHistory.PatientId', '=', 'Patient.PatientId')
-            ->whereDate('MDataPatientIllnessHistory.CreateDate', $startDate)
-            ->whereIn('Patient.RegistrationId', $LoginRegistrationId)
+            ->where('Patient.RegistrationId', 'LIKE', $cc . '%')
+            ->where('MDataPatientIllnessHistory.Status','LIKE', 'yes')
+            ->whereDate(DB::raw('CONVERT(date, MDataPatientIllnessHistory.CreateDate)'), $startDate)
             ->groupBy('RefIllness.IllnessId', 'RefIllness.IllnessCode')
-            ->orderByRaw('COUNT(*) DESC')
-            ->take(10) // Limit the results to 10 rows
+            ->orderByRaw('COUNT(DISTINCT MDataPatientIllnessHistory.PatientId) DESC')
+            ->select('RefIllness.IllnessId', 'RefIllness.IllnessCode', DB::raw(' COUNT(DISTINCT MDataPatientIllnessHistory.PatientId) as Patients'))
+            ->take(10)
             ->get();
+
 
         return $illnesses;
     }
@@ -222,24 +217,27 @@ class Patient extends BaseModel
 
     public static function all_disease()
     {
-        $LoginRegistrationId = Patient::registration_ids();
         $today = Carbon::today();
         $startDate = $today->format('Y-m-d');
 
-        $illnesses = MDataPatientIllnessHistory::select(
-            'RefIllness.IllnessId',
-            'RefIllness.IllnessCode',
-            DB::raw('COUNT(*) as Patients')
-        )
+        $cc_prefix=BarcodeFormat::where('id',Auth::user()->cc_id)->first('barcode_prefix');
+        $cc=$cc_prefix->barcode_prefix;
+
+      
+
+        $illnesses= DB::table('MDataPatientIllnessHistory')
             ->join('RefIllness', 'MDataPatientIllnessHistory.IllnessId', '=', 'RefIllness.IllnessId')
             ->join('Patient', 'MDataPatientIllnessHistory.PatientId', '=', 'Patient.PatientId')
-            ->whereDate('MDataPatientIllnessHistory.CreateDate', $startDate)
-            ->whereIn('Patient.RegistrationId', $LoginRegistrationId)
+            ->where('Patient.RegistrationId', 'LIKE', $cc . '%')
+            ->where('MDataPatientIllnessHistory.Status','LIKE', 'yes')
+            ->whereDate(DB::raw('CONVERT(date, MDataPatientIllnessHistory.CreateDate)'), $startDate)
             ->groupBy('RefIllness.IllnessId', 'RefIllness.IllnessCode')
-            ->orderByRaw('COUNT(*) DESC')
+            ->orderByRaw('COUNT(DISTINCT MDataPatientIllnessHistory.PatientId) DESC')
+            ->select('RefIllness.IllnessId', 'RefIllness.IllnessCode', DB::raw(' COUNT(DISTINCT MDataPatientIllnessHistory.PatientId) as Patients'))
             ->get();
 
-        return $illnesses;
+
+           return $illnesses;
     }
     //all disease based on patient end
 }

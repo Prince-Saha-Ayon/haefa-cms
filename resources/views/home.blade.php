@@ -13,7 +13,7 @@
 @endpush
 @section('content')
 <div class="dt-content">
-    <h2 class="px-5 py-4 mb-3 border text-black dt-card font-weight-bold rounded" style="font-size: 14px;">Branch Name: {{$branch_name??''}}</h2>
+    <h2 class="px-5 py-4 mb-3 border text-black dt-card font-weight-bold rounded" style="font-size: 14px;">Branch Name: {{$branch_name ?? ''}}</h2>
     <div class="row g-4 pt-5">
      {{-- Disease & branch wise patient count--}}
 
@@ -110,7 +110,7 @@
                 <h4 style="margin:0px;">Today's top 10 disease </h4>
                 @if (permission('dashboard-button'))
                 <div class="ml-auto"> <!-- This div pushes the button to the right -->
-                    <a href="{{ route('toptendiseases') }}" class="btn btn-primary">Details</a>
+                    {{-- <a href="{{ route('toptendiseases') }}" class="btn btn-primary">Details</a> --}}
                 </div>
                 @endif
                 </div>
@@ -147,7 +147,7 @@
                 <h4 class="mb-0">Today's All disease</h4>
                 @if (permission('dashboard-button'))
                 <div class="ml-auto"> <!-- This div pushes the button to the right -->
-                    <a href="{{ route('diseaseRateDateRange') }}" class="btn btn-primary">Details</a>
+                    {{-- <a href="{{ route('diseaseRateDateRange') }}" class="btn btn-primary">Details</a> --}}
                 </div>
                 @endif
                 </div>

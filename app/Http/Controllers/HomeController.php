@@ -36,7 +36,7 @@ class HomeController extends Controller
                 if($branch_wise_disease->IllnessId=='DBB019E4-E1A1-460F-A874-C98101D006FB'){
                     $DM_count = $branch_wise_disease->count??0;
                 }
-                else if($branch_wise_disease->IllnessId=='81209B1C-8C0D-414C-A5ED-3D179F3B463A'){
+                else if($branch_wise_disease->IllnessId=='A69382EF-905C-4FC1-BA32-53E86FC50E35'){
                     $HTN_count = $branch_wise_disease->count??0;
                 }
                 else if($branch_wise_disease->IllnessId=='98E2AE4F-7639-49CA-A7AF-9FE396F5EDC2'){
@@ -49,22 +49,24 @@ class HomeController extends Controller
                     $GestationalDMCount = $branch_wise_disease->count??0;
                 }
             }
+            // dd($DM_count,$HTN_count,$ANCPNC_count,$PregnancyInducedHypertensionCount,$GestationalDMCount);
 
             $referred_case_count_heltcenter = Patient::branch_wise_referred_case_with_referrel_center_count();
 
             $branch_name = Patient::get_branch_name();
             $registrationId=Patient::select('RegistrationId')->get();
-            //top ten disease graph of todays date start
+            // //top ten disease graph of todays date start
             $illnesses['diseases'] = Patient::top_ten_disease();
-            //top ten disease graph of todays date end
+            // //top ten disease graph of todays date end
 
-            //all disease graph of todays date start
+            // //all disease graph of todays date start
             $all_illnesses = Patient::all_disease();
             // all disease graph of todays date end
             return view('home',compact('registrationId','illnesses','all_illnesses',
                 'branch_name','branch_wise_disease_count','referred_case_count_heltcenter','DM_count',
                 'HTN_count','ANCPNC_count','PregnancyInducedHypertensionCount','GestationalDMCount'
             ));
+     
 
         }else{
             return $this->unauthorized_access_blocked();
