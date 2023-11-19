@@ -5,7 +5,11 @@
 @endsection
 
 @push('stylesheet')
-
+<style>
+.colorBox{
+    left: 0px;
+}
+</style>
 
 @endpush
 
@@ -83,8 +87,17 @@
                         </div>
                     </form>
 
-                    <div class="row">
-                        <div class="col-lg-12 col-xxl-4 chart-style" id="date_wise" ></div>
+                      <div class="row">
+                        <div class="col-md-12">
+                            <figure class="highcharts-figure position-relative">
+                                <div class="colorBox d-flex">
+                                    <p class="mb-0 d-flex align-items-center"><span></span>0 - 100</p>
+                                    <p class="mb-0 d-flex align-items-center"><span></span>101 - 150</p>
+                                    <p class="mb-0 d-flex align-items-center"><span></span>>151</p>
+                                </div>
+                                <div id="date_wise"></div>
+                            </figure>
+                        </div>
                     </div>
 
                 </div>
@@ -141,6 +154,8 @@ $('#search').click(function() {
             //console.log(response.data);
             // Extract the data array from the response
             var data = response.data.data;
+            console.log(response)
+            var branchName = response.healthcenter && response.healthcenter != '' ? response.healthcenter : 'All Branch';
 
             // Define an array to store colors for each data point
             var colors = [];
@@ -150,14 +165,12 @@ $('#search').click(function() {
                 var count = data[i][1];
                 var color;
 
-                if (count >= 0 && count <= 5) {
-                    color = 'blue';
-                } else if (count >= 6 && count <= 10) {
+                if (count >= 0 && count <= 100) {
+                   color = 'green';
+                } else if (count >= 100 && count <= 150) {
                     color = 'yellow';
-                } else if (count >= 11 && count <= 15) {
+                }  else {
                     color = 'red';
-                } else {
-                    color = 'black';
                 }
 
                 colors.push(color); // Add the color to the array
@@ -165,7 +178,7 @@ $('#search').click(function() {
 
             var chart = Highcharts.chart('date_wise', {
                 title: {
-                    text: response.healthcenter + ' Disease',
+                    text: branchName + ' Disease',
                 },
                 credits: {
                     enabled: false

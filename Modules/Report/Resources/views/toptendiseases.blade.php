@@ -7,169 +7,9 @@
 @push('stylesheet')
  {{-- <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" /> --}}
 <style>
-.highcharts-figure,
-.highcharts-data-table table {
-    min-width: 310px;
-    max-width: 800px;
-    margin: 1em auto;
+.colorBox{
+    left: 0px;
 }
-
-#container {
-    height: 400px;
-}
-
-.highcharts-data-table table {
-    font-family: Verdana, sans-serif;
-    border-collapse: collapse;
-    border: 1px solid #ebebeb;
-    margin: 10px auto;
-    text-align: center;
-    width: 100%;
-    max-width: 500px;
-}
-
-.highcharts-data-table caption {
-    padding: 1em 0;
-    font-size: 1.2em;
-    color: #555;
-}
-
-.highcharts-data-table th {
-    font-weight: 600;
-    padding: 0.5em;
-}
-
-.highcharts-data-table td,
-.highcharts-data-table th,
-.highcharts-data-table caption {
-    padding: 0.5em;
-}
-
-.highcharts-data-table thead tr,
-.highcharts-data-table tr:nth-child(even) {
-    background: #f8f8f8;
-}
-
-.highcharts-data-table tr:hover {
-    background: #f1f7ff;
-}
-
-
-
-{
-        {
-        -- pagination style--
-    }
-}
-
-.pagination {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    list-style: none;
-    padding: 0;
-}
-
-.pagination li {
-    margin: 0 5px;
-}
-
-.pagination .active {
-    font-weight: bold;
-    color: #000;
-}
-
-.pagination a {
-    color: #007bff;
-    text-decoration: none;
-    padding: 5px 10px;
-    border: 1px solid #007bff;
-    border-radius: 5px;
-}
-
-.pagination a:hover {
-    background-color: #007bff;
-    color: #fff;
-}
-
-
-    {
-        {
-        --pagination style ends--
-    }
-}
-
-#prescription .container {
-    background-color: #f2f2f2 !important;
-}
-
-.header p {
-    font-size: 14px;
-}
-
-.aside {
-    width: 400px;
-    border-right: 1px solid #ddd;
-    min-height: 600px;
-    padding-bottom: 20px;
-}
-
-.signatureImage {
-    display: inline-block;
-    width: 100px;
-    object-fit: contain;
-    margin-bottom: 5px;
-}
-
-.signatureBox {
-    position: absolute;
-    right: 50px;
-    bottom: 30px;
-}
-
-.footer {
-    padding-top: 20px;
-    padding-bottom: 20px;
-    border-top: 1px solid #ddd;
-}
-
-.footer p {
-    font-size: 14px;
-}
-
-.apiLogo {
-    max-width: 40px;
-    transform: translateY(-4px);
-    margin-left: 5px;
-}
-
-.logoText {
-    font-size: 14px;
-}
-
-.nextinfo {
-    margin-top: 150px;
-}
-
-.userImg {
-    margin-top: 20px;
-    width: 200px;
-    height: 200px;
-    object-fit: cover;
-    border-radius: 20px;
-    border: 10px solid rgba(122, 122, 122, .15);
-}
-
-.dataItem p {
-    font-weight: 400;
-    font-size: 15px;
-}
-
-.dataItem span {
-    font-weight: 600;
-    font-size: 15px;
-}
-
 
 </style>
 @endpush
@@ -256,13 +96,26 @@
                             </div>
                         </div>
 
-                        <div class="row">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <figure class="highcharts-figure position-relative">
+                            <div class="colorBox d-flex">
+                                    <p class="mb-0 d-flex align-items-center"><span></span>0 - 100</p>
+                                    <p class="mb-0 d-flex align-items-center"><span></span>101 - 150</p>
+                                    <p class="mb-0 d-flex align-items-center"><span></span>>151</p>
+                                </div>
+                                <div id="container_diseases"></div>
+                            </figure>
+                        </div>
+                    </div>
+
+                        {{-- <div class="row">
                             <div class="col-md-12">
                                 <figure class="highcharts-figure">
                                     <div id="container_diseases"></div>
                                 </figure>
                             </div>
-                        </div>
+                        </div> --}}
                     </form>
 
 
