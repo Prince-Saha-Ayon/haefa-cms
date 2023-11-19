@@ -2,7 +2,7 @@
 
 var chartData = {!! json_encode($illnesses['diseases']) !!};
 var branch = {!! json_encode($illnesses['branch']) !!};
-var branchName = branch && branch.length > 0 ? branch[0].HealthCenterName : 'Unknown Branch';
+var branchName = branch && branch.length > 0 ? branch[0].HealthCenterName : 'All Branch';
 
 
 
@@ -73,8 +73,20 @@ var branchName = branch && branch.length > 0 ? branch[0].HealthCenterName : 'Unk
             name: 'Patients',
             
             data: chartData.map(function(item) {
-               return parseFloat(item.Patients);
-            })
+            let color;
+            const patientCount = parseFloat(item.Patients);
+            if (patientCount >= 0 && patientCount <= 100) {
+                color = 'green'; // Color for the range 0-100
+            } else if (patientCount > 100 && patientCount <= 150) {
+                color = 'yellow'; // Color for the range 101-150
+            } else {
+                color = 'red'; // Color for values greater than 150
+            }
+            return {
+                y: patientCount,
+                color: color
+            };
+        })
         }]
     });
 </script>

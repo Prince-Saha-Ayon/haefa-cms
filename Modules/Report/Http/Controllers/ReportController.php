@@ -1065,10 +1065,10 @@ $results = DB::table("MDataPatientReferral")
             ->join('RefIllness', 'MDataPatientIllnessHistory.IllnessId', '=', 'RefIllness.IllnessId')
             ->join('Patient', 'MDataPatientIllnessHistory.PatientId', '=', 'Patient.PatientId')
             ->where('Patient.RegistrationId', 'LIKE', $hcId . '%')
-            ->whereBetween('MDataPatientIllnessHistory.CreateDate', [$startDate, $endDate])
+            ->whereBetween(DB::raw('CAST(MDataPatientIllnessHistory.CreateDate AS DATE)'),[$startDate, $endDate])
             ->groupBy('RefIllness.IllnessId', 'RefIllness.IllnessCode')
-            ->orderByRaw('COUNT(*) DESC')
-            ->select('RefIllness.IllnessId', 'RefIllness.IllnessCode', DB::raw('COUNT(*) as Patients'))
+            ->orderByRaw('COUNT(DISTINCT MDataPatientIllnessHistory.PatientId) DESC')
+            ->select('RefIllness.IllnessId', 'RefIllness.IllnessCode', DB::raw('COUNT(DISTINCT MDataPatientIllnessHistory.PatientId) as Patients'))
             ->take(10)
             ->get();
 
@@ -1204,26 +1204,30 @@ $results = DB::table("MDataPatientReferral")
     public function AjaxDiseaseRateDateRange(Request $request){
 //          dd($request->all());
         $barcode_prefix = $request->hc_id;
+        
         $first_date = $request->fdate;
         $last_date = $request->ldate;
 
         if($barcode_prefix){
-            $barcode_tbl = BarcodeFormat::with('healthCenter') 
-                ->where('barcode_prefix',$barcode_prefix)
-                ->first();
-            $branchName = $barcode_tbl->HealthCenterName??'';
+            $barcode_tbl = HealthCenter::where('HealthCenterCode',$barcode_prefix)->first('HealthCenterName');
+        
+       
+           
+            $branchName = $barcode_tbl['HealthCenterName']??'';
+        
         }else{
-            $branchName = '';
+            $branchName = 'All Branch';
         }
+      
 
         $illnesses = DB::table('MDataPatientIllnessHistory')
             ->join('RefIllness', 'MDataPatientIllnessHistory.IllnessId', '=', 'RefIllness.IllnessId')
             ->join('Patient', 'MDataPatientIllnessHistory.PatientId', '=', 'Patient.PatientId')
-            ->whereBetween('Patient.CreateDate', [$first_date, $last_date])
+            ->whereBetween(DB::raw('CAST(MDataPatientIllnessHistory.CreateDate AS DATE)'),[$first_date, $last_date])
             ->where('Patient.RegistrationId', 'LIKE', $barcode_prefix . '%')
             ->groupBy('RefIllness.IllnessId', 'RefIllness.IllnessCode')
-            ->orderByRaw('COUNT(*) DESC')
-            ->select('RefIllness.IllnessId', 'RefIllness.IllnessCode', DB::raw('COUNT(*) as Patients'))
+            ->orderByRaw('COUNT(DISTINCT MDataPatientIllnessHistory.PatientId) DESC')
+            ->select('RefIllness.IllnessId', 'RefIllness.IllnessCode', DB::raw('COUNT(DISTINCT MDataPatientIllnessHistory.PatientId) as Patients'))
             ->get();
 
         $data = [
