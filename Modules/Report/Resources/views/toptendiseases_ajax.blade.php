@@ -18,9 +18,7 @@ var branchName = branch && branch.length > 0 ? branch[0].HealthCenterName : 'All
         },
        
         xAxis: {
-             title: {
-                text: 'Diseases'
-            },
+          
             categories: chartData.map(function(item) {
                 return item.IllnessCode;
             }),
@@ -70,7 +68,7 @@ var branchName = branch && branch.length > 0 ? branch[0].HealthCenterName : 'All
         },
     },
         series: [{
-            name: 'Patients',
+            name: 'Diseases',
             
             data: chartData.map(function(item) {
             let color;
