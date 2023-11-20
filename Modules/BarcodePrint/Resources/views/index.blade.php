@@ -72,7 +72,7 @@
 
                         <div class="d-none" id="select-barcode-filter-range" >
                             <x-form.selectbox labelName="Barcode Prefix" name="mdata_barcode_prefix" col="col-md-4" class="mdata_barcode_prefix selectpicker"/>
-                            <x-form.textbox labelName="Show Range" name="show_range" type="number" required="required" col="col-md-2" placeholder="Enter Show Range" />
+                            <x-form.textbox labelName="Show Range(Max 100)" name="show_range" type="number" max="100" required="required" col="col-md-2" placeholder="Enter Show Range" />
 
                             <div class="form-group col-md-2" style="padding-top: 22px;">
                                 <button type="button" class="btn btn-primary btn-sm" style="width: 90px" id="save-range-btn"> Show</button>
@@ -83,7 +83,8 @@
                         <div class="d-none" id="select-barcode-filter-range-old" >
                             <x-form.selectbox labelName="Barcode Prefix" name="mdata_barcode_prefix" col="col-md-4"  class="mdata_barcode_prefix selectpicker"/>
                             <x-form.textbox labelName="Starting Range" name="starting_range" type="number"  max="" required="required" col="col-md-2" placeholder="Enter Starting Range" />
-                            <x-form.textbox labelName="Ending Range" name="ending_range" type="number" required="required" col="col-md-2" placeholder="Enter Ending Range" />
+                            <x-form.textbox labelName="Ending Range(Max 100)" name="ending_range" type="number" required="required" col="col-md-2" placeholder="Max 100" />
+                       
                             <div class="form-group col-md-2" style="padding-top: 22px;">
                                 <button type="button" class="btn btn-primary btn-sm" style="width: 90px" id="save-old-range-btn"> Show</button>
                             </div>
@@ -467,6 +468,50 @@
                 $(this).parents('.col-md-12').remove();
             });
 
+              var startingRangeInput = document.getElementById('starting_range');
+              var endingRangeInput = document.getElementById('ending_range');
+
+                // Add event listener to "Starting Range" input
+                startingRangeInput.addEventListener('input', function () {
+                    // Get the numeric value of the "Starting Range" input
+                    var startingRangeValue = parseFloat(startingRangeInput.value);
+
+                    // Get the numeric value of the "Ending Range" input
+                    var endingRangeValue = parseFloat(endingRangeInput.value);
+
+                    // If "Ending Range" value is greater than 100 times the "Starting Range" value, adjust it
+                    if (!isNaN(startingRangeValue) && !isNaN(endingRangeValue) && endingRangeValue > startingRangeValue + 100) {
+                        endingRangeInput.value = startingRangeValue + 100;
+                    }
+                });
+
+        // Add event listener to "Ending Range" input
+            endingRangeInput.addEventListener('input', function () {
+            // Get the numeric value of the "Starting Range" input
+            var startingRangeValue = parseFloat(startingRangeInput.value);
+
+            // Get the numeric value of the "Ending Range" input
+            var endingRangeValue = parseFloat(endingRangeInput.value);
+
+            // If "Ending Range" value is more than 100 greater than the "Starting Range" value, adjust it
+            if (!isNaN(startingRangeValue) && !isNaN(endingRangeValue) && endingRangeValue > startingRangeValue + 100) {
+                endingRangeInput.value = startingRangeValue + 100;
+            }
+        });
+
+        var showRangeInput = document.getElementById('show_range');
+
+        // Add event listener to "Show Range" input
+        showRangeInput.addEventListener('input', function () {
+            // Get the numeric value of the "Show Range" input
+            var showRangeValue = parseFloat(showRangeInput.value);
+
+            // If "Show Range" value is more than 100, adjust it
+            if (!isNaN(showRangeValue) && showRangeValue > 100) {
+                showRangeInput.value = 100;
+            }
+        });
+
 
         });
 
@@ -825,7 +870,7 @@
 
                         var mdataBarcodePrefixNumber = barcode.mdata_barcode_prefix_number;
                         var mdataBarcodeaddress = barcode.address;
-                        var fontSize = mdataBarcodeaddress.length > 70 ? "8px" : "9px";
+                        var fontSize = mdataBarcodeaddress.length > 70 ? "8px" : "8px";
                         console.log(mdataBarcodeaddress.length);
                         if (mdataBarcodePrefixNumber) {
                             let barcodeHTML =
