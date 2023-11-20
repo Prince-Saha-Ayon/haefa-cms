@@ -246,6 +246,7 @@ public function diseaseindex()
                 GROUP BY PatientId
             ) AS MaxBP'), 'MaxBP.PatientId', '=', 'MDataPatientIllnessHistory.PatientId')
             ->where('IllnessId', '=', 'A69382EF-905C-4FC1-BA32-53E86FC50E35')
+            ->where('MDataPatientIllnessHistory.Status', 'LIKE', 'yes')
             ->whereBetween('MDataPatientIllnessHistory.CreateDate', [$first_date, $last_date])
             ->where(function($query) use ($barcode_prefix) {
             if ($barcode_prefix) {
