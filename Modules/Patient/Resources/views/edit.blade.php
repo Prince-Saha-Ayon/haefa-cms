@@ -132,17 +132,17 @@
                                 </x-form.selectbox>
 
                                 <x-form.selectbox labelName="Head of Family" name="HeadOfFamilyId" required="required" col="col-md-6" class="selectpicker">
-                                    @if (!$RefHeadOfFamilies->isEmpty())
-                                    @if($patient->HeadOfFamilyId != '')
-                                        @foreach ($RefHeadOfFamilies as $RefHeadOfFamilie)
-                                            <option value="{{ $RefHeadOfFamilie->HeadOfFamilyId }}"  {{ $RefHeadOfFamilie->HeadOfFamilyId == $patient->HeadOfFamilyId ? 'selected' : '' }}>{{ $RefHeadOfFamilie->HeadOfFamilyCode ??'' }}</option>
+                                       @if($patient->HeadOfFamilyId != '')
+                                        @foreach ($RefHeadOfFamilies as $RefHeadOfFamily)
+                                            <option value="{{ $RefHeadOfFamily->HeadOfFamilyId }}"  {{ $RefHeadOfFamily->HeadOfFamilyId == $patient->HeadOfFamilyId ? 'selected' : '' }}>{{ $RefHeadOfFamily->HeadOfFamilyCode ??'' }}</option>
                                         @endforeach
-                                    @endif
-                                    @else
-                                         @foreach ($RefHeadOfFamilies as $RefHeadOfFamilie)
-                                            <option value="{{ $RefHeadOfFamilie->HeadOfFamilyId }}">{{ $RefHeadOfFamilie->HeadOfFamilyCode ??'' }}</option>
-                                        @endforeach
-                                    @endif
+                                        @else
+                                         @foreach ($RefHeadOfFamilies as $RefHeadOfFamily)
+                                            <option value="{{ $RefHeadOfFamily->HeadOfFamilyId }}">{{ $RefHeadOfFamily->HeadOfFamilyCode ??'' }}</option>
+                                         @endforeach
+
+                                       @endif
+
                                 </x-form.selectbox>
 
                                 <div class="form-group col-md-6">
@@ -187,12 +187,12 @@
                              
                                 
                                  <x-form.selectbox labelName="Union" name="Thana" required="required" col="col-md-6" class="selectpicker">
-                                    @if (!$upazilas->isEmpty())
-                                    @if( $address->Thana != '')
+                              
+                                    @if( isset($address) && $address->Thana != '')
                                         @foreach ($upazilas as $upazila)
                                         <option value="{{ $upazila->id }}"  {{ $address->Thana == $upazila->id ? 'selected' : '' }}>{{ $upazila->name ??'' }}</option>
                                         @endforeach
-                                    @endif
+                             
                                     @else
                                          @foreach ($upazilas as $upazila)
                                         <option value="{{ $upazila->id }}">{{ $upazila->name ??'' }}</option>
@@ -203,12 +203,12 @@
                                 <x-form.textbox type="text" labelName="Post Code" name="PostCode" col="col-md-6" value="{{ $address->PostCode ??'' }}" placeholder="Enter Post Code" />
 
                                 <x-form.selectbox labelName="District" name="District" required="required" col="col-md-6" class="selectpicker">
-                                     @if (!$districts->isEmpty())
-                                    @if( $address->DistrictParmanent != '')
+                                  
+                                    @if( isset($address) && $address->DistrictParmanent != '')
                                         @foreach ($districts as $district)
                                         <option value="{{ $district->id }}"  {{ $address->DistrictParmanent == $district->id ? 'selected' : '' }}>{{ $district->name ??'' }}</option>
                                         @endforeach
-                                    @endif
+                           
                                     @else
                                          @foreach ($districts as $district)
                                         <option value="{{ $district->id }}">{{ $district->name ??'' }}</option>
@@ -228,12 +228,12 @@
                              
 
                                 <x-form.selectbox labelName="Union" name="ThanaParmanent" required="required" col="col-md-6" class="selectpicker">
-                                    @if (!$upazilas->isEmpty())
-                                    @if( $address->ThanaParmanent != '')
+                          
+                                    @if(isset($address) && $address->ThanaParmanent != '')
                                         @foreach ($upazilas as $upazila)
                                         <option value="{{ $upazila->id }}"  {{ $address->ThanaParmanent == $upazila->id ? 'selected' : '' }}>{{ $upazila->name ??'' }}</option>
                                         @endforeach
-                                    @endif
+                              
                                     @else
                                          @foreach ($upazilas as $upazila)
                                         <option value="{{ $upazila->id }}">{{ $upazila->name ??'' }}</option>
@@ -244,12 +244,12 @@
                                 <x-form.textbox type="text" labelName="Post Code" name="PostCodeParmanent" col="col-md-6" value="{{ $address->PostCodeParmanent ??'' }}" placeholder="Enter Post Code" />
 
                                 <x-form.selectbox labelName="District" name="DistrictParmanent" required="required" col="col-md-6" class="selectpicker">
-                                    @if (!$districts->isEmpty())
-                                    @if( $address->DistrictParmanent != '')
+                                
+                                    @if(isset($address) &&  $address->DistrictParmanent != '')
                                         @foreach ($districts as $district)
                                         <option value="{{ $district->id }}"  {{ $address->DistrictParmanent == $district->id ? 'selected' : '' }}>{{ $district->name ??'' }}</option>
                                         @endforeach
-                                    @endif
+                           
                                     @else
                                          @foreach ($districts as $district)
                                         <option value="{{ $district->id }}">{{ $district->name ??'' }}</option>
