@@ -27135,3 +27135,9 @@ div.dt-button-collection.dropdown-menu {
 	background-color: #aaaa !important;
 	color: #fa8c16;
 }
+
+#dataTable thead tr th:nth-child(1) {
+    min-width: 40px;
+    padding-right: 15px !important;
+    padding-left: 10px !important;
+}
