@@ -128,21 +128,21 @@
 
         <footer class="footer d-flex justify-content-between" >
           <address class="mb-0">
-            <p class="mb-0">Haefa USA</p>
-            <p class="mb-0">311 Bedford St, Lexington MA 07420, USA</p>
-            <p class="mb-0">Email: healthonwheels.usa@gmail.com</p>
-            <p class="mb-0">Website: www.healthonwheels.usa.org</p>
+            <p class="mb-0">Health and Education for All (HAEFA), USA</p>
+            <p class="mb-0">311 Bedford St Lexington, MA 02420, USA</p>
+            <p class="mb-0">Email: haefa@haefa.org</p>
+            <p class="mb-0">Website: www.haefa.org</p>
           </address>
           <address class="mb-0">
-            <p class="mb-0">Haefa Bangladesh</p>
-            <p class="mb-0">House: 31, Road: 16 Sector: 13 Uttara</p>
-            <p class="mb-0">Email: healthonwheels.usa@gmail.com</p>
-            <p class="mb-0">Website: www.healthonwheels.usa.org</p>
+            <p class="mb-0">Health and Education for All (HAEFA), Bangladesh</p>
+            <p class="mb-0">House: 31, Road: 16, Sector: 13, Uttara, Dhaka</p>
+            <p class="mb-0">Email: haefa@haefa.org</p>
+            <p class="mb-0">Website: www.haefabd.org</p>
           </address>
         </footer>
         <p class="mb-0 text-center pb-4 logoText">
-          Powered By:
-          <img src="{{ asset('storage/apilogo.png') }}" alt="img" class="apiLogo" />
+          Powered By: API Solutions Ltd.
+         
         </p>
       </div>
   </section>
