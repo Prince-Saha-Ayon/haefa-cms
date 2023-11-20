@@ -158,7 +158,7 @@ $(document).ready(function(){
                 @endif
                 "className": "text-right"
             },
-             { targets: [4,5], visible: false }, 
+             { targets: [3,4], visible: false }, 
         ],
         "dom": "<'row'<'col-sm-12 col-md-6'l><'col-sm-12 col-md-6' <'float-right'B>>>" +
             "<'row'<'col-sm-12'tr>>" +
