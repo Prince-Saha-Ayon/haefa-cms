@@ -110,7 +110,7 @@
                 <h4 style="margin:0px;">Today's top 10 disease </h4>
                 @if (permission('dashboard-button'))
                 <div class="ml-auto"> <!-- This div pushes the button to the right -->
-                    {{-- <a href="{{ route('toptendiseases') }}" class="btn btn-primary">Details</a> --}}
+                    <a href="{{ route('toptendiseases') }}" class="btn btn-primary">Details</a>
                 </div>
                 @endif
                 </div>
@@ -147,7 +147,7 @@
                 <h4 class="mb-0">Today's All disease</h4>
                 @if (permission('dashboard-button'))
                 <div class="ml-auto"> <!-- This div pushes the button to the right -->
-                    {{-- <a href="{{ route('diseaseRateDateRange') }}" class="btn btn-primary">Details</a> --}}
+                    <a href="{{ route('diseaseRateDateRange') }}" class="btn btn-primary">Details</a>
                 </div>
                 @endif
                 </div>
