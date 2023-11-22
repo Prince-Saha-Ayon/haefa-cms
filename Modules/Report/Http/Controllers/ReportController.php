@@ -97,8 +97,14 @@ public function diseaseindex()
     }
      public function patientagewisedxindex(){
         $branches=BarcodeFormat::with('healthCenter')->get(); 
-        $this->setPageData('Provisional Diagnosis Age wise/Patient Count Age wise','Provisional Diagnosis Age wise/Patient Count Age wise','fas fa-th-list');
+        $this->setPageData('Provisional Diagnosis Age wise','Provisional Diagnosis Age wise','fas fa-th-list');
         return view('report::agewisedx',compact('branches'));
+
+    }
+       public function PatientCountAgeWise(){
+        $branches=BarcodeFormat::with('healthCenter')->get(); 
+        $this->setPageData('Provisional Diagnosis Patient Count Age wise','Provisional Diagnosis Patient Count Age wise','fas fa-th-list');
+        return view('report::patientcountagewise',compact('branches'));
 
     }
 
@@ -725,10 +731,28 @@ $results = Address::with('districtAddress','upazillaAddress','unionAddress')->se
         $last_date = $request->ldate;
         $barcode_prefix = $request->hc_id;
 
+        // $results = DB::table("MDataProvisionalDiagnosis")
+        //     ->select(
+        //         DB::raw("CONVERT(varchar, MDataProvisionalDiagnosis.CreateDate, 106) as CreateDate"),
+        //         'ProvisionalDiagnosis',
+        //         DB::raw('COUNT(MDataProvisionalDiagnosis.PatientId) as Total')
+        //     )
+        //     ->whereDate('MDataProvisionalDiagnosis.CreateDate', '>=', $first_date)
+        //     ->whereDate('MDataProvisionalDiagnosis.CreateDate', '<=', $last_date)
+        //     ->where(function($query) use ($barcode_prefix) {
+        //         if ($barcode_prefix) {
+        //             $query->where('Patient.RegistrationId', 'LIKE', $barcode_prefix . '%');
+        //         }
+        //     })
+        //     ->join('Patient', 'MDataProvisionalDiagnosis.PatientId', '=', 'Patient.PatientId')
+        //     ->groupBy(DB::raw("CONVERT(varchar, MDataProvisionalDiagnosis.CreateDate, 106)"), 'ProvisionalDiagnosis')
+        //     ->get();
+
+
         $results = DB::table("MDataProvisionalDiagnosis")
             ->select(
-                DB::raw("CONVERT(varchar, MDataProvisionalDiagnosis.CreateDate, 106) as CreateDate"),
                 'ProvisionalDiagnosis',
+                DB::raw("CONVERT(varchar, MDataProvisionalDiagnosis.CreateDate, 106) as CreateDate"),
                 DB::raw('COUNT(MDataProvisionalDiagnosis.PatientId) as Total')
             )
             ->whereDate('MDataProvisionalDiagnosis.CreateDate', '>=', $first_date)
@@ -739,8 +763,19 @@ $results = Address::with('districtAddress','upazillaAddress','unionAddress')->se
                 }
             })
             ->join('Patient', 'MDataProvisionalDiagnosis.PatientId', '=', 'Patient.PatientId')
-            ->groupBy(DB::raw("CONVERT(varchar, MDataProvisionalDiagnosis.CreateDate, 106)"), 'ProvisionalDiagnosis')
+            ->groupBy('ProvisionalDiagnosis', DB::raw("CONVERT(varchar, MDataProvisionalDiagnosis.CreateDate, 106)"))
             ->get();
+
+        $pivotedResults = $results->groupBy('ProvisionalDiagnosis')
+        ->map(function ($group) {
+            return $group->keyBy('CreateDate')
+                ->mapWithKeys(function ($item) {
+                    return [date('d-m-Y', strtotime($item->CreateDate)) => $item->Total];
+                });
+        });
+
+       
+
 
             
             $resultCount = $results->sum('Total');
@@ -749,7 +784,7 @@ $results = Address::with('districtAddress','upazillaAddress','unionAddress')->se
             $hcname=HealthCenter::where('HealthCenterCode',$barcode_prefix )->first('HealthCenterName');
             $response = [
                 'healthcenter' => $hcname->HealthCenterName ?? 'All',	
-                'results' => $results,
+                'results' => $pivotedResults,
                 'resultCount' => $resultCount,
                 'first_date' => $first_date,
                 'last_date' => $last_date,
