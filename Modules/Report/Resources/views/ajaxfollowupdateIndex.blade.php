@@ -176,8 +176,13 @@
     var collectionDate='';
     var patients;
     var now = new Date();
-    var formattedDate = now.getDate().toString().padStart(2, '0') + '_' + (now.getMonth() + 1).toString().padStart(2, '0') + '_' + now.getFullYear();
-    var filename = 'FollowupDate_' + formattedDate;
+    var formattedDate = now.getDate().toString().padStart(2, '0') + '_' +
+    (now.getMonth() + 1).toString().padStart(2, '0') + '_' +
+    now.getFullYear() + '_' +
+    now.getHours().toString().padStart(2, '0') + '_' +
+    now.getMinutes().toString().padStart(2, '0') + '_' +
+    now.getSeconds().toString().padStart(2, '0');
+    var filename = 'Followupdate_' + formattedDate;
 
   
 
