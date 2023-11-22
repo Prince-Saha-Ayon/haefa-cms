@@ -5,8 +5,11 @@
 @endsection
 
 @push('stylesheet')
-
-
+<style>
+.table th {
+    color: rgb(10, 0, 0)202 !important; 
+}
+</style>
 @endpush
 
 @section('content')
@@ -84,19 +87,15 @@
                         </div>
                     </form>
 
-                     <table id="dataTable" class="table table-striped table-bordered table-hover">
-                            <thead class="bg-primary">
-                            <tr>
-                                <th>No</th>
-                                <th>Provisional DX</th>
-                                <th>Date</th>
-                                <th>Total</th>
-                            </tr>
-
-                            </thead>
-                    
-                         
-                        </table>
+            <table id="normal-table" class="table table-striped table-bordered table-hover d-none">
+                <thead class="bg-primary">
+                   
+                </thead>
+                <tbody>
+                    <!-- Data will be dynamically added here -->
+                </tbody>
+            </table>
+             <button id="export-button" class="btn btn-primary disabled">Export to Excel</button>
 
                 </div>
                 <!-- /card body -->
@@ -121,6 +120,7 @@
 
 <script src="js/dataTables.buttons.min.js"></script>
 <script src="js/buttons.html5.min.js"></script>
+<script lang="javascript" src="js/xlsx.full.min.js"></script>
 <script>
 
 // disease rate by date range start
@@ -171,95 +171,20 @@
     var collectionDate='';
     var patients;
     var now = new Date();
-    var formattedDate = now.getDate().toString().padStart(2, '0') + '_' + (now.getMonth() + 1).toString().padStart(2, '0') + '_' + now.getFullYear();
+    var formattedDate = now.getDate().toString().padStart(2, '0') + '_' +
+    (now.getMonth() + 1).toString().padStart(2, '0') + '_' +
+    now.getFullYear() + '_' +
+    now.getHours().toString().padStart(2, '0') + '_' +
+    now.getMinutes().toString().padStart(2, '0') + '_' +
+    now.getSeconds().toString().padStart(2, '0');
     var filename = 'ProvisionalDiagnosis_Datewise_' + formattedDate;
 
   
 
     
     $(document).ready(function () {
-    table = $('#dataTable').DataTable({
-        pagingType: 'full_numbers',
-        dom: 'Bfrtip',
-        orderCellsTop: true,
-        buttons: [
-            {
-                extend: 'excel',
-                text: 'Export to Excel',
-                filename: filename,
-                title: '',
-                customize: function(xlsx,resultCount) {
-            var sheet = xlsx.xl.worksheets['sheet1.xml'];
-            var downrows = 5; // Number of rows to add
-            var clRow = $('row', sheet);
-
-            // Update Row
-            clRow.each(function() {
-                var attr = $(this).attr('r');
-                var ind = parseInt(attr);
-                ind = ind + downrows;
-                $(this).attr("r", ind);
-            });
-
-            // Update row > c
-            $('row c', sheet).each(function() {
-                var attr = $(this).attr('r');
-                var pre = attr.substring(0, 1);
-                var ind = parseInt(attr.substring(1, attr.length));
-                ind = ind + downrows;
-                $(this).attr("r", pre + ind);
-            });
-         
-
-            function Addrow(index, data) {
-                var msg = '<row r="' + index + '">';
-                for (var i = 0; i < data.length; i++) {
-                    var key = data[i].k;
-                    var value = data[i].v;
-                    msg += '<c t="inlineStr" r="' + key + index + '">';
-                    msg += '<is>';
-                    msg += '<t>' + value + '</t>';
-                    msg += '</is>';
-                    msg += '</c>';
-                }
-                msg += '</row>';
-                return msg;
-            }
-
-            var r1 = Addrow(1, [{
-                k: 'A',
-                v: 'App Name: Nirog Plus' ,
-            }]);
-
-            var r2 = Addrow(2, [{
-                k: 'A',
-                v: 'Branch: ' + healthcenter,
-            }]);
-
-            var r3 = Addrow(3, [{
-                k: 'A',
-                v: 'Collection Date:' + collectionDate,
-            }]);
-
-            var r4 = Addrow(4, [{
-                k: 'A',
-                v: 'Total Patients:' + patients,
-            }]);
-             var r5 = Addrow(5, [{
-                k: 'A',
-                v: ''
-            }, {
-                k: 'B',
-                v: ''
-            }]);
-
-            sheet.childNodes[0].childNodes[1].innerHTML = r1 + r2 + r3 + r4 + sheet.childNodes[0].childNodes[1].innerHTML;
-            table.clear().draw();
-            $('#hc_id').val('').selectpicker('refresh');
-    },
-            },
-        ],
-    });
+        
+  
 
      $('#search').click(function () {
         var daterange = $('#daterange').val();
@@ -267,6 +192,10 @@
         const parts = daterange.split(" - ");
         const fdate = parts[0];
         const ldate = parts[1];
+        var fdateFormatted = moment(fdate, 'MM/DD/YYYY').format('DD-MMM-YYYY');
+        var ldateFormatted = moment(ldate, 'MM/DD/YYYY').format('DD-MMM-YYYY');
+
+    
 
         $.ajax({
             type: "GET",
@@ -277,51 +206,151 @@
             },
             complete: function () {
                 $('#warning-searching').addClass('invisible');
+                $('#export-button').removeClass('disabled');
             },
             success: function (response) {
                 var results = response.results;
-                healthcenter = response.healthcenter;
-                var firstDate = new Date(response.first_date);
-                var lastDate = new Date(response.last_date);
-
-                    var formatDate = function (date) {
-                    var day = date.getDate().toString().padStart(2, '0');
-                    var monthNames = [
-                        "January", "February", "March", "April", "May", "June",
-                        "July", "August", "September", "October", "November", "December"
-                    ];
-                    var monthName = monthNames[date.getMonth()];
-                    var year = date.getFullYear();
-                    return day + "-" + monthName + "-" + year;
-                };
-
-                collectionDate = formatDate(firstDate) + "_To_" + formatDate(lastDate);
-               
+                healthcenter=response.healthcenter;
                 patients=response.resultCount;
-            
-                var tableBody = $('#dataTable tbody')
+                var table = $('#normal-table tbody');
 
                 // Clear the existing table rows
-                table.clear().draw();
+                table.empty();
 
-                if (results.length > 0) {
-                    $.each(results, function (index, result) {
-                        var newRow = [
-                            (index + 1),
-                            result.ProvisionalDiagnosis,
-                            (result.CreateDate || ""),
-                            (result.Total || ""),
-                      
-                        ];
+                // Create header row
+                var headerRow = $('<tr></tr>');
+                headerRow.append('<th style="color:black; font-weight:bold;">Provisional DX</th>');
 
-                        // Add a new row to the table
-                        table.row.add(newRow).draw();
+                // Extract unique dates from all diagnoses
+                var uniqueDates = [...new Set(Object.values(results).flatMap(diagnosis => Object.keys(diagnosis)))];
+
+                uniqueDates.forEach(function (date) {
+                    var formattedDate = moment(date, 'DD-MM-YYYY').format('DD-MMM-YYYY');
+    // Append the formatted date to the headerRow
+                    headerRow.append('<th style="color:black; width:20px;">' + formattedDate + '</th>');
+                });
+
+                headerRow.append('<th style="color:black;">Total</th>'); // Add Total column header
+                table.append(headerRow);
+
+                // Create data rows
+                Object.keys(results).forEach(function (diagnosis) {
+                    var dataRow = $('<tr></tr>');
+                    dataRow.append('<td>' + diagnosis + '</td>');
+
+                    var total = 0;
+
+                    uniqueDates.forEach(function (date) {
+                        var count = parseInt(results[diagnosis][date]) || 0;
+                        total += count;
+                        dataRow.append('<td>' + count + '</td>');
                     });
-                } else {
-                    // Handle the case where there are no results (optional)
-                    tableBody.html('<tr><td colspan="9">No results found</td></tr>');
+
+                    dataRow.append('<td>' + total + '</td>'); // Add Total column
+                    table.append(dataRow);
+                });
+         
+},
+
+            // success: function (response) {
+            //     var results = response.results;
+            //     healthcenter = response.healthcenter;
+            //     var firstDate = new Date(response.first_date);
+            //     var lastDate = new Date(response.last_date);
+
+            //         var formatDate = function (date) {
+            //         var day = date.getDate().toString().padStart(2, '0');
+            //         var monthNames = [
+            //             "January", "February", "March", "April", "May", "June",
+            //             "July", "August", "September", "October", "November", "December"
+            //         ];
+            //         var monthName = monthNames[date.getMonth()];
+            //         var year = date.getFullYear();
+            //         return day + "-" + monthName + "-" + year;
+            //     };
+
+            //     collectionDate = formatDate(firstDate) + "_To_" + formatDate(lastDate);
+            //      console.log("Results:", results);
+               
+            //     patients=response.resultCount;
+            
+            //         var table = $('#normal-table tbody');
+
+            //         // Clear the existing table rows
+            //         table.empty();
+
+            //         // Create header row
+            //       var headerRow = $('<tr></tr>');
+            //         headerRow.append('<th>Provisional DX</th>');
+            //         Object.keys(results).forEach(function (date) {
+            //             headerRow.append('<th>' + date + '</th>');
+            //         });
+            //         table.append(headerRow);
+
+            //         // Create data rows
+            //         Object.keys(results).forEach(function (diagnosis) {
+            //             var dataRow = $('<tr></tr>');
+            //             dataRow.append('<td>' + diagnosis + '</td>');
+
+            //             Object.keys(results[diagnosis]).forEach(function (date) {
+            //                 dataRow.append('<td>' + results[diagnosis][date] + '</td>');
+            //             });
+
+            //             table.append(dataRow);
+            //         });
+
+            // },
+        });
+
+        document.getElementById('export-button').addEventListener('click', function () {
+        // Get data from all four tables
+            var table1Data = [];
+
+    // Add the header row as the first row
+            table1Data.push(['App Name: Nirog Plus', '']);
+            table1Data.push(['Branch:'+ healthcenter, '']);
+            table1Data.push(['Collection Date:'+ fdateFormatted +'_To_'+ ldateFormatted, '']);
+            table1Data.push(['Report Type: ProvisionalDiagnosis_DateWise', '']);
+            table1Data.push(['']);
+
+            var table1headers = document.querySelectorAll('#normal-table th');
+            var headerData = [];
+            table1headers.forEach(function (cell) {
+                headerData.push(cell.innerText);
+
+            });
+            
+            table1Data.push(headerData);
+            // Process and collect data for the data rows
+            var table1Rows = document.querySelectorAll('#normal-table tbody tr');
+            table1Rows.forEach(function (row) {
+                var rowData = [];
+                row.querySelectorAll('td').forEach(function (cell) {
+                    rowData.push(cell.innerText);
+                });
+
+                // Check if rowData is not empty before pushing
+                if (rowData.length > 0) {
+                    table1Data.push(rowData);
                 }
-            },
+            });
+
+                var combinedData = table1Data;
+
+                var wb = XLSX.utils.book_new();
+
+                // Add data to a worksheet
+                var ws = XLSX.utils.aoa_to_sheet(combinedData);
+                XLSX.utils.book_append_sheet(wb, ws, 'Sheet1');
+                var wscols = [
+                { wch: 60 }, // Set the width of the first column to 20
+                ];
+
+            // Update the worksheet with column widths
+                ws['!cols'] = wscols;
+
+                // Export the workbook to Excel
+                XLSX.writeFile(wb, 'ProvisionalDiagnosis_Datewise_' + formattedDate + '.xlsx');
         });
     });
 

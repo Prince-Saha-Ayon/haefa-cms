@@ -83,7 +83,16 @@
                                 </button>
                             </div>
                         </div>
-                    
+                        <div class="row">
+                               <div class="form-group col-md-3">
+                                <label for="name">Starting Age</label>
+                                <input type="text" class="form-control" name="starting_age" id="starting_age" placeholder="Enter starting range">
+                            </div>
+                            <div class="form-group col-md-3">
+                                <label for="name">Ending Age</label>
+                                <input type="text" class="form-control" name="ending_age" id="ending_age" placeholder="Enter ending range">
+                            </div>
+                        </div>
                     </form>
 
                      <table id="dataTable" class="table table-striped table-bordered table-hover">
@@ -184,7 +193,7 @@
     now.getHours().toString().padStart(2, '0') + '_' +
     now.getMinutes().toString().padStart(2, '0') + '_' +
     now.getSeconds().toString().padStart(2, '0');
-    var filename = 'ProvisionalDiagnosis_AgeWise_' + formattedDate;
+    var filename = 'ProvisionalDiagnosis_PatientCount_AgeWise_' + formattedDate;
 
   
 
@@ -255,7 +264,7 @@
 
             var r4 = Addrow(4, [{
                 k: 'A',
-                v: 'Report Type: Provisional Diagnosis Age wise '
+                v: 'Report Type: Provisional Diagnosis Patient Count Age wise'
             }]);
              var r5 = Addrow(5, [{
                 k: 'A',
@@ -286,7 +295,7 @@
         $.ajax({
             type: "GET",
             url: "{{ url('agewisedxreport') }}",
-            data: { hc_id: hc_id, fdate: fdate, ldate: ldate},
+            data: { hc_id: hc_id, fdate: fdate, ldate: ldate, starting_age:starting_age, ending_age: ending_age},
             beforeSend: function () {
                 $('#warning-searching').removeClass('invisible');
             },

@@ -79,6 +79,9 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('hypertension', 'ReportController@HyperTension')->name('hypertension');
     Route::get('hypertension-report', 'ReportController@HyperTensionReport')->name('hypertension-report');
 
+    Route::get('patientcountagewise', 'ReportController@PatientCountAgeWise')->name('patientcountagewise');
+    // Route::get('hypertension-report', 'ReportController@HyperTensionReport')->name('hypertension-report');
+
     Route::group(['prefix' => 'patientage', 'as'=>'patientage.'], function () {
         Route::post('show', 'ReportController@show')->name('show');
     });
