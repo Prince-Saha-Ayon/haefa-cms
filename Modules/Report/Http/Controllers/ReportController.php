@@ -565,8 +565,7 @@ $total_bp_male_host = Htnmalehost::selectRaw('SUM(DistinctPatientCount) as Total
             'total_dm_male_host' => $total_dm_male_host,
             'total_dm_male_rohingya' => $total_dm_male_rohingya,
             'total_dm_female_host' => $total_dm_female_host,
-            'total_dm_female_rohingya' => $total_dm_female_rohingya,
-        
+            'total_dm_female_rohingya' => $total_dm_female_rohingya,    
             'pregnant' => $pregnant,
             'total_htn' => $total_htn,
             'total_diabetes' => $total_diabetes,
@@ -731,28 +730,10 @@ $results = Address::with('districtAddress','upazillaAddress','unionAddress')->se
         $last_date = $request->ldate;
         $barcode_prefix = $request->hc_id;
 
-        // $results = DB::table("MDataProvisionalDiagnosis")
-        //     ->select(
-        //         DB::raw("CONVERT(varchar, MDataProvisionalDiagnosis.CreateDate, 106) as CreateDate"),
-        //         'ProvisionalDiagnosis',
-        //         DB::raw('COUNT(MDataProvisionalDiagnosis.PatientId) as Total')
-        //     )
-        //     ->whereDate('MDataProvisionalDiagnosis.CreateDate', '>=', $first_date)
-        //     ->whereDate('MDataProvisionalDiagnosis.CreateDate', '<=', $last_date)
-        //     ->where(function($query) use ($barcode_prefix) {
-        //         if ($barcode_prefix) {
-        //             $query->where('Patient.RegistrationId', 'LIKE', $barcode_prefix . '%');
-        //         }
-        //     })
-        //     ->join('Patient', 'MDataProvisionalDiagnosis.PatientId', '=', 'Patient.PatientId')
-        //     ->groupBy(DB::raw("CONVERT(varchar, MDataProvisionalDiagnosis.CreateDate, 106)"), 'ProvisionalDiagnosis')
-        //     ->get();
-
-
         $results = DB::table("MDataProvisionalDiagnosis")
             ->select(
-                'ProvisionalDiagnosis',
                 DB::raw("CONVERT(varchar, MDataProvisionalDiagnosis.CreateDate, 106) as CreateDate"),
+                'ProvisionalDiagnosis',
                 DB::raw('COUNT(MDataProvisionalDiagnosis.PatientId) as Total')
             )
             ->whereDate('MDataProvisionalDiagnosis.CreateDate', '>=', $first_date)
@@ -763,8 +744,26 @@ $results = Address::with('districtAddress','upazillaAddress','unionAddress')->se
                 }
             })
             ->join('Patient', 'MDataProvisionalDiagnosis.PatientId', '=', 'Patient.PatientId')
-            ->groupBy('ProvisionalDiagnosis', DB::raw("CONVERT(varchar, MDataProvisionalDiagnosis.CreateDate, 106)"))
+            ->groupBy(DB::raw("CONVERT(varchar, MDataProvisionalDiagnosis.CreateDate, 106)"), 'ProvisionalDiagnosis')
             ->get();
+
+
+        // $results = DB::table("MDataProvisionalDiagnosis")
+        //     ->select(
+        //         'ProvisionalDiagnosis',
+        //         DB::raw("CONVERT(varchar, MDataProvisionalDiagnosis.CreateDate, 106) as CreateDate"),
+        //         DB::raw('COUNT(MDataProvisionalDiagnosis.PatientId) as Total')
+        //     )
+        //     ->whereDate('MDataProvisionalDiagnosis.CreateDate', '>=', $first_date)
+        //     ->whereDate('MDataProvisionalDiagnosis.CreateDate', '<=', $last_date)
+        //     ->where(function($query) use ($barcode_prefix) {
+        //         if ($barcode_prefix) {
+        //             $query->where('Patient.RegistrationId', 'LIKE', $barcode_prefix . '%');
+        //         }
+        //     })
+        //     ->join('Patient', 'MDataProvisionalDiagnosis.PatientId', '=', 'Patient.PatientId')
+        //     ->groupBy('ProvisionalDiagnosis', DB::raw("CONVERT(varchar, MDataProvisionalDiagnosis.CreateDate, 106)"))
+        //     ->get();
 
         $pivotedResults = $results->groupBy('ProvisionalDiagnosis')
         ->map(function ($group) {
@@ -784,7 +783,7 @@ $results = Address::with('districtAddress','upazillaAddress','unionAddress')->se
             $hcname=HealthCenter::where('HealthCenterCode',$barcode_prefix )->first('HealthCenterName');
             $response = [
                 'healthcenter' => $hcname->HealthCenterName ?? 'All',	
-                'results' => $pivotedResults,
+                'results' => $results,
                 'resultCount' => $resultCount,
                 'first_date' => $first_date,
                 'last_date' => $last_date,
