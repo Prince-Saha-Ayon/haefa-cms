@@ -288,6 +288,7 @@
                 pagingType: 'full_numbers',
                 dom: 'Bfrtip',
                 orderCellsTop: true,
+                ordering: false,
                 buttons: [
                     {
                         extend: 'excel',

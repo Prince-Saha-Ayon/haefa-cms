@@ -185,7 +185,7 @@ $(document).ready(function(){
 $('#dataTable').DataTable({
     pagingType: 'full_numbers',
     dom: 'Bfrtip',
-    orderCellsTop: true,
+    ordering:false,
     columnDefs: [
         { targets: [5,6,7], visible: false }, // Hide the columns
     ],
