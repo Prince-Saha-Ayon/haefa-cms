@@ -5,6 +5,18 @@
 @endsection
 
 @push('stylesheet')
+<style>
+.dataTables_info{
+    display: none;
+}
+#dataTable_paginate{
+    display: none;
+}
+.dataTables_filter{
+    display: none !important;
+}
+
+</style>
 
 
 @endpush
@@ -84,7 +96,7 @@
                         </div>
                     </form>
 
-                     <table id="dataTable" class="table table-striped table-bordered table-hover">
+                     <table id="dataTable" class="table table-striped table-bordered table-hover d-none">
                             <thead class="bg-primary">
                             <tr>
                                 <th>PatientID</th>
@@ -371,6 +383,7 @@
             success: function (response) {
              
                 var data = response.data_dump;
+                console.log(data);
                 healthcenter = response?.healthcenter?.HealthCenterName || 'ALL';
              
               
@@ -383,6 +396,7 @@
                 table.clear().draw();
 
             if (data.length > 0) {
+                table.buttons(0).enable();
                 $.each(data, function (index, result) {
                     var newRow = [
                         result.PatientId || '-',
@@ -482,7 +496,7 @@
             },
         });
     });
-
+    table.buttons(0).disable();
     });
       $('#btn-reset').click(function () {
        
