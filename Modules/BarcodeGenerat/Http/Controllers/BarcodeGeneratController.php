@@ -67,6 +67,7 @@ class BarcodeGeneratController extends BaseController
                     $row[] = $value->mdata_barcode_prefix_number;
                     $row[] = $value->mdata_barcode_status;
                     $row[] = permission('bgenerate-edit') ? change_status($value->id,$value->status,$value->mdata_barcode_prefix_number) : STATUS_LABEL[$value->status];
+                    // $row[] =STATUS_LABEL[$value->status];
                     $row[] = action_button($action);
                     $data[] = $row;
                 }

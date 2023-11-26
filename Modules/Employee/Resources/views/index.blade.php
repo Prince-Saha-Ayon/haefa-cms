@@ -205,7 +205,7 @@ $(document).ready(function() {
     table = $('#dataTable').DataTable({
         "processing": true, //Feature control the processing indicator
         "serverSide": true, //Feature control DataTable server side processing mode
-        "order": [], //Initial no order
+        "ordering": false, //Initial no order
         "responsive": true, //Make table responsive in mobile device
         "bInfo": true, //TO show the total number of data
         "bFilter": false, //For datatable default search box show/hide
