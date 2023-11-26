@@ -5,7 +5,18 @@
 @endsection
 
 @push('stylesheet')
+<style>
+.dataTables_info{
+    display: none;
+}
+#dataTable_paginate{
+    display: none;
+}
+.dataTables_filter{
+    display: none !important;
+}
 
+</style>
 
 @endpush
 
@@ -84,7 +95,7 @@
                         </div>
                     </form>
 
-                     <table id="dataTable" class="table table-striped table-bordered table-hover">
+                     <table id="dataTable" class="table table-striped table-bordered table-hover d-none">
                             <thead class="bg-primary">
                             <tr>
                                 <th>PatientID</th>
@@ -237,94 +248,94 @@
     
     $(document).ready(function () {
     table = $('#dataTable').DataTable({
-        pagingType: 'full_numbers',
-        dom: 'Bfrtip',
-        orderCellsTop: true,
-        ordering: false,
-        columnDefs: [
-        { targets: [ 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51,52,53], visible: false }, // Hide the columns
-    ],
-        buttons: [
-            {
-                extend: 'excel',
-                text: 'Export to Excel',
-                filename: filename,
-                title: '',
-                exportOptions: {
-                columns: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51,52,53], // Include specific columns in the export
-            },
-            customize: function(xlsx,resultCount) {
-            var sheet = xlsx.xl.worksheets['sheet1.xml'];
-            var downrows = 5; // Number of rows to add
-            var clRow = $('row', sheet);
-
-            // Update Row
-            clRow.each(function() {
-                var attr = $(this).attr('r');
-                var ind = parseInt(attr);
-                ind = ind + downrows;
-                $(this).attr("r", ind);
-            });
-
-            // Update row > c
-            $('row c', sheet).each(function() {
-                var attr = $(this).attr('r');
-                var pre = attr.substring(0, 1);
-                var ind = parseInt(attr.substring(1, attr.length));
-                ind = ind + downrows;
-                $(this).attr("r", pre + ind);
-            });
-         
-
-            function Addrow(index, data) {
-                var msg = '<row r="' + index + '">';
-                for (var i = 0; i < data.length; i++) {
-                    var key = data[i].k;
-                    var value = data[i].v;
-                    msg += '<c t="inlineStr" r="' + key + index + '">';
-                    msg += '<is>';
-                    msg += '<t>' + value + '</t>';
-                    msg += '</is>';
-                    msg += '</c>';
-                }
-                msg += '</row>';
-                return msg;
-            }
-
-            var r1 = Addrow(1, [{
-                k: 'A',
-                v: 'App Name: Nirog Plus'
-            }]);
-
-            var r2 = Addrow(2, [{
-                k: 'A',
-                v: 'Branch: ' + healthcenter ,
-            }]);
-
-            var r3 = Addrow(3, [{
-                k: 'A',
-                v: 'Collection Date:' + collectionDate,
-            }]);
-
-            var r4 = Addrow(4, [{
-                k: 'A',
-                v: 'Report Type: FullDataDump',
-            }]);
-             var r5 = Addrow(4, [{
-                k: 'A',
-                v: ''
-            }, {
-                k: 'B',
-                v: ''
-            }]);
-
-            sheet.childNodes[0].childNodes[1].innerHTML = r1 + r2 + r3 + r4 + sheet.childNodes[0].childNodes[1].innerHTML;
-            table.clear().draw();
-            $('#hc_id').val('').selectpicker('refresh');
-    },
-            },
+        // pagingType: 'full_numbers',
+            dom: 'Bfrtip',
+            orderCellsTop: true,
+            ordering: false,
+            columnDefs: [
+            { targets: [ 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51,52,53], visible: false }, // Hide the columns
         ],
-    });
+            buttons: [
+                {
+                    extend: 'excel',
+                    text: 'Export to Excel',
+                    filename: filename,
+                    title: '',
+                    exportOptions: {
+                    columns: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51,52,53], // Include specific columns in the export
+                },
+                customize: function(xlsx,resultCount) {
+                var sheet = xlsx.xl.worksheets['sheet1.xml'];
+                var downrows = 5; // Number of rows to add
+                var clRow = $('row', sheet);
+
+                // Update Row
+                clRow.each(function() {
+                    var attr = $(this).attr('r');
+                    var ind = parseInt(attr);
+                    ind = ind + downrows;
+                    $(this).attr("r", ind);
+                });
+
+                // Update row > c
+                $('row c', sheet).each(function() {
+                    var attr = $(this).attr('r');
+                    var pre = attr.substring(0, 1);
+                    var ind = parseInt(attr.substring(1, attr.length));
+                    ind = ind + downrows;
+                    $(this).attr("r", pre + ind);
+                });
+            
+
+                function Addrow(index, data) {
+                    var msg = '<row r="' + index + '">';
+                    for (var i = 0; i < data.length; i++) {
+                        var key = data[i].k;
+                        var value = data[i].v;
+                        msg += '<c t="inlineStr" r="' + key + index + '">';
+                        msg += '<is>';
+                        msg += '<t>' + value + '</t>';
+                        msg += '</is>';
+                        msg += '</c>';
+                    }
+                    msg += '</row>';
+                    return msg;
+                }
+
+                var r1 = Addrow(1, [{
+                    k: 'A',
+                    v: 'App Name: Nirog Plus'
+                }]);
+
+                var r2 = Addrow(2, [{
+                    k: 'A',
+                    v: 'Branch: ' + healthcenter ,
+                }]);
+
+                var r3 = Addrow(3, [{
+                    k: 'A',
+                    v: 'Collection Date:' + collectionDate,
+                }]);
+
+                var r4 = Addrow(4, [{
+                    k: 'A',
+                    v: 'Report Type: FullDataDump',
+                }]);
+                var r5 = Addrow(4, [{
+                    k: 'A',
+                    v: ''
+                }, {
+                    k: 'B',
+                    v: ''
+                }]);
+
+                sheet.childNodes[0].childNodes[1].innerHTML = r1 + r2 + r3 + r4 + sheet.childNodes[0].childNodes[1].innerHTML;
+                table.clear().draw();
+                $('#hc_id').val('').selectpicker('refresh');
+        },
+                },
+            ],
+        });
 
      $('#search').click(function () {
         var daterange = $('#daterange').val();
@@ -342,10 +353,12 @@
             },
             complete: function () {
                 $('#warning-searching').addClass('invisible');
+              
             },
             success: function (response) {
          
                 var data = response.data_dump;
+                 console.log(data);
                 healthcenter = response?.healthcenter?.HealthCenterName || 'ALL';
   
               
@@ -358,6 +371,7 @@
                 table.clear().draw();
 
             if (data.length > 0) {
+                  table.buttons(0).enable();
                 $.each(data, function (index, result) {
                     var newRow = [
                         result.PatientId || '-',
@@ -429,6 +443,7 @@
             },
         });
     });
+    table.buttons(0).disable();
 
     });
       $('#btn-reset').click(function () {

@@ -45,6 +45,7 @@ use Modules\Report\Entities\Upazilla;
 use Modules\Report\Entities\FollowUpDate;
 use Illuminate\Support\Facades\Log; 
 use Modules\Report\Entities\ViewDumpData;
+use Modules\Report\Entities\ViewExportData;
 use Symfony\Component\Process\Process;
 use App\Jobs\SyncJob; // Import the job class
 use Illuminate\Support\Facades\Queue; // Import Queue facade
@@ -296,7 +297,7 @@ public function diseaseindex()
 
         $hcname=HealthCenter::where('HealthCenterCode',$barcode_prefix )->first('HealthCenterName');
 
-        $data_dump=ViewDumpData::whereBetween(DB::raw('CONVERT(date, CollectionDates)'), [$first_date, $last_date])
+        $data_dump=ViewExportData::whereBetween(DB::raw('CONVERT(date, CollectionDates)'), [$first_date, $last_date])
         ->where(function($query) use ($barcode_prefix) {
             if ($barcode_prefix) {
                 $query->where('RegistrationId', 'LIKE', $barcode_prefix . '%');
