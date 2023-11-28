@@ -230,6 +230,8 @@ Highcharts.chart('container_diseases', {
                 color:'black'  // Set the desired font size
             }
         },
+        lineColor: '#000',
+        lineWidth: 1,
         labels: {
             style: {
                 fontSize: '13px',
@@ -312,6 +314,8 @@ Highcharts.chart('container_alldiseases', {
                 color:'black'  // Set the desired font size
             }
         },
+        lineColor: '#000',
+        lineWidth: 1,
         labels: {
             style: {
                 fontSize: '13px',

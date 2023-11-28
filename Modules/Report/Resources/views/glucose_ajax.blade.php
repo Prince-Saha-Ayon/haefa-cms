@@ -2,15 +2,20 @@
 
   var fbgNumeric = {!! json_encode($fbgNumeric ?? '') !!};
 
-        var rbgNumeric = {!! json_encode($rbgNumeric ?? '') !!};
-        var hemoglobinNumeric = {!! json_encode($hemoglobinNumeric ?? '') !!};
 
-        var rbg = {!! json_encode($rbg ?? '') !!};
 
         var fbg = {!! json_encode($fbg ?? '') !!};
-        var hemoglobin = {!! json_encode($hemoglobin ?? '') !!};
 
         var medicationData = {!! json_encode($medicationData) !!};
+        var distinctDates = {!! json_encode($DistinctDate) !!};
+
+// Convert date strings to the "DD-Mon-YYYY" format
+var formattedDates = distinctDates.map(function(dateString) {
+    var dateParts = dateString.split('-');
+    var months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+    var monthIndex = parseInt(dateParts[1]) - 1;
+    return dateParts[2]  + '-' + months[monthIndex] + '-' + dateParts[0];
+});
 
         if(fbgNumeric != ''){
             $('#highcharts').removeClass('d-none');
@@ -27,18 +32,19 @@
                 enabled: false
             },
             title: {
-                text: 'Patient Diabetes Report'
+                text: 'Control of DM over a period of time'
             },
             xAxis: {
                   title: {
-            text: 'Date ',
+            text: '',
              style: {
                 fontSize: '14px', // Adjust the font size as needed
-                fontWeight: 'bold'
+                fontWeight: 'bold',
+                color:'black'
         },
         },
 
-                categories: {!! json_encode($DistinctDate ?? '') !!},
+        categories: formattedDates,
 
                 // categories: ['Jan 2003', 'Feb 2003', 'Mar', 'Apr', 'May', 'Jun',
                 //     'Jul'
@@ -49,40 +55,75 @@
                 },
                 labels: {
                     style: {
-                        fontSize: '12px'
+                        fontSize: '12px',
+                        fontWeight: 'bold' 
                     }
                 }
             },
-            yAxis: {
+    yAxis: {
         title: {
-            text: 'RBG FBG ',
+            text: 'FBG (mmol/L)',
              style: {
-                fontSize: '14px' // Adjust the font size as needed
-        },
+                fontSize: '14px',
+                fontWeight: 'bold',
+                color:'black'
+            },
         },
         labels: {
             style: {
-                fontSize: '14px'
+                fontSize: '14px',
+                fontWeight: 'bold'
             }
         },
+        lineColor: '#000', // Set the color of the Y-axis line
+        lineWidth: 1,
+        min: 0, // Set the minimum value of the Y-axis
+        tickInterval: 2, // Set the interval between tick marks, adjust as needed
+        gridLineColor: '#ffffff',
         legend: {
         itemStyle: {
             fontSize: '12px', // Set the font size for the legend name
+            fontWeight: 'bold'
             // Optionally, set font weight
         },
     },
     plotLines: [{
-      value: 7, // The FBG normal value
-      color: 'green', // Line color
-      dashStyle: 'Solid', // Line style (optional)
-      width: 2, // Line width (optional)
-      label: {
-        text: 'Normal FBG ', // Label text
-        align: 'center',
-         // Label position adjustment
-      },
-      zIndex: 2 // Set the zIndex to a higher value than the other series
-    }],
+            value: 7, // The FBG normal value
+            color: 'yellow', // Line color
+            dashStyle: 'Solid', // Line style (optional)
+            width: 2, // Line width (optional)
+            label: {
+                text: 'Diabetes', // Label text
+                align: 'center',
+                // Label position adjustment
+            },
+            zIndex: 2 // Set the zIndex to a higher value than the other series
+            },
+            {
+            value: 6, // The FBG normal value
+            color: 'green', // Line color
+            dashStyle: 'Solid', // Line style (optional)
+            width: 2, // Line width (optional)
+            label: {
+                text: 'Normal', // Label text
+                align: 'center',
+                // Label position adjustment
+            },
+            zIndex: 2 // Set the zIndex to a higher value than the other series
+            },
+            {
+            value: 4, // The FBG normal value
+            color: 'red', // Line color
+            dashStyle: 'Solid', // Line style (optional)
+            width: 2, // Line width (optional)
+            label: {
+                text: 'Hypoglycemia', // Label text
+                align: 'center',
+                // Label position adjustment
+            },
+            zIndex: 2 // Set the zIndex to a higher value than the other series
+            }
+        ],
         
     },
             tooltip: {
@@ -119,22 +160,12 @@
                         enabled: true,
                         formatter: function() {
                             var index = this.point.index;
-                            var rbgData = rbg[index];
                             var fbgData = fbg[index];
-                            var hemoglobinData = hemoglobin[index];
 
-
-                            var label1 =  rbgData;
                             var label2 = fbgData;
-                            var label3 = hemoglobinData;
 
-
-                            if (this.series.index ===0) {
-                                return label1;
-                            }else if (this.series.index ===1) {
+                            if (this.series.index ===1) {
                                 return label2;
-                            }else if (this.series.index ===2) {
-                                return label3;
                             }
 
                         },
@@ -145,30 +176,14 @@
                 }
             },
             series: [
-                {
-                    name: 'RBG (mmol/L)',
-                    marker: {
-                        symbol: 'square'
-                    },
-                    // data: [5.22, 5.7, 8.7, 13.9, 18.2, 21.4, 1.0]
-                    data: <?php echo $rbgNumeric ?? '0' ; ?>,
-                    zIndex: 1
-                },
+                
                 {name: 'FBG (mmol/L)',
                     marker: {
                         symbol: 'square'
                     },
                     data: <?php echo $fbgNumeric ?? '0' ; ?>,
                     zIndex: 1
-                },
-
-                {name: 'Hemoglobin (m/dL)',
-                    marker: {
-                        symbol: 'square'
-                    },
-                    data: <?php echo $hemoglobinNumeric ?? '0' ; ?>,
-                    zIndex: 1
-                },
+                }
 
             ]
 

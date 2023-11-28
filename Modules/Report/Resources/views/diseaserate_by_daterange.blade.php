@@ -208,7 +208,9 @@ $('#search').click(function() {
                             fontWeight: 'bold',
                             color:'black'  // Set the desired font size
                         }
-                    }
+                    },
+                    lineColor: '#000',
+                    lineWidth: 1
                 }],
                 plotOptions: {
                     column: {

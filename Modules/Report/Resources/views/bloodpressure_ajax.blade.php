@@ -42,7 +42,8 @@ Highcharts.chart('container_bloodp', {
             text: 'mmHg',
             style: {
                 fontSize: '14px',
-                fontWeight: 'bold' // Adjust the font size as needed
+                fontWeight: 'bold',
+                color:'black'
             }
         },
         min: 40, // Set the minimum value of the Y-axis
@@ -50,6 +51,8 @@ Highcharts.chart('container_bloodp', {
         tickInterval: 20, // Set the interval between tick marks, adjust as needed
     
         gridLineColor: '#ffffff',
+        lineColor: '#000',
+        lineWidth: 1,
         labels: {
             style: {
                 fontSize: '14px',
