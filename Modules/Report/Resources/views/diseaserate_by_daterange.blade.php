@@ -208,9 +208,7 @@ $('#search').click(function() {
                             fontWeight: 'bold',
                             color:'black'  // Set the desired font size
                         }
-                    },
-                    lineColor: '#000', // Set the color of the Y-axis line
-                    lineWidth: 1
+                    }
                 }],
                 plotOptions: {
                     column: {

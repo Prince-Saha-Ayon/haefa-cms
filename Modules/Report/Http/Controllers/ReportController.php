@@ -1340,7 +1340,7 @@ $results = DB::table("MDataPatientReferral")
                     RBG,
                     FBG,
                     Hemoglobin,
-                    ROW_NUMBER() OVER (PARTITION BY CONVERT(date, MDataGlucoseHb.CreateDate) ORDER BY MDataGlucoseHb.CreateDate ASC) AS RowNum
+                    ROW_NUMBER() OVER (PARTITION BY CONVERT(date, MDataGlucoseHb.CreateDate) ORDER BY MDataGlucoseHb.CreateDate DESC) AS RowNum
                 FROM MDataGlucoseHb
                 INNER JOIN Patient ON Patient.PatientId = MDataGlucoseHb.PatientId AND Patient.RegistrationId = '{$RegistrationId}'
                 WHERE CONVERT(date, MDataGlucoseHb.CreateDate) BETWEEN ? AND ?
@@ -1352,7 +1352,7 @@ $results = DB::table("MDataPatientReferral")
                 Hemoglobin
             FROM RankedData
             WHERE RowNum = 1
-            ORDER BY DistinctDate ASC", [$starting_date, $ending_date]);
+            ORDER BY DistinctDate DESC", [$starting_date, $ending_date]);
 
             foreach ($datas as $row) {
             $distinctDate = $row->DistinctDate;
