@@ -200,6 +200,8 @@ $('#search').click(function() {
                 fontSize: '16px'
             }
         },
+         lineColor: '#000', // Set the color of the Y-axis line
+        lineWidth: 1, 
     }],
     legend: {
         align: 'right',
