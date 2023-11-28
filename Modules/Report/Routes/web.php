@@ -79,6 +79,9 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('hypertension', 'ReportController@HyperTension')->name('hypertension');
     Route::get('hypertension-report', 'ReportController@HyperTensionReport')->name('hypertension-report');
 
+    Route::get('diabatesstatus', 'ReportController@DiabatesStatus')->name('diabatesstatus');
+    Route::get('diabatesstatus-report', 'ReportController@DiabatesStatusReport')->name('diabatesstatus-report');
+
     Route::get('patientcountagewise', 'ReportController@PatientCountAgeWise')->name('patientcountagewise');
     // Route::get('hypertension-report', 'ReportController@HyperTensionReport')->name('hypertension-report');
 
