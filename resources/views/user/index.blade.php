@@ -3,7 +3,20 @@
 @section('title')
     {{ $page_title }}
 @endsection
+<style>
+.dropdown-menu {
+  position: fixed;
+  top: 0 !important;
+  right: 0;
+  left: 0;
+  z-index: 1000;
+  overflow-y: auto;
+  max-height: 155.382px;
+  min-height: 155px;
+  transform: translate3d(0px, 0px, 0px) !important; /* Remove unnecessary transform */
+}
 
+</style>
 @section('content')
 <div class="dt-content">
 
@@ -46,11 +59,12 @@
                             <x-form.textbox labelName="Name" name="name" col="col-md-3" placeholder="Enter name"/>
                             <x-form.textbox labelName="Email" name="email" col="col-md-3" placeholder="Enter email"/>
                             <x-form.textbox labelName="Mobile No" name="mobile_no" col="col-md-3" placeholder="Enter mobile no"/>
-                            <x-form.selectbox labelName="Role" name="role_id" col="col-md-3" class="selectpicker">
+                            <x-form.selectbox labelName="Role" name="role_id" col="col-md-3" data-placement="auto" class="selectpicker">
                                 @foreach ($roles as $role)
                                     <option value="{{ $role->id }}">{{ $role->role_name }}</option>
                                 @endforeach
                             </x-form.selectbox>
+                            
                             <x-form.selectbox labelName="Status" name="status" col="col-md-3" class="selectpicker">
                                     <option value="1">Active</option>
                                     <option value="0">Inactive</option>
