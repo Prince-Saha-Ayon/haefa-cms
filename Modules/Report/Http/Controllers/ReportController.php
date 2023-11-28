@@ -268,7 +268,7 @@ public function diseaseindex()
 
                 $illnesses = DB::table('MDataPatientIllnessHistory')
             ->select([
-                DB::raw('COUNT(MDataPatientIllnessHistory.PatientId) as TotalPatientId'),
+                DB::raw('COUNT(DISTINCT MDataPatientIllnessHistory.PatientId) as TotalPatientId'),
                 DB::raw('CONVERT(date, MDataPatientIllnessHistory.CreateDate) as IllCreateDate'),
                 DB::raw("
                     SUM(
@@ -284,7 +284,7 @@ public function diseaseindex()
                     SUM(
                         CASE 
                             WHEN (
-                                MaxBP.FBG <= 7 
+                                MaxBP.FBG <= 7 AND MaxBP.FBG > 0
                             ) THEN 1
                             ELSE 0
                         END
@@ -293,12 +293,12 @@ public function diseaseindex()
             ])
             ->join('Patient', 'MDataPatientIllnessHistory.PatientId', '=', 'Patient.PatientId')
             ->leftJoin(DB::raw('(
-                SELECT 
+                SELECT DISTINCT
                     PatientId,
                     MAX(CAST(FBG AS Float)) AS FBG
                 
                 FROM MDataGlucoseHb
-                GROUP BY PatientId
+                GROUP BY  PatientId
             ) AS MaxBP'), 'MaxBP.PatientId', '=', 'MDataPatientIllnessHistory.PatientId')
             ->where('IllnessId', '=', '81F1CECB-8B22-41D3-AE18-54CC2D79065F')
             ->where('MDataPatientIllnessHistory.Status', 'LIKE', 'yes')
@@ -1434,7 +1434,7 @@ $results = DB::table("MDataPatientReferral")
                 BPDiastolic1,
                 BPSystolic2,
                 BPDiastolic2,
-                ROW_NUMBER() OVER (PARTITION BY CONVERT(date, MDataBP.CreateDate) ORDER BY MDataBP.CreateDate DESC) AS RowNum
+                ROW_NUMBER() OVER (PARTITION BY CONVERT(date, MDataBP.CreateDate) ORDER BY MDataBP.CreateDate ASC) AS RowNum
             FROM MDataBP
             INNER JOIN Patient ON Patient.PatientId = MDataBP.PatientId AND Patient.RegistrationId = '{$RegistrationId}'
             WHERE CONVERT(date, MDataBP.CreateDate) BETWEEN ? AND ?
@@ -1447,7 +1447,7 @@ $results = DB::table("MDataPatientReferral")
             BPDiastolic2
         FROM RankedData
         WHERE RowNum = 1
-        ORDER BY DistinctDate DESC", [$startDate, $endDate]);
+        ORDER BY DistinctDate ASC", [$startDate, $endDate]);
 
        
 
