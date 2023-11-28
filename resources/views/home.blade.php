@@ -389,6 +389,7 @@ Highcharts.chart('container_alldiseases', {
                 //"downloadXLS",
                 //"viewData",
                 "openInCloud"
+    
                 ]
             }
         }

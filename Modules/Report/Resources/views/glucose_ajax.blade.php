@@ -201,6 +201,7 @@ var formattedDates = distinctDates.map(function(dateString) {
                 //"downloadXLS",
                 //"viewData",
                 "openInCloud"
+                
                 ]
             }
         }

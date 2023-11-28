@@ -194,6 +194,7 @@ Highcharts.chart('container_bloodp', {
                 //"downloadXLS",
                 //"viewData",
                 "openInCloud"
+                
                 ]
             }
         }

@@ -269,6 +269,7 @@ $('#search').click(function() {
                 //"downloadXLS",
                 //"viewData",
                 "openInCloud"
+                
                 ]
             }
         }
