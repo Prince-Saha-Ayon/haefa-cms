@@ -46,6 +46,8 @@ var branchName = branch && branch.length > 0 ? branch[0].HealthCenterName : 'All
                     color:'black'  // Set the desired font size
                 }
             },
+            lineColor: '#000', // Set the color of the Y-axis line
+            lineWidth: 1,
              labels: {
                 style: {
                     fontSize: '13px'
