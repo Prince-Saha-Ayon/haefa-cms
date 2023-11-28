@@ -11,7 +11,7 @@ var branchName = branch && branch.length > 0 ? branch[0].HealthCenterName : 'All
             type: 'column'
         },
         title: {
-            text: 'Top 10 Illnesses for-'+ branchName
+            text: 'Top 10 Diseases in '+ branchName
         },
         credits: {
             enabled: false
@@ -22,20 +22,33 @@ var branchName = branch && branch.length > 0 ? branch[0].HealthCenterName : 'All
             categories: chartData.map(function(item) {
                 return item.IllnessCode;
             }),
+            title: {
+                text: 'Diseases',
+                style: {
+                    fontSize: '20px',
+                    fontWeight: 'bold',
+                    color:'black'  // Set the desired font size
+                }
+            },
              labels: {
                 style: {
-                    fontSize: '14px',
+                    fontSize: '13px',
                     fontWeight: 'bold'
                 }
             },
         },
         yAxis: {
             title: {
-                text: 'Patients'
+                text: 'No. of patients',
+                style: {
+                    fontSize: '18px',
+                    fontWeight: 'bold',
+                    color:'black'  // Set the desired font size
+                }
             },
              labels: {
                 style: {
-                    fontSize: '14px'
+                    fontSize: '13px'
                 }
             },
         },
@@ -44,7 +57,7 @@ var branchName = branch && branch.length > 0 ? branch[0].HealthCenterName : 'All
                 shared: false,
              
                 style: {
-                    fontSize: '16px'
+                    fontSize: '13px'
                 },
         },
           plotOptions: {
@@ -54,7 +67,7 @@ var branchName = branch && branch.length > 0 ? branch[0].HealthCenterName : 'All
                 enabled: true, // Display data labels on top of bars
                 format: '{y}', // Display the y-value (patient count)
                 style: {
-                    fontSize: '12px',
+                    fontSize: '13px',
                     fontWeight: 'bold'
                 }
             } // Let Highcharts choose colors
@@ -63,13 +76,13 @@ var branchName = branch && branch.length > 0 ? branch[0].HealthCenterName : 'All
         },
         legend: {
         itemStyle: {
-            fontSize: '12px', // Set the font size for the legend name
+            fontSize: '13px', // Set the font size for the legend name
             // Optionally, set font weight
         },
     },
         series: [{
             name: 'Diseases',
-            
+            showInLegend: false,
             data: chartData.map(function(item) {
             let color;
             const patientCount = parseFloat(item.Patients);

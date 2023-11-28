@@ -168,7 +168,7 @@ $('#search').click(function() {
                 if (count >= 0 && count <= 100) {
                    color = 'green';
                 } else if (count >= 100 && count <= 150) {
-                    color = 'yellow';
+                    color = '#ffd700';
                 }  else {
                     color = 'red';
                 }
@@ -185,20 +185,29 @@ $('#search').click(function() {
                 },
                 xAxis: {
                     title: {
-                        text: 'Disease',
-
+                        text: 'Diseases',
+                        style: {
+                            fontSize: '20px',
+                            fontWeight: 'bold',
+                            color:'black'  // Set the desired font size
+                        }
                     },
                     type: 'category',
                     labels: {
                         style: {
-                            fontSize: '10px'
+                            fontSize: '13px',
+                            fontWeight: 'bold'
                         }
                     }
                 },
                 yAxis: [{
                     title: {
-                        text: 'Patients',
-                        enabled: true
+                        text: 'No. of patients',
+                        style: {
+                            fontSize: '18px',
+                            fontWeight: 'bold',
+                            color:'black'  // Set the desired font size
+                        }
                     }
                 }],
                 plotOptions: {
@@ -207,7 +216,7 @@ $('#search').click(function() {
                             enabled: true,
                             format: '{y}',
                             style: {
-                                fontSize: '12px',
+                                fontSize: '13px',
                                 fontWeight: 'bold'
                             }
                         },

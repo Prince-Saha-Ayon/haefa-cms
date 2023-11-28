@@ -206,20 +206,34 @@ Highcharts.chart('container_diseases', {
         categories: chartData.map(function(item) {
             return item.IllnessCode;
         }),
+        title: {
+            text: 'Diseases',
+            style: {
+                fontSize: '18px',
+                fontWeight: 'bold',
+                color:'black' // Set the desired font size
+            }
+        },
         labels: {
             style: {
-                fontSize: '9px',
+                fontSize: '13px',
                 fontWeight: 'bold'
             }
         },
     },
     yAxis: {
         title: {
-            text: 'Patients'
+            text: 'No. of Patients',
+            style: {
+                fontSize: '20px',
+                fontWeight: 'bold',
+                color:'black'  // Set the desired font size
+            }
         },
         labels: {
             style: {
-                fontSize: '12px'
+                fontSize: '13px',
+                fontWeight: 'bold'
             }
         },
     },
@@ -230,7 +244,7 @@ Highcharts.chart('container_diseases', {
                 enabled: true, // Display data labels on top of bars
                 format: '{y}', // Display the y-value (patient count)
                 style: {
-                    fontSize: '12px',
+                    fontSize: '13px',
                     fontWeight: 'bold'
                 }
             }
@@ -238,6 +252,7 @@ Highcharts.chart('container_diseases', {
     },
     series: [{
         name: 'Diseases',
+        showInLegend: false,
         data: chartData.map(function(item) {
             let color;
             const patientCount = parseFloat(item.Patients);
@@ -273,20 +288,33 @@ Highcharts.chart('container_alldiseases', {
         categories: chartDataAll.map(function(allitem) {
             return allitem.IllnessCode;
         }),
+        title: {
+            text: 'Diseases',
+            style: {
+                fontSize: '18px',
+                fontWeight: 'bold',
+                color:'black' // Set the desired font size
+            }
+        },
         labels: {
             style: {
-                fontSize: '9px',
+                fontSize: '13px',
                 fontWeight: 'bold'
             }
         },
     },
     yAxis: {
         title: {
-            text: 'Patients'
+            text: 'No. of Patients',
+            style: {
+                fontSize: '20px',
+                fontWeight: 'bold',
+                color:'black'  // Set the desired font size
+            }
         },
         labels: {
             style: {
-                fontSize: '12px'
+                fontSize: '13px'
             }
         },
     },
@@ -297,7 +325,7 @@ Highcharts.chart('container_alldiseases', {
                 enabled: true, // Display data labels on top of bars
                 format: '{y}', // Display the y-value (patient count)
                 style: {
-                    fontSize: '12px',
+                    fontSize: '13px',
                     fontWeight: 'bold'
                 }
             }
@@ -305,6 +333,7 @@ Highcharts.chart('container_alldiseases', {
     },
     series: [{
         name: 'Diseases',
+        showInLegend: false,
         data: chartDataAll.map(function(allitem) {
             let color;
             const patientCount = parseFloat(allitem.Patients);
