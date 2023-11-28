@@ -21,7 +21,7 @@
 
         Highcharts.chart('container_glucose', {
             chart: {
-                type: 'spline'
+                type: 'line'
             },
             credits: {
                 enabled: false
@@ -33,7 +33,8 @@
                   title: {
             text: 'Date ',
              style: {
-                fontSize: '14px' // Adjust the font size as needed
+                fontSize: '14px', // Adjust the font size as needed
+                fontWeight: 'bold'
         },
         },
 

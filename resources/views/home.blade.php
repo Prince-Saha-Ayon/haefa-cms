@@ -307,14 +307,15 @@ Highcharts.chart('container_alldiseases', {
         title: {
             text: 'No. of Patients',
             style: {
-                fontSize: '20px',
+                fontSize: '18px',
                 fontWeight: 'bold',
                 color:'black'  // Set the desired font size
             }
         },
         labels: {
             style: {
-                fontSize: '13px'
+                fontSize: '13px',
+                fontWeight: 'bold'
             }
         },
     },

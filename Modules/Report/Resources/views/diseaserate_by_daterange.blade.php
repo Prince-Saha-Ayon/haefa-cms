@@ -187,7 +187,7 @@ $('#search').click(function() {
                     title: {
                         text: 'Diseases',
                         style: {
-                            fontSize: '20px',
+                            fontSize: '18px',
                             fontWeight: 'bold',
                             color:'black'  // Set the desired font size
                         }

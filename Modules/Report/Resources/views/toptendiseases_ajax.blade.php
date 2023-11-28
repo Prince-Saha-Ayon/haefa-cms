@@ -48,7 +48,8 @@ var branchName = branch && branch.length > 0 ? branch[0].HealthCenterName : 'All
             },
              labels: {
                 style: {
-                    fontSize: '13px'
+                    fontSize: '13px',
+                    fontWeight: 'bold'
                 }
             },
         },
