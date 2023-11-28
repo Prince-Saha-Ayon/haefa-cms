@@ -185,7 +185,26 @@ var formattedDates = distinctDates.map(function(dateString) {
                     zIndex: 1
                 }
 
-            ]
+            ],
+    exporting: {
+        buttons: {
+            contextButton: {
+                menuItems: [
+                "printChart",
+                "separator",
+                "downloadPNG",
+                "downloadJPEG",
+                "downloadPDF",
+                "downloadSVG",
+                "separator",
+                //"downloadCSV",
+                //"downloadXLS",
+                //"viewData",
+                "openInCloud"
+                ]
+            }
+        }
+    }
 
         });
 

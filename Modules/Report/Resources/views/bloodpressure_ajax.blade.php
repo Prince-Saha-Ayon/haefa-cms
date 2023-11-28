@@ -176,7 +176,28 @@ Highcharts.chart('container_bloodp', {
             },
             zIndex: 1,
             data: <?php echo $BPDiastolic2Numeric; ?>
+        },
+        
+    ],
+    exporting: {
+        buttons: {
+            contextButton: {
+                menuItems: [
+                "printChart",
+                "separator",
+                "downloadPNG",
+                "downloadJPEG",
+                "downloadPDF",
+                "downloadSVG",
+                "separator",
+                //"downloadCSV",
+                //"downloadXLS",
+                //"viewData",
+                "openInCloud"
+                ]
+            }
         }
-    ]
+    }
 });
+
 </script>

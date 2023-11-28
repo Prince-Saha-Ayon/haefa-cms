@@ -255,8 +255,24 @@ $('#search').click(function() {
         color: colors[1],
     }],
     exporting: {
-        filename: 'branch_wise_disease_report',
-    },
+        buttons: {
+            contextButton: {
+                menuItems: [
+                "printChart",
+                "separator",
+                "downloadPNG",
+                "downloadJPEG",
+                "downloadPDF",
+                "downloadSVG",
+                "separator",
+                //"downloadCSV",
+                //"downloadXLS",
+                //"viewData",
+                "openInCloud"
+                ]
+            }
+        }
+    }
 });
 
         },

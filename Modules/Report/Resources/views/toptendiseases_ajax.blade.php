@@ -101,6 +101,25 @@ var branchName = branch && branch.length > 0 ? branch[0].HealthCenterName : 'All
                 color: color
             };
         })
-        }]
+        }],
+    exporting: {
+        buttons: {
+            contextButton: {
+                menuItems: [
+                "printChart",
+                "separator",
+                "downloadPNG",
+                "downloadJPEG",
+                "downloadPDF",
+                "downloadSVG",
+                "separator",
+                //"downloadCSV",
+                //"downloadXLS",
+                //"viewData",
+                "openInCloud"
+                ]
+            }
+        }
+    }
     });
 </script>

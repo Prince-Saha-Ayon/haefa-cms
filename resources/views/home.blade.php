@@ -270,7 +270,26 @@ Highcharts.chart('container_diseases', {
                 color: color
             };
         })
-    }]
+    }],
+    exporting: {
+        buttons: {
+            contextButton: {
+                menuItems: [
+                "printChart",
+                "separator",
+                "downloadPNG",
+                "downloadJPEG",
+                "downloadPDF",
+                "downloadSVG",
+                "separator",
+                //"downloadCSV",
+                //"downloadXLS",
+                //"viewData",
+                "openInCloud"
+                ]
+            }
+        }
+    }
 });
 
 // All disease
@@ -354,7 +373,26 @@ Highcharts.chart('container_alldiseases', {
                 color: color
             };
         })
-    }]
+    }],
+    exporting: {
+        buttons: {
+            contextButton: {
+                menuItems: [
+                "printChart",
+                "separator",
+                "downloadPNG",
+                "downloadJPEG",
+                "downloadPDF",
+                "downloadSVG",
+                "separator",
+                //"downloadCSV",
+                //"downloadXLS",
+                //"viewData",
+                "openInCloud"
+                ]
+            }
+        }
+    }
 });
 })
 </script>

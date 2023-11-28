@@ -233,8 +233,24 @@ $('#search').click(function() {
                     colors: colors, // Use the custom colors array
                 }],
                 exporting: {
-                    filename: 'branch_wise_All_disease_report', // Specify your custom file name here
-                },
+                    buttons: {
+                        contextButton: {
+                            menuItems: [
+                            "printChart",
+                            "separator",
+                            "downloadPNG",
+                            "downloadJPEG",
+                            "downloadPDF",
+                            "downloadSVG",
+                            "separator",
+                            //"downloadCSV",
+                            //"downloadXLS",
+                            //"viewData",
+                            "openInCloud"
+                            ]
+                        }
+                    }
+                }
             });
         },
         error: function(xhr, ajaxOption, thrownError) {
