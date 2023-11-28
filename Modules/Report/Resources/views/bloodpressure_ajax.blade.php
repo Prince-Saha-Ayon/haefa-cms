@@ -91,7 +91,7 @@ Highcharts.chart('container_bloodp', {
             }
                     // Label position adjustment
                 },
-                zIndex: 2 // Set the zIndex to a higher value than the other series
+                zIndex: 1 // Set the zIndex to a higher value than the other series
             }
         ],
     },
