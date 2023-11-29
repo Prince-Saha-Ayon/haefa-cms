@@ -56,6 +56,30 @@
               <p class="mb-0 mt-0  pe-1">{{ ++$key }}.{{ $PDX->ProvisionalDiagnosis !="" ? $PDX->ProvisionalDiagnosis : $PDX->OtherProvisionalDiagnosis }} {!! !empty($PDX->OtherProvisionalDiagnosis) ? '[' . $PDX->OtherProvisionalDiagnosis . ']' : '' !!} [<?php if($PDX->DiagnosisStatus == "N" || $PDX->DiagnosisStatus == "n"){?>Presumptive<?php }elseif($PDX->DiagnosisStatus == "Y" || $PDX->DiagnosisStatus == "y"){?>Confirmed<?php }else{?>Unspecified<?php } ?>]</p>
               @endforeach
             </div>
+
+             <div class="item pt-1">
+              <b class="d-block mb-0 py-0 border-bottom">Patient Summary for TB</b>
+              @foreach($TBSymptom as $key => $TBS)
+              <p class="mb-0 mt-0  pe-1"> {{ $TBS->TBSymptomCode ? $TBS->TBSymptomCode . ': Positive' : '' }}</p>
+          
+              @endforeach
+
+             @foreach($TBEFinding as $key => $TBEF)
+              <p class="mb-0 mt-0  pe-1"> {{ $TBEF->TBEFindingCode ? $TBEF->TBEFindingCode . ': Positive' : '' }}</p>
+          
+              @endforeach
+
+             @foreach($TBEPastEvidence as $key => $TBEP)
+              <p class="mb-0 mt-0  pe-1"> {{ $TBEP->TBEPastEvidenceCode ? $TBEP->TBEPastEvidenceCode . ': Positive' : '' }}</p>
+          
+              @endforeach
+
+              @foreach($TBPast as $key => $TBP)
+              <p class="mb-0 mt-0  pe-1"> {{ $TBP->TBHistoryIdCode ? $TBP->TBHistoryIdCode . ':'.$TBP->Status : '' }}</p>
+          
+              @endforeach
+
+            </div>
             
             <div class="item pt-1">
               <b class="d-block mb-0 py-0 border-bottom">Lab Investigations</b>
