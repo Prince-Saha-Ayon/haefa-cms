@@ -196,11 +196,32 @@ class PrescriptionController extends BaseController
             FROM MDataFollowUpDate
             WHERE PatientId ='$patient_id' AND  CAST(CreateDate AS date)='$create_date' ORDER BY CreateDate DESC");
 
+
+            $TBSymptom=DB::select("SELECT S.TBSymptomCode
+            FROM MDataTBSymptom as TS
+            INNER JOIN RefTBSymptoms as S on S.TBSymptomId = TS.TBSymptom
+            WHERE TS.Status='yes' AND TS.PatientId ='$patient_id' AND  CAST(TS.CreateDate AS date) = '$create_date' ORDER BY TS.CreateDate DESC");
+
+            $TBEFinding=DB::select("SELECT TBRE.TBEFindingCode
+                    FROM MDataPatientTBEFinding as TBTE
+                    INNER JOIN RefTBEFinding as TBRE on TBRE.TBEFindingId = TBTE.TBEFindingId
+                    WHERE TBTE.Status='yes' AND TBTE.PatientId ='$patient_id' AND  CAST(TBTE.CreateDate AS date) = '$create_date' ORDER BY TBTE.CreateDate DESC");
+
+            $TBEPastEvidence=DB::select("SELECT TBEP.TBEPastEvidenceCode
+                    FROM MDataTBEPastEvidenced as TBTPE
+                    INNER JOIN RefTBEPastEvidenced as TBEP on TBEP.TBEPastEvidenceId = TBTPE.TBEPastEvidencedId
+                    WHERE TBTPE.Status='yes' AND TBTPE.PatientId ='$patient_id' AND  CAST(TBTPE.CreateDate AS date) = '$create_date' ORDER BY TBTPE.CreateDate DESC");
+
+            $TBPast=DB::select("SELECT TBPH.TBHistoryIdCode, TBTPH.TBHistoryAnswer1,TBTPH.Status,TBTPH.TBHistoryOthers2 as   PastHistoryYear
+                    FROM MDataTBPastHistory as TBTPH
+                    INNER JOIN RefTBPastHistory as TBPH on TBPH.TBHistoryId = TBTPH.TBPastHistoryQuestionId
+                    WHERE TBTPH.PatientId ='$patient_id' AND  CAST(TBTPH.CreateDate AS date) = '$create_date' ORDER BY TBTPH.CreateDate DESC");
+
            }
         }
 
         
-       return view('prescription::details',compact('patientDetails','prescriptionCreation','Complaints','HeightWeight','BP','GlucoseHb','ProvisionalDx','Investigation','Treatment','Advice','PatientReferral','FollowUpDate'))->render();
+       return view('prescription::details',compact('patientDetails','prescriptionCreation','Complaints','HeightWeight','BP','GlucoseHb','ProvisionalDx','Investigation','Treatment','Advice','PatientReferral','FollowUpDate','TBSymptom','TBEFinding','TBEPastEvidence','TBPast'))->render();
     }
 
     /**
