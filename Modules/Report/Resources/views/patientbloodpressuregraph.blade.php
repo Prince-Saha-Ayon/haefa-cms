@@ -12,6 +12,27 @@
     .dropdown-menu.inner.show{
     min-width: 10px !important;
    }
+
+.highcharts-data-table table {
+    border: 1px solid #ccc;
+}
+
+.highcharts-data-table td,
+.highcharts-data-table th {
+    border: 1px solid #ccc;
+    padding: 5px;
+    font-family: Arial, Monospace;
+    font-size: 15px;
+}
+
+caption {
+    padding-top: 1.5rem;
+    padding-bottom: 1.5rem;
+    color: #040505;
+    text-align: left;
+    caption-side: top;
+    font-weight: bold
+}
    
 </style>
 

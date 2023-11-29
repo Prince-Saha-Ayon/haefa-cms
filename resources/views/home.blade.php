@@ -2,6 +2,29 @@
 
 @push('stylesheet')
 <link rel="stylesheet" href="css/chart.min.css" crossorigin="anonymous">
+<style>
+.highcharts-data-table table {
+    border: 1px solid #ccc;
+}
+
+.highcharts-data-table td,
+.highcharts-data-table th {
+    border: 1px solid #ccc;
+    padding: 5px;
+    font-family: Arial, Monospace;
+    font-size: 15px;
+}
+
+caption {
+    padding-top: 1.5rem;
+    padding-bottom: 1.5rem;
+    color: #040505;
+    text-align: left;
+    caption-side: top;
+    font-weight: bold
+}
+
+</style>
 @endpush
 @push('script')
     <script src="js/highcharts.js" crossorigin="anonymous"></script>
@@ -253,7 +276,7 @@ Highcharts.chart('container_diseases', {
         }
     },
     series: [{
-        name: 'Diseases',
+        name: 'Patients',
         showInLegend: false,
         data: chartData.map(function(item) {
             let color;
@@ -282,9 +305,9 @@ Highcharts.chart('container_diseases', {
                 "downloadPDF",
                 "downloadSVG",
                 "separator",
-                //"downloadCSV",
-                //"downloadXLS",
-                //"viewData",
+                "downloadCSV",
+                "downloadXLS",
+                "viewData",
                 "openInCloud"
                 ]
             }
@@ -356,7 +379,7 @@ Highcharts.chart('container_alldiseases', {
         }
     },
     series: [{
-        name: 'Diseases',
+        name: 'Patients',
         showInLegend: false,
         data: chartDataAll.map(function(allitem) {
             let color;
@@ -385,9 +408,9 @@ Highcharts.chart('container_alldiseases', {
                 "downloadPDF",
                 "downloadSVG",
                 "separator",
-                //"downloadCSV",
-                //"downloadXLS",
-                //"viewData",
+                "downloadCSV",
+                "downloadXLS",
+                "viewData",
                 "openInCloud"
     
                 ]
