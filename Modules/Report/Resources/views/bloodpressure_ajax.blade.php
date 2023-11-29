@@ -180,6 +180,15 @@ Highcharts.chart('container_bloodp', {
         
     ],
     exporting: {
+         csv: {
+            columnHeaderFormatter: function(item, key) {
+                if (!item || item instanceof Highcharts.Axis) {
+                    return 'Date'
+                } else {
+                    return item.name;
+                }
+            }
+        },
         buttons: {
             contextButton: {
                 menuItems: [
@@ -190,9 +199,9 @@ Highcharts.chart('container_bloodp', {
                 "downloadPDF",
                 "downloadSVG",
                 "separator",
-                //"downloadCSV",
-                //"downloadXLS",
-                //"viewData",
+                "downloadCSV",
+                "downloadXLS",
+                "viewData",
                 "openInCloud"
                 
                 ]

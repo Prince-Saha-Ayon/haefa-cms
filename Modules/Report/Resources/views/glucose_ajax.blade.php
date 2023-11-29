@@ -197,9 +197,9 @@ var formattedDates = distinctDates.map(function(dateString) {
                 "downloadPDF",
                 "downloadSVG",
                 "separator",
-                //"downloadCSV",
-                //"downloadXLS",
-                //"viewData",
+                "downloadCSV",
+                "downloadXLS",
+                "viewData",
                 "openInCloud"
                 
                 ]

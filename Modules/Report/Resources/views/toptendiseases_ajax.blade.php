@@ -84,7 +84,7 @@ var branchName = branch && branch.length > 0 ? branch[0].HealthCenterName : 'All
         },
     },
         series: [{
-            name: 'Diseases',
+            name: 'Patients',
             showInLegend: false,
             data: chartData.map(function(item) {
             let color;
@@ -103,6 +103,8 @@ var branchName = branch && branch.length > 0 ? branch[0].HealthCenterName : 'All
         })
         }],
     exporting: {
+
+    
         buttons: {
             contextButton: {
                 menuItems: [
@@ -113,9 +115,9 @@ var branchName = branch && branch.length > 0 ? branch[0].HealthCenterName : 'All
                 "downloadPDF",
                 "downloadSVG",
                 "separator",
-                //"downloadCSV",
-                //"downloadXLS",
-                //"viewData",
+                "downloadCSV",
+                "downloadXLS",
+                "viewData",
                 "openInCloud"
                 
                 ]
