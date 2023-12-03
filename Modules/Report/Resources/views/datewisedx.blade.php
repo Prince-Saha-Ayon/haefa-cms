@@ -208,49 +208,56 @@
                 $('#warning-searching').addClass('invisible');
                 $('#export-button').removeClass('disabled');
             },
-            success: function (response) {
-                var results = response.results;
-                healthcenter=response.healthcenter;
-                patients=response.resultCount;
-                var table = $('#normal-table tbody');
+           success: function (response) {
+            var results = response.results;
+            healthcenter = response.healthcenter;
+            patients = response.resultCount;
+            var table = $('#normal-table tbody');
 
-                // Clear the existing table rows
-                table.empty();
+            // Clear the existing table rows
+            table.empty();
 
-                // Create header row
-                var headerRow = $('<tr></tr>');
-                headerRow.append('<th style="color:black; font-weight:bold;">Provisional DX</th>');
+            // Create header row
+            var headerRow = $('<tr></tr>');
+            headerRow.append('<th style="color:black; font-weight:bold;">Provisional DX</th>');
 
-                // Extract unique dates from all diagnoses
-                var uniqueDates = [...new Set(Object.values(results).flatMap(diagnosis => Object.keys(diagnosis)))];
+            // Extract unique dates from all diagnoses and sort them
+            var uniqueDates = [...new Set(Object.values(results).flatMap(diagnosis => Object.keys(diagnosis)))];
+
+            // Sort the uniqueDates based on both year and month
+            uniqueDates.sort(function (a, b) {
+                var dateA = moment(a, 'DD-MM-YYYY');
+                var dateB = moment(b, 'DD-MM-YYYY');
+                return dateA.isBefore(dateB) ? -1 : dateA.isAfter(dateB) ? 1 : 0;
+            });
+
+            uniqueDates.forEach(function (date) {
+                var formattedDate = moment(date, 'DD-MM-YYYY').format('DD-MMM-YYYY');
+                // Append the formatted date to the headerRow
+                headerRow.append('<th style="color:black; width:20px;">' + formattedDate + '</th>');
+            });
+
+            headerRow.append('<th style="color:black;">Total</th>'); // Add Total column header
+            table.append(headerRow);
+
+            // Create data rows
+            Object.keys(results).forEach(function (diagnosis) {
+                var dataRow = $('<tr></tr>');
+                dataRow.append('<td>' + diagnosis + '</td>');
+
+                var total = 0;
 
                 uniqueDates.forEach(function (date) {
-                    var formattedDate = moment(date, 'DD-MM-YYYY').format('DD-MMM-YYYY');
-    // Append the formatted date to the headerRow
-                    headerRow.append('<th style="color:black; width:20px;">' + formattedDate + '</th>');
+                    var count = parseInt(results[diagnosis][date]) || 0;
+                    total += count;
+                    dataRow.append('<td>' + count + '</td>');
                 });
 
-                headerRow.append('<th style="color:black;">Total</th>'); // Add Total column header
-                table.append(headerRow);
-
-                // Create data rows
-                Object.keys(results).forEach(function (diagnosis) {
-                    var dataRow = $('<tr></tr>');
-                    dataRow.append('<td>' + diagnosis + '</td>');
-
-                    var total = 0;
-
-                    uniqueDates.forEach(function (date) {
-                        var count = parseInt(results[diagnosis][date]) || 0;
-                        total += count;
-                        dataRow.append('<td>' + count + '</td>');
-                    });
-
-                    dataRow.append('<td>' + total + '</td>'); // Add Total column
-                    table.append(dataRow);
-                });
-         
+                dataRow.append('<td>' + total + '</td>'); // Add Total column
+                table.append(dataRow);
+            });
 },
+
 
             // success: function (response) {
             //     var results = response.results;
