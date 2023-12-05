@@ -161,7 +161,7 @@
                                 <th>Father Hypertension</th>
                                 <th>Father Diabetes</th>
                                 <th>Father Surgery</th>
-                                <th>Father Others</th>
+                               
                                 <th>Father TB</th>
                                 <th>Father Typhoid</th>
                                 <th>Father Fracture/Injury</th>
@@ -178,7 +178,7 @@
                                 <th>Mother Hypertension</th>
                                 <th>Mother Diabetes</th>
                                 <th>Mother Surgery</th>
-                                <th>Mother Others</th>
+                              
                                 <th>Mother TB</th>
                                 <th>Mother Typhoid</th>
                                 <th>Mother Fracture/Injury</th>
@@ -195,7 +195,7 @@
                                 <th>Siblings Hypertension</th>
                                 <th>Siblings Diabetes</th>
                                 <th>Siblings Surgery</th>
-                                <th>Siblings Others</th>
+                               
                                 <th>Siblings TB</th>
                                 <th>Siblings Typhoid</th>
                                 <th>Siblings Fracture/Injury</th>
@@ -212,7 +212,7 @@
                                 <th>Aunt Hypertension</th>
                                 <th>Aunt Diabetes</th>
                                 <th>Aunt Surgery</th>
-                                <th>Aunt Others</th>
+                             
                                 <th>Aunt TB</th>
                                 <th>Aunt Typhoid</th>
                                 <th>Aunt Fracture/Injury</th>
@@ -229,7 +229,7 @@
                                 <th>GrandParents Hypertension</th>
                                 <th>GrandParents Diabetes</th>
                                 <th>GrandParents Surgery</th>
-                                <th>GrandParents Others</th>
+                               
                                 <th>GrandParents TB</th>
                                 <th>GrandParents Typhoid</th>
                                 <th>GrandParents Fracture/Injury</th>
@@ -246,7 +246,7 @@
                                 <th>Other Hypertension</th>
                                 <th>Other Diabetes</th>
                                 <th>Other Surgery</th>
-                                <th>Other Others</th>
+                            
                                 <th>Other TB</th>
                                 <th>Other Typhoid</th>
                                 <th>Other Fracture/Injury</th>
@@ -554,7 +554,7 @@
                         result.Father_Hypertension || "-",
                         result.Father_Diabetes || "-",
                         result.Father_Surgery || "-",
-                        result.Father_Others || "-",
+                       
                         result.Father_TB || "-",
                         result.Father_Typhoid || "-",
                         result.Father_Fracture_injury || "-",
@@ -571,7 +571,7 @@
                         result.Mother_Hypertension || "-",
                         result.Mother_Diabetes || "-",
                         result.Mother_Surgery || "-",
-                        result.Mother_Others || "-",
+                       
                         result.Mother_TB || "-",
                         result.Mother_Typhoid || "-",
                         result.Mother_Fracture_injury || "-",
@@ -588,7 +588,7 @@
                         result.Siblings_Hypertension || "-",
                         result.Siblings_Diabetes || "-",
                         result.Siblings_Surgery || "-",
-                        result.Siblings_Others || "-",
+                      
                         result.Siblings_TB || "-",
                         result.Siblings_Typhoid || "-",
                         result.Siblings_Fracture_injury || "-",
@@ -605,7 +605,7 @@
                         result.Aunt_Hypertension || "-",
                         result.Aunt_Diabetes || "-",
                         result.Aunt_Surgery || "-",
-                        result.Aunt_Others || "-",
+                       
                         result.Aunt_TB || "-",
                         result.Aunt_Typhoid || "-",
                         result.Aunt_Fracture_injury || "-",
@@ -622,7 +622,7 @@
                         result.GrandParents_Hypertension || "-",
                         result.GrandParents_Diabetes || "-",
                         result.GrandParents_Surgery || "-",
-                        result.GrandParents_Others || "-",
+                      
                         result.GrandParents_TB || "-",
                         result.GrandParents_Typhoid || "-",
                         result.GrandParents_Fracture_injury || "-",
