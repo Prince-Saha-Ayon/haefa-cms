@@ -153,33 +153,128 @@
                                 <th>TreatmentSuggestion</th>
                                 <th>DiagnosticSuggestion</th>
                                 <th>FollowUpDate</th>
-                                <th>FamilySurgery</th>
-                                <th>FamilyHypertension</th>
-                                <th>FamilyCancer</th>
-                                <th>FamilyMalaria</th>
-                                <th>FamilySkinDisease</th>
-                                <th>FamilyTB</th>
-                                <th>FamilyTyphoid</th>
-                                <th>FamilyIHD</th>
-                                <th>FamilyDepression</th>
-                                <th>FamilyStroke</th>
-                                <th>FamilyDengue</th>
-                                <th>FamilyOtherIllness</th>
-                                <th>Hepatitis</th>
-                                <th>Diabetes</th>
-                                <th>Asthma</th>
-                                <th>Surgery</th>
-                                <th>Hypertension</th>
+
+                                <th>Father Cancer</th>
+                                <th>Father Malaria</th>
+                                <th>Father Skin Disease</th>
+                                <th>Father Asthma</th>
+                                <th>Father Hypertension</th>
+                                <th>Father Diabetes</th>
+                                <th>Father Surgery</th>
+                                <th>Father Others</th>
+                                <th>Father TB</th>
+                                <th>Father Typhoid</th>
+                                <th>Father Fracture/Injury</th>
+                                <th>Father Hepatitis</th>
+                                <th>Father IHD</th>
+                                <th>Father Depression</th>
+                                <th>Father Stroke</th>
+                                <th>Father Dengue</th>
+
+                                <th>Mother Cancer</th>
+                                <th>Mother Malaria</th>
+                                <th>Mother Skin Disease</th>
+                                <th>Mother Asthma</th>
+                                <th>Mother Hypertension</th>
+                                <th>Mother Diabetes</th>
+                                <th>Mother Surgery</th>
+                                <th>Mother Others</th>
+                                <th>Mother TB</th>
+                                <th>Mother Typhoid</th>
+                                <th>Mother Fracture/Injury</th>
+                                <th>Mother Hepatitis</th>
+                                <th>Mother IHD</th>
+                                <th>Mother Depression</th>
+                                <th>Mother Stroke</th>
+                                <th>Mother Dengue</th>
+
+                                <th>Siblings Cancer</th>
+                                <th>Siblings Malaria</th>
+                                <th>Siblings Skin Disease</th>
+                                <th>Siblings Asthma</th>
+                                <th>Siblings Hypertension</th>
+                                <th>Siblings Diabetes</th>
+                                <th>Siblings Surgery</th>
+                                <th>Siblings Others</th>
+                                <th>Siblings TB</th>
+                                <th>Siblings Typhoid</th>
+                                <th>Siblings Fracture/Injury</th>
+                                <th>Siblings Hepatitis</th>
+                                <th>Siblings IHD</th>
+                                <th>Siblings Depression</th>
+                                <th>Siblings Stroke</th>
+                                <th>Siblings Dengue</th>
+
+                                <th>Aunt Cancer</th>
+                                <th>Aunt Malaria</th>
+                                <th>Aunt Skin Disease</th>
+                                <th>Aunt Asthma</th>
+                                <th>Aunt Hypertension</th>
+                                <th>Aunt Diabetes</th>
+                                <th>Aunt Surgery</th>
+                                <th>Aunt Others</th>
+                                <th>Aunt TB</th>
+                                <th>Aunt Typhoid</th>
+                                <th>Aunt Fracture/Injury</th>
+                                <th>Aunt Hepatitis</th>
+                                <th>Aunt IHD</th>
+                                <th>Aunt Depression</th>
+                                <th>Aunt Stroke</th>
+                                <th>Aunt Dengue</th>
+
+                                <th>GrandParents Cancer</th>
+                                <th>GrandParents Malaria</th>
+                                <th>GrandParents Skin Disease</th>
+                                <th>GrandParents Asthma</th>
+                                <th>GrandParents Hypertension</th>
+                                <th>GrandParents Diabetes</th>
+                                <th>GrandParents Surgery</th>
+                                <th>GrandParents Others</th>
+                                <th>GrandParents TB</th>
+                                <th>GrandParents Typhoid</th>
+                                <th>GrandParents Fracture/Injury</th>
+                                <th>GrandParents Hepatitis</th>
+                                <th>GrandParents IHD</th>
+                                <th>GrandParents Depression</th>
+                                <th>GrandParents Stroke</th>
+                                <th>GrandParents Dengue</th>
+
+                                <th>Other Cancer</th>
+                                <th>Other Malaria</th>
+                                <th>Other Skin Disease</th>
+                                <th>Other Asthma</th>
+                                <th>Other Hypertension</th>
+                                <th>Other Diabetes</th>
+                                <th>Other Surgery</th>
+                                <th>Other Others</th>
+                                <th>Other TB</th>
+                                <th>Other Typhoid</th>
+                                <th>Other Fracture/Injury</th>
+                                <th>Other Hepatitis</th>
+                                <th>Other IHD</th>
+                                <th>Other Depression</th>
+                                <th>Other Stroke</th>
+                                <th>Other Dengue</th>
+
+
+                               
                                 <th>Cancer</th>
-                                <th>Malaria</th>
-                                <th>SkinDisease</th>
+                                <th>Skin Disease</th>
+                                <th>Hypertension</th>
+                                <th>Diabetes</th>
+                                <th>Surgery</th>
+                                <th>Others</th>
                                 <th>TB</th>
                                 <th>Typhoid</th>
+                                <th>Fracture/Injury</th>
+                                <th>Hepatitis</th>
                                 <th>IHD</th>
                                 <th>Depression</th>
                                 <th>Stroke</th>
                                 <th>Dengue</th>
-                                <th>Other</th>
+                                <th>Malaria</th>
+                                <th>Asthma</th>
+
                                
                             </tr>
 
@@ -287,9 +382,7 @@
                 text: 'Export to Excel',
                 filename: filename,
                 title: '',
-                exportOptions: {
-                columns: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47,48,49,50,51,52,53, 54, 55, 56, 57, 58, 59, 60, 61, 62, 63, 64, 65, 66, 67, 68, 69, 70, 71, 72, 73,74,75,76,77,78,79,80], // Include specific columns in the export
-            },
+               
             customize: function(xlsx,resultCount) {
             var sheet = xlsx.xl.worksheets['sheet1.xml'];
             var downrows = 5; // Number of rows to add
@@ -453,37 +546,129 @@
                         result.PrescribedDrugs || "-", // Handle missing data
                         result.DiagnosticSuggestion || "-", // Handle missing data
                         result.FollowUpdate || "-", // Handle missing data
-                        result.FamilyHepatitis || "-", // Handle missing data
-                        result.FamilyDiabetes || "-", // Handle missing data
-                        result.FamilyAsthma || "-", // Handle missing data
-                        result.FamilySurgery || "-", // Handle missing data
-                        result.FamilyHypertension || "-", // Handle missing data
-                        result.FamilyCancer || "-", // Handle missing data
-                        result.FamilyMalaria || "-", // Handle missing data
-                        result.FamilySkinDisease || "-", // Handle missing data
-                        result.FamilyTB || "-", // Handle missing data
-                        result.FamilyTyphoid || "-", // Handle missing data
-                        result.FamilyIHD || "-", // Handle missing data
-                        result.FamilyDepression || "-", // Handle missing data
-                        result.FamilyStroke || "-", // Handle missing data
-                        result.FamilyDengue || "-", // Handle missing data
+
+                        result.Father_Cancer || "-",
+                        result.Father_Malaria || "-",
+                        result.Father_Skin_disease || "-",
+                        result.Father_Asthma || "-",
+                        result.Father_Hypertension || "-",
+                        result.Father_Diabetes || "-",
+                        result.Father_Surgery || "-",
+                        result.Father_Others || "-",
+                        result.Father_TB || "-",
+                        result.Father_Typhoid || "-",
+                        result.Father_Fracture_injury || "-",
+                        result.Father_Hepatitis || "-",
+                        result.Father_IHD || "-",
+                        result.Father_Depression || "-",
+                        result.Father_Stroke || "-",
+                        result.Father_Dengue || "-",
+
+                        result.Mother_Cancer || "-",
+                        result.Mother_Malaria || "-",
+                        result.Mother_Skin_disease || "-",
+                        result.Mother_Asthma || "-",
+                        result.Mother_Hypertension || "-",
+                        result.Mother_Diabetes || "-",
+                        result.Mother_Surgery || "-",
+                        result.Mother_Others || "-",
+                        result.Mother_TB || "-",
+                        result.Mother_Typhoid || "-",
+                        result.Mother_Fracture_injury || "-",
+                        result.Mother_Hepatitis || "-",
+                        result.Mother_IHD || "-",
+                        result.Mother_Depression || "-",
+                        result.Mother_Stroke || "-",
+                        result.Mother_Dengue || "-",
+
+                        result.Siblings_Cancer || "-",
+                        result.Siblings_Malaria || "-",
+                        result.Siblings_Skin_disease || "-",
+                        result.Siblings_Asthma || "-",
+                        result.Siblings_Hypertension || "-",
+                        result.Siblings_Diabetes || "-",
+                        result.Siblings_Surgery || "-",
+                        result.Siblings_Others || "-",
+                        result.Siblings_TB || "-",
+                        result.Siblings_Typhoid || "-",
+                        result.Siblings_Fracture_injury || "-",
+                        result.Siblings_Hepatitis || "-",
+                        result.Siblings_IHD || "-",
+                        result.Siblings_Depression || "-",
+                        result.Siblings_Stroke || "-",
+                        result.Siblings_Dengue || "-",
+
+                        result.Aunt_Cancer || "-",
+                        result.Aunt_Malaria || "-",
+                        result.Aunt_Skin_disease || "-",
+                        result.Aunt_Asthma || "-",
+                        result.Aunt_Hypertension || "-",
+                        result.Aunt_Diabetes || "-",
+                        result.Aunt_Surgery || "-",
+                        result.Aunt_Others || "-",
+                        result.Aunt_TB || "-",
+                        result.Aunt_Typhoid || "-",
+                        result.Aunt_Fracture_injury || "-",
+                        result.Aunt_Hepatitis || "-",
+                        result.Aunt_IHD || "-",
+                        result.Aunt_Depression || "-",
+                        result.Aunt_Stroke || "-",
+                        result.Aunt_Dengue || "-",
+
+                        result.GrandParents_Cancer || "-",
+                        result.GrandParents_Malaria || "-",
+                        result.GrandParents_Skin_disease || "-",
+                        result.GrandParents_Asthma || "-",
+                        result.GrandParents_Hypertension || "-",
+                        result.GrandParents_Diabetes || "-",
+                        result.GrandParents_Surgery || "-",
+                        result.GrandParents_Others || "-",
+                        result.GrandParents_TB || "-",
+                        result.GrandParents_Typhoid || "-",
+                        result.GrandParents_Fracture_injury || "-",
+                        result.GrandParents_Hepatitis || "-",
+                        result.GrandParents_IHD || "-",
+                        result.GrandParents_Depression || "-",
+                        result.GrandParents_Stroke || "-",
+                        result.GrandParents_Dengue || "-",
+
+                        result.Other_Cancer || "-",
+                        result.Other_Malaria || "-",
+                        result.Other_Skin_disease || "-",
+                        result.Other_Asthma || "-",
+                        result.Other_Hypertension || "-",
+                        result.Other_Diabetes || "-",
+                        result.Other_Surgery || "-",
+                        result.Other_Others || "-",
+                        result.Other_TB || "-",
+                        result.Other_Typhoid || "-",
+                        result.Other_Fracture_injury || "-",
+                        result.Other_Hepatitis || "-",
+                        result.Other_IHD || "-",
+                        result.Other_Depression || "-",
+                        result.Other_Stroke || "-",
+                        result.Other_Dengue || "-",
+
                         result.OtherIllFamilyMember || "-", // Handle missing data
-                        result.Hepatitis || "-", // Handle missing data
-                        result.Diabetes || "-", // Handle missing data
-                        result.Asthma || "-", // Handle missing data
-                        result.Surgery || "-", // Handle missing data
-                        result.Hypertension || "-", // Handle missing data
-                        result.Cancer || "-", // Handle missing data
-                        result.Malaria || "-", // Handle missing data
-                        result.SkinDisease || "-", // Handle missing data
-                        result.TB || "-", // Handle missing data
-                        result.Typhoid || "-", // Handle missing data
-                        result.IHD || "-", // Handle missing data
-                        result.Depression || "-", // Handle missing data
-                        result.Stroke || "-", // Handle missing data
-                        result.Dengue || "-", // Handle missing data
-                        result.Other || "-", // Handle missing data
-  
+
+                      
+                        result.Cancer || "-",
+                        result.Skin_disease || "-",
+                        result.Hypertension || "-",
+                        result.Diabetes || "-",
+                        result.Surgery || "-",
+                        result.Others || "-",
+                        result.TB || "-",
+                        result.Typhoid || "-",
+                        result.Fracture_injury || "-",
+                        result.Hepatitis || "-",
+                        result.IHD || "-",
+                        result.Depression || "-",
+                        result.Stroke || "-",
+                        result.Dengue || "-",
+                        result.Malaria || "-",
+                        result.Asthma || "-"
+
                     ];
 
                     // Add a new row to the table
