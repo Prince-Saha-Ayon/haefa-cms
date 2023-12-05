@@ -87,7 +87,7 @@
                 </div>
                 <!-- /entry heading -->
                 @if (permission('refillness-add'))
-                <button class="btn btn-primary btn-sm" onclick="showFormModal('Add refillness','Save');removeId()">
+                <button class="btn btn-primary btn-sm" onclick="showFormModal('Add illness','Save');removeId()">
                     <i class="fas fa-plus-square"></i> Add New
                  </button>
                 @endif
@@ -104,8 +104,8 @@
                     <form id="form-filter">
                         <div class="row">
                             <div class="form-group col-md-4">
-                                <label for="name">IllnessCode</label>
-                                <input type="text" class="form-control" name="name" id="name" placeholder="Enter IllnessCode">
+                                <label for="name">Illness Code</label>
+                                <input type="text" class="form-control" name="name" id="name" placeholder="Enter Illness Code">
                             </div>
                             <div class="form-group col-md-8 pt-24">
                                <button type="button" class="btn btn-danger btn-sm float-right" id="btn-reset"

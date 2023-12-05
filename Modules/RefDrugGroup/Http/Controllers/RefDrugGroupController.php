@@ -27,7 +27,7 @@ class RefDrugGroupController extends BaseController
     public function index()
     {
         if(permission('refdruggroup-access')){
-            $this->setPageData('DrugGroup','DrugGroup','fas fa-th-list');
+            $this->setPageData('Drug Group','Drug Group','fas fa-th-list');
             return view('refdruggroup::index');
         }else{
             return $this->unauthorized_access_blocked();

@@ -105,7 +105,7 @@
                         <div class="row">
                             <div class="form-group col-md-4">
                                 <label for="name">Union Name</label>
-                                <input type="text" class="form-control" name="name" id="name" placeholder="Enter UnionName">
+                                <input type="text" class="form-control" name="name" id="name" placeholder="Enter Union Name">
                             </div>
                             <div class="form-group col-md-8 pt-24">
                                <button type="button" class="btn btn-danger btn-sm float-right" id="btn-reset"

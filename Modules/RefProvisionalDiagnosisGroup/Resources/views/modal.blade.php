@@ -20,9 +20,9 @@
                     {{-- <input type="hidden" name="update_id" id="update_id"/> --}}
                     <input type="hidden" name="RefProvisionalDiagnosisGroupId" value="" id="RefProvisionalDiagnosisGroupId"/>
                      <input type="hidden" name="SortOrder" value="1" />
-                    <x-form.textbox labelName="ProvisionalDiagnosis Group Code" name="RefProvisionalDiagnosisGroupCode" id="RefProvisionalDiagnosisGroupCode" required="required" col="col-md-12"  placeholder="Enter ProvisionalDiagnosis Group Code"/>
+                    <x-form.textbox labelName="Provisional Diagnosis Group Code" name="RefProvisionalDiagnosisGroupCode" id="RefProvisionalDiagnosisGroupCode" required="required" col="col-md-12"  placeholder="Enter Provisional Diagnosis Group Code"/>
                      <x-form.textbox labelName="Category" name="Category" id="Category" required="required"  col="col-md-12"  placeholder="Enter Category"/>
-                    <x-form.textbox labelName="CommonTerm" name="CommonTerm" id="CommonTerm" required="required"  col="col-md-12"  placeholder="Enter CommonTerm"/>
+                    <x-form.textbox labelName="Common Term" name="CommonTerm" id="CommonTerm" required="required"  col="col-md-12"  placeholder="Enter Common Term"/>
                   
                 </div>
             </div>

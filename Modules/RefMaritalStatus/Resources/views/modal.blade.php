@@ -20,7 +20,7 @@
                     {{-- <input type="hidden" name="update_id" id="update_id"/> --}}
                     <input type="hidden" name="MaritalStatusId" value="" id="MaritalStatusId"/>
                      <input type="hidden" name="SortOrder" value="1" />
-                    <x-form.textbox labelName="MaritalStatus Code" name="MaritalStatusCode" id="MaritalStatusCode" required="required" col="col-md-12"  placeholder="Enter MaritalStatus Code"/>
+                    <x-form.textbox labelName="Marital Status Code" name="MaritalStatusCode" id="MaritalStatusCode" required="required" col="col-md-12"  placeholder="Enter Marital Status Code"/>
                     
                     <x-form.textbox labelName="Description" name="Description" id="Description"  col="col-md-12"  placeholder="Enter Description"/>
                 </div>

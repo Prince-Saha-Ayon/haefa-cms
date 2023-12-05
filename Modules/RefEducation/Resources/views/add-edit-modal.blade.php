@@ -20,7 +20,7 @@
                     <div class="col-md-12">
                         <input type="hidden" name="EducationId" value="" id="EducationId"/>
                         <input type="hidden" name="SortOrder" value="8" />
-                        <x-form.textbox labelName="EducationCode" name="EducationCode" id="EducationCode" required="required" col="col-md-12" placeholder="Enter EducationCode"/>
+                        <x-form.textbox labelName="Education Code" name="EducationCode" id="EducationCode" required="required" col="col-md-12" placeholder="Enter Education Code"/>
                     </div>
                 </div>
                 

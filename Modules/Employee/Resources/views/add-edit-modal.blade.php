@@ -78,7 +78,7 @@
                         </div>
 
                         <div class="col-md-6">
-                            <x-form.selectbox labelName="MaritalStatus" name="MaritalStatusId" id="MaritalStatusId"
+                            <x-form.selectbox labelName="Marital Status" name="MaritalStatusId" id="MaritalStatusId"
                                 col="col-md-12" class="selectpicker">
                                 @foreach($maritalStatus as $maritalStat)
                                 <option value="{{$maritalStat->MaritalStatusId??''}}">

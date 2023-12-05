@@ -27,7 +27,7 @@ class HealthCenterController extends BaseController
     public function index()
     {
         if (permission('healthcenter-access')) {
-            $this->setPageData('HealthCenter', 'HealthCenter', 'fas fa-th-list');
+            $this->setPageData('Health Center', 'Health Center', 'fas fa-th-list');
             return view('healthcenter::index');
         } else {
             return $this->unauthorized_access_blocked();

@@ -19,14 +19,14 @@
                 <div class="row">
                     <div class="col-md-12">
                         <input type="hidden" name="HealthCenterId" value="" id="HealthCenterId"/>
-                        <x-form.textbox labelName="HealthCenter Name" name="HealthCenterName" required="required" id="HealthCenterName" col="col-md-12" placeholder="Enter HealthCenter Name"/>
+                        <x-form.textbox labelName="Health Center Name" name="HealthCenterName" required="required" id="HealthCenterName" col="col-md-12" placeholder="Enter Health Center Name"/>
                     </div>
 
                 </div>
 
                 <div class="row">
                     <div class="col-md-12">
-                        <x-form.textbox labelName="HealthCenter Code" name="HealthCenterCode" id="HealthCenterCode" required="required" col="col-md-12" placeholder="Enter HealthCenter Code"/>
+                        <x-form.textbox labelName="Health Center Code" name="HealthCenterCode" id="HealthCenterCode" required="required" col="col-md-12" placeholder="Enter Health Center Code"/>
                     </div>
 
                 </div>

@@ -27,7 +27,7 @@ class RefIllFamilyMemberController extends BaseController
     public function index()
     {
         if(permission('refillfamilymember-access')){
-            $this->setPageData('IllFamilyMember','IllFamilyMember','fas fa-th-list');
+            $this->setPageData('Ill Family Member','Ill Family Member','fas fa-th-list');
             return view('refillfamilymember::index');
         }else{
             return $this->unauthorized_access_blocked();

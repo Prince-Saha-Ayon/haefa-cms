@@ -149,7 +149,7 @@
                                 @endif
                                 <th>Sl</th>
                                 <th>Employee Code</th>
-                                <th>RegistrationNumber</th>
+                                <th>Registration Number</th>
                                 <th>FirstName</th>
                                 <th>LastName</th>
                                 <th>Action</th>

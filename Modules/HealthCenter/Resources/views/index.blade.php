@@ -87,7 +87,7 @@
                 </div>
                 <!-- /entry heading -->
                 @if (permission('healthcenter-add'))
-                <button class="btn btn-primary btn-sm" onclick="showFormModal('Add HealthCenter','Save');removeId()">
+                <button class="btn btn-primary btn-sm" onclick="showFormModal('Add Health Center','Save');removeId()">
                     <i class="fas fa-plus-square"></i> Add New
                  </button>
                 @endif
@@ -104,8 +104,8 @@
                     <form id="form-filter">
                         <div class="row">
                             <div class="form-group col-md-4">
-                                <label for="name">HealthCenter Code</label>
-                                <input type="text" class="form-control" name="name" id="name" placeholder="Enter HealthCenter Code">
+                                <label for="name">Health Center Code</label>
+                                <input type="text" class="form-control" name="name" id="name" placeholder="Enter Health Center Code">
                             </div>
                             <div class="form-group col-md-8 pt-24">
                                <button type="button" class="btn btn-danger btn-sm float-right" id="btn-reset"
@@ -131,8 +131,8 @@
                                 </th>
                                 @endif
                                 <th>Sl</th>
-                                <th>HealthCenter Code</th>
-                                <th>HealthCenter Name</th>
+                                <th>Health Center Code</th>
+                                <th>Health Center Name</th>
                                 <!-- <th>Status</th> -->
                                 <th>Action</th>
                             </tr>

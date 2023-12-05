@@ -21,17 +21,17 @@
                         <div class="col-md-12">
                             <input type="hidden" name="IllnessId" value="" id="IllnessId" />
                             <input type="hidden" name="SortOrder" value="8" />
-                            <x-form.textbox labelName="IllnessCode" name="IllnessCode" id="IllnessCode"
-                                required="required" col="col-md-12" placeholder="Enter IllnessCode" />
-                        </div>
+                            <x-form.textbox labelName="Illness Code" name="IllnessCode" id="IllnessCode"
+                                required="required" col="col-md-12" placeholder="Enter Illness Code" />
+                        </div> 
                     </div>
 
                     <div class="row">
                         <div class="col-md-12">
                             <div class="form-group col-md-12 required">
-                                <label for="HOIllness">HOIllness</label>
+                                <label for="HOIllness">History Of Illness</label>
                                 <input type="number" required="required" name="HOIllness" id="HOIllness" class="form-control " value=""
-                                    placeholder="Enter HOIllness">
+                                    placeholder="Enter History Of Illness">
                             </div>
                         </div>
                     </div>
@@ -39,8 +39,8 @@
                     <div class="row">
                       <div class="col-md-12 ">
                         <div class="form-group col-md-12 required">
-                          <label for="FamilyHO">FamilyHO</label>
-                          <input type="number" required="required" name="FamilyHO" id="FamilyHO" class="form-control " value="" placeholder="Enter FamilyHO">
+                          <label for="FamilyHO">Family History Of Illness</label>
+                          <input type="number" required="required" name="FamilyHO" id="FamilyHO" class="form-control " value="" placeholder="Enter Family History Of Illness">
                         </div>
                       </div>
                     </div>

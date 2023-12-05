@@ -20,19 +20,19 @@
                     <div class="col-md-12">
                         <input type="hidden" name="RefInstructionId" value="" id="RefInstructionId"/>
                         <input type="hidden" name="SortOrder" value="8" />
-                        <x-form.textbox labelName="InstructionCode" name="InstructionCode" id="InstructionCode" required="required" col="col-md-12" placeholder="Enter Instruction Code"/>
+                        <x-form.textbox labelName="Instruction Code" name="InstructionCode" id="InstructionCode" required="required" col="col-md-12" placeholder="Enter Instruction Code"/>
                     </div>
                 </div>
                 
                 <div class="row">
                     <div class="col-md-12">
-                        <x-form.textbox labelName="InstructionInEnglish" name="InstructionInEnglish" id="InstructionInEnglish" col="col-md-12" placeholder="Enter InstructionInEnglish"/>
+                        <x-form.textbox labelName="Instruction In English" name="InstructionInEnglish" id="InstructionInEnglish" col="col-md-12" placeholder="Enter Instruction In English"/>
                     </div>
                 </div>
                 
                 <div class="row">
                     <div class="col-md-12">
-                        <x-form.textbox labelName="InstructionInBangla" name="InstructionInBangla" id="InstructionInBangla" col="col-md-12" placeholder="Enter InstructionInBangla"/>
+                        <x-form.textbox labelName="Instruction In Bangla" name="InstructionInBangla" id="InstructionInBangla" col="col-md-12" placeholder="Enter Instruction In Bangla"/>
                     </div>
                 </div>
                 

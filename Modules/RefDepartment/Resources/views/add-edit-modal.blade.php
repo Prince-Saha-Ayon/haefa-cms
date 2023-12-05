@@ -21,8 +21,8 @@
                         <div class="col-md-12">
                             <input type="hidden" name="RefDepartmentId" value="" id="RefDepartmentId" />
                             <input type="hidden" name="SortOrder" value="8" />
-                            <x-form.textbox labelName="DepartmentCode" name="DepartmentCode" id="DepartmentCode"
-                                required="required" col="col-md-12" placeholder="Enter DepartmentCode" />
+                            <x-form.textbox labelName="Department Code" name="DepartmentCode" id="DepartmentCode"
+                                required="required" col="col-md-12" placeholder="Enter Department Code" />
                         </div>
                     </div>
 
