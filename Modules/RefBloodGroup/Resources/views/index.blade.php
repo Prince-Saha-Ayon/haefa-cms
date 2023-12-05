@@ -31,7 +31,7 @@
                 </div>
                 <!-- /entry heading -->
                 @if (permission('refbloodgroup-add'))
-                <button class="btn btn-primary btn-sm" onclick="showFormModal('Add bloodgroup','Save');removeId()">
+                <button class="btn btn-primary btn-sm" onclick="showFormModal('Add blood group','Save');removeId()">
                     <i class="fas fa-plus-square"></i> Add New
                  </button>
                 @endif

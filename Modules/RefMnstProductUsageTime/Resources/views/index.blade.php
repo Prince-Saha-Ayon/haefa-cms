@@ -87,7 +87,7 @@
                 </div>
                 <!-- /entry heading -->
                 @if (permission('refmnstproductusagetime-add'))
-                <button class="btn btn-primary btn-sm" onclick="showFormModal('Add MnstProductUsageTime','Save');removeId()">
+                <button class="btn btn-primary btn-sm" onclick="showFormModal('Add Mnst Product Usage Time','Save');removeId()">
                     <i class="fas fa-plus-square"></i> Add New
                  </button>
                 @endif

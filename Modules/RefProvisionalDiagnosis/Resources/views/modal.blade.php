@@ -22,9 +22,9 @@
                      <input type="hidden" name="SortOrder" value="1" />
                      <input type="hidden" name="GroupSortOrder" value="20000" />
 
-                    <x-form.textbox labelName="ProvisionalDiagnosis Code" name="ProvisionalDiagnosisCode" id="ProvisionalDiagnosisCode" required="required" col="col-md-12"  placeholder="Enter ProvisionalDiagnosis Code"/>
-                    <x-form.textbox labelName="ProvisionalDiagnosis Name" name="ProvisionalDiagnosisName" id="ProvisionalDiagnosisName" required="required" col="col-md-12"  placeholder="Enter ProvisionalDiagnosis Name"/>
-                   <x-form.selectbox labelName="ProvisionalDiagnosis Group" required="required" name="RefProvisionalDiagnosisGroupId" id="RefProvisionalDiagnosisGroupId"
+                    <x-form.textbox labelName="Provisional Diagnosis Code" name="ProvisionalDiagnosisCode" id="ProvisionalDiagnosisCode" required="required" col="col-md-12"  placeholder="Enter Provisional Diagnosis Code"/>
+                    <x-form.textbox labelName="Provisional Diagnosis Name" name="ProvisionalDiagnosisName" id="ProvisionalDiagnosisName" required="required" col="col-md-12"  placeholder="Enter Provisional Diagnosis Name"/>
+                   <x-form.selectbox labelName="Provisional Diagnosis Group" required="required" name="RefProvisionalDiagnosisGroupId" id="RefProvisionalDiagnosisGroupId"
                                 col="col-md-12" class="selectpicker">
                                 @foreach($dx_group as $dx)
                                 <option value="{{$dx->RefProvisionalDiagnosisGroupId??''}}">

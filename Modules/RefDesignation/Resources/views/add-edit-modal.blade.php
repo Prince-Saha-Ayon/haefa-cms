@@ -28,7 +28,7 @@
 
                     <div class="row">
                         <div class="col-md-12 required">
-                            <x-form.selectbox labelName="WorkPlace" required="required" name="WorkPlaceId" id="WorkPlaceId" col="col-md-12" class="selectpicker">
+                            <x-form.selectbox labelName="Work Place" required="required" name="WorkPlaceId" id="WorkPlaceId" col="col-md-12" class="selectpicker">
                                 @foreach($workplaces as $workplace)
                                     <option value="{{$workplace->WorkPlaceId??''}}">{{$workplace->WorkPlaceName??""}}</option>
                                 @endforeach

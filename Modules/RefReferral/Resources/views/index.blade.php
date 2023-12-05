@@ -87,7 +87,7 @@
                 </div>
                 <!-- /entry heading -->
                 @if (permission('refreferral-add'))
-                <button class="btn btn-primary btn-sm" onclick="showFormModal('Add RefReferral','Save');removeId()">
+                <button class="btn btn-primary btn-sm" onclick="showFormModal('Add Referral','Save');removeId()">
                     <i class="fas fa-plus-square"></i> Add New
                  </button>
                 @endif

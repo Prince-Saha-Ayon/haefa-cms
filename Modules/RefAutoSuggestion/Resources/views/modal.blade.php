@@ -22,8 +22,8 @@
                      <input type="hidden" name="SortOrder" value="1" />
                   
 
-                    <x-form.textbox labelName="AutoSuggestion" name="AutoSuggestion" required="required" id="AutoSuggestion"  col="col-md-12"  placeholder="Enter AutoSuggestion"/>
-                   <x-form.selectbox labelName="AutoSuggestion Group" required="required" name="RefAutoSuggestionGroupId" id="RefAutoSuggestionGroupId"
+                    <x-form.textbox labelName="Auto Suggestion" name="AutoSuggestion" required="required" id="AutoSuggestion"  col="col-md-12"  placeholder="Enter Auto Suggestion"/>
+                   <x-form.selectbox labelName="Auto Suggestion Group" required="required" name="RefAutoSuggestionGroupId" id="RefAutoSuggestionGroupId"
                                 col="col-md-12" class="selectpicker">
                                 @foreach($sug_group as $sug)
                                 <option value="{{$sug->RefAutoSuggestionGroupId??''}}">

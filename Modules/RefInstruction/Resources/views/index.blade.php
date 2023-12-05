@@ -131,9 +131,9 @@
                                 </th>
                                 @endif
                                 <th>Sl</th>
-                                <th>InstructionCode</th>
-                                <th>InstructionInEnglish</th>
-                                <th>InstructionInBangla</th>
+                                <th>Instruction Code</th>
+                                <th>Instruction In English</th>
+                                <th>Instruction In Bangla</th>
                                 <th>Description</th>
                                 <!-- <th>Status</th> -->
                                 <th>Action</th>

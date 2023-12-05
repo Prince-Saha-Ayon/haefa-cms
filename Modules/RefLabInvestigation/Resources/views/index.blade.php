@@ -31,7 +31,7 @@
                 </div>
                 <!-- /entry heading -->
                 @if (permission('reflabinvestigation-add'))
-                <button class="btn btn-primary btn-sm" onclick="showFormModal('Add labinvestigation','Save');removeId()">
+                <button class="btn btn-primary btn-sm" onclick="showFormModal('Add lab investigation','Save');removeId()">
                     <i class="fas fa-plus-square"></i> Add New
                  </button>
                 @endif

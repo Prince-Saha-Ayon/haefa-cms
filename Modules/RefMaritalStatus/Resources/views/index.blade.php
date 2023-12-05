@@ -31,7 +31,7 @@
                 </div>
                 <!-- /entry heading -->
                 @if (permission('refmaritalstatus-add'))
-                <button class="btn btn-primary btn-sm" onclick="showFormModal('Add maritalstatus','Save');removeId()">
+                <button class="btn btn-primary btn-sm" onclick="showFormModal('Add marital status','Save');removeId()">
                     <i class="fas fa-plus-square"></i> Add New
                  </button>
                 @endif
@@ -48,8 +48,8 @@
                     <form id="form-filter">
                         <div class="row">
                             <div class="form-group col-md-4">
-                                <label for="name">MaritalStatus</label>
-                                <input type="text" class="form-control" name="name" id="name" placeholder="Enter MaritalStatus">
+                                <label for="name">Marital Status</label>
+                                <input type="text" class="form-control" name="name" id="name" placeholder="Enter Marital Status">
                             </div>
                             <div class="form-group col-md-8 pt-24">
                                <button type="button" class="btn btn-danger btn-sm float-right" id="btn-reset"

@@ -87,7 +87,7 @@
                 </div>
                 <!-- /entry heading -->
                 @if (permission('refchiefcomplain-add'))
-                <button class="btn btn-primary btn-sm" onclick="showFormModal('Add Refchiefcomplain','Save');removeId()">
+                <button class="btn btn-primary btn-sm" onclick="showFormModal('Add chief complain','Save');removeId()">
                     <i class="fas fa-plus-square"></i> Add New
                  </button>
                 @endif

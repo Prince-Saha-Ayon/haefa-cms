@@ -31,7 +31,7 @@
                 </div>
                 <!-- /entry heading -->
                 @if (permission('refprovisionaldiagnosisgroup-add'))
-                <button class="btn btn-primary btn-sm" onclick="showFormModal('Add provisionaldiagnosisgroup','Save');removeId()">
+                <button class="btn btn-primary btn-sm" onclick="showFormModal('Add provisional diagnosis group','Save');removeId()">
                     <i class="fas fa-plus-square"></i> Add New
                  </button>
                 @endif
@@ -48,8 +48,8 @@
                     <form id="form-filter">
                         <div class="row">
                             <div class="form-group col-md-4">
-                                <label for="name">ProvisionalDiagnosis Group</label>
-                                <input type="text" class="form-control" name="name" id="name" placeholder="Enter ProvisionalDiagnosisGroup">
+                                <label for="name">Provisional Diagnosis Group</label>
+                                <input type="text" class="form-control" name="name" id="name" placeholder="Enter Provisional Diagnosis Group">
                             </div>
                             <div class="form-group col-md-8 pt-24">
                                <button type="button" class="btn btn-danger btn-sm float-right" id="btn-reset"
@@ -75,9 +75,9 @@
                                 </th>
                                 @endif
                                 <th>Sl</th>
-                                <th>ProvisionalDiagnosis Group Code</th>
+                                <th>Provisional Diagnosis Group Code</th>
                                 <th>Category</th>
-                                <th>CommonTerm</th>
+                                <th>Common Term</th>
                                 <th>Action</th>
                             </tr>
                         </thead>

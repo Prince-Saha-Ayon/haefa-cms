@@ -31,7 +31,7 @@
                 </div>
                 <!-- /entry heading -->
                 @if (permission('reflabinvestigationgroup-add'))
-                <button class="btn btn-primary btn-sm" onclick="showFormModal('Add labinvestigationgroup','Save');removeId()">
+                <button class="btn btn-primary btn-sm" onclick="showFormModal('Add lab investigation group','Save');removeId()">
                     <i class="fas fa-plus-square"></i> Add New
                  </button>
                 @endif
@@ -48,8 +48,8 @@
                     <form id="form-filter">
                         <div class="row">
                             <div class="form-group col-md-4">
-                                <label for="name">LabInvestigationGroup</label>
-                                <input type="text" class="form-control" name="name" id="name" placeholder="Enter LabInvestigationGroup">
+                                <label for="name">Lab Investigation Group</label>
+                                <input type="text" class="form-control" name="name" id="name" placeholder="Enter Lab Investigation Group">
                             </div>
                             <div class="form-group col-md-8 pt-24">
                                <button type="button" class="btn btn-danger btn-sm float-right" id="btn-reset"
@@ -75,7 +75,7 @@
                                 </th>
                                 @endif
                                 <th>Sl</th>
-                                <th>LabInvestigation Group Code</th>
+                                <th>Lab Investigation Group Code</th>
                                 <th>Description</th>
                                 <th>Action</th>
                             </tr>

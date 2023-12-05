@@ -29,7 +29,7 @@ class RefSocialBehaviorController extends BaseController
     public function index()
     {
         if(permission('refsocialbehavior-access')){
-            $this->setPageData('RefSocialBehavior','RefSocialBehavior','fas fa-th-list');
+            $this->setPageData('Social Behavior','Social Behavior','fas fa-th-list');
             return view('refsocialbehavior::index');
         }else{
             return $this->unauthorized_access_blocked();

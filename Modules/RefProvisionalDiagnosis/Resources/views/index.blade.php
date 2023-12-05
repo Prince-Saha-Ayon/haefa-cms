@@ -49,8 +49,8 @@
                     <form id="form-filter">
                         <div class="row">
                             <div class="form-group col-md-4">
-                                <label for="name">ProvisionalDiagnosis Code</label>
-                                <input type="text" class="form-control" name="name" id="name" placeholder="Enter ProvisionalDiagnosis Code">
+                                <label for="name">Provisional Diagnosis Code</label>
+                                <input type="text" class="form-control" name="name" id="name" placeholder="Enter Provisional Diagnosis Code">
                             </div>
                             <div class="form-group col-md-8 pt-24">
                                <button type="button" class="btn btn-danger btn-sm float-right" id="btn-reset"
@@ -76,9 +76,9 @@
                                 </th>
                                 @endif
                                 <th>Sl</th>
-                                <th>ProvisionalDiagnosis Code</th>
-                                <th>ProvisionalDiagnosis Group</th>
-                                <th>ProvisionalDiagnosis Name</th>
+                                <th>Provisional Diagnosis Code</th>
+                                <th>Provisional Diagnosis Group</th>
+                                <th>Provisional Diagnosis Name</th>
                                 <th>Description</th>
                                 <th>Action</th>
                             </tr>

@@ -24,7 +24,7 @@
 
                     <x-form.textbox labelName="Lab Investigation Code" name="RefLabInvestigationCode" id="RefLabInvestigationCode" required="required" col="col-md-12"  placeholder="Enter Lab Investigation Code"/>
                     <x-form.textbox labelName="Investigation" required="required" name="Investigation" id="Investigation"  col="col-md-12"  placeholder="Enter Investigation"/>
-                   <x-form.selectbox labelName="LabInvestigation Group" required="required" name="RefLabInvestigationGroupId" id="RefLabInvestigationGroupId"
+                   <x-form.selectbox labelName="Lab Investigation Group" required="required" name="RefLabInvestigationGroupId" id="RefLabInvestigationGroupId"
                                 col="col-md-12" class="selectpicker">
                                 @foreach($inv_group as $inv)
                                 <option value="{{$inv->RefLabInvestigationGroupId??''}}">

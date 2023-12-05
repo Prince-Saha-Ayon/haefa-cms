@@ -31,7 +31,7 @@
                 </div>
                 <!-- /entry heading -->
                 @if (permission('refautosuggestiongroup-add'))
-                <button class="btn btn-primary btn-sm" onclick="showFormModal('Add autosuggestiongroup','Save');removeId()">
+                <button class="btn btn-primary btn-sm" onclick="showFormModal('Add auto suggestion group','Save');removeId()">
                     <i class="fas fa-plus-square"></i> Add New
                  </button>
                 @endif
@@ -48,8 +48,8 @@
                     <form id="form-filter">
                         <div class="row">
                             <div class="form-group col-md-4">
-                                <label for="name">AutoSuggestion Group Code</label>
-                                <input type="text" class="form-control" name="name" id="name" placeholder="Enter AutoSuggestion Group Code">
+                                <label for="name">Auto Suggestion Group Code</label>
+                                <input type="text" class="form-control" name="name" id="name" placeholder="Enter Auto Suggestion Group Code">
                             </div>
                             <div class="form-group col-md-8 pt-24">
                                <button type="button" class="btn btn-danger btn-sm float-right" id="btn-reset"
@@ -75,7 +75,7 @@
                                 </th>
                                 @endif
                                 <th>Sl</th>
-                                <th>AutoSuggestion Group Code</th>
+                                <th>Auto Suggestion Group Code</th>
                                 <th>Description</th>
                                 <th>Action</th>
                             </tr>
@@ -345,7 +345,7 @@ $(document).on('click', '.edit_data', function () {
                     backdrop: 'static',
                 });
                 $('#store_or_update_modal .modal-title').html(
-                    '<i class="fas fa-edit"></i> <span>Edit refautosuggestiongroup</span>');
+                    '<i class="fas fa-edit"></i> <span>Edit auto suggestion group</span>');
                 $('#store_or_update_modal #save-btn').text('Update');
 
             },

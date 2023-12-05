@@ -20,7 +20,7 @@
                     <div class="col-md-12">
                         <input type="hidden" name="MenstruationProductId" value="" id="MenstruationProductId"/>
                         <input type="hidden" name="SortOrder" value="8" />
-                        <x-form.textbox labelName="Menstruation Product Code" name="MenstruationProductCode" id="MenstruationProductCode" required="required" col="col-md-12" placeholder="Enter MenstruationProductCode"/>
+                        <x-form.textbox labelName="Menstruation Product Code" name="MenstruationProductCode" id="MenstruationProductCode" required="required" col="col-md-12" placeholder="Enter Menstruation Product Code"/>
                     </div>
                 </div>
                 

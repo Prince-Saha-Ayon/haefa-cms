@@ -28,7 +28,7 @@ class RefDepartmentController extends BaseController
     public function index()
     {
         if(permission('refdepartment-access')){
-            $this->setPageData('RefDepartment','RefDepartment','fas fa-th-list');
+            $this->setPageData('Department','Department','fas fa-th-list');
             $data['workplaces'] = DB::select("SELECT * FROM WorkPlace");  
             return view('refdepartment::index',$data);
         }else{

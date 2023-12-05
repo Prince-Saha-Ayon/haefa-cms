@@ -88,7 +88,7 @@
                 <!-- /entry heading -->
 
                 @if (permission('refdepartment-add'))
-                <button class="btn btn-primary btn-sm" onclick="showFormModal('Add RefDepartment','Save');removeId()">
+                <button class="btn btn-primary btn-sm" onclick="showFormModal('Add Department','Save');removeId()">
                     <i class="fas fa-plus-square"></i> Add New
                  </button>
                 @endif
@@ -105,8 +105,8 @@
                     <form id="form-filter">
                         <div class="row">
                             <div class="form-group col-md-4">
-                                <label for="name">DepartmentCode</label>
-                                <input type="text" class="form-control" name="name" id="name" placeholder="Enter DepartmentCode">
+                                <label for="name">Department Code</label>
+                                <input type="text" class="form-control" name="name" id="name" placeholder="Enter Department Code">
                             </div>
                             <div class="form-group col-md-8 pt-24">
                                <button type="button" class="btn btn-danger btn-sm float-right" id="btn-reset"
@@ -132,7 +132,7 @@
                                 </th>
                                 @endif
                                 <th>Sl</th>
-                                <th>DepartmentCode</th>
+                                <th>Department Code</th>
                                 <th>Description</th>
                                 <!-- <th>Status</th> -->
                                 <th>Action</th>

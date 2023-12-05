@@ -29,7 +29,7 @@ class RefReferralController extends BaseController
     public function index()
     {
         if(permission('refreferral-access')){
-            $this->setPageData('RefReferral','RefReferral','fas fa-th-list');
+            $this->setPageData('Referral','Referral','fas fa-th-list');
             return view('refreferral::index');
         }else{
             return $this->unauthorized_access_blocked();

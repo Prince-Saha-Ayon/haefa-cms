@@ -30,7 +30,7 @@ class RefProvisionalDiagnosisController extends BaseController
         if(permission('refprovisionaldiagnosis-access')){
             $dx_group=RefProvisionalDiagnosisGroup::get();
           
-            $this->setPageData('ProvisionalDiagnosis','ProvisionalDiagnosis','fas fa-th-list');
+            $this->setPageData('Provisional Diagnosis','Provisional Diagnosis','fas fa-th-list');
             return view('refprovisionaldiagnosis::index',compact('dx_group'));
         }else{
             return $this->unauthorized_access_blocked();

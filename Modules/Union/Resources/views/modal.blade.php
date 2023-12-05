@@ -19,7 +19,7 @@
                 <div class="row">
                     <div class="col-md-12">
                         <div class="form-group col-md-12">
-                            <label for="upazilla_id">Upazilla</label>
+                            <label for="upazilla_id">Upazilla<span class="text-danger">*</span></label>
                             <select name="upazilla_id" id="upazilla_id" class="form-control selectpicker" required="required" data-live-search="true" >
                                 <option value=""> Select Please</option>
                                 @foreach ($upazilas as $upazila)

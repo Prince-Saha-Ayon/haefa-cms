@@ -26,7 +26,7 @@ class RefLabInvestigationGroupController extends BaseController
     public function index()
     {
         if(permission('reflabinvestigationgroup-access')){
-            $this->setPageData('LabInvestigation Group','LabInvestigation Group','fas fa-th-list');
+            $this->setPageData('Lab Investigation Group','Lab Investigation Group','fas fa-th-list');
             return view('reflabinvestigationgroup::index');
         }else{
             return $this->unauthorized_access_blocked();

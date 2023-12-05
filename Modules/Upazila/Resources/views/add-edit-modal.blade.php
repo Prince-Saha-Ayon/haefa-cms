@@ -36,7 +36,7 @@
                         <input type="hidden" name="url" id="url" class="form-control " value="null" placeholder="Enter url">
                         <input type="hidden" name="bn_name" id="bn_name" class="form-control " value="bn_name" placeholder="Enter bn_name">
                         <div class="form-group col-md-12">
-                            <label for="name">Upazila Name</label>
+                            <label for="name">Upazila Name<span class="text-danger">*</span></label>
                             <input type="text" name="name" id="name"  required="required" class="form-control"  placeholder="Enter upazila name">
                         </div>
                     </div>

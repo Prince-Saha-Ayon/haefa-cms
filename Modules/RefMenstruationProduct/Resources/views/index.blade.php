@@ -87,7 +87,7 @@
                 </div>
                 <!-- /entry heading -->
                 @if (permission('refmenstruationproduct-add'))
-                <button class="btn btn-primary btn-sm" onclick="showFormModal('Add Ref Menstruation Product','Save');removeId()">
+                <button class="btn btn-primary btn-sm" onclick="showFormModal('Add Menstruation Product','Save');removeId()">
                     <i class="fas fa-plus-square"></i> Add New
                  </button>
                 @endif
@@ -131,7 +131,7 @@
                                 </th>
                                 @endif
                                 <th>Sl</th>
-                                <th>MenstruationProductCode</th>
+                                <th>Menstruation Product Code</th>
                                 <th>Description</th>
                                 <!-- <th>Status</th> -->
                                 <th>Action</th>
