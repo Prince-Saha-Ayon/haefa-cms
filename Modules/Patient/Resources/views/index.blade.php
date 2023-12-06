@@ -156,6 +156,9 @@
                                 </tbody>
                             @endif
                         </table>
+                        <div class="d-flex justify-content-end">
+                            <div >{{ $patients->links('pagination::bootstrap-4') }}</div>
+                        </div>
 
                     
 
@@ -183,7 +186,7 @@ var table;
 $(document).ready(function(){
 
 $('#dataTable').DataTable({
-    pagingType: 'full_numbers',
+    paging: false,
     dom: 'Bfrtip',
     ordering:false,
     columnDefs: [
