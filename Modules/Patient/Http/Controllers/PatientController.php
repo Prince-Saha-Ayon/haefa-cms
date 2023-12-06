@@ -31,7 +31,7 @@ class PatientController extends BaseController
     public function index()
     {
         if(permission('patient-access')){
-            $patients=Patient::get();
+            $patients=Patient::paginate(15);
             $this->setPageData('Patient','Patient','fas fa-th-list');
             return view('patient::index',compact('patients'));
         }else{

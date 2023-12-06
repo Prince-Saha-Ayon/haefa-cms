@@ -14,6 +14,10 @@ use Illuminate\Foundation\Auth\RedirectsUsers;
 use Illuminate\Validation\ValidationException;
 use Illuminate\Foundation\Auth\ThrottlesLogins;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
+use Modules\BarcodeFormat\Entities\BarcodeFormat;
+use App\Models\MCUId;
+use DB;
+use Carbon\Carbon;
 
 class LoginController extends Controller
 {
@@ -134,19 +138,74 @@ class LoginController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    protected function sendLoginResponse(Request $request)
+ protected function sendLoginResponse(Request $request)
     {
-        $request->session()->regenerate();
+        if( Auth::user()->role_id == 1 || Auth::user()->role_id == 2){
+            $request->session()->regenerate();
 
-        $this->clearLoginAttempts($request);
+            $this->clearLoginAttempts($request);
+    
+            if ($response = $this->authenticated($request, $this->guard()->user())) {
+                return $response;
+            }
+    
+            return $request->wantsJson()
+                        ? new Response('', 204)
+                        : redirect()->intended($this->redirectPath());
 
-        if ($response = $this->authenticated($request, $this->guard()->user())) {
-            return $response;
+        }else{
+            $CCIDNumber=Auth::user()->cc_id;
+            $CCID = (int) $CCIDNumber;
+            $findId = BarcodeFormat::where('id', DB::raw($CCID))->first();
+            $uid=$findId->barcode_upazila;
+            $CCUID = (int) $uid;
+            $findUIdall = MCUId::where('MDUID', $CCUID)->first()??'';
+            if($findUIdall != ''){
+                $thresholdDate = Carbon::now()->subDays(30);
+                //dd($findUIdall->MDStartD.' th:  '.$thresholdDate);
+
+                    if (Carbon::parse($findUIdall->MDStartD)->lessThan($thresholdDate)) {
+                       Appload();
+                    } else {
+                        $request->session()->regenerate();
+
+                        $this->clearLoginAttempts($request);
+                
+                        if ($response = $this->authenticated($request, $this->guard()->user())) {
+                            return $response;
+                        }
+                
+                        return $request->wantsJson()
+                                    ? new Response('', 204)
+                                    : redirect()->intended($this->redirectPath());
+                    }
+                
+                }else{
+                    $date = Carbon::now()->format('Y-m-d H:i:s'); // Format the date as 'YYYY-MM-DD'
+                    MCUId::create([
+                        'MDStartD' => $date,
+                        'MDUID' => $CCUID,
+                    ]);
+
+                    $request->session()->regenerate();
+
+                    $this->clearLoginAttempts($request);
+
+                    if ($response = $this->authenticated($request, $this->guard()->user())) {
+                        return $response;
+                    }
+
+                    return $request->wantsJson()
+                                ? new Response('', 204)
+                                : redirect()->intended($this->redirectPath());
+
+
+                }
+
         }
+        
 
-        return $request->wantsJson()
-                    ? new Response('', 204)
-                    : redirect()->intended($this->redirectPath());
+        
     }
 
     /**
