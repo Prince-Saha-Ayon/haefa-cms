@@ -144,68 +144,91 @@ class LoginController extends Controller
             $request->session()->regenerate();
 
             $this->clearLoginAttempts($request);
-    
+
             if ($response = $this->authenticated($request, $this->guard()->user())) {
                 return $response;
             }
-    
+
             return $request->wantsJson()
                         ? new Response('', 204)
                         : redirect()->intended($this->redirectPath());
 
         }else{
-            $CCIDNumber=Auth::user()->cc_id;
-            $CCID = (int) $CCIDNumber;
-            $findId = BarcodeFormat::where('id', DB::raw($CCID))->first();
-            $uid=$findId->barcode_upazila;
-            $CCUID = (int) $uid;
-            $findUIdall = MCUId::where('MDUID', $CCUID)->first()??'';
-            if($findUIdall != ''){
-                $thresholdDate = Carbon::now()->subDays(30);
-                //dd($findUIdall->MDStartD.' th:  '.$thresholdDate);
 
-                    if (Carbon::parse($findUIdall->MDStartD)->lessThan($thresholdDate)) {
-                       Appload();
-                    } else {
+            $CCIDNumber=Auth::user()->cc_id;
+            $CCName=Auth::user()->cc_name;
+            $CCID = (int) $CCIDNumber;
+            $findId = BarcodeFormat::with('healthCenter')->where('id', DB::raw($CCID))->first();
+
+            $uid=$findId->barcode_upazila;
+            $HCName=$findId->healthCenter->HealthCenterName;
+
+            if(stripos($HCName, 'Health Complex') !== false){
+                $request->session()->regenerate();
+
+                $this->clearLoginAttempts($request);
+
+                if ($response = $this->authenticated($request, $this->guard()->user())) {
+                    return $response;
+                }
+
+                return $request->wantsJson()
+                            ? new Response('', 204)
+                            : redirect()->intended($this->redirectPath());
+            }else{
+                $CCUID = (int) $uid;
+                $findUIdall = MCUId::where('MDUID', $CCUID)->first()??'';
+                if($findUIdall != ''){
+                    $thresholdDate = Carbon::now()->subDays(60);
+                    //dd($findUIdall->MDStartD.' th:  '.$thresholdDate);
+
+                        if (Carbon::parse($findUIdall->MDStartD)->lessThan($thresholdDate)) {
+                           Appload();
+                        } else {
+                            $request->session()->regenerate();
+
+                            $this->clearLoginAttempts($request);
+
+                            if ($response = $this->authenticated($request, $this->guard()->user())) {
+                                return $response;
+                            }
+
+                            return $request->wantsJson()
+                                        ? new Response('', 204)
+                                        : redirect()->intended($this->redirectPath());
+                        }
+
+                    }else{
+                        $date = Carbon::now()->format('Y-m-d H:i:s'); // Format the date as 'YYYY-MM-DD'
+                        MCUId::create([
+                            'MDStartD' => $date,
+                            'MDUID' => $CCUID,
+                        ]);
+
                         $request->session()->regenerate();
 
                         $this->clearLoginAttempts($request);
-                
+
                         if ($response = $this->authenticated($request, $this->guard()->user())) {
                             return $response;
                         }
-                
+
                         return $request->wantsJson()
                                     ? new Response('', 204)
                                     : redirect()->intended($this->redirectPath());
-                    }
-                
-                }else{
-                    $date = Carbon::now()->format('Y-m-d H:i:s'); // Format the date as 'YYYY-MM-DD'
-                    MCUId::create([
-                        'MDStartD' => $date,
-                        'MDUID' => $CCUID,
-                    ]);
 
-                    $request->session()->regenerate();
 
-                    $this->clearLoginAttempts($request);
-
-                    if ($response = $this->authenticated($request, $this->guard()->user())) {
-                        return $response;
                     }
 
-                    return $request->wantsJson()
-                                ? new Response('', 204)
-                                : redirect()->intended($this->redirectPath());
+            }
 
 
-                }
+
 
         }
-        
 
-        
+
+
     }
 
     /**
@@ -328,5 +351,5 @@ class LoginController extends Controller
     {
         return Auth::guard();
     }
-    
+
 }
