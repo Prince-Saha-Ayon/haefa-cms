@@ -4,6 +4,7 @@
     {{ $page_title }}
 @endsection
 <style>
+
 .dropdown-menu {
   position: fixed;
   top: 0 !important;
@@ -14,6 +15,13 @@
   max-height: 155.382px;
   min-height: 155px;
   transform: translate3d(0px, 0px, 0px) !important; /* Remove unnecessary transform */
+}
+.custom-menu{
+    transform: translate3d(-152px, 72px, 0px) !important;
+    overflow: hidden;
+}
+.custom-menu > .dropdown-item{
+    padding: 4px 15px;
 }
 
 </style>
