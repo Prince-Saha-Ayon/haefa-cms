@@ -20,6 +20,9 @@
     transform: translate3d(-152px, 72px, 0px) !important;
     overflow: hidden;
 }
+.custom-menu > .dropdown-item{
+    padding: 4px 15px;
+}
 
 </style>
 @section('content')
