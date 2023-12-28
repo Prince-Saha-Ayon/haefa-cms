@@ -41,6 +41,7 @@ use Illuminate\Support\Str;
 use Modules\Patient\Entities\Address;
 use Modules\Report\Entities\SyncRecord;
 use Modules\Report\Entities\Union;
+use Modules\Report\Entities\ChiefComplain;
 use Modules\Report\Entities\Upazilla;
 use Modules\Report\Entities\FollowUpDate;
 use Illuminate\Support\Facades\Log; 
@@ -175,6 +176,41 @@ public function diseaseindex()
         $this->setPageData('Number of Patients Diagnosed with DM','Number of Patients Diagnosed with DM','fas fa-th-list');
         return view('report::diabatesstatus',compact('branches'));
     }
+
+     public function hcanalysisindex(){
+ 
+       $branches=BarcodeFormat::with('healthCenter')->get(); 
+       $regs=Patient::get('RegistrationId');
+       $complains=ChiefComplain::get(['CCCode']);
+
+        $this->setPageData('Number of Patients Diagnosed with DM','Number of Patients Diagnosed with DM','fas fa-th-list');
+        return view('report::hcanalysis',compact('branches','regs','complains'));
+    }
+    public function hcanalysisreport(Request $request){
+        $first_date = $request->fdate;
+        $last_date = $request->ldate;
+        $barcode_prefix = $request->hc_id;
+        $starting_age = $request->starting_age;
+        $ending_age = $request->ending_age;
+        $hcname=HealthCenter::where('HealthCenterCode',$barcode_prefix )->first('HealthCenterName');
+        $data_dump = ViewDumpData::whereBetween(DB::raw('CONVERT(date, CollectionDates)'), [$first_date, $last_date])
+            ->where(function ($query) use ($barcode_prefix, $starting_age, $ending_age) {
+                if ($barcode_prefix) {
+                    $query->where('RegistrationId', 'LIKE', $barcode_prefix . '%');
+                }
+
+                if ($starting_age && $ending_age) {
+                    $query->whereBetween('Age', [$starting_age, $ending_age]);
+                }
+            })->get();
+
+        return response()->json([
+            'data_dump' => $data_dump,
+            'healthcenter' => $hcname
+        ]);
+
+    }
+
 
       public function HyperTensionReport(Request $request){
  
