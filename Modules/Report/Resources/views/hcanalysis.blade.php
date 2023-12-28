@@ -5,8 +5,23 @@
 @endsection
 
 @push('stylesheet')
+<style>
+    .custom-tooltip{
+        color: black !important;
+    }
+    .custom-tooltip-age{
+    position: relative;
+    display: inline-block;
+    padding: 0.8rem 2rem;
+    background-color: #f2f2f2;
+    font-size: 1.8rem;
+    color: black !important;
+    box-shadow: 0 0 5px 5px rgba(0, 0, 0, 0.03);
+    border-radius: 0.4rem;
+    z-index: 1;
+    }
 
-
+</style>
 @endpush
 
 @section('content')
@@ -65,13 +80,18 @@
                                     @endforeach
                                 </select>
                             </div>
+                             <div class="form-group col-md-3">
+                                <label for="name">Age Range</label>
+                                <div id="ageRange" class="mt-2"></div>
+                            </div>
+                      
                          
 
-                            <div class="col-md-2 warning-searching invisible" id="warning-searching">
+                            <div class="col-md-1 warning-searching invisible" id="warning-searching">
                                 <span class="text-danger" id="warning-message">Searching...Please Wait</span>
                                 <span class="spinner-border text-danger"></span>
                             </div>
-                            <div class="form-group col-md-4 pt-24">
+                            <div class="form-group col-md-2 pt-24">
                                     <button type="button" class="btn btn-danger btn-sm float-right" id="btn-reset"
                                     data-toggle="tooltip" data-placement="top" data-original-title="Reset Data">
                                     <i class="fas fa-redo-alt"></i>
@@ -84,7 +104,7 @@
                             </div>
                         </div>
                         <div class="row">
-                               <div class="form-group col-md-3">
+                            <div class="form-group col-md-3">
                                 <label for="name">Starting Age</label>
                                 <input type="text" class="form-control" name="starting_age" id="starting_age" placeholder="Enter starting range">
                             </div>
@@ -114,6 +134,19 @@
                                     @endforeach
                                 </select>
                             </div>
+                          <div class="form-group col-md-4">
+                                <label for="name">Systolic Range</label>
+                                <div id="systolicRange"></div>
+                               
+                         </div>
+                            {{-- <div class="form-group col-md-3">
+                                <label for="name">Systolic Start</label>
+                                <input type="text" class="form-control" name="sys_start" id="sys_start" placeholder="Enter Systolic Start range">
+                            </div>
+                            <div class="form-group col-md-3">
+                                <label for="name">Systolic End</label>
+                                <input type="text" class="form-control" name="sys_end" id="sys_end" placeholder="Enter Systolic End range">
+                            </div> --}}
                       
                            
                         </div>
@@ -213,6 +246,9 @@
 
 <script src="js/dataTables.buttons.min.js"></script>
 <script src="js/buttons.html5.min.js"></script>
+
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+<link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 <script>
 
 // disease rate by date range start
@@ -256,7 +292,6 @@
     $('.daterangepicker-start').click(function() {
         $('.daterangepicker').show();
     });
-
 
     var table;
     var healthcenter='';
@@ -379,6 +414,175 @@
             // Use DataTables API to search and filter the table
             table.search(selectedValue).draw();
     });
+    $("#ageRange").slider({
+        range: true,
+        min: 0,
+        max: 150,
+        values: [0, 150],
+        slide: function (event, ui) {
+            // Update tooltips
+            updateTooltipsAge(ui.values[0], ui.values[1]);
+            
+        }
+    });
+
+    // Function to update tooltips for age slider
+    function updateTooltipsAge(start, end) {
+    // Update tooltips for both handles
+    $("#ageRange .ui-slider-handle").each(function (index) {
+        // Check if custom-tooltip div already exists
+        var tooltipDiv = $(this).find(".custom-tooltip-age");
+        if (tooltipDiv.length === 0) {
+            // Append a new custom-tooltip div
+            $(this).append("<div class='custom-tooltip-age'></div>");
+        }
+
+        // Update the text content of the custom-tooltip
+        tooltipDiv.text(index === 0 ? start : end);
+
+        // Position the tooltip
+        positionTooltipAge(index);
+    });
+}
+
+    // Function to position tooltips
+    function positionTooltipAge(index) {
+        $(".custom-tooltip-age").eq(index).position({
+            my: "center bottom",
+            at: "center top",
+            of: $("#ageRange .ui-slider-handle").eq(index)
+        });
+    }
+
+    // Initial tooltips setup
+    updateTooltips($("#ageRange").slider("values", 0), $("#ageRange").slider("values", 1));
+    // Add event listener for keyup on the input fields
+
+ $("#systolicRange").slider({
+        range: true,
+        min: 0,
+        max: 250,
+        values: [0, 250],
+        slide: function (event, ui) {
+            // Update tooltips
+            updateTooltips(ui.values[0], ui.values[1]);
+
+            // Your custom search function and DataTable logic here...
+            // Example: Update the console with the selected range
+            console.log("Selected Range:", ui.values[0], "-", ui.values[1]);
+
+            // Push custom search function
+            $.fn.dataTable.ext.search.push(
+                function (settings, data, dataIndex) {
+                    var sysValue = parseFloat(data[12]) || 0;
+
+                    if ((isNaN(ui.values[0]) && isNaN(ui.values[1])) ||
+                        (ui.values[0] <= sysValue && sysValue <= ui.values[1])) {
+                        return true;
+                    }
+
+                    return false;
+                }
+            );
+
+            // Draw the table
+            table.draw();
+
+            // Pop the custom search function
+            $.fn.dataTable.ext.search.pop();
+        }
+});
+
+    // Function to update tooltips
+    function updateTooltips(start, end) {
+    // Update tooltips for both handles
+    $("#systolicRange .ui-slider-handle").each(function (index) {
+        // Check if custom-tooltip div already exists
+        var tooltipDiv = $(this).find(".custom-tooltip");
+        if (tooltipDiv.length === 0) {
+            // Append a new custom-tooltip div
+            $(this).append("<div class='custom-tooltip'></div>");
+        }
+
+        // Update the text content of the custom-tooltip
+        tooltipDiv.text(index === 0 ? start : end);
+
+        // Position the tooltip
+        positionTooltip(index);
+    });
+}
+
+    // Function to position tooltips
+    function positionTooltip(index) {
+        $(".custom-tooltip").eq(index).position({
+            my: "center bottom",
+            at: "center top",
+            of: $("#systolicRange .ui-slider-handle").eq(index)
+        });
+    }
+
+    // Initial tooltips setup
+    updateTooltips($("#systolicRange").slider("values", 0), $("#systolicRange").slider("values", 1));
+   
+
+// $("#systolicRange").slider({
+//         range: true,
+//         min: 0,
+//         max: 250,
+//         values: [0, 250],
+//         slide: function (event, ui) {
+//             // Update tooltips
+//             updateTooltips(ui.values[0], ui.values[1]);
+
+//             // Your custom search function and DataTable logic here...
+//             // Example: Update the console with the selected range
+//             console.log("Selected Range:", ui.values[0], "-", ui.values[1]);
+
+//             // Push custom search function
+//             $.fn.dataTable.ext.search.push(
+//                 function (settings, data, dataIndex) {
+//                     var sysValue = parseFloat(data[12]) || 0;
+
+//                     if ((isNaN(ui.values[0]) && isNaN(ui.values[1])) ||
+//                         (ui.values[0] <= sysValue && sysValue <= ui.values[1])) {
+//                         return true;
+//                     }
+
+//                     return false;
+//                 }
+//             );
+
+//             // Draw the table
+//             table.draw();
+
+//             // Pop the custom search function
+//             $.fn.dataTable.ext.search.pop();
+//         }
+// });
+
+//     // Function to update tooltips
+//     function updateTooltips(start, end) {
+//         // Destroy existing tooltips
+//         $("#systolicRange .ui-slider-handle").each(function () {
+//             if ($(this).data('ui-tooltip')) {
+//                 $(this).tooltip("destroy");
+//             }
+//         });
+
+//         // Add tooltips to handles
+//         $("#systolicRange .ui-slider-handle").each(function (index) {
+//             $(this).attr("title", index === 0 ? start : end).tooltip({
+//                 position: { my: "center bottom", at: "center top" },
+//                 tooltipClass: "custom-tooltip",
+//                 content: function () {
+//                     return $(this).attr("title");
+//                 }
+//             });
+//         });
+//     }
+
+//     // Initial tooltips setup
+//     updateTooltips($("#systolicRange").slider("values", 0), $("#systolicRange").slider("values", 1));
    
 
      $('#search').click(function () {
@@ -387,8 +591,9 @@
         const parts = daterange.split(" - ");
         const fdate = parts[0];
         const ldate = parts[1];
-        const starting_age = $('#starting_age').val();
-        const ending_age = $('#ending_age').val();
+      
+        var starting_age = $("#ageRange").slider("values", 0);
+        var ending_age = $("#ageRange").slider("values", 1);
     
 
         $.ajax({
