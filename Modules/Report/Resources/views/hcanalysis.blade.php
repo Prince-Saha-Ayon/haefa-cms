@@ -104,21 +104,44 @@
                             </div>
                         </div>
                         <div class="row">
-                            <div class="form-group col-md-3">
-                                <label for="name">Starting Age</label>
-                                <input type="text" class="form-control" name="starting_age" id="starting_age" placeholder="Enter starting range">
-                            </div>
-                            <div class="form-group col-md-3">
-                                <label for="name">Ending Age</label>
-                                <input type="text" class="form-control" name="ending_age" id="ending_age" placeholder="Enter ending range">
-                            </div>
+                            
                             <div class="form-group col-md-3">
                                 <label for="name">Registration</label>
 
-                                <select class="selectpicker" data-live-search="true" name="newhc_id" id="newhc_id">
-                                     <option value="">Select Branch</option>
+                                <select class="selectpicker"  data-live-search="true" name="reg_id" id="reg_id">
+                                     <option value="">Select Patient</option>
                                     @foreach($regs as $reg)
                                     <option value="{{$reg->RegistrationId}}">{{$reg->RegistrationId}}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                             <div class="form-group col-md-3">
+                                <label for="name">Complain</label>
+
+                                <select class="selectpicker" multiple data-live-search="true" name="complain_id[]" id="complain_id">
+                                     <option value="">Select Complain</option>
+                                    @foreach($complains as $complain)
+                                    <option value="{{$complain->CCCode}}">{{$complain->CCCode}}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                           <div class="form-group col-md-3">
+                                <label for="illness_id">Illnesses</label>
+                                <select class="selectpicker" multiple data-live-search="true" name="illness_id[]" id="illness_id">
+                                    <option value="">Select Illness</option>
+                                    @foreach($illnesses as $illness)
+                                        <option value="{{$illness->IllnessCode}}">{{$illness->IllnessCode}}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+
+                             <div class="form-group col-md-3">
+                                <label for="name">Medicine</label>
+
+                                <select class="selectpicker" multiple data-live-search="true" name="medicine_id[]" id="medicine_id">
+                                     <option value="">Select Medicines</option>
+                                    @foreach($drugs as $drug)
+                                    <option value="{{$drug->DrugCode}}">{{$drug->DrugCode}}</option>
                                     @endforeach
                                 </select>
                             </div>
@@ -127,12 +150,7 @@
                           <div class="form-group col-md-3">
                                 <label for="name">Complain</label>
 
-                                <select class="selectpicker" data-live-search="true" name="complain_id" id="complain_id">
-                                     <option value="">Select Complain</option>
-                                    @foreach($complains as $complain)
-                                    <option value="{{$complain->CCCode}}">{{$complain->CCCode}}</option>
-                                    @endforeach
-                                </select>
+                                
                             </div>
                           <div class="form-group col-md-4">
                                 <label for="name">Systolic Range</label>
@@ -208,6 +226,7 @@
                                 <th>ProvisionalDiagnosis</th>
                                 <th>TreatmentSuggestion</th>
                                 <th>DiagnosticSuggestion</th>
+                                <th>PatientIllness</th>
                                 <th>FollowUpDate</th>
                                
                                 
@@ -317,7 +336,7 @@
         orderCellsTop: true,
         ordering:false,
         columnDefs: [
-            { targets: [ 6, 5,8, 9, 10, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25,26, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51,52,53], visible: false }, // Hide the columns
+            { targets: [ 6,7, 5,8, 9, 10,12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25 ,27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47,48,49,50,52,54], visible: false }, // Hide the columns
         ],
         
          buttons: [
@@ -401,19 +420,71 @@
             },
         ],
     });
-    $('#newhc_id').on('change', function () {
-            // Get the selected value
-            var selectedValue = $(this).val();
-
-            // Use DataTables API to search and filter the table
-            table.search(selectedValue).draw();
-    });
+    
     $('#complain_id').on('change', function () {
          var selectedValue = $(this).val();
 
             // Use DataTables API to search and filter the table
             table.search(selectedValue).draw();
     });
+    $('#medicine_id').on('change', function () {
+         var selectedValue = $(this).val();
+
+            // Use DataTables API to search and filter the table
+            table.search(selectedValue).draw();
+    });
+    
+    var currentIllnessFilter = [];
+    var currentRegIdFilter = '';
+    var currentComplainFilter=[];
+
+// Function to apply all filters
+    function applyFilters() {
+        $.fn.dataTable.ext.search.push(
+            function (settings, data, dataIndex) {
+                var illnessString = data[53]; // Adjust the index as per your table's structure
+                var regString = data[2]; // Adjust the index as per your table's structure
+                var complainString = data[26]; // Adjust the index as per your table's structure
+                console.log(complainString)
+
+                // Check illness filter
+                var illnessMatch = currentIllnessFilter.every(function(illness) {
+                    return illnessString.includes("IllnessCode:" + illness);
+                });
+
+                 var complainMatch = currentComplainFilter.every(function(complain) {
+                    return complainString.includes("Chief Complain:" + complain);
+                });
+           
+                // Check registration ID filter
+                var regIdMatch = !currentRegIdFilter || regString.includes(currentRegIdFilter);
+
+                return illnessMatch && complainMatch && regIdMatch  ;
+            }
+        );
+
+        table.draw();
+        $.fn.dataTable.ext.search.pop();
+    }
+
+// Event listener for illness filter
+    $('#illness_id').on('change', function () {
+        currentIllnessFilter = $(this).val() || [];
+        applyFilters();
+    });
+
+    // Event listener for registration ID filter
+    $('#reg_id').on('change', function () {
+        currentRegIdFilter = $(this).val();
+        applyFilters();
+    });
+     $('#complain_id').on('change', function () {
+        currentComplainFilter = $(this).val() || [];
+        applyFilters();
+    });
+
+
+
     $("#ageRange").slider({
         range: true,
         min: 0,
@@ -678,6 +749,7 @@
                         result.ProvisionalDiagnosis || "-", // Handle missing data
                         result.PrescribedDrugs || "-", // Handle missing data
                         result.DiagnosticSuggestion || "-", // Handle missing data
+                        result.PatientIllness || "-", // Handle missing data
                         result.FollowUpdate || "-", // Handle missing data
 
 
