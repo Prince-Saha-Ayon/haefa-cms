@@ -133,25 +133,27 @@ $(document).ready(function(){
             "data": function (data) {
                 data.name = $("#form-filter #name").val();
                 data._token    = _token;
+                console.log(data);
             }
         },
-        "columnDefs": [{
-                @if (permission('bformat-bulk-delete'))
-                "targets": [0,4],
-                @else
-                "targets": [3],
-                @endif
-                "orderable": false,
-                "className": "text-center"
-            },
-            {
-                @if (permission('bformat-bulk-delete'))
-                "targets": [1,3],
-                @else
-                "targets": [0,2],
-                @endif
-                "className": "text-center"
-            }
+        "columnDefs": [
+            // {
+            //     @if (permission('bformat-bulk-delete'))
+            //     "targets": [0,4],
+            //     @else
+            //     "targets": [3],
+            //     @endif
+            //     "orderable": false,
+            //     "className": "text-center"
+            // },
+            // {
+            //     @if (permission('bformat-bulk-delete'))
+            //     "targets": [1,3],
+            //     @else
+            //     "targets": [0,2],
+            //     @endif
+            //     "className": "text-center"
+            // }
         ],
         "dom": "<'row'<'col-sm-12 col-md-6'l><'col-sm-12 col-md-6' <'float-right'B>>>" +
             "<'row'<'col-sm-12'tr>>" +
