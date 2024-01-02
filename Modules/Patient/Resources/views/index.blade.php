@@ -106,9 +106,32 @@
 
             <!-- Card -->
             <div class="dt-card">
+               
+              
 
                 <!-- Card Body -->
                 <div class="dt-card__body">
+                <form action="{{ route('patient.searchid') }}" method="POST">
+                <div class="row" >
+                    @csrf
+                      <div class="form-group col-md-4">
+                                <label for="name">Search Patient</label>
+                                <input type="text" class="form-control" name="patient_id" id="patient_id" placeholder="Enter Patient ID">
+                            </div>
+                            <div class="form-group col-md-2 pt-24">
+                                <button type="button" class="btn btn-danger btn-sm float-right" id="btn-reset"
+                               data-toggle="tooltip" data-placement="top" data-original-title="Reset Data">
+                                   <i class="fas fa-redo-alt"></i>
+                                </button>
+                               <button type="submit" class="btn btn-primary btn-sm float-right mr-2" id="patient-search"
+                               data-toggle="tooltip" data-placement="top" data-original-title="Filter Data">
+                                   <i class="fas fa-search"></i>
+                                </button>
+                      </div>
+                   </div>
+                </form>
+
+                   
 
                     
                     
@@ -133,10 +156,14 @@
                             </thead>
                             @if($patients ?? '')
                                 <tbody>
+                                @php
+                                    $currentPage = $patients->currentPage();
+                                    $start = ($currentPage - 1) * $patients->perPage() + 1;
+                                @endphp
                                 @foreach($patients as $result)
                                     <tr>
 
-                                        <td>{{$loop->iteration}}</td>
+                                        <td>{{ $start++ }}</td>
                                         <td>{{$result->RegistrationId}}</td>
                                         <td>{{$result->GivenName}} {{$result->FamilyName}}</td>
                                         <td>{{$result->Age}}</td>
@@ -156,8 +183,21 @@
                                 </tbody>
                             @endif
                         </table>
-                        <div class="d-flex justify-content-end">
-                            <div >{{ $patients->links('pagination::bootstrap-4') }}</div>
+                       <div class="d-flex justify-content-between">
+                            <div>
+                                @if ($patients->total() > 0)
+                                    @php
+                                        $start = ($patients->currentPage() - 1) * $patients->perPage() + 1;
+                                        $end = $start + $patients->count() - 1;
+                                    @endphp
+                                    Showing {{ $start }} to {{ $end }} of {{ $patients->total() }} entries
+                                @else
+                                    No entries found
+                                @endif
+                            </div>
+                            <div>
+                                {{ $patients->links('pagination::bootstrap-4') }}
+                            </div>
                         </div>
 
                     
@@ -187,8 +227,9 @@ $(document).ready(function(){
 
 $('#dataTable').DataTable({
     paging: false,
-    dom: 'Bfrtip',
+    dom: 't',
     ordering:false,
+    bFilter:false,
     columnDefs: [
         { targets: [5,6,7], visible: false }, // Hide the columns
     ],
@@ -293,8 +334,8 @@ $('#dataTable').DataTable({
     });
 
     $('#btn-reset').click(function () {
-        $('#form-filter')[0].reset();
-        table.ajax.reload();
+        
+        window.location.href = "{{ route('patient') }}";
     });
 
     $(document).on('click', '#save-btn', function () {
@@ -310,6 +351,19 @@ $('#dataTable').DataTable({
         }
         store_or_update_data(table, method, url, formData);
     });
+
+
+    // document.addEventListener('DOMContentLoaded', function() {
+    // var resetButton = document.getElementById('search-reset');
+
+    // resetButton.addEventListener('click', function() {
+    //     
+    // });
+
+
+
+
+    
 
     $(document).on('click', '.viewid_data', function () {
         let id = $(this).data('id');

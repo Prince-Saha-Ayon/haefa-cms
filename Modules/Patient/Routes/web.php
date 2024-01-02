@@ -23,6 +23,7 @@ Route::group(['middleware' => ['auth']], function () {
         Route::post('change-status', 'PatientController@change_status')->name('change.status');
         Route::post('show', 'PatientController@show')->name('show');
         Route::any('showid', 'PatientController@showid')->name('showid');
+        Route::any('searchid', 'PatientController@searchid')->name('searchid');
         Route::get('edit/{id}', 'PatientController@edit')->name('edit');
     });
 });

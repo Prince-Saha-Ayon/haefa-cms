@@ -5,6 +5,7 @@ use Modules\BarcodeFormat\Entities\District;
 use Modules\BarcodeFormat\Entities\Upazila;
 use Modules\BarcodeFormat\Entities\Union;
 use Modules\BarcodeFormat\Entities\HealthCenter;
+use DB;
 
 use Modules\Base\Entities\BaseModel;
 
@@ -51,7 +52,7 @@ class BarcodeFormat extends BaseModel
          * *Search Data **
          ******************/
         if (!empty($this->name)) {
-            $query->where('name', 'like', '%' . $this->name . '%');
+            $query->where(DB::raw("CONCAT(barcode_prefix, barcode_number)"), 'like', '%' . $this->name . '%');
         }
 
         if (isset($this->orderValue) && isset($this->dirValue)) {

@@ -39,64 +39,64 @@ class PatientController extends BaseController
         }
     }
 
-    public function get_datatable_data(Request $request)
-    {
-        if(permission('patient-access')){
-            if($request->ajax()){
+    // public function get_datatable_data(Request $request)
+    // {
+    //     if(permission('patient-access')){
+    //         if($request->ajax()){
 
-                set_time_limit(3600);
+    //             set_time_limit(3600);
 
-                if (!empty($request->name)) {
-                    $this->model->setName($request->name);
-                }
+    //             if (!empty($request->name)) {
+    //                 $this->model->setName($request->name);
+    //             }
 
-                $this->set_datatable_default_property($request);
-                $list = $this->model->getDatatableList();
+    //             $this->set_datatable_default_property($request);
+    //             $list = $this->model->getDatatableList();
 
-                $data = [];
-                $no = $request->input('start');
-                foreach ($list as $value) {
-                    $no++;
-                    $action = '';
+    //             $data = [];
+    //             $no = $request->input('start');
+    //             foreach ($list as $value) {
+    //                 $no++;
+    //                 $action = '';
 
-                    // if(permission('patient-edit')){
-                    //     $action .= ' <a class="dropdown-item edit_data" data-id="' . $value->PatientId . '"><i class="fas fa-edit text-primary"></i> Edit</a>';
-                    // }
-                    if(permission('patient-viewid')){
-                        $action .= ' <a class="dropdown-item viewid_data" data-id="' . $value->PatientId . '"><i class="fas fa-eye text-success"></i> View</a>';
-                    }
-                    /* if(permission('patient-view')){
-                        $action .= ' <a class="dropdown-item view_data" data-id="' . $value->PatientId . '"><i class="fas fa-eye text-success"></i> Last Prescription</a>';
-                    } */
-                    if(permission('patient-edit')){
-                        $action .= ' <a class="dropdown-item" href="'.route("patient.edit",$value->PatientId).'"><i class="fas fa-eye text-success"></i> Edit</a>';
-                    }
+    //                 // if(permission('patient-edit')){
+    //                 //     $action .= ' <a class="dropdown-item edit_data" data-id="' . $value->PatientId . '"><i class="fas fa-edit text-primary"></i> Edit</a>';
+    //                 // }
+    //                 if(permission('patient-viewid')){
+    //                     $action .= ' <a class="dropdown-item viewid_data" data-id="' . $value->PatientId . '"><i class="fas fa-eye text-success"></i> View</a>';
+    //                 }
+    //                 /* if(permission('patient-view')){
+    //                     $action .= ' <a class="dropdown-item view_data" data-id="' . $value->PatientId . '"><i class="fas fa-eye text-success"></i> Last Prescription</a>';
+    //                 } */
+    //                 if(permission('patient-edit')){
+    //                     $action .= ' <a class="dropdown-item" href="'.route("patient.edit",$value->PatientId).'"><i class="fas fa-eye text-success"></i> Edit</a>';
+    //                 }
 
 
-                    $row = [];
+    //                 $row = [];
 
-                    if(permission('patient-bulk-delete')){
-                        $row[] = table_checkbox($value->PatientId);
-                    }
-                    $row[] = $no;
-                    $row[] = $value->RegistrationId;
-                    $row[] = $value->GivenName.' '.$value->FamilyName;
-                    $row[] = $value->IdNumber;
-                    $row[] = $value->CellNumber;
-                    //$row[] = permission('patient-access') ? change_status($value->PatientId,$value->Status) : STATUS_LABEL[$value->Status];
-                    //$row[] = permission('patient-edit') ? change_status($value->PatientId,$value->Status) : STATUS_LABEL[$value->Status];
-                    $row[] = action_button($action);
-                    $data[] = $row;
-                }
-                return $this->datatable_draw($request->input('draw'),$this->model->count_all(),
-                 $this->model->count_filtered(), $data);
-            }else{
-                $output = $this->access_blocked();
-            }
+    //                 if(permission('patient-bulk-delete')){
+    //                     $row[] = table_checkbox($value->PatientId);
+    //                 }
+    //                 $row[] = $no;
+    //                 $row[] = $value->RegistrationId;
+    //                 $row[] = $value->GivenName.' '.$value->FamilyName;
+    //                 $row[] = $value->IdNumber;
+    //                 $row[] = $value->CellNumber;
+    //                 //$row[] = permission('patient-access') ? change_status($value->PatientId,$value->Status) : STATUS_LABEL[$value->Status];
+    //                 //$row[] = permission('patient-edit') ? change_status($value->PatientId,$value->Status) : STATUS_LABEL[$value->Status];
+    //                 $row[] = action_button($action);
+    //                 $data[] = $row;
+    //             }
+    //             return $this->datatable_draw($request->input('draw'),$this->model->count_all(),
+    //              $this->model->count_filtered(), $data);
+    //         }else{
+    //             $output = $this->access_blocked();
+    //         }
 
-            return response()->json($output);
-        }
-    }
+    //         return response()->json($output);
+    //     }
+    // }
 
     public function store_or_update_data(PatientFormRequest $request)
     {
@@ -399,6 +399,11 @@ class PatientController extends BaseController
         return view('patient::detailsp',compact('patientDetails'))->render();
 
     }
+   public function searchid(Request $request) {
+    $patients = Patient::where('RegistrationId', $request->patient_id)->paginate(15);
 
+    $this->setPageData('Patient', 'Patient', 'fas fa-th-list');
+    return view('patient::index', compact('patients'));
+}
 
 }
