@@ -7,7 +7,16 @@
 @push('stylesheet')
 <style>
     .custom-tooltip{
-        color: black !important;
+    position: relative;
+    display: inline-block;
+    padding: 0.8rem 2rem;
+    background-color: #f2f2f2;
+    font-size: 1.8rem;
+    color: black !important;
+    opacity: 0.5;
+    /* box-shadow: 0 0 5px 5px rgba(0, 0, 0, 0.03); */
+    border-radius: 0.4rem;
+    z-index: 1;
     }
     .custom-tooltip-age{
     position: relative;
@@ -16,7 +25,32 @@
     background-color: #f2f2f2;
     font-size: 1.8rem;
     color: black !important;
-    box-shadow: 0 0 5px 5px rgba(0, 0, 0, 0.03);
+    opacity: 0.5;
+    /* box-shadow: 0 0 5px 5px rgba(0, 0, 0, 0.03); */
+    border-radius: 0.4rem;
+    z-index: 1;
+    }
+    .custom-tooltip-diastolic{
+    position: relative;
+    display: inline-block;
+    padding: 0.8rem 2rem;
+    background-color: #f2f2f2;
+    font-size: 1.8rem;
+    color: black !important;
+    opacity: 0.5;
+    /* box-shadow: 0 0 5px 5px rgba(0, 0, 0, 0.03); */
+    border-radius: 0.4rem;
+    z-index: 1;
+    }
+    .custom-tooltip-heart{
+    position: relative;
+    display: inline-block;
+    padding: 0.8rem 2rem;
+    background-color: #f2f2f2;
+    font-size: 1.8rem;
+    color: black !important;
+    opacity: 0.5;
+    /* box-shadow: 0 0 5px 5px rgba(0, 0, 0, 0.03); */
     border-radius: 0.4rem;
     z-index: 1;
     }
@@ -148,15 +182,21 @@
                         </div>
                         <div class="row">
                           <div class="form-group col-md-3">
-                                <label for="name">Complain</label>
-
-                                
-                            </div>
-                          <div class="form-group col-md-4">
                                 <label for="name">Systolic Range</label>
                                 <div id="systolicRange"></div>
                                
                          </div>
+                         <div class="form-group col-md-3">
+                                <label for="name">Diastolic Range</label>
+                                <div id="diastolicRange"></div>
+                               
+                         </div>
+                          <div class="form-group col-md-3">
+                                <label for="name">Heart Rate</label>
+                                <div id="heartRate"></div>
+                               
+                         </div>
+                        
                             {{-- <div class="form-group col-md-3">
                                 <label for="name">Systolic Start</label>
                                 <input type="text" class="form-control" name="sys_start" id="sys_start" placeholder="Enter Systolic Start range">
@@ -336,7 +376,7 @@
         orderCellsTop: true,
         ordering:false,
         columnDefs: [
-            { targets: [ 6,7, 5,8, 9, 10,12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25 ,27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47,48,49,50,52,54], visible: false }, // Hide the columns
+            { targets: [ 6,7, 5,8, 9, 10, 18, 19, 20, 21, 22, 23, 24, 25 ,27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47,48,49,50,52,54], visible: false }, // Hide the columns
         ],
         
          buttons: [
@@ -414,8 +454,8 @@
             }]);
 
             sheet.childNodes[0].childNodes[1].innerHTML = r1 + r2 + r3 + r4 + r5 + sheet.childNodes[0].childNodes[1].innerHTML;
-            table.clear().draw();
-            $('#hc_id').val('').selectpicker('refresh');
+            // table.clear().draw();
+            // $('#hc_id').val('').selectpicker('refresh');
     },
             },
         ],
@@ -427,16 +467,20 @@
             // Use DataTables API to search and filter the table
             table.search(selectedValue).draw();
     });
-    $('#medicine_id').on('change', function () {
-         var selectedValue = $(this).val();
-
-            // Use DataTables API to search and filter the table
-            table.search(selectedValue).draw();
-    });
+ 
     
     var currentIllnessFilter = [];
     var currentRegIdFilter = '';
     var currentComplainFilter=[];
+    var currentMedicineFilter=[];
+    var currentSystolicMin = 0;
+    var currentSystolicMax = 250;
+    var currentDiastolicMin = 0;
+    var currentDiastolicMax = 250;
+    var currentHrateMin = 0;
+    var currentHrateMax = 250;
+    
+
 
 // Function to apply all filters
     function applyFilters() {
@@ -445,21 +489,35 @@
                 var illnessString = data[53]; // Adjust the index as per your table's structure
                 var regString = data[2]; // Adjust the index as per your table's structure
                 var complainString = data[26]; // Adjust the index as per your table's structure
-                console.log(complainString)
+                var medString = data[51]; // Adjust the index as per your table's structure
+                var sysValue = parseFloat(data[12]) || 0;
+                var diasValue = parseFloat(data[13]) || 0;
+                var hrateValue = parseFloat(data[16]) || 0;
+            
 
                 // Check illness filter
                 var illnessMatch = currentIllnessFilter.every(function(illness) {
                     return illnessString.includes("IllnessCode:" + illness);
                 });
 
-                 var complainMatch = currentComplainFilter.every(function(complain) {
+                var complainMatch = currentComplainFilter.every(function(complain) {
                     return complainString.includes("Chief Complain:" + complain);
+                });
+
+                var medMatch = currentMedicineFilter.every(function(med) {
+                    return medString.includes("Drug Name:" + med);
                 });
            
                 // Check registration ID filter
                 var regIdMatch = !currentRegIdFilter || regString.includes(currentRegIdFilter);
 
-                return illnessMatch && complainMatch && regIdMatch  ;
+                var systolicMatch = (currentSystolicMin <= sysValue && sysValue <= currentSystolicMax);
+
+                var diastolicMatch = (currentDiastolicMin <= diasValue && diasValue <= currentDiastolicMax);
+
+                var hrateMatch = (currentHrateMin <= hrateValue && hrateValue <= currentHrateMax);
+
+                return illnessMatch && complainMatch && medMatch && regIdMatch && systolicMatch && diastolicMatch && hrateMatch;
             }
         );
 
@@ -480,6 +538,10 @@
     });
      $('#complain_id').on('change', function () {
         currentComplainFilter = $(this).val() || [];
+        applyFilters();
+    });
+    $('#medicine_id').on('change', function () {
+        currentMedicineFilter = $(this).val() || [];
         applyFilters();
     });
 
@@ -529,40 +591,124 @@
     updateTooltips($("#ageRange").slider("values", 0), $("#ageRange").slider("values", 1));
     // Add event listener for keyup on the input fields
 
- $("#systolicRange").slider({
-        range: true,
-        min: 0,
-        max: 250,
-        values: [0, 250],
-        slide: function (event, ui) {
-            // Update tooltips
-            updateTooltips(ui.values[0], ui.values[1]);
+$("#systolicRange").slider({
+    range: true,
+    min: 0,
+    max: 250,
+    values: [0, 250],
+    slide: function (event, ui) {
+        // Update global variables for systolic range
+        currentSystolicMin = ui.values[0];
+        currentSystolicMax = ui.values[1];
 
-            // Your custom search function and DataTable logic here...
-            // Example: Update the console with the selected range
-            console.log("Selected Range:", ui.values[0], "-", ui.values[1]);
+        // Update tooltips
+        updateTooltips(ui.values[0], ui.values[1]);
 
-            // Push custom search function
-            $.fn.dataTable.ext.search.push(
-                function (settings, data, dataIndex) {
-                    var sysValue = parseFloat(data[12]) || 0;
-
-                    if ((isNaN(ui.values[0]) && isNaN(ui.values[1])) ||
-                        (ui.values[0] <= sysValue && sysValue <= ui.values[1])) {
-                        return true;
-                    }
-
-                    return false;
-                }
-            );
-
-            // Draw the table
-            table.draw();
-
-            // Pop the custom search function
-            $.fn.dataTable.ext.search.pop();
-        }
+        // Apply combined filters
+        applyFilters();
+    }
 });
+
+$("#diastolicRange").slider({
+    range: true,
+    min: 0,
+    max: 250,
+    values: [0, 250],
+    slide: function (event, ui) {
+        // Update global variables for systolic range
+        currentDiastolicMin = ui.values[0];
+        currentDiastolicMax = ui.values[1];
+
+        // Update tooltips
+        updateTooltipsDiastolic(ui.values[0], ui.values[1]);
+
+        // Apply combined filters
+        applyFilters();
+    }
+});
+
+$("#heartRate").slider({
+    range: true,
+    min: 0,
+    max: 200,
+    values: [0, 200],
+    slide: function (event, ui) {
+        // Update global variables for systolic range
+        currentHrateMin = ui.values[0];
+        currentHrateMax = ui.values[1];
+
+        // Update tooltips
+        updateTooltipsHeart(ui.values[0], ui.values[1]);
+
+        // Apply combined filters
+        applyFilters();
+    }
+});
+
+function updateTooltipsDiastolic(start, end) {
+    // Update tooltips for both handles
+    $("#diastolicRange .ui-slider-handle").each(function (index) {
+        // Check if custom-tooltip div already exists
+        var tooltipDiv = $(this).find(".custom-tooltip-diastolic");
+        if (tooltipDiv.length === 0) {
+            // Append a new custom-tooltip div
+            $(this).append("<div class='custom-tooltip-diastolic'></div>");
+        }
+
+        // Update the text content of the custom-tooltip
+        tooltipDiv.text(index === 0 ? start : end);
+
+        // Position the tooltip
+        positionTooltipDiastolic(index);
+    });
+}
+
+function updateTooltipsHeart(start, end) {
+    // Update tooltips for both handles
+    $("#heartRate .ui-slider-handle").each(function (index) {
+        // Check if custom-tooltip div already exists
+        var tooltipDiv = $(this).find(".custom-tooltip-heart");
+        if (tooltipDiv.length === 0) {
+            // Append a new custom-tooltip div
+            $(this).append("<div class='custom-tooltip-heart'></div>");
+        }
+
+        // Update the text content of the custom-tooltip
+        tooltipDiv.text(index === 0 ? start : end);
+
+        // Position the tooltip
+        positionTooltipHeart(index);
+    });
+}
+
+
+    // Function to position tooltips
+    function positionTooltipDiastolic(index) {
+        $(".custom-tooltip-diastolic").eq(index).position({
+            my: "center bottom",
+            at: "center top",
+            of: $("#diastolicRange .ui-slider-handle").eq(index)
+        });
+    }
+    function positionTooltipHeart(index) {
+        $(".custom-tooltip-heart").eq(index).position({
+            my: "center bottom",
+            at: "center top",
+            of: $("#heartRate .ui-slider-handle").eq(index)
+        });
+    }
+
+    // Initial tooltips setup
+    updateTooltips($("#diastolicRange").slider("values", 0), $("#diastolicRange").slider("values", 1));
+
+
+    updateTooltips($("#heartRate").slider("values", 0), $("#heartRate").slider("values", 1));
+
+
+
+
+
+
 
     // Function to update tooltips
     function updateTooltips(start, end) {
@@ -583,6 +729,8 @@
     });
 }
 
+
+
     // Function to position tooltips
     function positionTooltip(index) {
         $(".custom-tooltip").eq(index).position({
@@ -596,64 +744,7 @@
     updateTooltips($("#systolicRange").slider("values", 0), $("#systolicRange").slider("values", 1));
    
 
-// $("#systolicRange").slider({
-//         range: true,
-//         min: 0,
-//         max: 250,
-//         values: [0, 250],
-//         slide: function (event, ui) {
-//             // Update tooltips
-//             updateTooltips(ui.values[0], ui.values[1]);
 
-//             // Your custom search function and DataTable logic here...
-//             // Example: Update the console with the selected range
-//             console.log("Selected Range:", ui.values[0], "-", ui.values[1]);
-
-//             // Push custom search function
-//             $.fn.dataTable.ext.search.push(
-//                 function (settings, data, dataIndex) {
-//                     var sysValue = parseFloat(data[12]) || 0;
-
-//                     if ((isNaN(ui.values[0]) && isNaN(ui.values[1])) ||
-//                         (ui.values[0] <= sysValue && sysValue <= ui.values[1])) {
-//                         return true;
-//                     }
-
-//                     return false;
-//                 }
-//             );
-
-//             // Draw the table
-//             table.draw();
-
-//             // Pop the custom search function
-//             $.fn.dataTable.ext.search.pop();
-//         }
-// });
-
-//     // Function to update tooltips
-//     function updateTooltips(start, end) {
-//         // Destroy existing tooltips
-//         $("#systolicRange .ui-slider-handle").each(function () {
-//             if ($(this).data('ui-tooltip')) {
-//                 $(this).tooltip("destroy");
-//             }
-//         });
-
-//         // Add tooltips to handles
-//         $("#systolicRange .ui-slider-handle").each(function (index) {
-//             $(this).attr("title", index === 0 ? start : end).tooltip({
-//                 position: { my: "center bottom", at: "center top" },
-//                 tooltipClass: "custom-tooltip",
-//                 content: function () {
-//                     return $(this).attr("title");
-//                 }
-//             });
-//         });
-//     }
-
-//     // Initial tooltips setup
-//     updateTooltips($("#systolicRange").slider("values", 0), $("#systolicRange").slider("values", 1));
    
 
      $('#search').click(function () {
