@@ -42,7 +42,7 @@
     border-radius: 0.4rem;
     z-index: 1;
     }
-    .custom-tooltip-heart{
+    .custom-tooltip-heart, .custom-tooltip-rbg, .custom-tooltip-fbg, .custom-tooltip-hrslasteat{
     position: relative;
     display: inline-block;
     padding: 0.8rem 2rem;
@@ -195,18 +195,24 @@
                                 <label for="name">Heart Rate</label>
                                 <div id="heartRate"></div>
                                
+                         </div>  
+                        </div>
+                        <div class="row">
+                          <div class="form-group col-md-3">
+                                <label for="name">RBG</label>
+                                <div id="rbg"></div>
+                               
                          </div>
-                        
-                            {{-- <div class="form-group col-md-3">
-                                <label for="name">Systolic Start</label>
-                                <input type="text" class="form-control" name="sys_start" id="sys_start" placeholder="Enter Systolic Start range">
-                            </div>
-                            <div class="form-group col-md-3">
-                                <label for="name">Systolic End</label>
-                                <input type="text" class="form-control" name="sys_end" id="sys_end" placeholder="Enter Systolic End range">
-                            </div> --}}
-                      
-                           
+                         <div class="form-group col-md-3">
+                                <label for="name">FBG</label>
+                                <div id="fbg"></div>
+                               
+                         </div>
+                          <div class="form-group col-md-3">
+                                <label for="name">Hours From Last Eat</label>
+                                <div id="hrslasteat"></div>
+                               
+                         </div>  
                         </div>
                     </form>
 
@@ -376,7 +382,7 @@
         orderCellsTop: true,
         ordering:false,
         columnDefs: [
-            { targets: [ 6,7, 5,8, 9, 10, 18, 19, 20, 21, 22, 23, 24, 25 ,27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47,48,49,50,52,54], visible: false }, // Hide the columns
+            { targets: [ 6,7, 5,8, 9, 10, 20, 21, 22, 23, 24, 25 ,27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47,48,49,50,52,54], visible: false }, // Hide the columns
         ],
         
          buttons: [
@@ -479,6 +485,15 @@
     var currentDiastolicMax = 250;
     var currentHrateMin = 0;
     var currentHrateMax = 250;
+
+    var currentRBGMin = 0;
+    var currentRBGMax = 50;
+
+    var currentFBGMin = 0;
+    var currentFBGMax = 50;
+
+    var currentHrslasteatMin = 0;
+    var currentHrslasteatMax = 48;
     
 
 
@@ -493,6 +508,9 @@
                 var sysValue = parseFloat(data[12]) || 0;
                 var diasValue = parseFloat(data[13]) || 0;
                 var hrateValue = parseFloat(data[16]) || 0;
+                var rbgValue = parseFloat(data[17]) || 0;
+                var fbgValue = parseFloat(data[18]) || 0;
+                var hrslasteatValue = parseFloat(data[19]) || 0;
             
 
                 // Check illness filter
@@ -517,7 +535,13 @@
 
                 var hrateMatch = (currentHrateMin <= hrateValue && hrateValue <= currentHrateMax);
 
-                return illnessMatch && complainMatch && medMatch && regIdMatch && systolicMatch && diastolicMatch && hrateMatch;
+                var rbgMatch = (currentRBGMin <= rbgValue && rbgValue <= currentRBGMax);
+
+                var fbgMatch = (currentFBGMin <= fbgValue && fbgValue <= currentFBGMax);
+
+                var hrslasteatMatch = (currentHrslasteatMin <= hrslasteatValue && hrslasteatValue <= currentHrslasteatMax);
+
+                return illnessMatch && complainMatch && medMatch && regIdMatch && systolicMatch && diastolicMatch && hrateMatch && rbgMatch && fbgMatch && hrslasteatMatch;
             }
         );
 
@@ -645,6 +669,60 @@ $("#heartRate").slider({
     }
 });
 
+$("#rbg").slider({
+    range: true,
+    min: 0,
+    max: 50,
+    values: [0, 50],
+    slide: function (event, ui) {
+        // Update global variables for systolic range
+        currentRBGMin = ui.values[0];
+        currentRBGMax = ui.values[1];
+
+        // Update tooltips
+        updateTooltipsRBG(ui.values[0], ui.values[1]);
+
+        // Apply combined filters
+        applyFilters();
+    }
+});
+
+$("#fbg").slider({
+    range: true,
+    min: 0,
+    max: 50,
+    values: [0, 50],
+    slide: function (event, ui) {
+        // Update global variables for systolic range
+        currentFBGMin = ui.values[0];
+        currentFBGMax = ui.values[1];
+
+        // Update tooltips
+        updateTooltipsFBG(ui.values[0], ui.values[1]);
+
+        // Apply combined filters
+        applyFilters();
+    }
+});
+
+$("#hrslasteat").slider({
+    range: true,
+    min: 0,
+    max: 48,
+    values: [0, 48],
+    slide: function (event, ui) {
+        // Update global variables for systolic range
+        currentHrslasteatMin = ui.values[0];
+        currentHrslasteatMax = ui.values[1];
+
+        // Update tooltips
+        updateTooltipsHrslasteat(ui.values[0], ui.values[1]);
+
+        // Apply combined filters
+        applyFilters();
+    }
+});
+
 function updateTooltipsDiastolic(start, end) {
     // Update tooltips for both handles
     $("#diastolicRange .ui-slider-handle").each(function (index) {
@@ -681,28 +759,111 @@ function updateTooltipsHeart(start, end) {
     });
 }
 
+function updateTooltipsRBG(start, end) {
+    // Update tooltips for both handles
+    $("#rbg .ui-slider-handle").each(function (index) {
+        // Check if custom-tooltip div already exists
+        var tooltipDiv = $(this).find(".custom-tooltip-rbg");
+        if (tooltipDiv.length === 0) {
+            // Append a new custom-tooltip div
+            $(this).append("<div class='custom-tooltip-rbg'></div>");
+        }
+
+        // Update the text content of the custom-tooltip
+        tooltipDiv.text(index === 0 ? start : end);
+
+        // Position the tooltip
+        positionTooltipRBG(index);
+    });
+}
+
+function updateTooltipsFBG(start, end) {
+    // Update tooltips for both handles
+    $("#fbg .ui-slider-handle").each(function (index) {
+        // Check if custom-tooltip div already exists
+        var tooltipDiv = $(this).find(".custom-tooltip-fbg");
+        if (tooltipDiv.length === 0) {
+            // Append a new custom-tooltip div
+            $(this).append("<div class='custom-tooltip-fbg'></div>");
+        }
+
+        // Update the text content of the custom-tooltip
+        tooltipDiv.text(index === 0 ? start : end);
+
+        // Position the tooltip
+        positionTooltipFBG(index);
+    });
+}
+
+function updateTooltipsHrslasteat(start, end) {
+    // Update tooltips for both handles
+    $("#hrslasteat .ui-slider-handle").each(function (index) {
+        // Check if custom-tooltip div already exists
+        var tooltipDiv = $(this).find(".custom-tooltip-hrslasteat");
+        if (tooltipDiv.length === 0) {
+            // Append a new custom-tooltip div
+            $(this).append("<div class='custom-tooltip-hrslasteat'></div>");
+        }
+
+        // Update the text content of the custom-tooltip
+        tooltipDiv.text(index === 0 ? start : end);
+
+        // Position the tooltip
+        positionTooltipHrslasteat(index);
+    });
+}
 
     // Function to position tooltips
-    function positionTooltipDiastolic(index) {
+function positionTooltipDiastolic(index) {
         $(".custom-tooltip-diastolic").eq(index).position({
             my: "center bottom",
             at: "center top",
             of: $("#diastolicRange .ui-slider-handle").eq(index)
         });
-    }
-    function positionTooltipHeart(index) {
+}
+function positionTooltipHeart(index) {
         $(".custom-tooltip-heart").eq(index).position({
             my: "center bottom",
             at: "center top",
             of: $("#heartRate .ui-slider-handle").eq(index)
         });
-    }
+}
+
+function positionTooltipRBG(index) {
+        $(".custom-tooltip-rbg").eq(index).position({
+            my: "center bottom",
+            at: "center top",
+            of: $("#rbg .ui-slider-handle").eq(index)
+        });
+}
+
+function positionTooltipFBG(index) {
+        $(".custom-tooltip-fbg").eq(index).position({
+            my: "center bottom",
+            at: "center top",
+            of: $("#fbg .ui-slider-handle").eq(index)
+        });
+}
+
+function positionTooltipHrslasteat(index) {
+        $(".custom-tooltip-hrslasteat").eq(index).position({
+            my: "center bottom",
+            at: "center top",
+            of: $("#hrslasteat .ui-slider-handle").eq(index)
+        });
+}
 
     // Initial tooltips setup
     updateTooltips($("#diastolicRange").slider("values", 0), $("#diastolicRange").slider("values", 1));
 
 
     updateTooltips($("#heartRate").slider("values", 0), $("#heartRate").slider("values", 1));
+
+    updateTooltips($("#rbg").slider("values", 0), $("#rbg").slider("values", 1));
+
+    updateTooltips($("#fbg").slider("values", 0), $("#fbg").slider("values", 1));
+
+    updateTooltips($("#hrslasteat").slider("values", 0), $("#hrslasteat").slider("values", 1));
 
 
 
