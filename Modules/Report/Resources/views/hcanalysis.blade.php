@@ -55,6 +55,26 @@
     z-index: 1;
     }
 
+    .dropdown-menu {
+  position: fixed;
+  top: 0 !important;
+  right: 0 !important;
+  left: 0 !important;
+  z-index: 1000;
+  overflow-y: auto;
+  max-height: 155.382px;
+  min-height: 155px;
+  transform: translate3d(0px, 0px, 0px) !important; /* Remove unnecessary transform */
+}
+.custom-menu{
+    transform: translate3d(-152px, 72px, 0px) !important;
+    overflow: hidden;
+}
+.custom-menu > .dropdown-item{
+    padding: 4px 15px;
+}
+
+
 </style>
 @endpush
 
@@ -214,6 +234,19 @@
                                
                          </div>  
                         </div>
+                        <div class="row">
+                             <div class="form-group col-md-3">
+                                <label for="name">Provisinal DX</label>
+
+                                <select class="selectpicker" multiple data-live-search="true" name="prodx_id[]" id="prodx_id">
+                                     <option value="">Select Provisional Diagnosis</option>
+                                    @foreach($dxs as $dx)
+                                    <option value="{{$dx->ProvisionalDiagnosisName}}">{{$dx->ProvisionalDiagnosisName}}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                     
+                      </div>
                     </form>
 
                        <table id="dataTable" class="table table-striped table-bordered table-hover ">
@@ -382,7 +415,7 @@
         orderCellsTop: true,
         ordering:false,
         columnDefs: [
-            { targets: [ 6,7, 5,8, 9, 10, 20, 21, 22, 23, 24, 25 ,27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47,48,49,50,52,54], visible: false }, // Hide the columns
+            { targets: [ 6,7, 5,8, 9, 10, 20, 21, 22, 23, 24, 25 ,27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47,48,49,54], visible: false }, // Hide the columns
         ],
         
          buttons: [
@@ -467,18 +500,19 @@
         ],
     });
     
-    $('#complain_id').on('change', function () {
-         var selectedValue = $(this).val();
+    // $('#complain_id').on('change', function () {
+    //      var selectedValue = $(this).val();
 
-            // Use DataTables API to search and filter the table
-            table.search(selectedValue).draw();
-    });
+    //         // Use DataTables API to search and filter the table
+    //         table.search(selectedValue).draw();
+    // });
  
     
     var currentIllnessFilter = [];
     var currentRegIdFilter = '';
     var currentComplainFilter=[];
     var currentMedicineFilter=[];
+    var currentProdxFilter=[];
     var currentSystolicMin = 0;
     var currentSystolicMax = 250;
     var currentDiastolicMin = 0;
@@ -511,6 +545,8 @@
                 var rbgValue = parseFloat(data[17]) || 0;
                 var fbgValue = parseFloat(data[18]) || 0;
                 var hrslasteatValue = parseFloat(data[19]) || 0;
+                var prodxString = data[50];
+                console.log(prodxString);
             
 
                 // Check illness filter
@@ -524,6 +560,10 @@
 
                 var medMatch = currentMedicineFilter.every(function(med) {
                     return medString.includes("Drug Name:" + med);
+                });
+
+                var prodxMatch = currentProdxFilter.every(function(dx) {
+                    return prodxString.includes("Provisional Diagnosis:" + dx);
                 });
            
                 // Check registration ID filter
@@ -541,7 +581,7 @@
 
                 var hrslasteatMatch = (currentHrslasteatMin <= hrslasteatValue && hrslasteatValue <= currentHrslasteatMax);
 
-                return illnessMatch && complainMatch && medMatch && regIdMatch && systolicMatch && diastolicMatch && hrateMatch && rbgMatch && fbgMatch && hrslasteatMatch;
+                return illnessMatch && complainMatch && medMatch && regIdMatch && prodxMatch && systolicMatch && diastolicMatch && hrateMatch && rbgMatch && fbgMatch && hrslasteatMatch;
             }
         );
 
@@ -566,6 +606,10 @@
     });
     $('#medicine_id').on('change', function () {
         currentMedicineFilter = $(this).val() || [];
+        applyFilters();
+    });
+     $('#prodx_id').on('change', function () {
+        currentProdxFilter = $(this).val() || [];
         applyFilters();
     });
 
@@ -872,7 +916,7 @@ function positionTooltipHrslasteat(index) {
 
 
     // Function to update tooltips
-    function updateTooltips(start, end) {
+function updateTooltips(start, end) {
     // Update tooltips for both handles
     $("#systolicRange .ui-slider-handle").each(function (index) {
         // Check if custom-tooltip div already exists
