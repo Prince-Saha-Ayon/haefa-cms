@@ -49,6 +49,7 @@ use Modules\Report\Entities\ViewDumpData;
 use Modules\Report\Entities\ViewExportData;
 use Modules\RefIllness\Entities\RefIllness;
 use Modules\RefDrug\Entities\RefDrug;
+use Modules\RefProvisionalDiagnosis\Entities\RefProvisionalDiagnosis;
 use Symfony\Component\Process\Process;
 use App\Jobs\SyncJob; // Import the job class
 use Illuminate\Support\Facades\Queue; // Import Queue facade
@@ -186,9 +187,10 @@ public function diseaseindex()
        $complains=ChiefComplain::get(['CCCode']);
        $illnesses=RefIllness::get(['IllnessCode']);
        $drugs=RefDrug::get(['DrugCode']);
+       $dxs=RefProvisionalDiagnosis::get(['ProvisionalDiagnosisName']);
 
-        $this->setPageData('Number of Patients Diagnosed with DM','Number of Patients Diagnosed with DM','fas fa-th-list');
-        return view('report::hcanalysis',compact('branches','regs','complains','illnesses','drugs'));
+        $this->setPageData('Report Analysis','Report Analysis','fas fa-th-list');
+        return view('report::hcanalysis',compact('branches','regs','complains','illnesses','drugs','dxs'));
     }
     public function hcanalysisreport(Request $request){
         $first_date = $request->fdate;
