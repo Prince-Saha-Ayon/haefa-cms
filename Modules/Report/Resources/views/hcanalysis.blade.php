@@ -73,9 +73,17 @@
 .custom-menu > .dropdown-item{
     padding: 4px 15px;
 }
+.custom-width{
+    width:100% !important;	
+}
 
 
 </style>
+<!-- Include Select2 CSS -->
+
+
+
+<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/css/select2.min.css" rel="stylesheet" />
 @endpush
 
 @section('content')
@@ -162,18 +170,27 @@
                             <div class="form-group col-md-3">
                                 <label for="name">Registration</label>
 
-                                <select class="selectpicker"  data-live-search="true" name="reg_id" id="reg_id">
+                                <select class="custom-width"  name="reg_id" id="reg_id">
                                      <option value="">Select Patient</option>
                                     @foreach($regs as $reg)
                                     <option value="{{$reg->RegistrationId}}">{{$reg->RegistrationId}}</option>
                                     @endforeach
                                 </select>
                             </div>
-                             <div class="form-group col-md-3">
+                             {{-- <div class="form-group col-md-3">
                                 <label for="name">Complain</label>
 
-                                <select class="selectpicker" multiple data-live-search="true" name="complain_id[]" id="complain_id">
-                                     <option value="">Select Complain</option>
+                                <select class="selectpicker" multiple data-live-search="true"  name="complain_id[]" id="complain_id">
+                                     <option value="" disabled>Select Complain</option>
+                                    @foreach($complains as $complain)
+                                    <option value="{{$complain->CCCode}}">{{$complain->CCCode}}</option>
+                                    @endforeach
+                                </select>
+                            </div> --}}
+                            <div class="form-group col-md-3">
+                                <label for="name">Complain</label>
+                                <select class="custom-width" multiple id="complain_id" name="complain_id[]">
+                                    <option value="">Select Complain</option>
                                     @foreach($complains as $complain)
                                     <option value="{{$complain->CCCode}}">{{$complain->CCCode}}</option>
                                     @endforeach
@@ -181,7 +198,7 @@
                             </div>
                            <div class="form-group col-md-3">
                                 <label for="illness_id">Illnesses</label>
-                                <select class="selectpicker" multiple data-live-search="true" name="illness_id[]" id="illness_id">
+                                <select class="custom-width" multiple  id="illness_id" name="illness_id[]">
                                     <option value="">Select Illness</option>
                                     @foreach($illnesses as $illness)
                                         <option value="{{$illness->IllnessCode}}">{{$illness->IllnessCode}}</option>
@@ -192,7 +209,7 @@
                              <div class="form-group col-md-3">
                                 <label for="name">Medicine</label>
 
-                                <select class="selectpicker" multiple data-live-search="true" name="medicine_id[]" id="medicine_id">
+                                <select class="custom-width" multiple name="medicine_id[]" id="medicine_id">
                                      <option value="">Select Medicines</option>
                                     @foreach($drugs as $drug)
                                     <option value="{{$drug->DrugCode}}">{{$drug->DrugCode}}</option>
@@ -238,7 +255,7 @@
                              <div class="form-group col-md-3">
                                 <label for="name">Provisinal DX</label>
 
-                                <select class="selectpicker" multiple data-live-search="true" name="prodx_id[]" id="prodx_id">
+                                <select class="selectpicker" multiple name="prodx_id[]" id="prodx_id">
                                      <option value="">Select Provisional Diagnosis</option>
                                     @foreach($dxs as $dx)
                                     <option value="{{$dx->ProvisionalDiagnosisName}}">{{$dx->ProvisionalDiagnosisName}}</option>
@@ -347,6 +364,11 @@
 
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+
+
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/js/select2.min.js"></script>
+<!-- Include Select2 JS -->
+
 <script>
 
 // disease rate by date range start
@@ -409,6 +431,11 @@
 
     
     $(document).ready(function () {
+          $('#complain_id').select2();
+          $('#reg_id').select2();
+          $('#illness_id').select2();
+        //   $('#prodx_id').select2();
+          $('#medicine_id').select2();
     table = $('#dataTable').DataTable({
         pagingType: 'full_numbers',
         dom: 'Bfrtip',
@@ -499,7 +526,8 @@
             },
         ],
     });
-    
+
+  
     // $('#complain_id').on('change', function () {
     //      var selectedValue = $(this).val();
 
