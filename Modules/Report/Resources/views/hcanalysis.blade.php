@@ -191,9 +191,9 @@
                                 <label for="name">Complain</label>
                                 <select class="custom-width" multiple id="complain_id" name="complain_id[]">
                                     <option value="">Select Complain</option>
-                                    @foreach($complains as $complain)
+                                    {{-- @foreach($complains as $complain)
                                     <option value="{{$complain->CCCode}}">{{$complain->CCCode}}</option>
-                                    @endforeach
+                                    @endforeach --}}
                                 </select>
                             </div>
                            <div class="form-group col-md-3">
@@ -431,7 +431,7 @@
 
     
     $(document).ready(function () {
-          $('#complain_id').select2();
+        //   $('#complain_id').select2();
           $('#reg_id').select2();
           $('#illness_id').select2();
         //   $('#prodx_id').select2();
@@ -582,9 +582,9 @@
                     return illnessString.includes("IllnessCode:" + illness);
                 });
 
-                var complainMatch = currentComplainFilter.every(function(complain) {
-                    return complainString.includes("Chief Complain:" + complain);
-                });
+                 var complainMatch = currentComplainFilter.every(function(complain) {
+                     return complainString.includes("Chief Complain:" + complain);
+                 });
 
                 var medMatch = currentMedicineFilter.every(function(med) {
                     return medString.includes("Drug Name:" + med);
@@ -609,7 +609,7 @@
 
                 var hrslasteatMatch = (currentHrslasteatMin <= hrslasteatValue && hrslasteatValue <= currentHrslasteatMax);
 
-                return illnessMatch && complainMatch && medMatch && regIdMatch && prodxMatch && systolicMatch && diastolicMatch && hrateMatch && rbgMatch && fbgMatch && hrslasteatMatch;
+                return illnessMatch  && complainMatch && medMatch && regIdMatch && prodxMatch && systolicMatch && diastolicMatch && hrateMatch && rbgMatch && fbgMatch && hrslasteatMatch;
             }
         );
 
@@ -617,11 +617,44 @@
         $.fn.dataTable.ext.search.pop();
     }
 
-// Event listener for illness filter
+//Event listener for illness filter
     $('#illness_id').on('change', function () {
         currentIllnessFilter = $(this).val() || [];
         applyFilters();
     });
+
+    $('#complain_id').select2({
+        ajax: {
+            url: "{{ url('chief-complains') }}",
+ // Replace with the URL to your API endpoint
+            dataType: 'json',
+            delay: 2, // Wait 250ms after typing stops to start the search
+            data: function (params) {
+                return {
+                    search: params.term, // search term
+                    page: params.page || 1
+                };
+            },
+            processResults: function (data, params) {
+                // Parse the results into the format expected by Select2
+                // since we are using custom formatting functions we do not need to
+                // alter the remote JSON data
+                params.page = params.page || 1;
+
+                return {
+                    results: data.results, // data.results should match the JSON response from Laravel
+                    pagination: {
+                        more: false // adjust based on your actual pagination logic
+                    }
+                };
+            },
+            cache: true
+        },
+        placeholder: 'Search for a complain',
+        minimumInputLength: 1, // Require at least one character before searching
+        // Additional options such as dropdownCssClass, width, etc.
+    });
+
 
     // Event listener for registration ID filter
     $('#reg_id').on('change', function () {

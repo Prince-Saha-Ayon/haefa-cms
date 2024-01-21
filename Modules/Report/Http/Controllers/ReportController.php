@@ -184,14 +184,26 @@ public function diseaseindex()
  
        $branches=BarcodeFormat::with('healthCenter')->get(); 
        $regs=Patient::get('RegistrationId');
-       $complains=ChiefComplain::get(['CCCode']);
+       
        $illnesses=RefIllness::get(['IllnessCode']);
        $drugs=RefDrug::get(['DrugCode']);
        $dxs=RefProvisionalDiagnosis::get(['ProvisionalDiagnosisName']);
 
         $this->setPageData('Report Analysis','Report Analysis','fas fa-th-list');
-        return view('report::hcanalysis',compact('branches','regs','complains','illnesses','drugs','dxs'));
+        return view('report::hcanalysis',compact('branches','regs','illnesses','drugs','dxs'));
     }
+
+  public function GetAllComplain(Request $request){
+    $searchTerm = $request->input('search') ?? '';
+    $complains = ChiefComplain::where('CCCode', 'like', '%' . $searchTerm . '%')
+                              ->get()
+                              ->map(function ($complain) {
+                                  return ['id' => $complain->CCCode, 'text' => $complain->CCCode];
+                              });
+
+    return response()->json(['results' => $complains]);
+}
+
     public function hcanalysisreport(Request $request){
         $first_date = $request->fdate;
         $last_date = $request->ldate;
@@ -216,6 +228,7 @@ public function diseaseindex()
         ]);
 
     }
+
 
 
       public function HyperTensionReport(Request $request){

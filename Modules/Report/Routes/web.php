@@ -87,6 +87,9 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('hcanalysis', 'ReportController@hcanalysisindex')->name('hcanalysis');
     Route::get('hcanalysis-report', 'ReportController@hcanalysisreport')->name('hcanalysis-report');
 
+    Route::get('chief-complains', 'ReportController@GetAllComplain')->name('chiefcomplains');
+
+
     Route::group(['prefix' => 'patientage', 'as'=>'patientage.'], function () {
         Route::post('show', 'ReportController@show')->name('show');
     });
