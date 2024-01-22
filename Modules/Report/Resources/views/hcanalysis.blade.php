@@ -165,16 +165,14 @@
                                 </button>
                             </div>
                         </div>
-                        <div class="row">
+                        <div class="row" id="parameters1">
                             
                             <div class="form-group col-md-3">
-                                <label for="name">Registration</label>
+                                <label for="name">Genders</label>
 
-                                <select class="custom-width"  name="reg_id" id="reg_id">
-                                     <option value="">Select Patient</option>
-                                    @foreach($regs as $reg)
-                                    <option value="{{$reg->RegistrationId}}">{{$reg->RegistrationId}}</option>
-                                    @endforeach
+                                <select class="custom-width" multiple name="gender_id[]" id="gender_id">
+                                     <option value="">Select Gender</option>
+                                   
                                 </select>
                             </div>
                              {{-- <div class="form-group col-md-3">
@@ -200,9 +198,7 @@
                                 <label for="illness_id">Illnesses</label>
                                 <select class="custom-width" multiple  id="illness_id" name="illness_id[]">
                                     <option value="">Select Illness</option>
-                                    @foreach($illnesses as $illness)
-                                        <option value="{{$illness->IllnessCode}}">{{$illness->IllnessCode}}</option>
-                                    @endforeach
+                             
                                 </select>
                             </div>
 
@@ -211,13 +207,13 @@
 
                                 <select class="custom-width" multiple name="medicine_id[]" id="medicine_id">
                                      <option value="">Select Medicines</option>
-                                    @foreach($drugs as $drug)
+                                    {{-- @foreach($drugs as $drug)
                                     <option value="{{$drug->DrugCode}}">{{$drug->DrugCode}}</option>
-                                    @endforeach
+                                    @endforeach --}}
                                 </select>
                             </div>
                         </div>
-                        <div class="row">
+                        <div class="row" id="">
                           <div class="form-group col-md-3">
                                 <label for="name">Systolic Range</label>
                                 <div id="systolicRange"></div>
@@ -234,7 +230,7 @@
                                
                          </div>  
                         </div>
-                        <div class="row">
+                        <div class="row" id="parameters3">
                           <div class="form-group col-md-3">
                                 <label for="name">RBG</label>
                                 <div id="rbg"></div>
@@ -251,19 +247,19 @@
                                
                          </div>  
                         </div>
-                        <div class="row">
+                        <div class="row" id="">
                              <div class="form-group col-md-3">
                                 <label for="name">Provisinal DX</label>
 
-                                <select class="selectpicker" multiple name="prodx_id[]" id="prodx_id">
+                                <select class="custom-width" multiple name="prodx_id[]" id="prodx_id">
                                      <option value="">Select Provisional Diagnosis</option>
-                                    @foreach($dxs as $dx)
+                                    {{-- @foreach($dxs as $dx)
                                     <option value="{{$dx->ProvisionalDiagnosisName}}">{{$dx->ProvisionalDiagnosisName}}</option>
-                                    @endforeach
+                                    @endforeach --}}
                                 </select>
                             </div>
                      
-                      </div>
+                        </div>
                     </form>
 
                        <table id="dataTable" class="table table-striped table-bordered table-hover ">
@@ -432,17 +428,17 @@
     
     $(document).ready(function () {
         //   $('#complain_id').select2();
-          $('#reg_id').select2();
-          $('#illness_id').select2();
+        //   $('#illness_id').select2();
         //   $('#prodx_id').select2();
-          $('#medicine_id').select2();
+        //   $('#medicine_id').select2();
+    $("#parameters3").hide();
     table = $('#dataTable').DataTable({
         pagingType: 'full_numbers',
         dom: 'Bfrtip',
         orderCellsTop: true,
         ordering:false,
         columnDefs: [
-            { targets: [ 6,7, 5,8, 9, 10, 20, 21, 22, 23, 24, 25 ,27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47,48,49,54], visible: false }, // Hide the columns
+            { targets: [ 7, 5,8, 9, 10, 20, 21, 22, 23, 24, 25 ,27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47,48,49], visible: false }, // Hide the columns
         ],
         
          buttons: [
@@ -541,6 +537,7 @@
     var currentComplainFilter=[];
     var currentMedicineFilter=[];
     var currentProdxFilter=[];
+    var currentGenderFilter=[];
     var currentSystolicMin = 0;
     var currentSystolicMax = 250;
     var currentDiastolicMin = 0;
@@ -563,10 +560,11 @@
     function applyFilters() {
         $.fn.dataTable.ext.search.push(
             function (settings, data, dataIndex) {
-                var illnessString = data[53]; // Adjust the index as per your table's structure
+                var illnessString = data[53]; // Adjust the index as per your table's structure 
                 var regString = data[2]; // Adjust the index as per your table's structure
                 var complainString = data[26]; // Adjust the index as per your table's structure
                 var medString = data[51]; // Adjust the index as per your table's structure
+                var genderString = data[5]; // Adjust the index as per your table's structure
                 var sysValue = parseFloat(data[12]) || 0;
                 var diasValue = parseFloat(data[13]) || 0;
                 var hrateValue = parseFloat(data[16]) || 0;
@@ -574,8 +572,6 @@
                 var fbgValue = parseFloat(data[18]) || 0;
                 var hrslasteatValue = parseFloat(data[19]) || 0;
                 var prodxString = data[50];
-                console.log(prodxString);
-            
 
                 // Check illness filter
                 var illnessMatch = currentIllnessFilter.every(function(illness) {
@@ -593,9 +589,13 @@
                 var prodxMatch = currentProdxFilter.every(function(dx) {
                     return prodxString.includes("Provisional Diagnosis:" + dx);
                 });
+
+                var genderMatch = currentGenderFilter.every(function(gender) {
+                    return genderString.includes(gender);
+                });
            
                 // Check registration ID filter
-                var regIdMatch = !currentRegIdFilter || regString.includes(currentRegIdFilter);
+                // var regIdMatch = !currentRegIdFilter || regString.includes(currentRegIdFilter);
 
                 var systolicMatch = (currentSystolicMin <= sysValue && sysValue <= currentSystolicMax);
 
@@ -609,7 +609,7 @@
 
                 var hrslasteatMatch = (currentHrslasteatMin <= hrslasteatValue && hrslasteatValue <= currentHrslasteatMax);
 
-                return illnessMatch  && complainMatch && medMatch && regIdMatch && prodxMatch && systolicMatch && diastolicMatch && hrateMatch && rbgMatch && fbgMatch && hrslasteatMatch;
+                return illnessMatch  && complainMatch && medMatch  && prodxMatch && systolicMatch && diastolicMatch && hrateMatch && rbgMatch && fbgMatch && hrslasteatMatch && genderMatch;
             }
         );
 
@@ -618,12 +618,9 @@
     }
 
 //Event listener for illness filter
-    $('#illness_id').on('change', function () {
-        currentIllnessFilter = $(this).val() || [];
-        applyFilters();
-    });
+  
 
-    $('#complain_id').select2({
+$('#complain_id').select2({
         ajax: {
             url: "{{ url('chief-complains') }}",
  // Replace with the URL to your API endpoint
@@ -653,16 +650,148 @@
         placeholder: 'Search for a complain',
         minimumInputLength: 1, // Require at least one character before searching
         // Additional options such as dropdownCssClass, width, etc.
-    });
+});
+
+$('#illness_id').select2({
+        ajax: {
+            url: "{{ url('all-illnesses') }}",
+ // Replace with the URL to your API endpoint
+            dataType: 'json',
+            delay: 2, // Wait 250ms after typing stops to start the search
+            data: function (params) {
+                return {
+                    search: params.term, // search term
+                    page: params.page || 1
+                };
+            },
+            processResults: function (data, params) {
+                // Parse the results into the format expected by Select2
+                // since we are using custom formatting functions we do not need to
+                // alter the remote JSON data
+                params.page = params.page || 1;
+
+                return {
+                    results: data.results, // data.results should match the JSON response from Laravel
+                    pagination: {
+                        more: false // adjust based on your actual pagination logic
+                    }
+                };
+            },
+            cache: true
+        },
+        placeholder: 'Search for a illness',
+        minimumInputLength: 1, // Require at least one character before searching
+        // Additional options such as dropdownCssClass, width, etc.
+});
+
+$('#medicine_id').select2({
+        ajax: {
+            url: "{{ url('all-medicines') }}",
+ // Replace with the URL to your API endpoint
+            dataType: 'json',
+            delay: 2, // Wait 250ms after typing stops to start the search
+            data: function (params) {
+                return {
+                    search: params.term, // search term
+                    page: params.page || 1
+                };
+            },
+            processResults: function (data, params) {
+                // Parse the results into the format expected by Select2
+                // since we are using custom formatting functions we do not need to
+                // alter the remote JSON data
+                params.page = params.page || 1;
+
+                return {
+                    results: data.results, // data.results should match the JSON response from Laravel
+                    pagination: {
+                        more: false // adjust based on your actual pagination logic
+                    }
+                };
+            },
+            cache: true
+        },
+        placeholder: 'Search for a medicine',
+        minimumInputLength: 1, // Require at least one character before searching
+        // Additional options such as dropdownCssClass, width, etc.
+});
+
+$('#prodx_id').select2({
+        ajax: {
+            url: "{{ url('all-prodxs') }}",
+ // Replace with the URL to your API endpoint
+            dataType: 'json',
+            delay: 2, // Wait 250ms after typing stops to start the search
+            data: function (params) {
+                return {
+                    search: params.term, // search term
+                    page: params.page || 1
+                };
+            },
+            processResults: function (data, params) {
+                // Parse the results into the format expected by Select2
+                // since we are using custom formatting functions we do not need to
+                // alter the remote JSON data
+                params.page = params.page || 1;
+
+                return {
+                    results: data.results, // data.results should match the JSON response from Laravel
+                    pagination: {
+                        more: false // adjust based on your actual pagination logic
+                    }
+                };
+            },
+            cache: true
+        },
+        placeholder: 'Search for a Pro DX',
+        minimumInputLength: 1, // Require at least one character before searching
+        // Additional options such as dropdownCssClass, width, etc.
+});
+
+$('#gender_id').select2({
+        ajax: {
+            url: "{{ url('all-genders') }}",
+ // Replace with the URL to your API endpoint
+            dataType: 'json',
+            delay: 2, // Wait 250ms after typing stops to start the search
+            data: function (params) {
+                return {
+                    search: params.term, // search term
+                    page: params.page || 1
+                };
+            },
+            processResults: function (data, params) {
+                // Parse the results into the format expected by Select2
+                // since we are using custom formatting functions we do not need to
+                // alter the remote JSON data
+                params.page = params.page || 1;
+
+                return {
+                    results: data.results, // data.results should match the JSON response from Laravel
+                    pagination: {
+                        more: false // adjust based on your actual pagination logic
+                    }
+                };
+            },
+            cache: true
+        },
+        placeholder: 'Search Gender',
+        minimumInputLength: 1, // Require at least one character before searching
+        // Additional options such as dropdownCssClass, width, etc.
+});
 
 
     // Event listener for registration ID filter
-    $('#reg_id').on('change', function () {
-        currentRegIdFilter = $(this).val();
+    $('#gender_id').on('change', function () {
+        currentGenderFilter = $(this).val();
         applyFilters();
     });
      $('#complain_id').on('change', function () {
         currentComplainFilter = $(this).val() || [];
+        applyFilters();
+    });
+    $('#illness_id').on('change', function () {
+        currentIllnessFilter = $(this).val() || [];
         applyFilters();
     });
     $('#medicine_id').on('change', function () {
@@ -1038,8 +1167,10 @@ function updateTooltips(start, end) {
          
                 var data = response.data_dump;
                  console.log(data);
+                
                 healthcenter = response?.healthcenter?.HealthCenterName || 'ALL';
-  
+                 $("#parameters3").show();
+
               
                 // healthcenter = response.healthcenter;
                 collectionDate=fdate+"_To_"+ldate;
@@ -1115,6 +1246,7 @@ function updateTooltips(start, end) {
 
                     // Add a new row to the table
                     table.row.add(newRow).draw();
+                  
                 });
                 } else {
                     // Handle the case where there are no results (optional)
@@ -1138,6 +1270,7 @@ function updateTooltips(start, end) {
         $('#warning-searching').removeClass('invisible');
     });
 
+    
     
 
 </script>

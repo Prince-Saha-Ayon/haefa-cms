@@ -50,6 +50,7 @@ use Modules\Report\Entities\ViewExportData;
 use Modules\RefIllness\Entities\RefIllness;
 use Modules\RefDrug\Entities\RefDrug;
 use Modules\RefProvisionalDiagnosis\Entities\RefProvisionalDiagnosis;
+use Modules\RefGender\Entities\RefGender;
 use Symfony\Component\Process\Process;
 use App\Jobs\SyncJob; // Import the job class
 use Illuminate\Support\Facades\Queue; // Import Queue facade
@@ -184,16 +185,26 @@ public function diseaseindex()
  
        $branches=BarcodeFormat::with('healthCenter')->get(); 
        $regs=Patient::get('RegistrationId');
-       
-       $illnesses=RefIllness::get(['IllnessCode']);
-       $drugs=RefDrug::get(['DrugCode']);
-       $dxs=RefProvisionalDiagnosis::get(['ProvisionalDiagnosisName']);
+    //    $illnesses=RefIllness::get(['IllnessCode']);
+    //    $drugs=RefDrug::get(['DrugCode']);
+    //    $dxs=RefProvisionalDiagnosis::get(['ProvisionalDiagnosisName']);
 
         $this->setPageData('Report Analysis','Report Analysis','fas fa-th-list');
-        return view('report::hcanalysis',compact('branches','regs','illnesses','drugs','dxs'));
+        return view('report::hcanalysis',compact('branches','regs'));
     }
 
   public function GetAllComplain(Request $request){
+    $searchTerm = $request->input('search') ?? '';
+    $illnesses = RefIllness::where('IllnessCode', 'like', '%' . $searchTerm . '%')
+                              ->get()
+                              ->map(function ($illnesse) {
+                                  return ['id' => $illnesse->IllnessCode, 'text' => $illnesse->IllnessCode];
+                              });
+
+    return response()->json(['results' => $illnesses]);
+}
+
+  public function GetAllIllness(Request $request){
     $searchTerm = $request->input('search') ?? '';
     $complains = ChiefComplain::where('CCCode', 'like', '%' . $searchTerm . '%')
                               ->get()
@@ -204,6 +215,41 @@ public function diseaseindex()
     return response()->json(['results' => $complains]);
 }
 
+  public function GetAllMedicines(Request $request){
+    $searchTerm = $request->input('search') ?? '';
+    $medicines = RefDrug::where('DrugCode', 'like', '%' . $searchTerm . '%')
+                              ->get()
+                              ->map(function ($medicine) {
+                                  return ['id' => $medicine->DrugCode, 'text' => $medicine->DrugCode];
+                              });
+
+    return response()->json(['results' => $medicines]);
+}
+
+  public function GetAllProDxs(Request $request){
+    $searchTerm = $request->input('search') ?? '';
+    $prodxs = RefProvisionalDiagnosis::where('ProvisionalDiagnosisName', 'like', '%' . $searchTerm . '%')
+                              ->get()
+                              ->map(function ($prodx) {
+                                  return ['id' => $prodx->ProvisionalDiagnosisName, 'text' => $prodx->ProvisionalDiagnosisName];
+                              });
+
+    return response()->json(['results' => $prodxs]);
+
+    
+}
+  public function GetAllGenders(Request $request){
+    $searchTerm = $request->input('search') ?? '';
+    $genders = RefGender::where('GenderCode', 'like', '%' . $searchTerm . '%')
+                              ->get()
+                              ->map(function ($gender) {
+                                  return ['id' => $gender->GenderCode, 'text' => $gender->GenderCode];
+                              });
+
+    return response()->json(['results' => $genders]);
+    
+    
+}
     public function hcanalysisreport(Request $request){
         $first_date = $request->fdate;
         $last_date = $request->ldate;
