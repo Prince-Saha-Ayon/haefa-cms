@@ -88,6 +88,10 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('hcanalysis-report', 'ReportController@hcanalysisreport')->name('hcanalysis-report');
 
     Route::get('chief-complains', 'ReportController@GetAllComplain')->name('chiefcomplains');
+    Route::get('all-illnesses', 'ReportController@GetAllIllness')->name('allillnesses');
+    Route::get('all-medicines', 'ReportController@GetAllMedicines')->name('allmedicines');
+    Route::get('all-prodxs', 'ReportController@GetAllProDxs')->name('allprodxs');
+    Route::get('all-genders', 'ReportController@GetAllGenders')->name('allgenders');
 
 
     Route::group(['prefix' => 'patientage', 'as'=>'patientage.'], function () {
