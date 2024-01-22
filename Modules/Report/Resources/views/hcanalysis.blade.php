@@ -174,9 +174,11 @@
                             <div class="form-group col-md-3 col-lg-3">
                                 <label for="name" class="d-block">Genders</label>
 
-                                <select class="custom-width" multiple name="gender_id[]" id="gender_id">
-                                     <option value="">Select Gender</option>
-                                   
+                                <select class="custom-width" multiple  name="gender_id[]" id="gender_id">
+                                    <option value="" disabled>Select Gender</option>
+                                    @foreach($genders as $gender)
+                                    <option value="{{$gender->GenderCode}}">{{$gender->GenderCode}}</option>
+                                    @endforeach
                                 </select>
                             </div>
                     
@@ -192,8 +194,10 @@
                            <div class="form-group col-md-3 col-lg-3">
                                 <label for="illness_id" class="d-block">Illnesses</label>
                                 <select class="custom-width" multiple  id="illness_id" name="illness_id[]">
-                                    <option value="">Select Illness</option>
-                             
+                                    <option value="" disabled>Select Illness</option>
+                                    @foreach($illnesses as $illness)
+                                    <option value="{{$illness->IllnessCode}}">{{$illness->IllnessCode}}</option>
+                                    @endforeach
                                 </select>
                             </div>
 
@@ -253,11 +257,35 @@
                                     @endforeach --}}
                                 </select>
                             </div>
+                            <div class="form-group col-md-3">
+                                <label for="name" class="d-flex">TB Screening</label>
+
+                                <select class="custom-width" multiple name="tb_result[]" id="tb_result">
+                                    <option value="" disabled>Select TB Details</option> <!-- Empty option added -->
+                                    <option value="CoughGreaterThanMonth">Cough > 3 Month</option> 
+                                    <option value="LGERF">LGERF</option> 
+                                    <option value="NightSweat">Night Sweat</option> 
+                                    <option value="WeightLoss">Weight Loss</option> 
+                                </select>
+                            </div>
+                            <div class="form-group col-md-3">
+                                <label for="name" class="d-flex">Physical Examination</label>
+
+                                <select class="custom-width" multiple  name="physical_exam[]" id="physical_exam">
+                                    <option value="" disabled>Select Examination Type</option> <!-- Empty option added -->
+                                    <option value="AnemiaSeverity">Anemia</option> 
+                                    <option value="JaundiceSeverity">Jaundice</option> 
+                                    <option value="EdemaSeverity">Edema</option> 
+                                    <option value="LymphNodesWithPalpable">Lymph Nodes With Palpable</option> 
+                                    <option value="HeartWithNAD">Heart With NAD</option> 
+                                    <option value="LungsWithNAD">Lungs With NAD</option> 
+                                </select>
+                            </div>
                      
                         </div>
                     </form>
 
-                       <table id="dataTable" class="table table-striped table-bordered table-hover ">
+                    <table id="dataTable" class="table table-striped table-bordered table-hover ">
                             <thead class="bg-primary">
                             <tr>
                                 <th>PatientID</th>
@@ -282,7 +310,7 @@
                                 <th>HrsFromLastEat</th>
                                 <th>Hemoglobin</th>
                                 <th>AnemiaSeverity</th>
-                                <th>CoughGreaterThanMonth</th>
+                                <th>CoughGreaterThan3Month</th>
                                 <th>LGERF</th>
                                 <th>NightSweat</th>
                                 <th>WeightLoss</th>
@@ -315,6 +343,12 @@
                                 <th>DiagnosticSuggestion</th>
                                 <th>PatientIllness</th>
                                 <th>FollowUpDate</th>
+                                <th>AnemiaSeverity</th>
+                                <th>JaundiceSeverity</th>
+                                <th>EdemaSeverity</th>
+                                <th>LymphNodesWithPalpable</th>
+                                <th>HeartWithNAD</th>
+                                <th>LungsWithNAD</th>
                                
                                 
                                
@@ -423,7 +457,10 @@
     
     $(document).ready(function () {
         //   $('#complain_id').select2();
-        //   $('#illness_id').select2();
+   $('#illness_id').select2();
+   $('#gender_id').select2();
+   $('#tb_result').select2();
+   $('#physical_exam').select2();
         //   $('#prodx_id').select2();
         //   $('#medicine_id').select2();
     $("#parameters3").hide();
@@ -436,7 +473,7 @@
         orderCellsTop: true,
         ordering:false,
         columnDefs: [
-            { targets: [ 7, 5,8, 9, 10, 20, 21, 22, 23, 24, 25 ,27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47,48,49], visible: false }, // Hide the columns
+            { targets: [ 7,8, 9, 10, 20, 21, 22, 23, 24, 25 ,27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47,48,49,52,53,54,55,56,57,58,59,60], visible: false }, // Hide the columns
         ],
         
          buttons: [
@@ -446,7 +483,10 @@
                 filename: filename,
                 title: '',
                 exportOptions: {
-                    columns: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51,52,53], // Include specific columns in the export
+                        columns: function(idx, data, node) {
+                            return exportedColumns.includes(idx);
+                    }
+                    // columns: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51,52,53], // Include specific columns in the export
                 },
                 customize: function(xlsx,resultCount) {
             var sheet = xlsx.xl.worksheets['sheet1.xml'];
@@ -551,6 +591,9 @@
 
     var currentHrslasteatMin = 0;
     var currentHrslasteatMax = 48;
+
+    var selectedColumns = [];
+    var exportedColumns = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51,52,53,54,55,56,57,58,59,60];
     
 
 
@@ -610,13 +653,111 @@
                 return illnessMatch  && complainMatch && medMatch  && prodxMatch && systolicMatch && diastolicMatch && hrateMatch && rbgMatch && fbgMatch && hrslasteatMatch && genderMatch;
             }
         );
+        selectedColumns.forEach(function(index) {
+          table.column(index).visible(true);
+        });
 
         table.draw();
         $.fn.dataTable.ext.search.pop();
     }
 
 //Event listener for illness filter
-  
+$('#tb_result').change(function() {
+    var values = $(this).val() || []; // Ensure values is an array, even if nothing is selected
+
+    // Reset visibility for optional columns
+    table.column(22).visible(false);
+    table.column(23).visible(false);
+    table.column(24).visible(false);
+    table.column(25).visible(false);
+
+    // Clear previous selections
+    selectedColumns = [];
+    exportedColumns = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53,54];
+
+    // Update visibility and exported columns based on selection
+    if (values.includes("CoughGreaterThanMonth")) {
+        selectedColumns.push(22);
+        exportedColumns.push(22);
+        table.column(22).visible(true);
+    }
+    if (values.includes("LGERF")) {
+        selectedColumns.push(23);
+        exportedColumns.push(23);
+        table.column(23).visible(true);
+    }
+    if (values.includes("NightSweat")) {
+        selectedColumns.push(24);
+        exportedColumns.push(24);
+        table.column(24).visible(true);
+    }
+    if (values.includes("WeightLoss")) {
+        selectedColumns.push(25);
+        exportedColumns.push(25);
+        table.column(25).visible(true);
+    }
+
+    // Apply filters which will also handle column visibility
+    applyFilters();
+});
+
+$('#physical_exam').change(function() {
+    var values = $(this).val() || []; // Ensure values is an array, even if nothing is selected
+
+    // Reset visibility for optional columns
+    table.column(54).visible(false);
+    table.column(55).visible(false);
+    table.column(56).visible(false);
+    table.column(57).visible(false);
+    table.column(58).visible(false);
+    table.column(59).visible(false);
+
+    // Clear previous selections
+    selectedColumns = [];
+    exportedColumns = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53,54];
+
+    // Update visibility and exported columns based on selection
+    //  <option value="AnemiaSeverity">Anemia</option> 
+    //                                 <option value="JaundiceSeverity">Jaundice</option> 
+    //                                 <option value="EdemaSeverity">Edema</option> 
+    //                                 <option value="LymphNodesWithPalpable">Lymph Nodes With Palpable</option> 
+    //                                 <option value="HeartWithNAD">Heart With NAD</option> 
+    //                                 <option value="LungsWithNAD">Lungs With NAD</option> 
+    if (values.includes("AnemiaSeverity")) {
+        selectedColumns.push(55);
+        exportedColumns.push(55);
+        table.column(55).visible(true);
+    }
+    if (values.includes("JaundiceSeverity")) {
+        selectedColumns.push(56);
+        exportedColumns.push(56);
+        table.column(56).visible(true);
+    }
+    if (values.includes("EdemaSeverity")) {
+        selectedColumns.push(57);
+        exportedColumns.push(57);
+        table.column(57).visible(true);
+    }
+    if (values.includes("LymphNodesWithPalpable")) {
+        selectedColumns.push(58);
+        exportedColumns.push(58);
+        table.column(58).visible(true);
+    }
+    if (values.includes("HeartWithNAD")) {
+        selectedColumns.push(59);
+        exportedColumns.push(59);
+        table.column(59).visible(true);
+    }
+    if (values.includes("LungsWithNAD")) {
+        selectedColumns.push(60);
+        exportedColumns.push(60);
+        table.column(60).visible(true);
+    }
+
+    // Apply filters which will also handle column visibility
+    applyFilters();
+});
+
 
 $('#complain_id').select2({
         ajax: {
@@ -650,37 +791,37 @@ $('#complain_id').select2({
         // Additional options such as dropdownCssClass, width, etc.
 });
 
-$('#illness_id').select2({
-        ajax: {
-            url: "{{ url('all-illnesses') }}",
- // Replace with the URL to your API endpoint
-            dataType: 'json',
-            delay: 2, // Wait 250ms after typing stops to start the search
-            data: function (params) {
-                return {
-                    search: params.term, // search term
-                    page: params.page || 1
-                };
-            },
-            processResults: function (data, params) {
-                // Parse the results into the format expected by Select2
-                // since we are using custom formatting functions we do not need to
-                // alter the remote JSON data
-                params.page = params.page || 1;
+// $('#illness_id').select2({
+//         ajax: {
+//             url: "{{ url('all-illnesses') }}",
+//  // Replace with the URL to your API endpoint
+//             dataType: 'json',
+//             delay: 2, // Wait 250ms after typing stops to start the search
+//             data: function (params) {
+//                 return {
+//                     search: params.term, // search term
+//                     page: params.page || 1
+//                 };
+//             },
+//             processResults: function (data, params) {
+//                 // Parse the results into the format expected by Select2
+//                 // since we are using custom formatting functions we do not need to
+//                 // alter the remote JSON data
+//                 params.page = params.page || 1;
 
-                return {
-                    results: data.results, // data.results should match the JSON response from Laravel
-                    pagination: {
-                        more: false // adjust based on your actual pagination logic
-                    }
-                };
-            },
-            cache: true
-        },
-        placeholder: 'Search for a illness',
-        minimumInputLength: 1, // Require at least one character before searching
-        // Additional options such as dropdownCssClass, width, etc.
-});
+//                 return {
+//                     results: data.results, // data.results should match the JSON response from Laravel
+//                     pagination: {
+//                         more: false // adjust based on your actual pagination logic
+//                     }
+//                 };
+//             },
+//             cache: true
+//         },
+//         placeholder: 'Search for a illness',
+//         minimumInputLength: 1, // Require at least one character before searching
+//         // Additional options such as dropdownCssClass, width, etc.
+// });
 
 $('#medicine_id').select2({
         ajax: {
@@ -746,37 +887,37 @@ $('#prodx_id').select2({
         // Additional options such as dropdownCssClass, width, etc.
 });
 
-$('#gender_id').select2({
-        ajax: {
-            url: "{{ url('all-genders') }}",
- // Replace with the URL to your API endpoint
-            dataType: 'json',
-            delay: 2, // Wait 250ms after typing stops to start the search
-            data: function (params) {
-                return {
-                    search: params.term, // search term
-                    page: params.page || 1
-                };
-            },
-            processResults: function (data, params) {
-                // Parse the results into the format expected by Select2
-                // since we are using custom formatting functions we do not need to
-                // alter the remote JSON data
-                params.page = params.page || 1;
+// $('#gender_id').select2({
+//         ajax: {
+//             url: "{{ url('all-genders') }}",
+//  // Replace with the URL to your API endpoint
+//             dataType: 'json',
+//             delay: 2, // Wait 250ms after typing stops to start the search
+//             data: function (params) {
+//                 return {
+//                     search: params.term, // search term
+//                     page: params.page || 1
+//                 };
+//             },
+//             processResults: function (data, params) {
+//                 // Parse the results into the format expected by Select2
+//                 // since we are using custom formatting functions we do not need to
+//                 // alter the remote JSON data
+//                 params.page = params.page || 1;
 
-                return {
-                    results: data.results, // data.results should match the JSON response from Laravel
-                    pagination: {
-                        more: false // adjust based on your actual pagination logic
-                    }
-                };
-            },
-            cache: true
-        },
-        placeholder: 'Search Gender',
-        minimumInputLength: 1, // Require at least one character before searching
-        // Additional options such as dropdownCssClass, width, etc.
-});
+//                 return {
+//                     results: data.results, // data.results should match the JSON response from Laravel
+//                     pagination: {
+//                         more: false // adjust based on your actual pagination logic
+//                     }
+//                 };
+//             },
+//             cache: true
+//         },
+//         placeholder: 'Search Gender',
+//         minimumInputLength: 1, // Require at least one character before searching
+//         // Additional options such as dropdownCssClass, width, etc.
+// });
 
 
     // Event listener for registration ID filter
@@ -1240,8 +1381,12 @@ function updateTooltips(start, end) {
                         result.DiagnosticSuggestion || "-", // Handle missing data
                         result.PatientIllness || "-", // Handle missing data
                         result.FollowUpdate || "-", // Handle missing data
-
-
+                        result.AnemiaSeverity || "-", // Handle missing data
+                        result.JaundiceSeverity || "-", // Handle missing data
+                        result.EdemaSeverity || "-", // Handle missing data
+                        result.LymphNodesWithPalpable || "-", // Handle missing data
+                        result.HeartWithNAD || "-", // Handle missing data
+                        result.LungsWithNAD || "-", // Handle missing data
                        
                     ];
 
@@ -1264,6 +1409,22 @@ function updateTooltips(start, end) {
         $('#hc_id').val('').selectpicker('refresh');
         $('#starting_age').val('');
         $('#ending_age').val('');
+        // If you have specific initialization code for your dropdowns or other elements, add it here
+        // $("#hc_id").val(null).trigger('change');
+        // $("#gender_id").val(null).trigger('change');
+        // $("#complain_id").val(null).trigger('change');
+        // $("#illness_id").val(null).trigger('change');
+        // $("#medicine_id").val(null).trigger('change');
+        // $("#prodx_id").val(null).trigger('change');
+
+        //     // Clear any dynamic content in your range sliders or other dynamic elements
+        // $("#systolicRange").empty();
+        // $("#ageRange").empty();
+        // $("#diastolicRange").empty();
+        // $("#heartRate").empty();
+        // $("#rbg").empty();
+        // $("#fbg").empty();
+        // $("#hrslasteat").empty();
         
     });
 

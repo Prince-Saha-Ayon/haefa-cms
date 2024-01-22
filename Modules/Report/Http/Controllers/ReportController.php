@@ -185,12 +185,13 @@ public function diseaseindex()
  
        $branches=BarcodeFormat::with('healthCenter')->get(); 
        $regs=Patient::get('RegistrationId');
-    //    $illnesses=RefIllness::get(['IllnessCode']);
+       $genders = RefGender::get('GenderCode');
+       $illnesses=RefIllness::get(['IllnessCode']);
     //    $drugs=RefDrug::get(['DrugCode']);
     //    $dxs=RefProvisionalDiagnosis::get(['ProvisionalDiagnosisName']);
 
         $this->setPageData('Report Analysis','Report Analysis','fas fa-th-list');
-        return view('report::hcanalysis',compact('branches','regs'));
+        return view('report::hcanalysis',compact('branches','regs','genders','illnesses'));
     }
 
   public function GetAllIllness(Request $request){
