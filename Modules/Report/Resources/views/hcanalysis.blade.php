@@ -14,6 +14,8 @@
     font-size: 1.8rem;
     color: black !important;
     opacity: 0.5;
+    top: 0px !important;
+    left: 0px !important;
     /* box-shadow: 0 0 5px 5px rgba(0, 0, 0, 0.03); */
     border-radius: 0.4rem;
     z-index: 1;
@@ -76,7 +78,9 @@
 .custom-width{
     width:100% !important;	
 }
-
+.select2-container{
+     width:100% !important;
+}
 
 </style>
 <!-- Include Select2 CSS -->
@@ -167,26 +171,17 @@
                         </div>
                         <div class="row" id="parameters1">
                             
-                            <div class="form-group col-md-3">
-                                <label for="name">Genders</label>
+                            <div class="form-group col-md-3 col-lg-3">
+                                <label for="name" class="d-block">Genders</label>
 
                                 <select class="custom-width" multiple name="gender_id[]" id="gender_id">
                                      <option value="">Select Gender</option>
                                    
                                 </select>
                             </div>
-                             {{-- <div class="form-group col-md-3">
-                                <label for="name">Complain</label>
-
-                                <select class="selectpicker" multiple data-live-search="true"  name="complain_id[]" id="complain_id">
-                                     <option value="" disabled>Select Complain</option>
-                                    @foreach($complains as $complain)
-                                    <option value="{{$complain->CCCode}}">{{$complain->CCCode}}</option>
-                                    @endforeach
-                                </select>
-                            </div> --}}
-                            <div class="form-group col-md-3">
-                                <label for="name">Complain</label>
+                    
+                            <div class="form-group col-md-3 col-lg-3">
+                                <label for="name" class="d-block">Complain</label>
                                 <select class="custom-width" multiple id="complain_id" name="complain_id[]">
                                     <option value="">Select Complain</option>
                                     {{-- @foreach($complains as $complain)
@@ -194,16 +189,16 @@
                                     @endforeach --}}
                                 </select>
                             </div>
-                           <div class="form-group col-md-3">
-                                <label for="illness_id">Illnesses</label>
+                           <div class="form-group col-md-3 col-lg-3">
+                                <label for="illness_id" class="d-block">Illnesses</label>
                                 <select class="custom-width" multiple  id="illness_id" name="illness_id[]">
                                     <option value="">Select Illness</option>
                              
                                 </select>
                             </div>
 
-                             <div class="form-group col-md-3">
-                                <label for="name">Medicine</label>
+                             <div class="form-group col-md-3 col-lg-3">
+                                <label for="name" class="d-block">Medicine</label>
 
                                 <select class="custom-width" multiple name="medicine_id[]" id="medicine_id">
                                      <option value="">Select Medicines</option>
@@ -213,7 +208,7 @@
                                 </select>
                             </div>
                         </div>
-                        <div class="row" id="">
+                        <div class="row" id="parameters2">
                           <div class="form-group col-md-3">
                                 <label for="name">Systolic Range</label>
                                 <div id="systolicRange"></div>
@@ -247,9 +242,9 @@
                                
                          </div>  
                         </div>
-                        <div class="row" id="">
+                        <div class="row" id="parameters4">
                              <div class="form-group col-md-3">
-                                <label for="name">Provisinal DX</label>
+                                <label for="name" class="d-block">Provisinal DX</label>
 
                                 <select class="custom-width" multiple name="prodx_id[]" id="prodx_id">
                                      <option value="">Select Provisional Diagnosis</option>
@@ -432,6 +427,9 @@
         //   $('#prodx_id').select2();
         //   $('#medicine_id').select2();
     $("#parameters3").hide();
+    $("#parameters2").hide();
+    $("#parameters1").hide();
+    $("#parameters4").hide();
     table = $('#dataTable').DataTable({
         pagingType: 'full_numbers',
         dom: 'Bfrtip',
@@ -1170,6 +1168,9 @@ function updateTooltips(start, end) {
                 
                 healthcenter = response?.healthcenter?.HealthCenterName || 'ALL';
                  $("#parameters3").show();
+                 $("#parameters2").show();
+                 $("#parameters1").show();
+                 $("#parameters4").show();
 
               
                 // healthcenter = response.healthcenter;
