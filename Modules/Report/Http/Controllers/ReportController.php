@@ -193,7 +193,7 @@ public function diseaseindex()
         return view('report::hcanalysis',compact('branches','regs'));
     }
 
-  public function GetAllComplain(Request $request){
+  public function GetAllIllness(Request $request){
     $searchTerm = $request->input('search') ?? '';
     $illnesses = RefIllness::where('IllnessCode', 'like', '%' . $searchTerm . '%')
                               ->get()
@@ -204,7 +204,7 @@ public function diseaseindex()
     return response()->json(['results' => $illnesses]);
 }
 
-  public function GetAllIllness(Request $request){
+  public function GetAllComplain(Request $request){
     $searchTerm = $request->input('search') ?? '';
     $complains = ChiefComplain::where('CCCode', 'like', '%' . $searchTerm . '%')
                               ->get()
