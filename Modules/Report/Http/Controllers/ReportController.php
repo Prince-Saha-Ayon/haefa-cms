@@ -43,6 +43,7 @@ use Modules\Report\Entities\SyncRecord;
 use Modules\Report\Entities\Union;
 use Modules\Report\Entities\ChiefComplain;
 use Modules\Report\Entities\Upazilla;
+use Modules\Report\Entities\SimplePatient;
 use Modules\Report\Entities\FollowUpDate;
 use Illuminate\Support\Facades\Log; 
 use Modules\Report\Entities\ViewDumpData;
@@ -251,12 +252,20 @@ public function diseaseindex()
     
     
 }
+
+public function GetSimplePatientList(){
+      $patients=SimplePatient::get();   
+       
+        $this->setPageData('Simple Patient','Simple Patient','fas fa-th-list');
+        return view('report::simplepatient',compact('patients'));
+}
     public function hcanalysisreport(Request $request){
         $first_date = $request->fdate;
         $last_date = $request->ldate;
         $barcode_prefix = $request->hc_id;
-        $starting_age = $request->starting_age;
-        $ending_age = $request->ending_age;
+        $starting_age = intval($request->starting_age);
+        $ending_age = intval($request->ending_age);
+       
         $hcname=HealthCenter::where('HealthCenterCode',$barcode_prefix )->first('HealthCenterName');
         $data_dump = ViewDumpData::whereBetween(DB::raw('CONVERT(date, CollectionDates)'), [$first_date, $last_date])
             ->where(function ($query) use ($barcode_prefix, $starting_age, $ending_age) {
@@ -265,7 +274,7 @@ public function diseaseindex()
                 }
 
                 if ($starting_age && $ending_age) {
-                    $query->whereBetween('Age', [$starting_age, $ending_age]);
+                   $query->whereBetween(DB::raw('CAST(Age AS BIGINT)'), [$starting_age, $ending_age]);
                 }
             })->get();
 
