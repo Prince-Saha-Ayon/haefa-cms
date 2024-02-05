@@ -9,13 +9,13 @@
     .custom-tooltip{
     position: relative;
     display: inline-block;
-    padding: 0.8rem 2rem;
-    background-color: #f2f2f2;
+    padding: 3px 18px;
+    /* background-color: #f2f2f2; */
     font-size: 1.8rem;
     color: black !important;
-    opacity: 0.5;
-    top: 0px !important;
-    left: 0px !important;
+    opacity: 0.7;
+    top: 10.5034px !important;
+    left: -17.7257px !important;
     /* box-shadow: 0 0 5px 5px rgba(0, 0, 0, 0.03); */
     border-radius: 0.4rem;
     z-index: 1;
@@ -23,38 +23,41 @@
     .custom-tooltip-age{
     position: relative;
     display: inline-block;
-    padding: 0.8rem 2rem;
-    background-color: #f2f2f2;
+    padding: 3px 18px;
+    /* background-color: #f2f2f2; */
     font-size: 1.8rem;
     color: black !important;
-    opacity: 0.5;
+    opacity: 0.7;
     /* box-shadow: 0 0 5px 5px rgba(0, 0, 0, 0.03); */
     border-radius: 0.4rem;
     z-index: 1;
+    top: 10.5034px !important;
     }
     .custom-tooltip-diastolic{
     position: relative;
     display: inline-block;
-    padding: 0.8rem 2rem;
-    background-color: #f2f2f2;
+    padding: 3px 18px;
+    /* background-color: #f2f2f2; */
     font-size: 1.8rem;
     color: black !important;
-    opacity: 0.5;
+    opacity: 0.7;
     /* box-shadow: 0 0 5px 5px rgba(0, 0, 0, 0.03); */
     border-radius: 0.4rem;
     z-index: 1;
+    top: 10.5034px !important;
     }
     .custom-tooltip-heart, .custom-tooltip-rbg, .custom-tooltip-fbg, .custom-tooltip-hrslasteat{
     position: relative;
     display: inline-block;
-    padding: 0.8rem 2rem;
-    background-color: #f2f2f2;
+    padding: 3px 18px;
+    /* background-color: #f2f2f2; */
     font-size: 1.8rem;
     color: black !important;
-    opacity: 0.5;
+    opacity: 0.7;
     /* box-shadow: 0 0 5px 5px rgba(0, 0, 0, 0.03); */
     border-radius: 0.4rem;
     z-index: 1;
+    top: 10.5034px !important;
     }
 
     .dropdown-menu {
@@ -175,7 +178,7 @@
                                 <label for="name" class="d-block">Genders</label>
 
                                 <select class="custom-width" multiple  name="gender_id[]" id="gender_id">
-                                    <option value="" disabled>Select Gender</option>
+                                    {{-- <option value="" disabled>Select Gender</option> --}}
                                     @foreach($genders as $gender)
                                     <option value="{{$gender->GenderCode}}">{{$gender->GenderCode}}</option>
                                     @endforeach
@@ -183,9 +186,9 @@
                             </div>
                     
                             <div class="form-group col-md-3 col-lg-3">
-                                <label for="name" class="d-block">Complain</label>
+                                <label for="name" class="d-block">Complain (Type to Search)</label>
                                 <select class="custom-width" multiple id="complain_id" name="complain_id[]">
-                                    <option value="">Select Complain</option>
+                                    {{-- <option value="">Select Complain</option> --}}
                                     {{-- @foreach($complains as $complain)
                                     <option value="{{$complain->CCCode}}">{{$complain->CCCode}}</option>
                                     @endforeach --}}
@@ -194,7 +197,7 @@
                            <div class="form-group col-md-3 col-lg-3">
                                 <label for="illness_id" class="d-block">Illnesses</label>
                                 <select class="custom-width" multiple  id="illness_id" name="illness_id[]">
-                                    <option value="" disabled>Select Illness</option>
+                                    {{-- <option value="" disabled>Select Illness</option> --}}
                                     @foreach($illnesses as $illness)
                                     <option value="{{$illness->IllnessCode}}">{{$illness->IllnessCode}}</option>
                                     @endforeach
@@ -202,10 +205,10 @@
                             </div>
 
                              <div class="form-group col-md-3 col-lg-3">
-                                <label for="name" class="d-block">Medicine</label>
+                                <label for="name" class="d-block">Medicine (Type to Search)</label>
 
                                 <select class="custom-width" multiple name="medicine_id[]" id="medicine_id">
-                                     <option value="">Select Medicines</option>
+                                     {{-- <option value="">Select Medicines</option> --}}
                                     {{-- @foreach($drugs as $drug)
                                     <option value="{{$drug->DrugCode}}">{{$drug->DrugCode}}</option>
                                     @endforeach --}}
@@ -248,10 +251,10 @@
                         </div>
                         <div class="row" id="parameters4">
                              <div class="form-group col-md-3">
-                                <label for="name" class="d-block">Provisinal DX</label>
+                                <label for="name" class="d-block">Provisinal DX (Type to Search)</label>
 
                                 <select class="custom-width" multiple name="prodx_id[]" id="prodx_id">
-                                     <option value="">Select Provisional Diagnosis</option>
+                                     {{-- <option value="">Select Provisional Diagnosis</option> --}}
                                     {{-- @foreach($dxs as $dx)
                                     <option value="{{$dx->ProvisionalDiagnosisName}}">{{$dx->ProvisionalDiagnosisName}}</option>
                                     @endforeach --}}
@@ -261,7 +264,7 @@
                                 <label for="name" class="d-flex">TB Screening</label>
 
                                 <select class="custom-width" multiple name="tb_result[]" id="tb_result">
-                                    <option value="" disabled>Select TB Details</option> <!-- Empty option added -->
+                                    {{-- <option value="" disabled>Select TB Details</option> <!-- Empty option added --> --}}
                                     <option value="CoughGreaterThanMonth">Cough > 3 Month</option> 
                                     <option value="LGERF">LGERF</option> 
                                     <option value="NightSweat">Night Sweat</option> 
@@ -272,7 +275,7 @@
                                 <label for="name" class="d-flex">Physical Examination</label>
 
                                 <select class="custom-width" multiple  name="physical_exam[]" id="physical_exam">
-                                    <option value="" disabled>Select Examination Type</option> <!-- Empty option added -->
+                                    {{-- <option value="" disabled>Select Examination Type</option> <!-- Empty option added --> --}}
                                     <option value="AnemiaSeverity">Anemia</option> 
                                     <option value="JaundiceSeverity">Jaundice</option> 
                                     <option value="EdemaSeverity">Edema</option> 
@@ -425,7 +428,7 @@
             'This Month': [moment().startOf('month'), moment().endOf('month')],
             'Last Month': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')],
             // 'This Quarter': [moment().startOf('quarter'), moment().endOf('quarter')],
-            'This Year': [moment().startOf('year'), moment().endOf('year')],
+            // 'This Year': [moment().startOf('year'), moment().endOf('year')],
             // Add more custom ranges here...
         }
     }, cb);
@@ -449,7 +452,7 @@
     now.getHours().toString().padStart(2, '0') + '_' +
     now.getMinutes().toString().padStart(2, '0') + '_' +
     now.getSeconds().toString().padStart(2, '0');
-    var filename = 'ProvisionalDiagnosis_PatientCount_AgeWise_' + formattedDate;
+    var filename = 'Report_Analysis_' + formattedDate;
     var isFiltering='';
 
   
@@ -467,13 +470,15 @@
     $("#parameters2").hide();
     $("#parameters1").hide();
     $("#parameters4").hide();
+      var starting_age = 0;
+        var ending_age = 0;
     table = $('#dataTable').DataTable({
         pagingType: 'full_numbers',
-        dom: 'Bfrtip',
+        dom: 'Brtip',
         orderCellsTop: true,
         ordering:false,
         columnDefs: [
-            { targets: [ 7,8, 9, 10, 20, 21, 22, 23, 24, 25 ,27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47,48,49,52,53,54,55,56,57,58,59,60], visible: false }, // Hide the columns
+            { targets: [  6, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21,22,23,24,25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51,52,53,54,55,56,57,58,59,60], visible: false }, // Hide the columns
         ],
         
          buttons: [
@@ -490,7 +495,7 @@
                 },
                 customize: function(xlsx,resultCount) {
             var sheet = xlsx.xl.worksheets['sheet1.xml'];
-            var downrows = 5; // Number of rows to add
+            var downrows = 19; // Number of rows to add
             var clRow = $('row', sheet);
 
             // Update Row
@@ -543,9 +548,92 @@
 
             var r4 = Addrow(4, [{
                 k: 'A',
-                v: 'Report Type: Provisional Diagnosis Patient Count Age wise'
+                v: 'Report Type: Analysis'
             }]);
-             var r5 = Addrow(5, [{
+
+             startingAge = $("#ageRange").slider("values", 0);
+             endingAge = $("#ageRange").slider("values", 1);
+
+            var r5 = Addrow(5, [{
+                k: 'A',
+                v: 'Age Range: '+ (startingAge && endingAge > 0 ? 'Min: ' + startingAge + ' Max: ' +  endingAge: 'N/A'),
+            }]);
+          
+          
+            var r6 = Addrow(6, [{
+                k: 'A',
+                v: 'Gender: ' + (currentGenderFilter.length > 0 ? currentGenderFilter : 'N/A'),
+            }]);
+
+            var r7 = Addrow(7, [{
+                k: 'A',
+                v: 'Complain: ' + (currentComplainFilter.length > 0 ? currentComplainFilter : 'N/A'),
+            }]);
+
+            var r8 = Addrow(8, [{
+                k: 'A',
+                v: 'Illnesses: ' + (currentIllnessFilter.length > 0 ? currentIllnessFilter : 'N/A'),
+            }]);
+
+            
+
+            var r9 = Addrow(9, [{
+                k: 'A',
+                v: 'Medicines: ' + (currentMedicineFilter.length > 0 ? currentMedicineFilter : 'N/A'),
+            }]);
+
+            var r10 = Addrow(10, [{
+                k: 'A',
+                v: 'Systolic Range: ' + (currentSystolicMin && currentSystolicMax > 0 ? 'Min: ' + currentSystolicMin + ' Max: ' + currentSystolicMax : 'N/A'),
+            }]);
+
+
+
+            var r11= Addrow(11, [{
+                k: 'A',
+                v: 'Diastolic Range: ' + (currentDiastolicMin && currentDiastolicMax > 0 ? 'Min: '+ currentDiastolicMax + ' Max: ' + currentDiastolicMax : 'N/A'),
+            }]);
+
+            var r12 = Addrow(12, [{
+                k: 'A',
+                v: 'Heart Rate: ' + (currentHrateMin && currentHrateMax > 0 ? 'Min: '+ currentHrateMin + ' Max: '  + currentHrateMax: 'N/A'),
+            }]);
+
+            var r13 = Addrow(13, [{
+                k: 'A',
+                v: 'RBG: ' + (currentRBGMin && currentRBGMax > 0 ? 'Min: ' + currentRBGMin + ' Max: ' + currentRBGMax: 'N/A'),
+            }]);
+
+            var r14 = Addrow(14, [{
+                k: 'A',
+                v: 'FBG: ' + (currentFBGMin && currentFBGMax > 0 ? 'Min: ' + currentFBGMin + ' Max: ' +  currentFBGMax: 'N/A'),
+            }]);
+
+            var r15 = Addrow(15, [{
+                k: 'A',
+                v: 'HoursFromLastEat: ' + (currentHrslasteatMin && currentHrslasteatMax > 0 ? 'Min: ' + currentHrslasteatMin + ' Max: ' + currentHrslasteatMax: 'N/A'),
+            }]);
+
+            var r16 = Addrow(16, [{
+                k: 'A',
+                v: 'Provisional DX: ' + (currentProdxFilter.length > 0 ? currentProdxFilter : 'N/A'),
+            }]);
+
+            var r17 = Addrow(17, [{
+                k: 'A',
+                v: 'TB Screening: ' + (tbScreening.length > 0 ? tbScreening : 'N/A'),
+            }]);
+
+            var r18 = Addrow(18, [{
+                k: 'A',
+                v: 'Physical Examination: ' + (physicalExam.length > 0 ? physicalExam : 'N/A'),
+            }]);
+
+           
+
+
+
+            var r19 = Addrow(19, [{
                 k: 'A',
                 v: ''
             }, {
@@ -553,21 +641,14 @@
                 v: ''
             }]);
 
-            sheet.childNodes[0].childNodes[1].innerHTML = r1 + r2 + r3 + r4 + r5 + sheet.childNodes[0].childNodes[1].innerHTML;
-            // table.clear().draw();
-            // $('#hc_id').val('').selectpicker('refresh');
+            sheet.childNodes[0].childNodes[1].innerHTML = r1 + r2 + r3 + r4 + r5 + r6 + r7 + r8 + r9 + r10 + r11 + r12 + r13 + r14 + r15 + r16 + r17 + r18 +  r19 + sheet.childNodes[0].childNodes[1].innerHTML;
+            table.clear().draw();
+            $('#hc_id').val('').selectpicker('refresh');
     },
             },
         ],
     });
 
-  
-    // $('#complain_id').on('change', function () {
-    //      var selectedValue = $(this).val();
-
-    //         // Use DataTables API to search and filter the table
-    //         table.search(selectedValue).draw();
-    // });
  
     
     var currentIllnessFilter = [];
@@ -583,6 +664,7 @@
     var currentHrateMin = 0;
     var currentHrateMax = 250;
 
+
     var currentRBGMin = 0;
     var currentRBGMax = 50;
 
@@ -591,6 +673,8 @@
 
     var currentHrslasteatMin = 0;
     var currentHrslasteatMax = 48;
+    var tbScreening=[];
+    var physicalExam=[];
 
     var selectedColumns = [];
     var exportedColumns = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51,52,53,54,55,56,57,58,59,60];
@@ -663,7 +747,8 @@
 
 //Event listener for illness filter
 $('#tb_result').change(function() {
-    var values = $(this).val() || []; // Ensure values is an array, even if nothing is selected
+    var values = $(this).val() || [];
+    tbScreening =values; // Ensure values is an array, even if nothing is selected
 
     // Reset visibility for optional columns
     table.column(22).visible(false);
@@ -677,24 +762,24 @@ $('#tb_result').change(function() {
 
     // Update visibility and exported columns based on selection
     if (values.includes("CoughGreaterThanMonth")) {
-        selectedColumns.push(22);
+        // selectedColumns.push(22);
         exportedColumns.push(22);
-        table.column(22).visible(true);
+        // table.column(22).visible(true);
     }
     if (values.includes("LGERF")) {
-        selectedColumns.push(23);
+        // selectedColumns.push(23);
         exportedColumns.push(23);
-        table.column(23).visible(true);
+        // table.column(23).visible(true);
     }
     if (values.includes("NightSweat")) {
-        selectedColumns.push(24);
+        // selectedColumns.push(24);
         exportedColumns.push(24);
-        table.column(24).visible(true);
+        // table.column(24).visible(true);
     }
     if (values.includes("WeightLoss")) {
-        selectedColumns.push(25);
+        // selectedColumns.push(25);
         exportedColumns.push(25);
-        table.column(25).visible(true);
+        // table.column(25).visible(true);
     }
 
     // Apply filters which will also handle column visibility
@@ -702,7 +787,8 @@ $('#tb_result').change(function() {
 });
 
 $('#physical_exam').change(function() {
-    var values = $(this).val() || []; // Ensure values is an array, even if nothing is selected
+    var values = $(this).val() || [];
+    physicalExam = values; // Ensure values is an array, even if nothing is selected
 
     // Reset visibility for optional columns
     table.column(54).visible(false);
@@ -724,34 +810,34 @@ $('#physical_exam').change(function() {
     //                                 <option value="HeartWithNAD">Heart With NAD</option> 
     //                                 <option value="LungsWithNAD">Lungs With NAD</option> 
     if (values.includes("AnemiaSeverity")) {
-        selectedColumns.push(55);
+        // selectedColumns.push(55);
         exportedColumns.push(55);
-        table.column(55).visible(true);
+        // table.column(55).visible(true);
     }
     if (values.includes("JaundiceSeverity")) {
-        selectedColumns.push(56);
+        // selectedColumns.push(56);
         exportedColumns.push(56);
-        table.column(56).visible(true);
+        // table.column(56).visible(true);
     }
     if (values.includes("EdemaSeverity")) {
-        selectedColumns.push(57);
+        // selectedColumns.push(57);
         exportedColumns.push(57);
-        table.column(57).visible(true);
+        // table.column(57).visible(true);
     }
     if (values.includes("LymphNodesWithPalpable")) {
-        selectedColumns.push(58);
+        //selectedColumns.push(58);
         exportedColumns.push(58);
-        table.column(58).visible(true);
+        //table.column(58).visible(true);
     }
     if (values.includes("HeartWithNAD")) {
-        selectedColumns.push(59);
+        //selectedColumns.push(59);
         exportedColumns.push(59);
-        table.column(59).visible(true);
+       // table.column(59).visible(true);
     }
     if (values.includes("LungsWithNAD")) {
-        selectedColumns.push(60);
+        //selectedColumns.push(60);
         exportedColumns.push(60);
-        table.column(60).visible(true);
+        //table.column(60).visible(true);
     }
 
     // Apply filters which will also handle column visibility
@@ -956,6 +1042,7 @@ $('#prodx_id').select2({
         }
     });
 
+
     // Function to update tooltips for age slider
     function updateTooltipsAge(start, end) {
     // Update tooltips for both handles
@@ -983,6 +1070,51 @@ $('#prodx_id').select2({
             of: $("#ageRange .ui-slider-handle").eq(index)
         });
     }
+
+
+    $('#btn-reset').click(function () {
+       
+        table.clear().draw();
+        $('#hc_id').val('').selectpicker('refresh');
+        $('#starting_age').val('');
+        $('#ending_age').val('');
+        // If you have specific initialization code for your dropdowns or other elements, add it here
+        // $("#hc_id").val(null).trigger('change');
+        $("#gender_id").select2('destroy').val(null).trigger('change');
+        $("#illness_id").select2('destroy').val(null).trigger('change');
+        $("#tb_result").select2('destroy').val(null).trigger('change');
+        $("#physical_exam").select2('destroy').val(null).trigger('change');
+        $("#complain_id").select2('destroy').val(null).trigger('change');
+        $("#medicine_id").select2('destroy').val(null).trigger('change');
+        $("#prodx_id").select2('destroy').val(null).trigger('change');
+
+        $("#gender_id").select2();
+        $("#illness_id").select2();
+        $("#tb_result").select2();
+        $("#physical_exam").select2();
+        $("#complain_id").select2();
+        $("#medicine_id").select2();
+        $("#prodx_id").select2();
+
+        $('#systolicRange').slider('values', [0, 250]);
+        $('#diastolicRange').slider('values', [0, 250]);
+        $('#heartRate').slider('values', [0, 250]);
+        $('#rbg').slider('values', [0, 250]);
+        $('#fbg').slider('values', [0, 250]);
+        $('#hrslasteat').slider('values', [0, 250]);
+        $('#ageRange').slider('values', [0, 150]);
+        updateTooltips(0, 250);
+        updateTooltipsDiastolic(0, 250);
+        updateTooltipsHeart(0, 250);
+        updateTooltipsRBG(0, 250);
+        updateTooltipsFBG(0, 250);
+        updateTooltipsHrslasteat(0, 250);
+        updateTooltipsAge(0, 150);
+       
+
+
+        
+    });
 
     // Initial tooltips setup
     updateTooltips($("#ageRange").slider("values", 0), $("#ageRange").slider("values", 1));
@@ -1288,9 +1420,9 @@ function updateTooltips(start, end) {
         const fdate = parts[0];
         const ldate = parts[1];
       
-        var starting_age = $("#ageRange").slider("values", 0);
-        var ending_age = $("#ageRange").slider("values", 1);
-    
+starting_age = parseInt($("#ageRange").slider("values", 0), 10);
+ending_age = parseInt($("#ageRange").slider("values", 1), 10);
+
 
         $.ajax({
             type: "GET",
@@ -1403,30 +1535,7 @@ function updateTooltips(start, end) {
     });
 
     });
-      $('#btn-reset').click(function () {
-       
-        table.clear().draw();
-        $('#hc_id').val('').selectpicker('refresh');
-        $('#starting_age').val('');
-        $('#ending_age').val('');
-        // If you have specific initialization code for your dropdowns or other elements, add it here
-        // $("#hc_id").val(null).trigger('change');
-        // $("#gender_id").val(null).trigger('change');
-        // $("#complain_id").val(null).trigger('change');
-        // $("#illness_id").val(null).trigger('change');
-        // $("#medicine_id").val(null).trigger('change');
-        // $("#prodx_id").val(null).trigger('change');
 
-        //     // Clear any dynamic content in your range sliders or other dynamic elements
-        // $("#systolicRange").empty();
-        // $("#ageRange").empty();
-        // $("#diastolicRange").empty();
-        // $("#heartRate").empty();
-        // $("#rbg").empty();
-        // $("#fbg").empty();
-        // $("#hrslasteat").empty();
-        
-    });
 
     $('#btn-filter').on('click', function (event) {
         $('#warning-searching').removeClass('invisible');
