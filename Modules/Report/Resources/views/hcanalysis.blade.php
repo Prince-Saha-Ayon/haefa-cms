@@ -90,7 +90,7 @@
 
 
 
-<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/css/select2.min.css" rel="stylesheet" />
+<link href="css/select2.min.css" rel="stylesheet" />
 @endpush
 
 @section('content')
@@ -390,11 +390,11 @@
 <script src="js/dataTables.buttons.min.js"></script>
 <script src="js/buttons.html5.min.js"></script>
 
-<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-<link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+<script src="js/jquery-ui.js"></script>
+<link rel="stylesheet" href="css/jquery-ui.css">
 
 
-<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/js/select2.min.js"></script>
+<script src="js/select2.min.js"></script>
 <!-- Include Select2 JS -->
 
 <script>
@@ -644,6 +644,7 @@
             sheet.childNodes[0].childNodes[1].innerHTML = r1 + r2 + r3 + r4 + r5 + r6 + r7 + r8 + r9 + r10 + r11 + r12 + r13 + r14 + r15 + r16 + r17 + r18 +  r19 + sheet.childNodes[0].childNodes[1].innerHTML;
             table.clear().draw();
             $('#hc_id').val('').selectpicker('refresh');
+            clearfields();
     },
             },
         ],
@@ -1071,9 +1072,7 @@ $('#prodx_id').select2({
         });
     }
 
-
-    $('#btn-reset').click(function () {
-       
+    function clearfields(){
         table.clear().draw();
         $('#hc_id').val('').selectpicker('refresh');
         $('#starting_age').val('');
@@ -1110,6 +1109,14 @@ $('#prodx_id').select2({
         updateTooltipsFBG(0, 250);
         updateTooltipsHrslasteat(0, 250);
         updateTooltipsAge(0, 150);
+        $("#parameters3").hide();
+        $("#parameters2").hide();
+        $("#parameters1").hide();
+        $("#parameters4").hide();
+    }
+    $('#btn-reset').click(function () {
+       
+        clearfields();
        
 
 
