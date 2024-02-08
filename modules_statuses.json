@@ -78,5 +78,6 @@
     "RefProvisionalDiagnosis": true,
     "RefLabInvestigation": true,
     "RefAutoSuggestion": true,
-    "RefAdvice": true
+    "RefAdvice": true,
+    "ProductionAPI": true
 }
