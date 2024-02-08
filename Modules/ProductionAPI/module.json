@@ -1,0 +1,13 @@
+{
+    "name": "ProductionAPI",
+    "alias": "productionapi",
+    "description": "",
+    "keywords": [],
+    "priority": 0,
+    "providers": [
+        "Modules\\ProductionAPI\\Providers\\ProductionAPIServiceProvider"
+    ],
+    "aliases": {},
+    "files": [],
+    "requires": []
+}
