@@ -5,56 +5,39 @@ namespace Modules\ProductionAPI\Http\Controllers;
 use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
+use Modules\Base\Http\Controllers\BaseController;
+use Modules\ProductionAPI\Entities\ApiPatientList;
+use Modules\ProductionAPI\Entities\PatientRegistration;
+use Modules\ProductionAPI\Entities\RefApiFacility;
 
-class PatientRegistrationController extends Controller
+class PatientRegistrationController extends BaseController
 {
+     protected $model;
+    public function __construct(PatientRegistration $model)
+    {
+        $this->model = $model;
+    }
+
     /**
      * Display a listing of the resource.
      * @return Renderable
      */
     public function index()
     {
-        return view('productionapi::index');
+            $facilities=RefApiFacility::get();
+            $sent = ApiPatientList::where('Status', 'sent')->count();
+            $unsent = ApiPatientList::where('Status', 'unsent')->count();
+
+            $this->setPageData('Patient Registartion API','Patient Registartion API','fas fa-th-list');
+            return view('productionapi::patient-registration',compact('facilities','sent','unsent'));
+        
     }
 
     /**
-     * Show the form for creating a new resource.
-     * @return Renderable
+     * Show data table data
+     * @return $data
      */
-    public function create()
-    {
-        return view('productionapi::create');
-    }
 
-    /**
-     * Store a newly created resource in storage.
-     * @param Request $request
-     * @return Renderable
-     */
-    public function store(Request $request)
-    {
-        //
-    }
-
-    /**
-     * Show the specified resource.
-     * @param int $id
-     * @return Renderable
-     */
-    public function show($id)
-    {
-        return view('productionapi::show');
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     * @param int $id
-     * @return Renderable
-     */
-    public function edit($id)
-    {
-        return view('productionapi::edit');
-    }
 
     /**
      * Update the specified resource in storage.
@@ -62,18 +45,37 @@ class PatientRegistrationController extends Controller
      * @param int $id
      * @return Renderable
      */
-    public function update(Request $request, $id)
-    {
-        //
-    }
+
 
     /**
      * Remove the specified resource from storage.
      * @param int $id
      * @return Renderable
      */
-    public function destroy($id)
-    {
-        //
-    }
+
+
+    /**
+     * Status update
+     * @return success or fail message
+     */
+
+
+
+
+    /**
+     * Show the specified resource.
+     * @param int $id
+     * @return Renderable
+     */
+
+
+    /**
+     * Show the form for editing the specified resource.
+     * @param int $id
+     * @return Renderable
+     */
+  
+
+
 }
+
