@@ -11,6 +11,9 @@
 |
 */
 
-Route::prefix('productionapi')->group(function() {
-    Route::get('/', 'ProductionAPIController@index');
+// Route::prefix('productionapi')->group(function() {
+//     Route::get('/', 'ProductionAPIController@index');
+// });
+Route::group(['middleware' => ['auth']], function () {
+ Route::get('patient-registration', 'PatientRegistrationController@index')->name('patient-registration');
 });
