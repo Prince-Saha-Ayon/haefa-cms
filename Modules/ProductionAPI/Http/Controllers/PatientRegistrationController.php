@@ -41,16 +41,18 @@ class PatientRegistrationController extends BaseController
         $identifier=$request->identifier;
         $sending_patient=intval($request->send_patient);
 
-              dd($sending_patient);
+            
  
         $authData = ApiHelper::authenticate();
 
-        // if (isset($authData['error'])) {
-        //     // Handle authentication error
-        //     return response()->json(['error' => $authData['error']], 401);
-        // }
+        if (isset($authData['error'])) {
+            // Handle authentication error
+            return response()->json(['error' => $authData['error']], 401);
+        }
 
-        // $accessToken = $authData['access_token'];
+        $accessToken = $authData['access_token'];
+
+      
 
         // Retrieve 100 patients from the database
           $patients = ApiPatientTrigView::where('Facility_identifier', '=', $identifier)
@@ -76,7 +78,7 @@ class PatientRegistrationController extends BaseController
                     "value" => $patient->PatientId // Assuming you have a unique_id field in your Patient model
                 ]
             ],
-            "gender" => $patient->GenderCode,
+            "gender" => strtolower($patient->GenderCode),
             "birthDate" => $patient->BirthDate ? \Carbon\Carbon::parse($patient->BirthDate)->toIso8601String() : null,
             "managingOrganization" => [
                 [
@@ -101,7 +103,7 @@ class PatientRegistrationController extends BaseController
             "name" => [
                 "text" => $patient->Name
             ],
-            "active" => $patient->true
+            "active" => true
         ];
       ApiPatientList::where('PatientId', $patient->PatientId)
             ->update(['Status' => 'sent']);
@@ -114,6 +116,7 @@ class PatientRegistrationController extends BaseController
 
         // Register the patients
         $registrationResponse = ApiHelper::registerPatient($accessToken, $patientData);
+      
 
         if (isset($registrationResponse['error'])) {
             // Handle registration error

@@ -35,8 +35,13 @@ class ApiHelper
     {
         $client = new Client();
 
+
+   
+
+        
+
         try {
-            $response = $client->post('https://api.bd.simple.org/api/v4/import', [
+            $response = $client->put('https://api.bd.simple.org/api/v4/import', [
                 'headers' => [
                     'Authorization' => 'Bearer ' . $accessToken,
                     'Content-Type' => 'application/json',
@@ -47,13 +52,30 @@ class ApiHelper
                 'json' => $patientData,
             ]);
 
-            $responseData = json_decode($response->getBody()->getContents(), true);
+            // dd($response);
+        
+         
+
+        $statusCode = $response->getStatusCode();
+
+        // Decode the response body
+        $responseData = json_decode($response->getBody()->getContents(), true);
+
+        // If the status code is 202, return success along with the response data
+        if ($statusCode == 202) {
+            return ['status' => $statusCode, 'data' => $responseData];
+        } else {
+            // Handle other status codes if needed
+            return ['status' => $statusCode, 'data' => $responseData];
+        }
+      
+           
 
             // Handle the response data as needed
-            return $responseData;
+          
         } catch (\Exception $e) {
             // Handle any exceptions
-            return ['error' => $e->getMessage()];
+               return ['status' => 500, 'error' => $e->getMessage()];
         }
     }
 }
