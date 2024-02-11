@@ -35,7 +35,7 @@
                 <!-- Modal Body -->
                 <div class="modal-body">
                     <div class="row">
-                        <h3>Registration</h3><br>
+                        <h3>Patient Payload</h3><br>
                         
                         <div class="col-md-12">
                             <div class="row">
@@ -46,14 +46,18 @@
                                         @endforeach
                                     @endif
                                 </x-form.selectbox>
+                            <div class="col-md-2 warning-searching invisible" id="warning-searching">
+                                <span class="text-danger" id="warning-message">Searching...Please Wait</span>
+                                <span class="spinner-border text-danger"></span>
+                            </div>
 
-                                <div class="form-group col-6">
+                                <div class="form-group col-4">
 
                                 </div>
 
-                                <x-form.textbox type="text" labelName="Total Sent" readonly name="total_sent" col="col-md-2" value="{{ $sent ??'' }}" />
-                                <x-form.textbox type="text" labelName="Total Unsent" readonly  name="total_unsent" col="col-md-2" value="{{ $unsent ??'' }}" />
-                                <x-form.textbox type="text" labelName="Sending Now" name="sending_now" col="col-md-2" value="100" />
+                            
+                                <x-form.textbox type="number" labelName="Total Unsent" readonly  name="total_unsent" id="total_unsent" col="col-md-3" value="" />
+                                <x-form.textbox type="number" labelName="Sending Now (Max 99)" id="sending_now" name="sending_now" col="col-md-3" value="" />
                                
 
                             </div>
@@ -67,9 +71,16 @@
                 <!-- /modal body -->
 
                 <!-- Modal Footer -->
-                <div class="form-group col-md-12 pt-5">
-                    <button type="button" class="btn btn-primary btn-sm" id="update-btn">Send</button>
+            <div class="row">
+                <div class="form-group col-md-2 ml-3">
+                    <button type="button" class="btn btn-primary btn-sm" id="send">Send</button>
                 </div>
+                 <div class="col-md-8 warning-sending invisible" id="warning-sending">
+                                <span class="text-danger" id="sending-message">Submitting...Please Do Not Close The Tab</span>
+                                <span class="spinner-border text-danger"></span>
+                </div>
+            </div>
+             
                 <!-- /modal footer -->
                 </form>
             </div>
@@ -80,7 +91,7 @@
 @endsection
 
 @push('script')
-<script src="js/spartan-multi-image-picker-min.js"></script>
+
 
 
 <script>
@@ -88,34 +99,9 @@ $(document).ready(function () {
  
 
 
-    $('.summernote').summernote({
-        tabsize: 2,
-        height: 120,
-        toolbar: [
-          ['style', ['style']],
-          ['font', ['bold', 'underline', 'clear']],
-          ['para', ['ul', 'ol', 'paragraph']],
-          ['table', ['table']],
-          ['view', ['fullscreen', 'codeview', 'help']]
-        ]
+   
 
-      });
-    /** Start :: patient Image **/
-    $('#image').spartanMultiImagePicker({
-        fieldName: 'image',
-        maxCount: 1,
-        rowHeight: '200px',
-        groupClassName: 'col-md-12 com-sm-12 com-xs-12',
-        maxFileSize: '',
-        dropFileLabel: 'Drop Here',
-        allowExt: 'png|jpg|jpeg',
-        onExtensionErr: function(index, file){
-            Swal.fire({icon:'error',title:'Oops...',text: 'Only png,jpg,jpeg file format allowed!'});
-        }
-    });
-
-    $('input[name="image"]').prop('required',true);
-
+ 
     $('.remove-files').on('click', function(){
         $(this).parents(".col-md-12").remove();
     });
@@ -126,66 +112,78 @@ $(document).ready(function () {
     /** End :: patient Image **/
 
 
-    $('input[name="lifestyle_image"]').prop('required',true);
+  
 
+    $('#send').click(function () {
 
+        var identifier = $('#identifier').val();
 
-    $('.remove-files').on('click', function(){
-        $(this).parents(".col-md-12").remove();
+        const send_patient = $('#sending_now').val();
+
+    
+
+        $.ajax({
+            type: "GET",
+            url: "{{ url('send-patient-registration') }}",
+            data: { identifier: identifier, send_patient: send_patient},
+            beforeSend: function () {
+                 $('#warning-sending').removeClass('invisible');
+            },
+            complete: function () {
+                $('#warning-sending').addClass('invisible');
+            },
+            success: function (response) {
+                var results = response.results;
+                console.log(results);
+             
+
+               
+            },
+        });
+    });
+    $('#sending_now').prop('disabled', true);
+    $('#send').prop('disabled', true);
+
+    $('#identifier').change(function () {
+
+        var identifier = $('#identifier').val();
+        console.log(identifier);
+         $.ajax({
+            type: "GET",
+            url: "{{ url('get-patient-registration') }}",
+            data: { identifier: identifier},
+            beforeSend: function () {
+                $('#warning-searching').removeClass('invisible');
+            },
+            complete: function () {
+                 $('#warning-searching').addClass('invisible');
+            },
+            success: function (response) {
+                $('#sending_now').val('');
+                var unsents = response.unsent ?? '0';
+                $('#total_unsent').val(unsents);
+         
+                maxSendingNow = Math.min(unsents, 99);
+                 $('#sending_now').prop('disabled', false).attr('max', maxSendingNow); 
+                 // Enable and set max attribute of sending_now input
+
+                  if (unsents === 0) {
+                     maxSendingNow = 0;
+                 }
+                // Handle input event on sending_now input
+                $('#sending_now').on('input', function () {
+                    var sendingNowValue = parseInt($(this).val());
+                    if (sendingNowValue > maxSendingNow) {
+                        $(this).val(maxSendingNow); // Set input value to maxSendingNow if it exceeds the maximum
+                    }
+                    $('#send').prop('disabled', $(this).val() === "");
+                });
+            }
+
+        });
+
     });
 
-
-
-
-    /****************************/
-    // $(document).on('click','#update-btn',function(){
-
-    //     let form = document.getElementById('store_or_update_form');
-    //     let formData = new FormData(form);
-
-    //     $.ajax({
-    //         url: "{{route('patient.store.or.update1')}}",
-    //         type: "POST",
-    //         data: formData,
-    //         dataType: "JSON",
-    //         contentType: false,
-    //         processData: false,
-    //         cache: false,
-    //         beforeSend: function(){
-    //             $('#update-btn').addClass('spinner spinner-white spinner-right');
-    //         },
-    //         complete: function(){
-    //             $('#update-btn').removeClass('spinner spinner-white spinner-right');
-    //         },
-    //         success: function (data) {
-    //             $('#store_or_update_form').find('.is-invalid').removeClass('is-invalid');
-    //             $('#store_or_update_form').find('.error').remove();
-    //             if (data.status == false) {
-    //                 $.each(data.errors, function (key, value){
-    //                     var key = key.split('.').join('_');
-    //                     $('#store_or_update_form input#' + key).addClass('is-invalid');
-    //                     $('#store_or_update_form textarea#' + key).addClass('is-invalid');
-    //                     $('#store_or_update_form select#' + key).parent().addClass('is-invalid');
-    //                     if(key == 'code'){
-    //                         $('#store_or_update_form #' + key).parents('.form-group').append(
-    //                         '<small class="error text-danger">' + value + '</small>');
-    //                     }else{
-    //                         $('#store_or_update_form #' + key).parent().append(
-    //                         '<small class="error text-danger">' + value + '</small>');
-    //                     }
-    //                 });
-    //             } else {
-    //                 notification(data.status, data.message);
-    //                 if (data.status == 'success') {
-    //                         window.location.replace("{{ route('patient') }}");
-    //                 }
-    //             }
-    //         },
-    //         error: function (xhr, ajaxOption, thrownError) {
-    //             console.log(thrownError + '\r\n' + xhr.statusText + '\r\n' + xhr.responseText);
-    //         }
-    //     });
-    // });
 
 
 

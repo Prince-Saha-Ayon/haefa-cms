@@ -16,4 +16,6 @@
 // });
 Route::group(['middleware' => ['auth']], function () {
  Route::get('patient-registration', 'PatientRegistrationController@index')->name('patient-registration');
+ Route::get('send-patient-registration', 'PatientRegistrationController@register')->name('send-patient-registration');
+ Route::get('get-patient-registration', 'PatientRegistrationController@GetCount')->name('get-patient-registration');
 });
