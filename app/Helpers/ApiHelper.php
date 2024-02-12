@@ -31,14 +31,9 @@ class ApiHelper
         }
     }
 
-    public static function registerPatient($accessToken, $patientData)
+ public static function registerPatient($accessToken, $patientData)
     {
         $client = new Client();
-
-
-   
-
-        
 
         try {
             $response = $client->put('https://api.bd.simple.org/api/v4/import', [
@@ -53,8 +48,8 @@ class ApiHelper
             ]);
 
             // dd($response);
-        
-         
+
+
 
         $statusCode = $response->getStatusCode();
 
@@ -68,11 +63,11 @@ class ApiHelper
             // Handle other status codes if needed
             return ['status' => $statusCode, 'data' => $responseData];
         }
-      
-           
+
+
 
             // Handle the response data as needed
-          
+
         } catch (\Exception $e) {
             // Handle any exceptions
                return ['status' => 500, 'error' => $e->getMessage()];
