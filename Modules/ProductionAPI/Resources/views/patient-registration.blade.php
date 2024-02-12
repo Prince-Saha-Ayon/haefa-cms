@@ -5,6 +5,8 @@
 @endsection
 
 @push('stylesheet')
+<link rel="stylesheet" type="text/css"href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
+
 
 
 @endpush
@@ -36,7 +38,7 @@
                 <div class="modal-body">
                     <div class="row">
                         <h3>Patient Payload</h3><br>
-                        
+
                         <div class="col-md-12">
                             <div class="row">
                                 <x-form.selectbox labelName="Select Facility" name="identifier" id="identifier" required="required" col="col-md-6" class="form-group selectpicker">
@@ -55,16 +57,16 @@
 
                                 </div>
 
-                            
+
                                 <x-form.textbox type="number" labelName="Total Unsent" readonly  name="total_unsent" id="total_unsent" col="col-md-3" value="" />
                                 <x-form.textbox type="number" labelName="Sending Now (Max 99)" id="sending_now" name="sending_now" col="col-md-3" value="" />
-                               
+
 
                             </div>
                         </div>
-               
-              
-                   
+
+
+
 
                     </div>
                 </div>
@@ -80,7 +82,7 @@
                                 <span class="spinner-border text-danger"></span>
                 </div>
             </div>
-             
+
                 <!-- /modal footer -->
                 </form>
             </div>
@@ -92,16 +94,22 @@
 
 @push('script')
 
-
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
 
 <script>
 $(document).ready(function () {
- 
 
 
-   
+toastr.options = {
+        "closeButton": true,
+        "progressBar": true,
+        "showMethod": "slideDown",
+        "hideMethod": "fadeOut",
+        "timeOut": 5000 // 5 seconds
+    };
 
- 
+
+
     $('.remove-files').on('click', function(){
         $(this).parents(".col-md-12").remove();
     });
@@ -112,7 +120,7 @@ $(document).ready(function () {
     /** End :: patient Image **/
 
 
-  
+
 
     $('#send').click(function () {
 
@@ -120,7 +128,7 @@ $(document).ready(function () {
 
         const send_patient = $('#sending_now').val();
 
-    
+
 
         $.ajax({
             type: "GET",
@@ -132,12 +140,23 @@ $(document).ready(function () {
             complete: function () {
                 $('#warning-sending').addClass('invisible');
             },
-            success: function (response) {
-                var results = response.results;
-                console.log(results);
-             
 
-               
+            success: function (response) {
+                 if (response.error.length > 0) {
+                    // Display Toastr alert for each error
+                    response.error.forEach(error => {
+                        toastr.error(error.message, 'Error');
+                    });
+                } else {
+                    // Display a success Toastr alert
+                    toastr.success(response.success.message, 'Success');
+                }
+                setTimeout(function() {
+                    window.location.reload();
+                }, 4000);
+
+
+
             },
         });
     });
@@ -162,9 +181,9 @@ $(document).ready(function () {
                 $('#sending_now').val('');
                 var unsents = response.unsent ?? '0';
                 $('#total_unsent').val(unsents);
-         
+
                 maxSendingNow = Math.min(unsents, 99);
-                 $('#sending_now').prop('disabled', false).attr('max', maxSendingNow); 
+                 $('#sending_now').prop('disabled', false).attr('max', maxSendingNow);
                  // Enable and set max attribute of sending_now input
 
                   if (unsents === 0) {
