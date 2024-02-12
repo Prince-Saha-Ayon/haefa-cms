@@ -34,39 +34,35 @@ class PatientRegistrationController extends BaseController
         
     }
 
-     public function register(Request $request)
-    {
-        // Authenticate and get the access token
-        $identifier=$request->identifier;
-        $sending_patient=intval($request->send_patient);
 
-            
- 
-        $authData = ApiHelper::authenticate();
 
-        if (isset($authData['error'])) {
-            // Handle authentication error
-            return response()->json(['error' => $authData['error']], 401);
-        }
+public function register(Request $request)
+{
+    // Authenticate and get the access token
+    $identifier = $request->identifier;
+    $sending_patient = intval($request->send_patient);
 
-        $accessToken = $authData['access_token'];
+    $authData = ApiHelper::authenticate();
 
-      
+    if (isset($authData['error'])) {
+        // Handle authentication error
+        return response()->json(['error' => $authData['error']], 401);
+    }
 
-        // Retrieve 100 patients from the database
-          $patients = ApiPatientTrigView::where('Facility_identifier', '=', $identifier)
+    $accessToken = $authData['access_token'];
+
+    // Retrieve patients from the database
+    $patients = ApiPatientTrigView::where('Facility_identifier', '=', $identifier)
                                   ->take($sending_patient)
                                   ->get();
-       
 
-              
+    // Prepare arrays to store success and error responses
+    $successResponses = [];
+    $errorResponses = [];
 
-        // Prepare patient data array
-        $patientData = [];
-
-        // Loop through the patients and format the data
+    // Loop through the patients and format the data
     foreach ($patients as $patient) {
-        $patientData[] = [
+        $patientData = [
             "resourceType" => "Patient",
             "meta" => [
                 "lastUpdated" => $patient->UpdateDate ? \Carbon\Carbon::parse($patient->UpdateDate)->toIso8601String() : null,
@@ -104,27 +100,28 @@ class PatientRegistrationController extends BaseController
             ],
             "active" => true
         ];
-      ApiPatientList::where('PatientId', $patient->PatientId)
-            ->update(['RegistrationStatus' => 'sent']);
-             
-}
 
-        // Wrap patient data array inside 'resources' key
-        $patientData = ['resources' => $patientData];
-   
-
-        // Register the patients
-        $registrationResponse = ApiHelper::registerPatient($accessToken, $patientData);
-      
+        // Register the patient
+        $registrationResponse = ApiHelper::registerPatient($accessToken, ['resources' => [$patientData]]);
 
         if (isset($registrationResponse['error'])) {
             // Handle registration error
-            return response()->json(['error' => $registrationResponse['error']], 500);
+            ApiPatientList::where('PatientId', $patient->PatientId)->update(['RegistrationStatus' => 'error']);
+            $errorResponses[] = ['error' => $registrationResponse['error']];
+        } elseif ($registrationResponse['status'] == 202) {
+            // Update registration status for successful registration
+            ApiPatientList::where('PatientId', $patient->PatientId)->update(['RegistrationStatus' => 'sent']);
+            $successResponses[] = ['message' => 'Patient registered successfully'];
         }
-
-        // Handle successful registration
-        return response()->json(['message' => 'Patients registered successfully'], 200);
     }
+
+    // Handle successful registration
+    return response()->json([
+        'success' => $successResponses,
+        'error' => $errorResponses
+    ]);
+}
+
     public function GetCount(Request $request)
     {
         $identifier=$request->identifier;
