@@ -27,11 +27,10 @@ class PatientRegistrationController extends BaseController
     public function index()
     {
             $facilities=RefApiFacility::get();
-            $sent = ApiPatientList::where('Status', 'sent')->count();
-            $unsent = ApiPatientList::where('Status', 'unsent')->count();
+            
 
             $this->setPageData('Patient Registartion API','Patient Registartion API','fas fa-th-list');
-            return view('productionapi::patient-registration',compact('facilities','sent','unsent'));
+            return view('productionapi::patient-registration',compact('facilities'));
         
     }
 
@@ -106,7 +105,7 @@ class PatientRegistrationController extends BaseController
             "active" => true
         ];
       ApiPatientList::where('PatientId', $patient->PatientId)
-            ->update(['Status' => 'sent']);
+            ->update(['RegistrationStatus' => 'sent']);
              
 }
 
