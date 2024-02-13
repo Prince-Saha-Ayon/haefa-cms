@@ -5,7 +5,7 @@
 @endsection
 
 @push('stylesheet')
-
+<link rel="stylesheet" type="text/css"href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
 
 @endpush
 
@@ -92,12 +92,18 @@
 
 @push('script')
 
-
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
 
 <script>
 $(document).ready(function () {
  
-
+toastr.options = {
+        "closeButton": true,
+        "progressBar": true,
+        "showMethod": "slideDown",
+        "hideMethod": "fadeOut",
+        "timeOut": 5000 // 5 seconds
+    };
 
    
 
@@ -113,7 +119,7 @@ $(document).ready(function () {
         const send_patient = $('#sending_now').val();
         $.ajax({
             type: "GET",
-            url: "{{ url('send-patient-registration') }}",
+            url: "{{ url('send-patient-bp') }}",
             data: { identifier: identifier, send_patient: send_patient},
             beforeSend: function () {
                  $('#warning-sending').removeClass('invisible');
@@ -122,9 +128,19 @@ $(document).ready(function () {
                 $('#warning-sending').addClass('invisible');
             },
             success: function (response) {
-                var results = response.results;
-                console.log(results);
-             
+            
+               if (response.error.length > 0) {
+                    // Display Toastr alert for each error
+                    response.error.forEach(error => {
+                        toastr.error(error.message, 'Error');
+                    });
+                } else {
+                    // Display a success Toastr alert
+                    toastr.success(response.success.message, 'Success');
+                }
+                setTimeout(function() {
+                    window.location.reload();
+                }, 4000);
 
                
             },
@@ -139,7 +155,7 @@ $(document).ready(function () {
         console.log(identifier);
          $.ajax({
             type: "GET",
-            url: "{{ url('get-patient-registration') }}",
+            url: "{{ url('get-patient-bp') }}",
             data: { identifier: identifier},
             beforeSend: function () {
                 $('#warning-searching').removeClass('invisible');
