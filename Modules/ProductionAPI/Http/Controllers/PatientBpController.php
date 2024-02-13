@@ -55,7 +55,7 @@ class PatientBpController extends BaseController
       
 
         // Retrieve 100 patients from the database
-          $patients = ApiBpTrigView::where('Facility_identifier', '=', $identifier)
+          $patients = ApiBpTrigView::where('identifier', '=', $identifier)
                                   ->take($sending_patient)
                                   ->get();
        
@@ -63,7 +63,10 @@ class PatientBpController extends BaseController
               
 
         // Prepare patient data array
-        $patientData = [];
+    
+
+    $successResponses = [];
+    $errorResponses = [];
 
         // Loop through the patients and format the data
     foreach ($patients as $patientbp) {
@@ -83,7 +86,7 @@ class PatientBpController extends BaseController
         ],
         "performer" => [
             [
-                "identifier" =>  $patientbp->Facility_identifier
+                "identifier" =>  $patientbp->identifier
             ]
         ],
         "effectiveDateTime" => $patientbp->CreateDate ? \Carbon\Carbon::parse($patientbp->CreateDate)->toIso8601String() : null,
@@ -106,7 +109,7 @@ class PatientBpController extends BaseController
                     ]
                 ],
                 "valueQuantity" => [
-                    "value" => $patientbp->BPSystolic1,
+                    "value" => intval($patientbp->BPSystolic1),
                     "unit" => "mmHg",
                     "system" => "http://unitsofmeasure.org",
                     "code" => "mm[Hg]"
@@ -122,7 +125,7 @@ class PatientBpController extends BaseController
                     ]
                 ],
                 "valueQuantity" => [
-                    "value" =>$patientbp->BPDiastolic1,
+                    "value" =>intval($patientbp->BPDiastolic1),
                     "unit" => "mmHg",
                     "system" => "http://unitsofmeasure.org",
                     "code" => "mm[Hg]"
@@ -130,31 +133,29 @@ class PatientBpController extends BaseController
             ]
         ]
     ];
-      ApiPatientList::where('PatientId', $patientbp->PatientId)
-            ->update(['Status' => 'sent']);
+         $bpResponse = ApiHelper::registerPatient($accessToken, ['resources' => [$patientData]]);
+
+        if (isset($bpResponse['error'])) {
+            // Handle registration error
+            ApiPatientList::where('PatientId', $patientbp->PatientId)->where('DiseaseName','Hypertension')->update(['BPStatus' => 'error']);
+            $errorResponses[] = ['error' => $bpResponse['error']];
+        } elseif ($bpResponse['status'] == 202) {
+            // Update registration status for successful registration
+            ApiPatientList::where('PatientId', $patientbp->PatientId)->where('DiseaseName','Hypertension')->update(['BPStatus' => 'sent']);
+            $successResponses[] = ['message' => 'Patient BP sent successfully'];
+        }
              
 }
 
-        // Wrap patient data array inside 'resources' key
-        $patientData = ['resources' => $patientData];
-   
-
-        // Register the patients
-        $registrationResponse = ApiHelper::registerPatient($accessToken, $patientData);
-      
-
-        if (isset($registrationResponse['error'])) {
-            // Handle registration error
-            return response()->json(['error' => $registrationResponse['error']], 500);
-        }
-
-        // Handle successful registration
-        return response()->json(['message' => 'Patients registered successfully'], 200);
-    }
+       return response()->json([
+        'success' => $successResponses,
+        'error' => $errorResponses
+    ]);
+}
     public function GetCount(Request $request)
     {
         $identifier=$request->identifier;
-        $unsent = ApiBpTrigView::where('Facility_identifier',$identifier)->count();
+        $unsent = ApiBpTrigView::where('identifier',$identifier)->count();
 
         return response()->json([
         'unsent'=>$unsent
