@@ -22,4 +22,12 @@ Route::group(['middleware' => ['auth']], function () {
 //  BP
 
 Route::get('patient-bp', 'PatientBpController@index')->name('patient-bp');
+Route::get('get-patient-bp', 'PatientBpController@GetCount')->name('get-patient-bp');
+Route::get('send-patient-bp', 'PatientBpController@register')->name('send-patient-bp');
+
+
+//BS
+Route::get('patient-bs', 'PatientBsController@index')->name('patient-bs');
+Route::get('get-patient-bs', 'PatientBsController@GetCount')->name('get-patient-bs');
+Route::get('send-patient-bs', 'PatientBsController@register')->name('send-patient-bs');
 });
