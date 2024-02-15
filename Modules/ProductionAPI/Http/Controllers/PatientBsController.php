@@ -69,7 +69,8 @@ class PatientBsController extends BaseController
 
         // Loop through the patients and format the data
         foreach ($patients as $patientBS) {
-            $patientData = [
+            if($patientBS->RBG != '' && $patientBS->FBG != '') {
+                    $patientData = [
                 "resourceType" => "Observation",
                 "meta" => [
                     "lastUpdated" => $patientBS->UpdateDate ? \Carbon\Carbon::parse($patientBS->UpdateDate)->toIso8601String() : null,
@@ -108,17 +109,118 @@ class PatientBsController extends BaseController
                             ]
                         ],
                         "valueQuantity" => [
-                            "value" => intval($patientBS->FBG != '' ? $patientBS->FBG : $patientBS->RBG ),
-                            "unit" => "%",
+                            "value" => intval($patientBS->RBG ),
+                            "unit" => "mg/dL",
                             "system" => "http://unitsofmeasure.org",
-                            "code" => "%"
+                            "code" => "mg/dL"
                         ]
                     ]
                 ]
             ];
+            $registrationResponse = ApiHelper::registerPatient($accessToken, ['resources' => [$patientData]]);
+             $patientData = [
+                "resourceType" => "Observation",
+                "meta" => [
+                    "lastUpdated" => $patientBS->UpdateDate ? \Carbon\Carbon::parse($patientBS->UpdateDate)->toIso8601String() : null,
+                    "createdAt" => $patientBS->CreateDate ? \Carbon\Carbon::parse($patientBS->CreateDate)->toIso8601String() : null
+                ],
+                "identifier" => [
+                    [
+                        "value" => $patientBS->MdataGlucoseId
+                    ]
+                ],
+                "subject" => [
+                    "identifier" => $patientBS->PatientId
+                ],
+                "performer" => [
+                    [
+                        "identifier" => $patientBS->identifier
+                    ]
+                ],
+                "effectiveDateTime" => $patientBS->CreateDate ? \Carbon\Carbon::parse($patientBS->CreateDate)->toIso8601String() : null,
+                "code" => [
+                    "coding" => [
+                        [
+                            "system" => "http://loinc.org",
+                            "code" => "2339-0"
+                        ]
+                    ]
+                ],
+                "component" => [
+                    [
+                        "code" => [
+                            "coding" => [
+                                [
+                                    "system" => "http://loinc.org",
+                                    "code" => "88365-2"
+                                ]
+                            ]
+                        ],
+                        "valueQuantity" => [
+                            "value" => intval($patientBS->FBG ),
+                            "unit" => "mg/dL",
+                            "system" => "http://unitsofmeasure.org",
+                            "code" => "mg/dL"
+                        ]
+                    ]
+                ]
+            ];
+             $registrationResponse = ApiHelper::registerPatient($accessToken, ['resources' => [$patientData]]);
+            }else{
+                   $patientData = [
+                "resourceType" => "Observation",
+                "meta" => [
+                    "lastUpdated" => $patientBS->UpdateDate ? \Carbon\Carbon::parse($patientBS->UpdateDate)->toIso8601String() : null,
+                    "createdAt" => $patientBS->CreateDate ? \Carbon\Carbon::parse($patientBS->CreateDate)->toIso8601String() : null
+                ],
+                "identifier" => [
+                    [
+                        "value" => $patientBS->MdataGlucoseId
+                    ]
+                ],
+                "subject" => [
+                    "identifier" => $patientBS->PatientId
+                ],
+                "performer" => [
+                    [
+                        "identifier" => $patientBS->identifier
+                    ]
+                ],
+                "effectiveDateTime" => $patientBS->CreateDate ? \Carbon\Carbon::parse($patientBS->CreateDate)->toIso8601String() : null,
+                "code" => [
+                    "coding" => [
+                        [
+                            "system" => "http://loinc.org",
+                            "code" => "2339-0"
+                        ]
+                    ]
+                ],
+                "component" => [
+                    [
+                        "code" => [
+                            "coding" => [
+                                [
+                                    "system" => "http://loinc.org",
+                                    "code" => $patientBS->FBG != '' ? "88365-2" : "2339-0",	
+                                ]
+                            ]
+                        ],
+                        "valueQuantity" => [
+                            "value" => intval($patientBS->FBG != '' ? $patientBS->FBG : $patientBS->RBG ),
+                            "unit" => "mg/dL",
+                            "system" => "http://unitsofmeasure.org",
+                            "code" => "mg/dL"
+                        ]
+                    ]
+                ]
+            ];
+             $registrationResponse = ApiHelper::registerPatient($accessToken, ['resources' => [$patientData]]);
+
+            }
+         
         // Register the patient
 
-        $registrationResponse = ApiHelper::registerPatient($accessToken, ['resources' => [$patientData]]);
+       
 
         if (isset($registrationResponse['error'])) {
             // Handle registration error
