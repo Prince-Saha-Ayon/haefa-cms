@@ -34,4 +34,9 @@ Route::get('send-patient-bs', 'PatientBsController@register')->name('send-patien
 Route::get('patient-medicine', 'PatientMedicineController@index')->name('patient-medicine');
 Route::get('get-patient-medicine', 'PatientMedicineController@GetCount')->name('get-patient-medicine');
 Route::get('send-patient-medicine', 'PatientMedicineController@register')->name('send-patient-medicine');
+
+// Condition
+Route::get('patient-condition', 'PatientConditionController@index')->name('patient-condition');
+Route::get('get-patient-condition', 'PatientConditionController@GetCount')->name('get-patient-condition');
+Route::get('send-patient-condition', 'PatientConditionController@register')->name('send-patient-condition');
 });
