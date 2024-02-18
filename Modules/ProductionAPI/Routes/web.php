@@ -35,6 +35,11 @@ Route::get('patient-medicine', 'PatientMedicineController@index')->name('patient
 Route::get('get-patient-medicine', 'PatientMedicineController@GetCount')->name('get-patient-medicine');
 Route::get('send-patient-medicine', 'PatientMedicineController@register')->name('send-patient-medicine');
 
+// Scheduled Status
+Route::get('patient-visited', 'PatientAppointmentController@index')->name('patient-visited');
+Route::get('get-patient-visited', 'PatientAppointmentController@GetCount')->name('get-patient-visited');
+Route::get('send-patient-visited', 'PatientAppointmentController@register')->name('send-patient-visited');
+
 // Condition
 Route::get('patient-condition', 'PatientConditionController@index')->name('patient-condition');
 Route::get('get-patient-condition', 'PatientConditionController@GetCount')->name('get-patient-condition');
