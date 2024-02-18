@@ -142,18 +142,21 @@ toastr.options = {
             },
 
             success: function (response) {
-                 if (response.error.length > 0) {
+                    console.log(response);
+                if (response.error.length > 0) {
                     // Display Toastr alert for each error
                     response.error.forEach(error => {
-                        toastr.error(error.message, 'Error');
+                        toastr.error('Patient Registration Failed', 'Error');
                     });
                 } else {
-                    // Display a success Toastr alert
-                    toastr.success(response.success.message, 'Success');
+                    // Count the number of successful registrations
+                    const successCount = response.success.length;
+                    // Display a success Toastr alert with the count
+                    toastr.success(`${successCount} patient(s) registered successfully`, 'Success');
                 }
-                setTimeout(function() {
-                    window.location.reload();
-                }, 4000);
+                // setTimeout(function() {
+                //     window.location.reload();
+                // }, 4000);
 
 
 
