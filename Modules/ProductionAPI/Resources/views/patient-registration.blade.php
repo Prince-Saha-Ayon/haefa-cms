@@ -142,7 +142,7 @@ toastr.options = {
             },
 
             success: function (response) {
-                    console.log(response);
+              
                 if (response.error.length > 0) {
                     // Display Toastr alert for each error
                     response.error.forEach(error => {
