@@ -132,11 +132,14 @@ toastr.options = {
                if (response.error.length > 0) {
                     // Display Toastr alert for each error
                     response.error.forEach(error => {
-                        toastr.error(error.message, 'Error');
+                        toastr.error('Patient BP Send Failed', 'Error');
                     });
                 } else {
                     // Display a success Toastr alert
-                    toastr.success(response.success.message, 'Success');
+                    const successCount = response.success.length;
+                    // Display a success Toastr alert with the count
+                    toastr.success(`${successCount} patient(s) BP Sent successfully`, 'Success');
+        
                 }
                 setTimeout(function() {
                     window.location.reload();
