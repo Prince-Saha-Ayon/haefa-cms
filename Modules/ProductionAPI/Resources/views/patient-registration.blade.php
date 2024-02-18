@@ -154,9 +154,9 @@ toastr.options = {
                     // Display a success Toastr alert with the count
                     toastr.success(`${successCount} patient(s) registered successfully`, 'Success');
                 }
-                // setTimeout(function() {
-                //     window.location.reload();
-                // }, 4000);
+                setTimeout(function() {
+                    window.location.reload();
+                }, 4000);
 
 
 
