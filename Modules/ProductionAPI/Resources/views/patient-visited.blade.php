@@ -35,7 +35,7 @@
                 <!-- Modal Body -->
                 <div class="modal-body">
                     <div class="row">
-                        <h3>Patient Condition Payload</h3><br>
+                        <h3>Patient Visited Payload</h3><br>
 
                         <div class="col-md-12">
                             <div class="row">

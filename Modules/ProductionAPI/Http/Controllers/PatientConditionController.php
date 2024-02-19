@@ -27,11 +27,17 @@ class PatientConditionController extends BaseController
      */
     public function index()
     {
+
+
+
+        if(permission('patient-condition-access')){
             $facilities=RefApiFacility::get();
-
-
             $this->setPageData('Patient Condition API','Patient Condition API','fas fa-th-list');
             return view('productionapi::patient-condition',compact('facilities'));
+        }else{
+                    return $this->unauthorized_access_blocked();
+        }
+
         
     }
 
