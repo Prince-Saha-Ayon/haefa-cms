@@ -28,11 +28,14 @@ class PatientAppointmentController extends BaseController
      */
     public function index()
     {
+        if(permission('patient-visited-access')){
             $facilities=RefApiFacility::get();
-
-
             $this->setPageData('Patient Appointment Visited API','Patient Appointment Visited API','fas fa-th-list');
             return view('productionapi::patient-visited',compact('facilities'));
+        }else{
+                    return $this->unauthorized_access_blocked();
+        }
+          
         
     }
 

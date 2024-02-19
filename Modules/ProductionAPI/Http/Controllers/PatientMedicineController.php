@@ -28,11 +28,15 @@ class PatientMedicineController extends BaseController
      */
     public function index()
     {
+
+           if(permission('patient-medicine-access')){
             $facilities=RefApiFacility::get();
-
-
             $this->setPageData('Patient Medicine API','Patient Medicine API','fas fa-th-list');
             return view('productionapi::patient-medicine',compact('facilities'));
+        }else{
+                    return $this->unauthorized_access_blocked();
+        }
+     
 
     }
 

@@ -26,11 +26,17 @@ class PatientRegistrationController extends BaseController
      */
     public function index()
     {
-            $facilities=RefApiFacility::get();
-            
+           
+               if(permission('patient-registration-access')){
+                     $facilities=RefApiFacility::get();
+                    $this->setPageData('Patient Registartion API','Patient Registartion API','fas fa-th-list');
+                     return view('productionapi::patient-registration',compact('facilities'));
+                }else{
+                    return $this->unauthorized_access_blocked();
+                }
 
-            $this->setPageData('Patient Registartion API','Patient Registartion API','fas fa-th-list');
-            return view('productionapi::patient-registration',compact('facilities'));
+            // $this->setPageData('Patient Registartion API','Patient Registartion API','fas fa-th-list');
+            // return view('productionapi::patient-registration',compact('facilities'));
         
     }
 

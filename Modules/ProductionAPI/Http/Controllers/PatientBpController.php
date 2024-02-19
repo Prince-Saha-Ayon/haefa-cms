@@ -27,11 +27,15 @@ class PatientBpController extends BaseController
      */
     public function index()
     {
-            $facilities=RefApiFacility::get();
-
-
-            $this->setPageData('Patient Blood Pressure API','Patient Blood Pressure API','fas fa-th-list');
-            return view('productionapi::patient-bp',compact('facilities'));
+            
+                if(permission('patient-bp-access')){
+                   $facilities=RefApiFacility::get();
+                    $this->setPageData('Patient Blood Pressure API','Patient Blood Pressure API','fas fa-th-list');
+                    return view('productionapi::patient-bp',compact('facilities'));
+                }else{
+                    return $this->unauthorized_access_blocked();
+                }
+       
         
     }
 

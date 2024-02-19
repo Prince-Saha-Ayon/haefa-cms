@@ -27,11 +27,15 @@ class PatientBsController extends BaseController
      */
     public function index()
     {
-            $facilities=RefApiFacility::get();
 
-
+          if(permission('patient-bs-access')){
+                     $facilities=RefApiFacility::get();
             $this->setPageData('Patient Blood Sugar API','Patient Blood Sugar API','fas fa-th-list');
             return view('productionapi::patient-bs',compact('facilities'));
+                }else{
+                    return $this->unauthorized_access_blocked();
+                }
+    
 
     }
 
