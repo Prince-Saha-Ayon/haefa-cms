@@ -61,76 +61,9 @@ class PatientConditionController extends BaseController
       
 
         // Retrieve 100 patients from the database
-          $patients = ApiConditionTrigView::where('identifier', '=', $identifier)
-                                  ->take($sending_patient)
-                                  ->get();
-       
-
-              
-
-        // Prepare patient data array
-    
-
-    $successResponses = [];
-    $errorResponses = [];
-
-        // Loop through the patients and format the data
-    foreach ($patients as $patientcondition) {
-    $patientData = [
-    "resourceType" => "Condition",
-    "meta" => [
-        "lastUpdated" => $patientcondition->UpdateDate ? \Carbon\Carbon::parse($patientcondition->UpdateDate)->toIso8601String() : null,
-        "createdAt" => $patientcondition->CreateDate ? \Carbon\Carbon::parse($patientcondition->CreateDate)->toIso8601String() : null
-    ],
-    "identifier" => [
-        [
-            "value" => $patientcondition->MDataPatientId // Assuming you have a unique identifier for the condition
-        ]
-    ],
-    "subject" => [
-        "identifier" => $patientcondition->PatientId // Assuming you have a PatientId field in your Patient model
-    ],
-    "code" => [
-        "coding" => []
-    ]
-];
-
-$conditionToCode = [
-    "Diabetes Mellitus" => "73211009",
-    "Hypertension" => "38341003"
-];
-// Assuming you have an array of condition codes
-$processedConditions = [];
-
-// Explode the string of conditions into an array
-$conditionsArray = explode(", ", $patientcondition->Condition);
-
-// Loop through the patient's conditions and add them to the payload
-foreach ($conditionsArray as $condition) {
-    // Check if the condition exists in the mapping and has not been processed already
-    if (isset($conditionToCode[$condition]) && !in_array($condition, $processedConditions)) {
-        // Add the condition to the payload
-        $patientData["code"]["coding"][] = [
-            "system" => "http://snomed.info/sct",
-            "code" => $conditionToCode[$condition]
-        ];
-        // Add the condition to the processed conditions array
-        $processedConditions[] = $condition;
-    }
-}
-         $conditionResponse = ApiHelper::registerPatient($accessToken, ['resources' => [$patientData]]);
-
-        if (isset($bpResponse['error'])) {
-            // Handle registration error
-            ApiPatientList::where('PatientId', $patientcondition->PatientId)->update(['ConditionStatus' => 'error']);
-            $errorResponses[] = ['error' => $conditionResponse['error']];
-        } elseif ($conditionResponse['status'] == 202) {
-            // Update registration status for successful registration
-            ApiPatientList::where('PatientId', $patientcondition->PatientId)->update(['ConditionStatus' => 'sent']);
-            $successResponses[] = ['message' => 'Patient Condition successfully'];
-        }
-             
-}
+        $responses = ApiHelper::SendConditionPayload($accessToken, $identifier, $sending_patient);
+        $successResponses= $responses['successResponses'];
+        $errorResponses= $responses['errorResponses'];
 
        return response()->json([
         'success' => $successResponses,

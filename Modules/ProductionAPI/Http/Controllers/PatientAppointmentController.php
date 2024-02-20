@@ -56,62 +56,9 @@ class PatientAppointmentController extends BaseController
 
         $accessToken = $authData['access_token'];
 
-      
-
-        // Retrieve 100 patients from the database
-          $patients = ApiPatientVisitedTrigView::where('identifier', '=', $identifier)
-                                  ->take($sending_patient)
-                                  ->get();
-       
-
-              
-
-        // Prepare patient data array
-    
-
-    $successResponses = [];
-    $errorResponses = [];
-
-        // Loop through the patients and format the data
-foreach ($patients as $patientvisited) {
-    $patientData = [
-        "resourceType" => "Appointment",
-        "meta" => [
-            "lastUpdated" => $patientvisited->CreateDate ? \Carbon\Carbon::parse($patientvisited->CreateDate)->toIso8601String() : null,
-            "createdAt" => $patientvisited->CreateDate ? \Carbon\Carbon::parse($patientvisited->CreateDate)->toIso8601String() : null
-        ], 
-        "identifier" => [
-            [
-                "value" => $patientvisited->PrescriptionCreationId
-            ]
-        ],
-        "status" => 'fulfilled',
-        "start" => $patientvisited->StartDate ? \Carbon\Carbon::parse($patientvisited->StartDate)->toIso8601String() : null,
-        "appointmentOrganization" => [
-            "identifier" => $patientvisited->identifier
-        ],
-        "appointmentCreationOrganization" => null,
-        "participant" => [
-            [
-                "actor" => [
-                    "identifier" => $patientvisited->PatientId_Apl
-                ]
-            ]
-        ]
-    ];
-
-    $appointmentResponse = ApiHelper::registerPatient($accessToken, ['resources' => [$patientData]]);
-
-    if (isset($appointmentResponse['error'])) {
-        // Handle registration error
-        ApiPatientList::where('PatientId', $patientvisited->PatientId_Apl)->update(['VisitedStatus' => 'error']);
-        $errorResponses[] = ['error' => $appointmentResponse['error']];
-    } elseif ($appointmentResponse['status'] == 202) {
-        // Update registration status for successful registration
-        ApiPatientList::where('PatientId', $patientvisited->PatientId_Apl)->update(['VisitedStatus' => 'sent']);
-        $successResponses[] = ['message' => 'Patient Appointment visited successfully'];
-    }
-}
+        $responses = ApiHelper::SendVisitedPayload($accessToken, $identifier, $sending_patient);
+        $successResponses= $responses['successResponses'];
+        $errorResponses= $responses['errorResponses'];
 
        return response()->json([
         'success' => $successResponses,

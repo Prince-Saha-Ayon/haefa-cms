@@ -56,100 +56,10 @@ class PatientBpController extends BaseController
 
         $accessToken = $authData['access_token'];
 
-      
 
-        // Retrieve 100 patients from the database
-          $patients = ApiBpTrigView::where('identifier', '=', $identifier)
-                                  ->take($sending_patient)
-                                  ->get();
-       
-
-              
-
-        // Prepare patient data array
-    
-
-    $successResponses = [];
-    $errorResponses = [];
-
-        // Loop through the patients and format the data
-    foreach ($patients as $patientbp) {
-          $patientData = [
-          "resourceType" => "Observation",
-        "meta" => [
-                "lastUpdated" => $patientbp->UpdateDate ? \Carbon\Carbon::parse($patientbp->UpdateDate)->toIso8601String() : null,
-                "createdAt" => $patientbp->CreateDate ? \Carbon\Carbon::parse($patientbp->CreateDate)->toIso8601String() : null
-            ],
-        "identifier" => [
-            [
-                "value" =>$patientbp->MdataBPId 
-            ]
-        ],
-        "subject" => [
-            "identifier" => $patientbp->PatientId 
-        ],
-        "performer" => [
-            [
-                "identifier" =>  $patientbp->identifier
-            ]
-        ],
-        "effectiveDateTime" => $patientbp->CreateDate ? \Carbon\Carbon::parse($patientbp->CreateDate)->toIso8601String() : null,
-        "code" => [
-            "coding" => [
-                [
-                    "system" => "http://loinc.org",
-                    "code" => "85354-9"
-                ]
-            ]
-        ],
-        "component" => [
-            [
-                "code" => [
-                    "coding" => [
-                        [
-                            "system" => "http://loinc.org",
-                            "code" => "8480-6"
-                        ]
-                    ]
-                ],
-                "valueQuantity" => [
-                    "value" => intval($patientbp->BPSystolic1),
-                    "unit" => "mmHg",
-                    "system" => "http://unitsofmeasure.org",
-                    "code" => "mm[Hg]"
-                ]
-            ],
-            [
-                "code" => [
-                    "coding" => [
-                        [
-                            "system" => "http://loinc.org",
-                            "code" => "8462-4"
-                        ]
-                    ]
-                ],
-                "valueQuantity" => [
-                    "value" =>intval($patientbp->BPDiastolic1),
-                    "unit" => "mmHg",
-                    "system" => "http://unitsofmeasure.org",
-                    "code" => "mm[Hg]"
-                ]
-            ]
-        ]
-    ];
-         $bpResponse = ApiHelper::registerPatient($accessToken, ['resources' => [$patientData]]);
-
-        if (isset($bpResponse['error'])) {
-            // Handle registration error
-            ApiPatientList::where('PatientId', $patientbp->PatientId)->where('DiseaseName','Hypertension')->update(['BPStatus' => 'error']);
-            $errorResponses[] = ['error' => $bpResponse['error']];
-        } elseif ($bpResponse['status'] == 202) {
-            // Update registration status for successful registration
-            ApiPatientList::where('PatientId', $patientbp->PatientId)->where('DiseaseName','Hypertension')->update(['BPStatus' => 'sent']);
-            $successResponses[] = ['message' => 'Patient BP sent successfully'];
-        }
-             
-}
+        $responses = ApiHelper::SendBPPayload($accessToken, $identifier, $sending_patient);
+        $successResponses= $responses['successResponses'];
+        $errorResponses= $responses['errorResponses'];
 
        return response()->json([
         'success' => $successResponses,
