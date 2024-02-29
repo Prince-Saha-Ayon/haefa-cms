@@ -335,10 +335,10 @@ public function GetSimplePatientList(){
             ->leftJoin(DB::raw('(
                 SELECT 
                     PatientId,
-                    MAX(CAST(BPSystolic1 AS INT)) AS BPSystolic1,
-                    MAX(CAST(BPSystolic2 AS INT)) AS BPSystolic2,
-                    MAX(CAST(BPDiastolic1 AS INT)) AS BPDiastolic1,
-                    MAX(CAST(BPDiastolic2 AS INT)) AS BPDiastolic2
+                    MAX(CAST(BPSystolic1 AS Float)) AS BPSystolic1,
+                    MAX(CAST(BPSystolic2 AS Float)) AS BPSystolic2,
+                    MAX(CAST(BPDiastolic1 AS Float)) AS BPDiastolic1,
+                    MAX(CAST(BPDiastolic2 AS Float)) AS BPDiastolic2
                 FROM MDataBP
                 GROUP BY PatientId
             ) AS MaxBP'), 'MaxBP.PatientId', '=', 'MDataPatientIllnessHistory.PatientId')
