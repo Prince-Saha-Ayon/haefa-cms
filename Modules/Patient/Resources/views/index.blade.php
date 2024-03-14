@@ -118,7 +118,7 @@
                                 <label for="name">Search Patient</label>
                                 <input type="text" class="form-control" name="patient_id" id="patient_id" placeholder="Enter Patient ID">
                             </div>
-                            <div class="form-group col-md-2 pt-24">
+                            <div class="form-group col-md-8 pt-24">
                                 <button type="button" class="btn btn-danger btn-sm float-right" id="btn-reset"
                                data-toggle="tooltip" data-placement="top" data-original-title="Reset Data">
                                    <i class="fas fa-redo-alt"></i>
@@ -183,7 +183,7 @@
                                 </tbody>
                             @endif
                         </table>
-                       <div class="d-flex justify-content-between">
+                    <div class="d-flex justify-content-between">
                             <div>
                                 @if ($patients->total() > 0)
                                     @php
@@ -198,7 +198,7 @@
                             <div>
                                 {{ $patients->links('pagination::bootstrap-4') }}
                             </div>
-                        </div>
+                    </div>
 
                     
 
