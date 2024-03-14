@@ -22,6 +22,7 @@ Route::group(['middleware' => ['auth']], function () {
         Route::post('bulk-delete', 'PrescriptionController@bulk_delete')->name('bulk.delete');
         Route::post('change-status', 'PrescriptionController@change_status')->name('change.status');
         Route::post('show', 'PrescriptionController@show')->name('show');
+        Route::any('searchid', 'PrescriptionController@searchid')->name('searchid');
     });
 });
 

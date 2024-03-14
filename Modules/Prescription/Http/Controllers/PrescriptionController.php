@@ -23,62 +23,63 @@ class PrescriptionController extends BaseController
     public function index()
     {
         if(permission('prescription-access')){
+             $prescriptions=Prescription::paginate(15);
             $this->setPageData('Prescription','All Prescription','fas fa-th-list');
-            return view('prescription::index');
+            return view('prescription::index',compact('prescriptions'));
         }else{
             return $this->unauthorized_access_blocked();
         }
         //return view('prescription::index');
     }
 
-    public function get_datatable_data(Request $request)
-    {
-        if(permission('prescription-access')){
-            if($request->ajax()){
+    // public function get_datatable_data(Request $request)
+    // {
+    //     if(permission('prescription-access')){
+    //         if($request->ajax()){
                 
-                if (!empty($request->name)) {
-                    $this->model->setName($request->name);
-                }
+    //             if (!empty($request->name)) {
+    //                 $this->model->setName($request->name);
+    //             }
 
-                $this->set_datatable_default_property($request);
-                $list = $this->model->getDatatableList();
+    //             $this->set_datatable_default_property($request);
+    //             $list = $this->model->getDatatableList();
 
-                $data = [];
-                $no = $request->input('start');
-                foreach ($list as $value) {
-                    $no++;
-                    $action = '';
+    //             $data = [];
+    //             $no = $request->input('start');
+    //             foreach ($list as $value) {
+    //                 $no++;
+    //                 $action = '';
 
-                    // if(permission('prescription-edit')){
-                    //     $action .= ' <a class="dropdown-item edit_data" data-id="' . $value->prescriptionId . '"><i class="fas fa-edit text-primary"></i> Edit</a>';
-                    // }
-                    if(permission('prescription-view')){
-                        $action .= ' <a class="dropdown-item view_data" data-id="' . $value->PrescriptionCreationId . '"><i class="fas fa-eye text-success"></i> View</a>';
-                    }
+    //                 // if(permission('prescription-edit')){
+    //                 //     $action .= ' <a class="dropdown-item edit_data" data-id="' . $value->prescriptionId . '"><i class="fas fa-edit text-primary"></i> Edit</a>';
+    //                 // }
+    //                 if(permission('prescription-view')){
+    //                     $action .= ' <a class="dropdown-item view_data" data-id="' . $value->PrescriptionCreationId . '"><i class="fas fa-eye text-success"></i> View</a>';
+    //                 }
                     
-                    $row = [];
+    //                 $row = [];
 
-                    if(permission('prescription-bulk-delete')){
-                        $row[] = table_checkbox($value->PrescriptionCreationId);
-                    }
-                    $row[] = $no;
-                    $row[] = $value->PrescriptionId;
-                    $row[] = $value->patient->RegistrationId;
-                    $row[] = $value->CreateDate;
-                    //$row[] = permission('prescription-access') ? change_status($value->prescriptionId,$value->Status) : STATUS_LABEL[$value->Status];
-                    //$row[] = permission('prescription-edit') ? change_status($value->prescriptionId,$value->Status) : STATUS_LABEL[$value->Status];
-                    $row[] = action_button($action);
-                    $data[] = $row;
-                }
-                return $this->datatable_draw($request->input('draw'),$this->model->count_all(),
-                 $this->model->count_filtered(), $data);
-            }else{
-                $output = $this->access_blocked();
-            }
+    //                 if(permission('prescription-bulk-delete')){
+    //                     $row[] = table_checkbox($value->PrescriptionCreationId);
+    //                 }
+    //                 $row[] = $no;
+    //                 $row[] = $value->PrescriptionId;
+    //                 $row[] = $value->patient->RegistrationId;
+    //                 $row[] = $value->CreateDate;
+    //                 //$row[] = permission('prescription-access') ? change_status($value->prescriptionId,$value->Status) : STATUS_LABEL[$value->Status];
+    //                 //$row[] = permission('prescription-edit') ? change_status($value->prescriptionId,$value->Status) : STATUS_LABEL[$value->Status];
+    //                 $row[] = action_button($action);
+    //                 $data[] = $row;
+    //             }
+    //             return $this->datatable_draw($request->input('draw'),$this->model->count_all(),
+    //              $this->model->count_filtered(), $data);
+    //         }else{
+    //             $output = $this->access_blocked();
+    //         }
 
-            return response()->json($output);
-        }
-    }
+    //         return response()->json($output);
+    //     }
+    // }
 
     /**
      * Show the form for creating a new resource.
@@ -111,6 +112,8 @@ class PrescriptionController extends BaseController
             if (permission('prescription-view')) {
             
             $prescriptionDetails=Prescription::where('PrescriptionCreationId','=',$request->id)->first();
+
+        
 
             $create_date_time = $prescriptionDetails->CreateDate;
 
@@ -253,5 +256,13 @@ class PrescriptionController extends BaseController
     public function destroy($id)
     {
         //
+    }
+
+    public function searchid(Request $request) {
+
+        $prescriptions = Prescription::where('PrescriptionId', $request->prescription_id)->paginate(15);
+
+         $this->setPageData('Prescription','All Prescription','fas fa-th-list');
+        return view('prescription::index', compact('prescriptions'));
     }
 }
