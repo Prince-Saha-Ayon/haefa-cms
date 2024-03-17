@@ -265,18 +265,37 @@ public function GetSimplePatientList(){
         $barcode_prefix = $request->hc_id;
         $starting_age = intval($request->starting_age);
         $ending_age = intval($request->ending_age);
+        // dd( $starting_age,$ending_age);
        
         $hcname=HealthCenter::where('HealthCenterCode',$barcode_prefix )->first('HealthCenterName');
         $data_dump = ViewDumpData::whereBetween(DB::raw('CONVERT(date, CollectionDates)'), [$first_date, $last_date])
-            ->where(function ($query) use ($barcode_prefix, $starting_age, $ending_age) {
-                if ($barcode_prefix) {
-                    $query->where('RegistrationId', 'LIKE', $barcode_prefix . '%');
-                }
+        ->where(function ($query) use ($barcode_prefix, $starting_age, $ending_age) {
+            if ($barcode_prefix) {
+                $query->where('RegistrationId', 'LIKE', $barcode_prefix . '%');
+            }
 
-                if ($starting_age && $ending_age) {
-                   $query->whereBetween(DB::raw('CAST(Age AS BIGINT)'), [$starting_age, $ending_age]);
-                }
-            })->get();
+            if ($starting_age !== null && $ending_age !== null) {
+                // Filter records with ages within the specified range
+                $query->whereRaw('CAST(Age AS BIGINT) BETWEEN ? AND ?', [$starting_age, $ending_age]);
+            } elseif ($starting_age !== null) {
+                // Filter records with ages greater than or equal to the starting age
+                $query->whereRaw('CAST(Age AS BIGINT) >= ?', [$starting_age]);
+            } elseif ($ending_age !== null) {
+                // Filter records with ages less than or equal to the ending age
+                $query->whereRaw('CAST(Age AS BIGINT) <= ?', [$ending_age]);
+            }
+        })->get();
+
+        // $data_dump = ViewDumpData::whereBetween(DB::raw('CONVERT(date, CollectionDates)'), [$first_date, $last_date])
+        //     ->where(function ($query) use ($barcode_prefix, $starting_age, $ending_age) {
+        //         if ($barcode_prefix) {
+        //             $query->where('RegistrationId', 'LIKE', $barcode_prefix . '%');
+        //         }
+
+        //         if ($starting_age && $ending_age) {
+        //            $query->whereBetween(DB::raw('CAST(Age AS BIGINT)'), [$starting_age, $ending_age]);
+        //         }
+        //     })->get();
 
         return response()->json([
             'data_dump' => $data_dump,
